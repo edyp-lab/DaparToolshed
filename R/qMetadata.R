@@ -403,35 +403,60 @@ GetMetacellTags <- function(level = NULL,
 #' 
 Set_POV_MEC_tags <- function(conds, df, level){
   u_conds <- unique(conds)
-  for (i in seq_len(length(u_conds))){
-    ind.samples <- which(conds == u_conds[i])
-    
-    ind.imputed <- match.qMetadata(df[, ind.samples], 'imputed', level)
-    ind.missing <- match.qMetadata(df[, ind.samples], 'missing', level)
-    ind.missing.pov <- ind.missing & rowSums(ind.missing) < length(ind.samples) & rowSums(ind.missing) > 0
-    ind.missing.mec <- ind.missing &  rowSums(ind.missing) == length(ind.samples)
-    ind.imputed.pov <- ind.imputed & rowSums(ind.imputed) < length(ind.samples) & rowSums(ind.imputed) > 0
-    ind.imputed.mec <- ind.imputed &  rowSums(ind.imputed) == length(ind.samples)
-    
-    df[,ind.samples][ind.imputed.mec] <- 'imputed MEC'
-    df[,ind.samples][ind.missing.mec] <- 'missing MEC'
-    df[,ind.samples][ind.imputed.pov] <- 'imputed POV'
-    df[,ind.samples][ind.missing.pov]  <- 'missing POV'
+
+    for (i in seq_len(length(u_conds))) {
+        ind.samples <- which(conds == u_conds[i])
+
+        ind.imputed <- match.metacell(df[, ind.samples], "Imputed", level)
+        ind.missing <- match.metacell(df[, ind.samples], "Missing", level)
+        ind.missing.pov <- ind.missing & 
+            rowSums(ind.missing) < length(ind.samples) & 
+            rowSums(ind.missing) > 0
+        ind.missing.mec <- ind.missing & 
+            rowSums(ind.missing) == length(ind.samples)
+
+        ind.imputed.pov <- ind.imputed & 
+            rowSums(ind.imputed) < length(ind.samples) & 
+            rowSums(ind.imputed) > 0
+        ind.imputed.mec <- ind.imputed & 
+            rowSums(ind.imputed) == length(ind.samples)
+
+        df[, ind.samples][ind.imputed.mec] <- "Imputed MEC"
+        df[, ind.samples][ind.missing.mec] <- "Missing MEC"
+        df[, ind.samples][ind.imputed.pov] <- "Imputed POV"
+        df[, ind.samples][ind.missing.pov] <- "Missing POV"
     }
-  df
+    return(df)
   }
 
 
+#' @title The set of softwares available
+#' 
+#' @examples 
+#' GetSoftAvailables()
+#' @export
 
+GetSoftAvailables <- function(){
+    
+    
+    library(DAPAR)
+    
+    funcs <- ls('package:DAPAR')
+    funcs <- funcs[grep('Metacell_', funcs)]
+    funcs <- strsplit(funcs, 'Metacell_')
+    funcs <- unlist(lapply(funcs, function(x) x[[2]]))
+    funcs <- funcs[-which(funcs=='generic')]
+    
+    return(funcs)
+}
+                           
+                           
+                           
 
 #' @param from xxx
-#' 
 #' @param level xxx
-#' 
 #' @param qdata A matrix of quantitative data
-#' 
 #' @param conds xxx
-#' 
 #' @param df A list of integer xxxxxxx
 #' 
 #' @return xxxxx
@@ -453,33 +478,41 @@ Set_POV_MEC_tags <- function(conds, df, level){
 #' 
 #' @export
 #' 
-#' @rdname q_metadata
+#' @rdname BuildMetaCell 
 #' 
 #'  
-BuildqMetadata <- function(from = NULL, 
+BuildMetaCell <- function(from = NULL, 
                            level,
                            qdata = NULL,
                            conds = NULL, 
                            df = NULL){
-  if (missing(from))
-    stop("'from' is required.")
-  if (missing(level))
-    stop("'level' is required.")
-  if (is.null(qdata))
-    stop("'qdata' is required.")
-  if (is.null(conds))
-    stop("'conds' is required.")
-  
-  
-  if (is.null(df) || is.null(from))
-    df <- qMetadata_generic(qdata, conds, level)
-  else
-    switch(from,
-           maxquant = df <- qMetadata_maxquant(qdata, conds, df, level),
-           proline = df <- qMetadata_proline(qdata, conds, df, level)
-    )
-  
-  return(df)
+  if (missing(from)) {
+        stop("'from' is required.")
+    }
+    if (!(from %in% GetSoftAvailables()))
+        stop("'from' must be one of the following")
+    if (missing(level)) {
+        stop("'level' is required.")
+    }
+    if (is.null(qdata)) {
+        stop("'qdata' is required.")
+    }
+    if (is.null(conds)) {
+        stop("'conds' is required.")
+    }
+
+
+    if (is.null(df)) {
+        df <- Metacell_generic(qdata, conds, level)
+    } else {
+        switch(from,
+            maxquant = df <- Metacell_maxquant(qdata, conds, df, level),
+            proline = df <- Metacell_proline(qdata, conds, df, level),
+          'DIA-NN' = df <- Metacell_proline(qdata, conds, df, level)
+        )
+    }
+
+    return(df)
 }
 
 
@@ -498,9 +531,7 @@ BuildqMetadata <- function(from = NULL,
 #'
 #' 
 #' @param qdata A matrix of quantitative data
-#' 
 #' @param conds xxx
-#' 
 #' @param level xxx
 #' 
 #' @return xxxxx
@@ -524,216 +555,276 @@ BuildqMetadata <- function(from = NULL,
 #' @rdname q_metadata
 #' 
 #'  
-qMetadata_generic <- function(qdata, conds, level){
-  
-  if (missing(qdata))
-    stop("'qdata' is required")
-  if (missing(conds))
-    stop("'conds' is required.")
-  if (missing(level))
-    stop("'level' is required.")
-  
-  df <- data.frame(matrix(rep('quanti', nrow(qdata)*ncol(qdata)),
-                          nrow = nrow(qdata),
-                          ncol = ncol(qdata)),
-                   stringsAsFactors = FALSE) 
-  
-  # Rule 1
-  qdata[qdata == 0] <- NA
-  df[is.na(qdata)] <-  'missing'
-  
-  df <- Set_POV_MEC_tags(conds, df, level)
-  
-  colnames(df) <- paste0("qMetadata_", colnames(qdata))
-  colnames(df) <- gsub(".", "_", colnames(df), fixed=TRUE)
-  
-  return(df)
+Metacell_generic <- function(qdata, conds, level) {
+    if (missing(qdata)) {
+        stop("'qdata' is required")
+    }
+    if (missing(conds)) {
+        stop("'conds' is required.")
+    }
+    if (missing(level)) {
+        stop("'level' is required.")
+    }
+
+    df <- data.frame(
+        matrix(rep("Quantified", nrow(qdata) * ncol(qdata)),
+            nrow = nrow(qdata),
+            ncol = ncol(qdata)
+            ),
+        stringsAsFactors = FALSE
+        )
+
+    # Rule 1
+    qdata[qdata == 0] <- NA
+    df[is.na(qdata)] <- "Missing"
+    df <- Set_POV_MEC_tags(conds, df, level)
+
+    colnames(df) <- paste0("metacell_", colnames(qdata))
+    colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+
+    return(df)
 }
 
 
 
-
-
-#' @title Sets the qMetadata dataframe
-#' 
+#' @title Sets the metacell dataframe for datasets which are from Dia-NN software
+#'
 #' @description
+#' Actually, this function uses the generic function to generate metacell info
 #' 
+#' @param qdata An object of class \code{MSnSet}
+#'
+#' @param conds xxx
+#'
+#' @param df A list of integer xxxxxxx
+#'
+#' @param level xxx
+#'
+#' @return xxxxx
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DAPARdata")
+#' data <- read.table(file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt",
+#'     package = "DAPARdata"
+#' )
+#' metadata <- read.table(metadataFile,
+#'     header = TRUE, sep = "\t", as.is = TRUE,
+#'     stringsAsFactors = FALSE
+#' )
+#' conds <- metadata$Condition
+#' qdata <- data[seq_len(100), seq.int(from = 56, to = 61)]
+#' df <- data[seq_len(100), seq.int(from = 43, to = 48)]
+#' df <- Metacell_DIA_NN(qdata, conds, df, level = "peptide")
+#' 
+#'
+#' @export
+#'
+#'
+Metacell_DIA_NN <- function(qdata, conds, df, level = NULL) {
+    if (missing(qdata)) {
+        stop("'qdata' is required")
+    }
+    if (missing(conds)) {
+        stop("'conds' is required.")
+    }
+    if (missing(level)) {
+        stop("'level' is required.")
+    }
+    
+    
+    return(df)
+}
+
+#' @title Sets the metacell dataframe for datasets which are from Proline software
+#'
+#' @description
 #' In the quantitative columns, a missing value is identified by no value rather
-#' than a value equal to 0. 
-#' Conversion rules
-#' Initial conversion rules for maxquant
+#' than a value equal to 0.
 #' 
+#' In these datasets, the metacell info is computed from the 'PSM count' columns.
+#' 
+#' Conversion rules
+#' Initial conversion rules for proline
 #' |--------------|-----------------|-----|
 #' | Quanti       |    PSM count    | Tag |
 #' |--------------|-----------------|-----|
-#' |  == 0 | N.A.	|   whatever 			| 2.0 |
-#' |  > 0		  		|    > 0		     	| 1.1 |
-#' |  > 0		  		|    == 0	      	| 1.2 |
-#' |  > 0		  		|   unknown col   | 1.0 |
+#' |  == 0 | N.A. |   whatever      | 2.0 |
+#' |  > 0         |    > 0          | 1.1 |
+#' |  > 0         |    == 0         | 1.2 |
+#' |  > 0         |   unknown col   | 1.0 |
 #' |--------------|-----------------|-----|
-#' 
-#' @param qdata A matrix of quantitative data
-#' 
+#'
+#' @param qdata An object of class \code{MSnSet}
+#'
 #' @param conds xxx
-#' 
+#'
 #' @param df A list of integer xxxxxxx
-#' 
+#'
 #' @param level xxx
-#' 
+#'
 #' @return xxxxx
-#' 
+#'
 #' @author Samuel Wieczorek
-#' 
+#'
 #' @examples
-#' \donttest{ 
-#' file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
-#' data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", 
-#' package="DaparToolshedData")
-#' metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, 
-#' stringsAsFactors = FALSE)
+#' file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DAPARdata")
+#' data <- read.table(file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt",
+#'     package = "DAPARdata"
+#' )
+#' metadata <- read.table(metadataFile,
+#'     header = TRUE, sep = "\t", as.is = TRUE,
+#'     stringsAsFactors = FALSE
+#' )
 #' conds <- metadata$Condition
-#' qdata <- data[seq_len(100), seq(56, 61)]
-#' df <- data[seq_len(100) , seq(43, 48)]
-#' df <- qMetadata_proline(qdata, conds, df, 'peptide')
-#' }
+#' qdata <- data[seq_len(100), seq.int(from = 56, to = 61)]
+#' df <- data[seq_len(100), seq.int(from = 43, to = 48)]
+#' df <- Metacell_proline(qdata, conds, df, level = "peptide")
 #' 
+#'
 #' @export
+#'
+#'
+Metacell_proline <- function(qdata, conds, df, level = NULL) {
+    if (missing(qdata)) {
+        stop("'qdata' is required")
+    }
+    if (missing(conds)) {
+        stop("'conds' is required.")
+    }
+    if (missing(level)) {
+        stop("'level' is required.")
+    }
 
-#' @rdname q_metadata
-#' 
-#'  
-qMetadata_proline <- function(qdata, 
-                              conds, 
-                              df, 
-                              level = NULL){
-  if (missing(qdata))
-    stop("'qdata' is required")
-  if (missing(conds))
-    stop("'conds' is required.")
-  if (missing(level))
-    stop("'level' is required.")
-  
-  
-  if (is.null(df))
-    df <- data.frame(matrix(rep('quanti', nrow(qdata)*ncol(qdata)), 
-                            nrow = nrow(qdata),
-                            ncol = ncol(qdata)),
-                     stringsAsFactors = FALSE) 
-  
-  # Rule 1
-  df[is.na(qdata)] <-  'missing'
-  df <- Set_POV_MEC_tags(conds, df, level)
-  
-  # Rule 2
-  df[df > 0 & qdata > 0] <- 'identified'
-  
-  # Rule 3
-  df[df == 0 & qdata > 0] <- 'recovered'
-  
-  colnames(df) <- paste0("qMetadata_", colnames(qdata))
-  colnames(df) <- gsub(".", "_", colnames(df), fixed=TRUE)
-  
-  return(df)
+
+    if (is.null(df)) {
+        df <- data.frame(matrix(rep("Quantified", nrow(qdata) * ncol(qdata)),
+            nrow = nrow(qdata),
+            ncol = ncol(qdata)
+        ),
+        stringsAsFactors = FALSE
+        )
+    }
+
+    # Rule 1
+    df[is.na(qdata)] <- "Missing"
+    df <- Set_POV_MEC_tags(conds, df, level)
+
+    # Rule 2
+    df[df > 0 & qdata > 0] <- "Quant. by direct id"
+
+    # Rule 3
+    df[df == 0 & qdata > 0] <- "Quant. by recovery"
+
+    colnames(df) <- paste0("metacell_", colnames(qdata))
+    colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+
+    return(df)
 }
 
-#' @title Sets the quantitative metadata dataframe for maxquant datasets
-#' 
-#' @description 
-#' 
+
+
+
+#' @title Sets the metacell dataframe
+#'
+#' @description
 #' Initial conversion rules for maxquant
 #' |------------|-----------------------|--------|
 #' | Quanti     |     Identification    |    Tag |
 #' |------------|-----------------------|--------|
-#' |  == 0			|       whatever 				|    2.0 |
-#' |  > 0				|       'By MS/MS'			|    1.1 |
-#' |  > 0				|      'By matching'		|    1.2 |
-#' |  > 0				|       unknown col			|    1.0 |
+#' |  == 0      |       whatever        |    2.0 |
+#' |  > 0       |       'By MS/MS'      |    1.1 |
+#' |  > 0       |      'By matching'    |    1.2 |
+#' |  > 0       |       unknown col     |    1.0 |
 #' |------------|-----------------------|--------|
-#' 
-#' @param qdata A matrix of quantitative data
-#' 
+#'
+#' @param qdata An object of class \code{MSnSet}
+#'
 #' @param conds xxx
-#' 
+#'
 #' @param df A list of integer xxxxxxx
-#' 
+#'
 #' @param level xxx
-#' 
+#'
 #' @return xxxxx
-#' 
+#'
 #' @author Samuel Wieczorek
-#' 
-#' @examples 
-#' file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
-#' data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", 
-#' package="DaparToolshedData")
-#' metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, 
-#' stringsAsFactors = FALSE)
+#'
+#' @examples
+#' file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DAPARdata")
+#' data <- read.table(file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt",
+#'     package = "DAPARdata"
+#' )
+#' metadata <- read.table(metadataFile,
+#'     header = TRUE, sep = "\t", as.is = TRUE,
+#'     stringsAsFactors = FALSE
+#' )
 #' conds <- metadata$Condition
-#' qdata <- data[seq_len(10),seq(56, 61)]
-#' df <- data[seq_len(10) , seq(43, 48)]
-#' df2 <- qMetadata_maxquant(qdata, conds, df, 'peptide')
-#' 
+#' qdata <- data[seq_len(10), seq.int(from = 56, to = 61)]
+#' df <- data[seq_len(10), seq.int(from = 43, to = 48)]
+#' df2 <- Metacell_maxquant(qdata, conds, df, level = "peptide")
+#'
 #' @export
-#' @rdname q_metadata
-#' 
-#' 
-qMetadata_maxquant <- function(qdata, 
-                               conds, 
-                               df, 
-                               level = NULL){
-  
-  if (missing(qdata))
-    stop("'qdata' is required")
-  if (missing(conds))
-    stop("'conds' is required.")
-  if (missing(level))
-    stop("'level' is required.")
-  
-  
-  if (is.null(df))
-    df <- data.frame(matrix(rep('quanti', 
-                                nrow(qdata)*ncol(qdata)), 
-                            nrow=nrow(qdata),
-                            ncol=ncol(qdata)),
-                     stringsAsFactors = FALSE) 
-  
-  
-  # Rule 1
-  qdata[qdata == 0] <-  NA
-  
-  # Rule 2
-  df[df=='byms/ms'] <- 'identified'
-  
-  # Rule 3
-  df[df=='bymatching'] <- 'recovered'
-  
-  # Add details for NA values
-  df[is.na(qdata)] <-  'missing'
-  df <- Set_POV_MEC_tags(conds, df, level)
-  
-  colnames(df) <- paste0("qMetadata_", colnames(qdata))
-  colnames(df) <- gsub(".", "_", colnames(df), fixed=TRUE)
-  
-  return(df)
+#'
+#'
+Metacell_maxquant <- function(qdata, conds, df, level = NULL) {
+    if (missing(qdata)) {
+        stop("'qdata' is required")
+    }
+    if (missing(conds)) {
+        stop("'conds' is required.")
+    }
+    if (missing(level)) {
+        stop("'level' is required.")
+    }
+
+
+    if (is.null(df)) {
+        df <- data.frame(matrix(rep(
+            "Quantified",
+            nrow(qdata) * ncol(qdata)
+        ),
+        nrow = nrow(qdata),
+        ncol = ncol(qdata)
+        ),
+        stringsAsFactors = FALSE
+        )
+    }
+
+
+    # Rule 1
+    qdata[qdata == 0] <- NA
+
+    # Rule 2
+    df[df == "byms/ms"] <- "Quant. by direct id"
+
+    # Rule 3
+    df[df == "bymatching"] <- "Quant. by recovery"
+
+    # Add details for NA values
+    df[is.na(qdata)] <- "Missing"
+    df <- Set_POV_MEC_tags(conds, df, level)
+
+    colnames(df) <- paste0("metacell_", colnames(qdata))
+    colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+
+    return(df)
 }
 
 
 
 
-
-
-#' Similar to the function \code{is.na} but focused on the equality with 
-#' the paramter 'type'.
-#'
-#' @title Similar to the function \code{is.na} but focused on the equality 
+#' @title Similar to the function \code{is.na} but focused on the equality
 #' with the paramter 'type'.
 #'
-#' @param df A data.frame
+#' @param metadata A data.frame
 #'
 #' @param pattern The value to search in the dataframe
-#' 
+#'
 #' @param level xxx
 #'
 #' @return A boolean dataframe
@@ -741,42 +832,77 @@ qMetadata_maxquant <- function(qdata,
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(ft)
-#' obj <- ft[[1]]
-#' metadata <- qMetadata(obj)
-#' m <- match.qMetadata(metadata, "missing", 'peptide')
+#' data(Exp1_R25_pept, package="DAPARdata")
+#' obj <- Exp1_R25_pept[seq_len(10), ]
+#' metadata <- GetMetacell(obj)
+#' m <- match.metacell(metadata, pattern = "Missing", level = "peptide")
+#' m <- match.metacell(metadata, pattern = NULL, level = "peptide")
+#' m <- match.metacell(metadata, pattern = c('Missing', 'Missing POV'), level = "peptide")
+#' @export
+#'
+match.metacell <- function(metadata, pattern = NULL, level) {
+    if (missing(metadata))
+        stop("'metadata' is required")
+
+    if (missing(pattern))
+        stop("'pattern' is required.")
+  else if (is.null(pattern))
+    return(NULL)
+
+    if (missing(level))
+        stop("'level' is required.")
+
+
+    #is.subset <- pattern == intersect(pattern,  metacell.def(level)$node)
+    if (sum(pattern == intersect(pattern,  metacell.def(level)$node)) !=  length(pattern)) {
+        stop(paste0(
+            "'pattern' is not correct. Available values are: ",
+            paste0(metacell.def(level)$node, collapse = " ")
+        ))
+    }
+
+    ll.res <- lapply(pattern, function(x) {metadata == x})
+
+    res <- NULL
+    for (i in seq_len(length(ll.res))) {
+        if (i == 1) {
+            res <- ll.res[[1]]
+        } else {
+            res <- res | ll.res[[i]]
+        }
+    }
+
+    return(res)
+}
+                           
+#' @title xxxx
+#'
+#' @description
+#' xxxx
+#'
+#' @param obj xxxx
 #'
 #' @export
 #' 
-#' @rdname q_metadata
+#' @return xxx
 #' 
+#' @examples 
+#' NULL
 #'
-match.qMetadata <- function(df, pattern, level){
-  if (missing(df))
-    stop("'df' is required")
-  if (missing(pattern))
-    stop("'pattern' is required.")
-  if (missing(level))
-    stop("'level' is required.")
-  
-  
-  if (!(pattern %in% qMetadata.def(level)$node))
-    stop(paste0("'pattern' is not correct. Availablevalues are: ", 
-                paste0(qMetadata.def(level)$node, collapse = ' ')))
-  
-  ll.res <- lapply(search.qMetadata.tags(pattern = pattern, level), 
-                   function(x){as.data.frame(df)==x})
-  
-  res <- NULL
-  for (i in seq_len(length(ll.res)))
-    if (i==1){
-      res <- ll.res[[1]]
+GetMetacell <- function(obj) {
+    value <- Biobase::fData(obj)[, obj@experimentData@other$names_metacell]
+    if (is.null(value)) {
+        warning(" The metacell dataframe does not exist. Returns NULL.")
+        return(NULL)
     } else {
-      res <- res | ll.res[[i]]
+        return(value)
     }
-  
-  return(res)
 }
+                           
+                           
+                           
+                           
+                           
 
 #' @title
 #' 
@@ -803,7 +929,7 @@ match.qMetadata <- function(df, pattern, level){
 #' 
 #' @rdname q_metadata
 #' 
-setMethod("UpdateqMetadata", "SummarizedExperiment",
+setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
           function(object,
                    from,
                    to,
