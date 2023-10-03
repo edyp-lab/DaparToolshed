@@ -1,119 +1,134 @@
 #' @title   mod_format_DT_ui and mod_format_DT_server
-#' 
-#' @description 
-#' 
+#'
+#' @description
+#'
 #' A shiny Module.
+#' 
+#' 
+#' @param id shiny id
+#' @param data xxx
+#' @param withDLBtns xxx
+#' @param showRownames xxx
+#' @param dom xxx
+#' @param hc_style xxx
+#' @param full_style A list of four items:
+#' * cols: a vector of colnames of columns to show,
+#' * vals: a vector of colnames of columns that contain values,
+#' * unique: unique(conds),
+#' * pal: xxx
+#' @param filename xxx
+#' @param hideCols xxx
 #'
 #' @name mod_format_DT
 #' 
-#' 
-#' @examples 
-#' if(interactive()){
-#'  library(QFeatures)
-#'  library(shiny)
-#'  library(DaparToolshed)
-#'  data(ft)
-#'  
-#'   
-#'  ui <- mod_format_DT_ui('dt')
-#' 
-#'  server <- function(input, output, session) {
-#'   mod_format_DT_server(id = 'dt',
-#'                        df = reactive({assay(ft,1)})
-#'                        )
-#'   }
-#'  
-#'  shinyApp(ui=ui, server=server)
-#' }
-#' 
+#' @return NA
 #' 
 NULL
 
 
-#' @param id shiny id
-#' 
-#' @importFrom shiny NS tagList 
-#' @importFrom DT DTOutput
-#' 
+
+#' @importFrom shiny NS tagList
+#'
 #' @export
 #' @rdname mod_format_DT
-#' 
-mod_format_DT_ui <- function(id){
+#'
+mod_format_DT_ui <- function(id) {
+  pkgs.require("DT")
+    
   ns <- NS(id)
-  DT::DTOutput(ns("dt"))
+  tagList(
+    useShinyjs(),
+    # shinyjs::hidden(
+    #   div(id = ns("dl_div"),
+    #       dl_ui(ns("DL_btns"))
+    #   )
+    # ),
+    fluidRow(
+      column(
+        # align = "center",
+        width = 12,
+        DT::dataTableOutput(ns("StaticDataTable"))
+      )
+    )
+  )
 }
 
-#' @param id internal
-#' @param df internal
-#' @param rownames xxxx
-#' @param dom xxx
-#' @param style xxx
-#' 
+#'
 #' @export
-#' 
-#' @importFrom htmlwidgets JS    
-#' @importFrom DT replaceData dataTableProxy renderDT datatable formatStyle styleEqual
+#'
+#' @importFrom htmlwidgets JS
 #' @rdname mod_format_DT
 mod_format_DT_server <- function(id,
-                                 df,
-                                 rownames = FALSE,
-                                 dom = 'Bt',
-                                 style = reactive({NULL})){
+                             data,
+                             withDLBtns = FALSE,
+                             showRownames = FALSE,
+                             dom = 'Bt',
+                             hc_style = reactive({NULL}),
+                             full_style = reactive({NULL}),
+                             filename = "Prostar_export",
+                             hideCols = reactive({NULL})
+                             ){
   
   
   moduleServer(id, function(input, output, session){
     ns <- session$ns
     
+    proxy = DT::dataTableProxy(session$ns('StaticDataTable'), session)
+    
     observe({
-      req(df())
-      DT::replaceData(proxy, df(), resetPaging = FALSE)  
+      req(data())
+      DT::replaceData(proxy, data(), resetPaging = FALSE)
     })
     
-    proxy = DT::dataTableProxy(session$ns('dt'), session)
+    # observe({
+    #   shinyjs::toggle("dl_div", condition = isTRUE(withDLBtns))
+    # })
     
-    output$dt <- DT::renderDT({
-      req(df())
-      isolate({
-        if (is.null(style()) || length(style())==0){
-          DT::datatable(df(), 
-                        extensions = c('Scroller', 'Buttons'),
-                        escape = FALSE,
-                        rownames = rownames,
-                        option = list(initComplete = initComplete(),
-                                      dom = dom,
-                                      server = FALSE,
-                                      autoWidth = TRUE,
-                                      columnDefs = list(list(width='150px', targets= "_all")),
-                                      ordering = FALSE
-                                      )
-                        )
-        } else {
-          
-          DT::datatable(df(), 
-                        extensions = c('Scroller', 'Buttons'),
-                        escape = FALSE,
-                        rownames = rownames,
-                        option = list(initComplete = initComplete(),
-                                      dom = dom,
-                                      server = FALSE,
-                                      autoWidth = TRUE,
-                                      columnDefs = list(list(width='150px',targets= "_all")),
-                                      ordering = FALSE
-                                      )
-                        )  %>%
-            DT::formatStyle(
-              columns = style()$cols,
-              valueColumns = style()$vals,
-              backgroundColor = DT::styleEqual(style()$unique, 
-                                               style()$pal)
-            )
-        }
-      })
+    # dl_server(
+    #   id = "DL_btns",
+    #   dataIn = reactive({data()[,-hideCols()]}),
+    #   name = reactive({filename}),
+    #   excel.style = reactive({full_style()})
+    # )
+    
+    
+    output$StaticDataTable <- DT::renderDataTable(server=TRUE,{
+      
+      req(length(data()) > 0)
+      .jscode <- DT::JS("$.fn.dataTable.render.ellipsis( 30 )")
+      #isolate({
+      dt <- DT::datatable(
+        data(), 
+        escape = FALSE,
+        rownames= showRownames,
+        plugins = "ellipsis",
+        options = list(
+          #initComplete = initComplete(),
+          dom = dom,
+          autoWidth = TRUE,
+          columnDefs = list(
+            list(targets = '_all', className = "dt-center", render = .jscode)
+            ,list(targets = hideCols()-1, visible = FALSE)
+          )
+          #ordering = FALSE
+        )
+      )
+      
+      if (!is.null(hc_style())){
+        dt <- dt %>%
+          DT::formatStyle(
+            columns = hc_style()$cols,
+            valueColumns = hc_style()$vals,
+            backgroundColor = DT::styleEqual(hc_style()$unique, hc_style()$pal)
+          )
+      }
+      #})
+      
+      dt
       
     })
     
     initComplete <- function(){
-      
       return (htmlwidgets::JS(
         "function(settings, json) {",
         "$(this.api().table().header()).css({'background-color': 'darkgrey', 'color': 'black'});",
@@ -124,3 +139,7 @@ mod_format_DT_server <- function(id,
   })
   
 }
+
+
+
+

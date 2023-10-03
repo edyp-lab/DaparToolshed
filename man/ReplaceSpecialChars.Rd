@@ -15,11 +15,11 @@ names.
 }
 \description{
 Replace ".", ' ', '-' in \code{character()} by '_' to be compliant
-with functions of \link{Shinyjs}, \link{Shiny}
+with functions of \code{Shinyjs}, \code{Shiny}
 }
 \examples{
 
-ReplaceSpecialChars(c('foo.1', 'foo-2', 'foo 3'))
+ReplaceSpecialChars(c("foo.1", "foo-2", "foo 3"))
 
 }
 \author{

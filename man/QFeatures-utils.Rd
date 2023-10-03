@@ -13,6 +13,9 @@ n_assays_in_qf(object)
 \arguments{
 \item{object}{An instance of the class \code{QFeatures}}
 }
+\value{
+NA
+}
 \description{
 xxxxx
 }

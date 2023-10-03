@@ -25,16 +25,15 @@ FunctionFilter(name, ...)
 \code{newAssay}. Note that the function will fail if there's
 already an assay with \code{name}.}
 
-\item{object}{An instance of class \link{QFeatures} or \link{SummarizedExperiment}.}
+\item{...}{Additional arguments}
+
+\item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}.}
 
 \item{i}{The index or name of the assay which features will be
 filtered the create the new assay.}
 
-\item{filters}{A \code{list()} containing instances of class \link{AnnotationFilter} or
-\link{FunctionFilter}}
-
-\item{params}{\code{character()} or \code{integer()} parameters for the
-\code{name} function.}
+\item{filters}{A \code{list()} containing instances of class \code{AnnotationFilter}
+or \code{FunctionFilter}}
 }
 \value{
 A filtered \code{QFeature} object
@@ -43,34 +42,37 @@ A filtered \code{QFeature} object
 The \code{filterFeaturesOneSE} methods enables users to filter features
 based on a variable in their \code{rowData}. It is directly inspired of the
 function \code{filterFeature} of the package \code{QFeatures}.
-The first difference is that the filter only applies to one \code{SummarizedExperiment}
-contained in the object rather than applying on all the SE.
-This method generates a new \code{SummarizedExperiment} object which is added to the \code{QFeatures} object.
-If the SE on which the filter applies is the last one of the object, then a new xxxx.
-If it is not the last one, the new SE is added and all the further SE are deleted.
-The features matching the
-The filters can be provided as instances of class \code{AnnotationFilter} (see the package \code{QFeatures})
-or of class \code{FunctionFilter} (see below).
+The first difference is that the filter only applies to one
+\code{SummarizedExperiment} contained in the object rather than applying on
+all the SE.
+This method generates a new \code{SummarizedExperiment} object which is added
+to the \code{QFeatures} object. If the SE on which the filter applies is the
+last one of the object, then a new xxxx. If it is not the last one, the
+new SE is added and all the further SE are deleted. The features matching
+the. The filters can be provided as instances of class \code{AnnotationFilter}
+(see the package \code{QFeatures}) or of class \code{FunctionFilter} (see below).
 }
 \section{Function filters}{
 
 
 The function filters are filters as defined in the
-\link{DaparToolshed} package. Each filter is defined by a name (which is the name of a function)
-and a list which contains the parameters passed to the function.
-Those filters can be created with the \code{FunctionFilter} constructor.
+\link{DaparToolshed} package. Each filter is defined by a name (which is the
+name of a function) and a list which contains the parameters passed to the
+function. Those filters can be created with the \code{FunctionFilter}
+constructor.
 
 Those functions are divided into two main categories:
 \itemize{
 \item the one that filter on one rowData feature,
-\item the one based on a two-dimensional information such as the adjacency matrix
+\item the one based on a two-dimensional information such as the adjacency
+matrix
 }
 
-for the first category, all filters of class \link{AnnotationFilter} can be used as they
-are used in \code{QFeatures}
+for the first category, all filters of class \link{AnnotationFilter} can be
+used as they are used in \code{QFeatures}
 
-For the second category, the package \code{DaparToolshed} provides filter functions based either
-on the adjacency matrix:
+For the second category, the package \code{DaparToolshed} provides filter
+functions based either on the adjacency matrix:
 \itemize{
 \item 
 \item 
@@ -91,16 +93,16 @@ Or based on the quantitative metadata (identification):
 ## Creating function filters
 ## ----------------------------------------
 
-FunctionFilter('FUN', 
-               param1 = 'value_of_param1', 
+FunctionFilter('FUN',
+               param1 = 'value_of_param1',
                param2 = 'value_of_param2')
-               
-FunctionFilter('qMetadataWholeLine', 
-               cmd = 'delete', 
+
+FunctionFilter('qMetacellWholeLine',
+               cmd = 'delete',
                pattern = 'imputed POV')
-               
+
 ## ----------------------------------------------------------------
-## Filter the last assay to keep only specific peptides. This filter 
+## Filter the last assay to keep only specific peptides. This filter
 ## only applies on peptide dataset.
 ## ----------------------------------------------------------------
 
@@ -110,34 +112,34 @@ filterFeaturesOneSE(feat1, list(FunctionFilter('specPeptides', list())))
 
 
 ## ----------------------------------------------------------------
-## Filter the last assay to keep only specific peptides and topn peptides. The
-## two filters are run sequentially.
+## Filter the last assay to keep only specific peptides and topn 
+## peptides. The two filters are run sequentially.
 ## ----------------------------------------------------------------
 
 lst.filters <- list(FunctionFilter('specPeptides', list()))
-lst.filters <- append(lst.filters, 
-                      FunctionFilter('topnPeptides', 
-                      fun = 'rowSums', 
-                      top = 2))
+lst.filters <- append(lst.filters,
+FunctionFilter('topnPeptides',
+fun = 'rowSums',
+top = 2))
 filterFeaturesOneSE(feat1, lst.filters)
 
 ## ----------------------------------------------------------------
-## Filter the last assay to delete peptides where, in at least one condition,
-## there is less than 80\% of samples marked as 'imputed POV'
+## Filter the last assay to delete peptides where, in at least one 
+## condition, there is less than 80\% of samples marked as 'imputed POV'
 ## ----------------------------------------------------------------
 
-filter <- FunctionFilter('qMetadataOnConditions', 
-                        cmd = 'delete',
-                        mode = 'AtLeastOneCond',
-                        pattern = 'imputed POV',
-                        conds = colData(ft)$Condition,
-                        percent = TRUE, 
-                        th = 0.8, 
-                        operator = '<')
-                        
- filterFeaturesOneSE(feat1, filter)  
- 
-                       
+filter <- FunctionFilter('qMetacellOnConditions',
+cmd = 'delete',
+mode = 'AtLeastOneCond',
+pattern = 'imputed POV',
+conds = colData(ft)$Condition,
+percent = TRUE,
+th = 0.8,
+operator = '<')
+
+ filterFeaturesOneSE(feat1, filter)
+
+
 }
 \author{
 Samuel Wieczorek

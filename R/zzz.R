@@ -1,18 +1,34 @@
+.onLoad <- function(libname, pkgname) {
+    # shiny::addResourcePath(
+    #     prefix = "images",
+    #     directoryPath = system.file("images",package = "DaparToolshed")
+    # )
+  
+  library(QFeatures)
+}
+
+.onUnload <- function(libname, pkgname) {
+    shiny::removeResourcePath("images")
+}
+
+
+
 #' @title xxx
 #'
 #' @description
 #' Get the list of pipelines available in the package
 #'
 #' @export
-#' 
+#'
 #' @return NA
 #'
-Pipelines <- function(){
-  list(Protein = c('protein'),
-       Peptide = c('peptide'),
-       P2p = c('protein'),
-       Peptidomic = c('peptide')
-       )
+Pipelines <- function() {
+    list(
+        Protein = c("protein"),
+        Peptide = c("peptide"),
+        P2p = c("protein"),
+        Peptidomic = c("peptide")
+    )
 }
 
 
@@ -33,10 +49,11 @@ Pipelines <- function(){
 #'
 #' @export
 #'
-Add_Item_to_Dataset <- function(dataset, name){
-  QFeatures::addAssay(dataset,
-                      dataset[[length(dataset)]],
-                      name=name)
+Add_Item_to_Dataset <- function(dataset, name) {
+    QFeatures::addAssay(dataset,
+        dataset[[length(dataset)]],
+        name = name
+    )
 }
 
 #' @title xxx
@@ -53,6 +70,6 @@ Add_Item_to_Dataset <- function(dataset, name){
 #'
 #' @export
 #'
-Keep_Items_from_Dataset <- function(dataset, range){
-  dataset[ , , range]
+Keep_Items_from_Dataset <- function(dataset, range) {
+    dataset[, , range]
 }

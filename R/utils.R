@@ -1,10 +1,37 @@
+#' @title Loads packages
+#' 
+#' @description Checks if a package is available to load it
+#' 
+#' @param ll.deps A `character()` vector which contains packages names
+#' 
+#' @examples 
+#' pkgs.require('QFeatures')
+#' 
+#' @export
+#' 
+#' @author Samuel Wieczorek
+#' 
+pkgs.require <- function(ll.deps){
+  
+  if (!requireNamespace('BiocManager', quietly = TRUE)) {
+    stop(paste0("Please run install.packages('BiocManager')"))
+  }
+  
+  lapply(ll.deps, function(x) {
+    if (!requireNamespace(x, quietly = TRUE)) {
+      stop(paste0("Please install ", x, ": BiocManager::install('", x, "')"))
+    }
+  })
+}
+
+
 
 #' @title Standardize names
 #'
-#' @description 
-#' 
+#' @description
+#'
 #' Replace ".", ' ', '-' in `character()` by '_' to be compliant
-#' with functions of [Shinyjs], [Shiny]
+#' with functions of `Shinyjs`, `Shiny`
 #'
 #' @param x A `character()` to be processed
 #'
@@ -14,73 +41,79 @@
 #' @author Samuel Wieczorek
 #'
 #' @export
-#' 
-#' @examples
-#' 
-#' ReplaceSpecialChars(c('foo.1', 'foo-2', 'foo 3'))
 #'
-ReplaceSpecialChars <- function(x){
-  if (is.null(x))
-    return(x)
-  
-  for (char in c('.', ' ', '-'))
-    x <- gsub(char, '_', x, fixed=TRUE)
-  
-  x
+#' @examples
+#'
+#' ReplaceSpecialChars(c("foo.1", "foo-2", "foo 3"))
+#'
+ReplaceSpecialChars <- function(x) {
+    if (is.null(x)) {
+        return(x)
+    }
+
+    for (char in c(".", " ", "-")) {
+        x <- gsub(char, "_", x, fixed = TRUE)
+    }
+
+    x
 }
 
 
 #' @title Version number of Prostar suite
-#' 
-#' @description 
-#' 
-#' This function gives the version number of the packages of the 
+#'
+#' @description
+#'
+#' This function gives the version number of the packages of the
 #' Prostar suite and which propose data processing. This information
 #' can be useful if the user wants to publish its works or to
-#' rerun a data processing pipeline tin a given set of conditions. 
-#' The packages which are concerned are [Prostar], [DaparToolshed] 
-#' and [DaparToolshedData]
-#' 
+#' rerun a data processing pipeline tin a given set of conditions.
+#' The packages which are concerned are `Prostar`, `DaparToolshed`
+#' and `DaparToolshedData`
+#'
 #' @return A `list(3)`
-#' 
+#'
 #' @rdname ProstarVersions
-#' 
+#'
 #' @author Samuel Wieczorek
-#' 
+#'
 #' @examples
 #' ProstarVersions()
-#' 
+#'
 #' @export
-#' 
-ProstarVersions <- function(){
-  
-  Prostar <- DaparToolshed <- DaparToolshedData <- Magellan <- NA
-  
-  tryCatch({
-    find.package("Prostar")
-    Prostar <- Biobase::package.version('Prostar')
-  },
-  error = function(e) Prostar <- NA
-  )
-  
-  tryCatch({
-    find.package("DaparToolshed")
-    DaparToolshed <- Biobase::package.version('DaparToolshed')
-  },
-  error = function(e) DaparToolshed <- NA
-  )
-  
-  tryCatch({
-    find.package("DaparToolshedData")
-    DaparToolshed <- Biobase::package.version('DaparToolshedData')
-  },
-  error = function(e) DaparToolshedData <- NA
-  )
+#'
+ProstarVersions <- function() {
+    v.Prostar <- v.DaparToolshed <- v.DaparToolshedData <- v.MagellanNTK <- NA
 
-  
-  list(Prostar = Prostar,
-       DaparToolshed = DaparToolshed,
-       DaparToolshedData = DaparToolshedData)
+    # tryCatch(
+    #     {
+    #         find.package("Prostar.2.0")
+    #         v.Prostar <- Biobase::package.version("Prostar.2.0")
+    #     },
+    #     error = function(e) v.Prostar <- NA
+    # )
+
+    tryCatch(
+        {
+            find.package("DaparToolshed")
+          v.DaparToolshed <- Biobase::package.version("DaparToolshed")
+        },
+        error = function(e) v.DaparToolshed <- NA
+    )
+
+    tryCatch(
+        {
+            find.package("DaparToolshedData")
+          v.DaparToolshed <- Biobase::package.version("DaparToolshedData")
+        },
+        error = function(e) v.DaparToolshedData <- NA
+    )
+
+
+    list(
+        Prostar = v.Prostar,
+        DaparToolshed = v.DaparToolshed,
+        DaparToolshedData = v.DaparToolshedData
+    )
 }
 
 
@@ -93,54 +126,56 @@ ProstarVersions <- function(){
 
 
 #' @title Number of empty lines in the data
-#' 
-#' @description 
-#' 
+#'
+#' @description
+#'
 #' This function counts the number of empty lines (all elements
 #' are equal to NA).
-#' 
+#'
 #' @param df A `data.frame`.
-#' 
+#'
 #' @return A `integer(1)`
-#' 
+#'
 #' @export
-#' 
+#'
 #' @author Samuel Wieczorek
-#' 
+#'
 #' @examples
-#' data(ft)
+#' data(ft, package='DaparToolshed')
 #' nEmptyLines(assay(ft, 1))
-#' 
-nEmptyLines <- function(df)
-  sum(apply(is.na(as.matrix(df)), 1, all))
+#'
+nEmptyLines <- function(df) {
+    sum(apply(is.na(as.matrix(df)), 1, all))
+}
 
 
 
 
 
 
-#' @title Similar to the function \code{is.na} but focused on the equality with the paramter 'type'.
-#' 
+#' @title Similar to the function `is.na()` but focused on the equality 
+#' with the paramter 'type'.
+#'
 #' @param data A data.frame
-#' 
+#'
 #' @param type The value to search in the dataframe
-#' 
-#' @return A boolean dataframe 
-#' 
+#'
+#' @return A boolean dataframe
+#'
 #' @author Samuel Wieczorek
-#' 
+#'
 #' @examples
 #' library(QFeatures)
-#' data(ft)
+#' data(ft, package='DaparToolshed')
 #' obj <- ft[[1]]
-#' data <- qMetadata(obj)
+#' data <- qMetacell(obj)
 #' is.OfType(as.data.frame(data), "MEC")
-#' 
+#'
 #' @export
-#' 
-is.OfType <- function(data, type){
-  stopifnot(inherits(data, 'data.frame'))
-  return (type == data)
+#'
+is.OfType <- function(data, type) {
+    stopifnot(inherits(data, "data.frame"))
+    return(type == data)
 }
 
 
@@ -150,55 +185,58 @@ is.OfType <- function(data, type){
 
 
 #' @title Returns the possible number of values in lines in the data
-#' 
-#' @param object An object of class \code{QFeatures}
-#' 
+#'
+#' @param object An object of class `QFeatures`
+#'
 #' @param conds xxxx
-#' 
+#'
 #' @param type WholeMatrix, AllCond or AtLeastOneCond
-#' 
+#'
 #' @return An integer
-#' 
+#'
 #' @author Samuel Wieczorek, Enora Fremy
-#' 
+#'
 #' @examples
-#' data(ft)
+#' data(ft, package='DaparToolshed')
 #' res <- getListNbValuesInLines(ft, 1)
-#' 
+#'
 #' @export
-#' 
+#'
 #' @importFrom S4Vectors sort
-#' @importFrom SummarizedExperiment colData
-#' 
-getListNbValuesInLines <- function(object, conds, type = "WholeMatrix"){
-  
-  if (is.null(object)){return(NULL)}
-  stopifnot(inherits(object, 'SummarizedExperiment'))
-  if (!(type %in% c('None', 'WholeLine', 'WholeMatrix', 'AtLeastOneCond', 'AllCond')))
-    stop("'type' is not one of: 'None', 'WholeMatrix', 'AtLeastOneCond', 'AllCond'")
-  
-  data <- as.data.frame(SummarizedExperiment::assay(object))
-  switch(type,
-         WholeMatrix= {
-           ll <- unique(ncol(data) - apply(is.na(data), 1, sum))
-         },
-         AllCond = {
-           tmp <- NULL
-           for (cond in unique(conds)){
-             tmp <- c(tmp, length(which(conds == cond)))
-           }
-           ll <- seq(0, min(tmp))
-         },
-         AtLeastOneCond = {
-           tmp <- NULL
-           for (cond in unique(conds)){
-             tmp <- c(tmp, length(which(conds == cond)))
-           }
-           ll <- seq(0, max(tmp))
-         }
-  )
-  
-  return (sort(ll))
+#'
+getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
+    if (is.null(object)) {
+        return(NULL)
+    }
+    stopifnot(inherits(object, "SummarizedExperiment"))
+    if (!(type %in% c("None", "WholeLine", "WholeMatrix", 
+        "AtLeastOneCond", "AllCond"))) {
+        stop("'type' is not one of: 'None', 
+            'WholeMatrix', 'AtLeastOneCond', 'AllCond'")
+    }
+
+    data <- as.data.frame(assay(object))
+    switch(type,
+        WholeMatrix = {
+            ll <- unique(ncol(data) - apply(is.na(data), 1, sum))
+        },
+        AllCond = {
+            tmp <- NULL
+            for (cond in unique(conds)) {
+                tmp <- c(tmp, length(which(conds == cond)))
+            }
+            ll <- seq(0, min(tmp))
+        },
+        AtLeastOneCond = {
+            tmp <- NULL
+            for (cond in unique(conds)) {
+                tmp <- c(tmp, length(which(conds == cond)))
+            }
+            ll <- seq(0, max(tmp))
+        }
+    )
+
+    return(sort(ll))
 }
 
 
@@ -208,68 +246,172 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix"){
 
 
 #' @title Retrieve the indices of non-zero elements in sparse matrices
-#' 
-#' @description 
-#' 
+#'
+#' @description
+#'
 #' This function retrieves the indices of non-zero elements in sparse matrices
-#' of class dgCMatrix from package Matrix. This function is largely inspired from 
-#' the package \code{RINGO}
-#' 
+#' of class dgCMatrix from package Matrix. This function is largely inspired 
+#' from the package `RINGO`.
+#'
 #' @param x A sparse matrix of class dgCMatrix
-#' 
+#'
 #' @return A two-column matrix
-#' 
+#'
 #' @author Samuel Wieczorek
-#' 
+#'
+#' @rdname nonzero
+#'
 #' @examples
-#' mat <- Matrix(c(0,0,0,0,0,1,0,0,1,1,0,0,0,0,1),
-#'               nrow=5, byrow = TRUE, sparse=TRUE)
+#' mat <- Matrix(c(0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1),
+#'     nrow = 5, byrow = TRUE, sparse = TRUE
+#' )
 #' res <- nonzero(mat)
-#' 
+#'
 #' @export
-#' 
-nonzero <- function(x){
-  ## function to get a two-column matrix containing the indices of the
-  ### non-zero elements in a "dgCMatrix" class matrix
-  
-  if (! requireNamespace("Matrix", quietly = TRUE)) {
-    stop("Please install Matrix: BiocManager::install('Matrix')")
+#'
+nonzero <- function(x) {
+    ## function to get a two-column matrix containing the indices of the
+    ### non-zero elements in a "dgCMatrix" class matrix
+
+    if (!requireNamespace("Matrix", quietly = TRUE)) {
+        stop("Please install Matrix: BiocManager::install('Matrix')")
     }
-  
-  stopifnot(inherits(x, "dgCMatrix"))
-  if (all(x@p == 0))
-    return(matrix(0, nrow = 0, ncol = 2,
-                  dimnames = list(character(0), c("row","col"))))
-  res <- cbind(x@i+1, rep(seq(dim(x)[2]), diff(x@p)))
-  colnames(res) <- c("row", "col")
-  res <- res[x@x != 0, , drop = FALSE]
-  return(res)
+
+    stopifnot(inherits(x, "dgCMatrix"))
+    if (all(x@p == 0)) {
+        return(matrix(0,
+            nrow = 0, ncol = 2,
+            dimnames = list(character(0), c("row", "col"))
+        ))
+    }
+    res <- cbind(x@i + 1, rep(seq(dim(x)[2]), diff(x@p)))
+    colnames(res) <- c("row", "col")
+    res <- res[x@x != 0, , drop = FALSE]
+    return(res)
 }
 
 
 
+#' @title Extension of a file
 #' @param fname xxx
+#' @rdname getExtension
 #' @export
-GetExtension <- function(fname)
-  strsplit(fname, '.', TRUE)[[1]][2]
+#' 
+#' @examples 
+#' GetExtension('foo.txt')
+#' 
+GetExtension <- function(fname) {
+    strsplit(fname, ".", TRUE)[[1]][2]
+}
 
 
 #' @title Convert a list to unnumbered HTML list
 #' @description xxx
 #' @param ll A `list()` of `character()`
+#' @rdname ConvertListToHtml
 #' @export
-ConvertListToHtml <- function(ll){
-  if(length(ll) == 0)
-    return('-')
-  
-  paste0('<ul>',
-         paste0(
-           lapply(ll, 
-                  function(x){
-                    paste0('<li>', 
-                           paste0(x, collapse=' '), 
-                           '</li>')}),
-           collapse = " "),
-           '</ul>')
-  #}
+#' 
+#' @examples 
+#' ConvertListToHtml(list('foo1', 'foo2', 'foo3'))
+#' 
+ConvertListToHtml <- function(ll) {
+    if (length(ll) == 0) {
+        return("-")
+    }
+
+    paste0(
+        "<ul>",
+        paste0(
+            lapply(
+                ll,
+                function(x) {
+                    paste0(
+                        "<li>",
+                        paste0(x, collapse = " "),
+                        "</li>"
+                    )
+                }
+            ),
+            collapse = " "
+        ),
+        "</ul>"
+    )
 }
+
+
+
+
+#' @title Customised contextual menu of highcharts plots
+#'
+#' @param hc A highcharter object
+#'
+#' @param filename The filename under which the plot has to be saved
+#'
+#' @return A contextual menu for highcharts plots
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' library("highcharter")
+#' hc <- highchart()
+#' hc_chart(hc, type = "line")
+#' hc_add_series(hc, data = c(29, 71, 40))
+#' my_hc_ExportMenu(hc, filename = "foo")
+#'
+#' @export
+#'
+my_hc_ExportMenu <- function(hc, filename) {
+  hc_exporting(hc,
+               enabled = TRUE,
+               filename = filename,
+               buttons = list(
+                 contextButton = list(
+                   menuItems = list("downloadPNG", "downloadSVG", "downloadPDF")
+                 )
+               )
+  )
+}
+
+
+
+
+
+
+#' @title Customised resetZoomButton of highcharts plots
+#'
+#' @param hc A highcharter object
+#'
+#' @param chartType The type of the plot
+#'
+#' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
+#'
+#' @return A highchart plot
+#'
+#' @author Samuel Wieczorek
+#' 
+#' @import highcharter
+#'
+#' @examples
+#' library("highcharter")
+#' hc <- highchart()
+#' hc_chart(hc, type = "line")
+#' hc_add_series(hc, data = c(29, 71, 40))
+#' my_hc_ExportMenu(hc, filename = "foo")
+#'
+#' @export
+#'
+my_hc_chart <- function(hc, chartType, zoomType = "None") {
+  hc %>%
+    hc_chart(
+      type = chartType,
+      zoomType = zoomType,
+      showAxes = TRUE,
+      resetZoomButton = list(
+        position = list(
+          align = "left",
+          verticalAlign = "top"
+        )
+      )
+    )
+}
+

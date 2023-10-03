@@ -10,44 +10,50 @@ mod_format_DT_ui(id)
 
 mod_format_DT_server(
   id,
-  df,
-  rownames = FALSE,
+  data,
+  withDLBtns = FALSE,
+  showRownames = FALSE,
   dom = "Bt",
-  style = reactive({     NULL })
+  hc_style = reactive({
+     NULL
+ }),
+  full_style = reactive({
+     NULL
+ }),
+  filename = "Prostar_export",
+  hideCols = reactive({
+     NULL
+ })
 )
 }
 \arguments{
-\item{id}{internal}
+\item{id}{shiny id}
 
-\item{df}{internal}
+\item{data}{xxx}
 
-\item{rownames}{xxxx}
+\item{withDLBtns}{xxx}
+
+\item{showRownames}{xxx}
 
 \item{dom}{xxx}
 
-\item{style}{xxx}
+\item{hc_style}{xxx}
+
+\item{full_style}{A list of four items:
+\itemize{
+\item cols: a vector of colnames of columns to show,
+\item vals: a vector of colnames of columns that contain values,
+\item unique: unique(conds),
+\item pal: xxx
+}}
+
+\item{filename}{xxx}
+
+\item{hideCols}{xxx}
+}
+\value{
+NA
 }
 \description{
 A shiny Module.
-}
-\examples{
-if(interactive()){
- library(QFeatures)
- library(shiny)
- library(DaparToolshed)
- data(ft)
- 
-  
- ui <- mod_format_DT_ui('dt')
-
- server <- function(input, output, session) {
-  mod_format_DT_server(id = 'dt',
-                       df = reactive({assay(ft,1)})
-                       )
-  }
- 
- shinyApp(ui=ui, server=server)
-}
-
-
 }

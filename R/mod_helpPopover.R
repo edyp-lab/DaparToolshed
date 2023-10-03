@@ -1,85 +1,74 @@
 #' @title  Help popover windows
-#' 
+#'
 #' @description  A shiny Module.
+#' 
+#' @param id A `character(1)` xxx
+#' @param title A `character()` xxx
+#' @param content A `character()` xxx 
 #'
 #' @name mod_helpPopover
 #' 
-#' @examples 
-#' if (interactive()){
-#' ui <- mod_helpPopover_ui('help')
-#' 
-#'  server <- function(input, output, session) {
-#'   mod_helpPopover_server('help',
-#'                          title = 'Foo',
-#'                          content = 'xxx'
-#'                          )
-#'  }
-#'  
-#'  shinyApp(ui=ui, server=server)
-#' 
-#' }
+#' @return NA
+#'
+#' @example inst/extdata/examples/ex_mod_helpPopover.R
 NULL
 
 
-#' @param id A `character()` xxx
+
 #' @rdname mod_helpPopover
-#' @export 
-#' @importFrom shiny NS tagList 
+#' @export
+#' @importFrom shiny NS tagList
 #' @importFrom shinyjs inlineCSS useShinyjs
-#' 
-mod_helpPopover_ui <- function(id){
-  ns <- NS(id)
-  fluidPage(
-    shinyjs::useShinyjs(),
-    shinyjs::inlineCSS(pop_css),
-    div(
-      div(
-        # edit1
-        style="display:inline-block; vertical-align: middle; padding-bottom: 5px;",
-        uiOutput(ns("write_title_ui"))
-      ),
-      div(style="display:inline-block; vertical-align: middle;padding-bottom: 5px;",
-          uiOutput(ns("dot")),
-          uiOutput(ns("show_Pop"))
-      )
+#'
+mod_helpPopover_ui <- function(id) {
+    ns <- NS(id)
+    fluidPage(
+        shinyjs::useShinyjs(),
+        shinyjs::inlineCSS(pop_css),
+        div(
+            div(
+                # edit1
+                style = "display:inline-block; vertical-align: middle; 
+                padding-bottom: 5px;",
+                uiOutput(ns("write_title_ui"))
+            ),
+            div(
+                style = "display:inline-block; vertical-align: middle;
+                padding-bottom: 5px;",
+                uiOutput(ns("dot")),
+                uiOutput(ns("show_Pop"))
+            )
+        )
     )
-  )
 }
 
-#' @param id A `character(1)` xxx
-#' @param title A `character()` xxx
-#' @param content A `character()` xxx
-#' 
+
+#'
 #' @rdname mod_helpPopover
-#' 
+#'
 #' @export
-#' 
-mod_helpPopover_server <- function(id, title, content){
+#'
+mod_helpPopover_server <- function(id, title, content) {
+  pkgs.require("shinyBS")
   
-  if (! requireNamespace("shinyBS", quietly = TRUE)) {
-    stop("Please install shinyBS: BiocManager::install('shinyBS')")
-  }
-  moduleServer(id, function(input, output, session){
-    ns <- session$ns
-    
-    output$write_title_ui <- renderUI({
-      HTML(paste0("<strong><font size=\"4\">", title, "</font></strong>"))
+    moduleServer(id, function(input, output, session) {
+        ns <- session$ns
+
+        output$write_title_ui <- renderUI({
+            HTML(paste0("<strong><font size=\"4\">", title, "</font></strong>"))
+        })
+
+        output$dot <- renderUI({
+            tags$button(tags$sup("?"), class = "custom_tooltip")
+        })
+
+        output$show_Pop <- renderUI({
+            shinyBS::bsTooltip(ns("dot"),
+                content,
+                trigger = "hover"
+            )
+        })
     })
-    
-    output$dot <- renderUI({
-      tags$button(tags$sup("?"), class="custom_tooltip")
-    })
-    
-    output$show_Pop <- renderUI({
-      shinyBS::bsTooltip(ns("dot"), 
-                         content, 
-                         trigger = "hover")
-      
-    })
-    
-    
-  })
-  
 }
 
 
@@ -127,5 +116,5 @@ button.custom_tooltip_white {
     position: absolute;
     left: 5px;
     top: 5px;
-    
+
 }"

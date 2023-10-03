@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{is.OfType}
 \alias{is.OfType}
-\title{Similar to the function \code{is.na} but focused on the equality with the paramter 'type'.}
+\title{Similar to the function \code{is.na()} but focused on the equality
+with the paramter 'type'.}
 \usage{
 is.OfType(data, type)
 }
@@ -15,13 +16,14 @@ is.OfType(data, type)
 A boolean dataframe
 }
 \description{
-Similar to the function \code{is.na} but focused on the equality with the paramter 'type'.
+Similar to the function \code{is.na()} but focused on the equality
+with the paramter 'type'.
 }
 \examples{
 library(QFeatures)
-data(ft)
+data(ft, package='DaparToolshed')
 obj <- ft[[1]]
-data <- qMetadata(obj)
+data <- qMetacell(obj)
 is.OfType(as.data.frame(data), "MEC")
 
 }

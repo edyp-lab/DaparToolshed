@@ -4,7 +4,7 @@
 \alias{DaparToolshed-aggregate}
 \alias{aggregateFeatures4Prostar,QFeatures-method}
 \alias{aggregateFeatures4Prostar,SummarizedExperiment-method}
-\alias{aggQmetadata}
+\alias{aggQmetacell}
 \alias{aggregateMethods}
 \title{Aggregate an assay's quantitative features}
 \usage{
@@ -25,12 +25,12 @@
   ...
 )
 
-aggQmetadata(qMeta, X, level, conds)
+aggQmetacell(qMeta, X, level, conds)
 
 aggregateMethods()
 }
 \arguments{
-\item{object}{An instance of class \link{QFeatures} or \link{SummarizedExperiment}.}
+\item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
 
 \item{i}{The index or name of the assay which features will be
 aggregated the create the new assay.}
@@ -57,13 +57,12 @@ for each sample in the dataset.}
 \item{X}{xxxx}
 
 \item{level}{A \code{character(1)} which is the type of dataset}
-
-\item{fun.qmeta}{A function used for quantitative metadata
-aggregation. See Details for examples.}
 }
 \value{
 A \code{QFeatures} object with an additional assay or a
 \code{SummarizedExperiment} object (or subclass thereof).
+
+NA
 
 xxxxx
 }
@@ -77,13 +76,14 @@ or an adjacency matrix (\emph{aggregation by matrix}).
 
 The quantitative metadata are aggregated with a function (\code{fun.qmeta}).
 
-The list of agregation methods can be obtained with \code{\link[=aggregateMethods]{aggregateMethods()}}. This function
-compiles both methods from the packages \code{DaparToolshed} and \code{QFeatures}.
+The list of agregation methods can be obtained with the function
+aggregateMethods()]. This function compiles both methods from the
+packages \code{DaparToolshed} and \code{QFeatures}.
 
 xxx
 }
 \details{
-
+xxxxxxx
 }
 \section{Iterative aggregation function}{
 
@@ -109,17 +109,17 @@ The function to aggregate the quantitative metadata is
 ## ---------------------------------------
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
-data(ft)
+data(ft, package='DaparToolshed')
 ft
 
 ## Aggregate peptides into proteins
 ## using the adjacency matrix
-ft <- ft <- aggregateFeatures4Prostar(object = ft,
-                                      i = 1,
-                                      name = 'aggregated', 
-                                      fcol = 'adjacencyMatrix', 
-                                      fun = colSumsMat,
-                                      fun.qmeta = aggQmeta)
+feat1 <- aggregateFeatures4Prostar(object = ft,
+i = 1,
+name = 'aggregated',
+fcol = 'adjacencyMatrix',
+fun = colSumsMat,
+fun.qmeta = aggQmeta)
 feat1
 
 assay(feat1[[1]])
@@ -128,12 +128,12 @@ aggcounts(feat1[[2]])
 assay(feat1[[3]])
 aggcounts(feat1[[3]])
 rowData(ft[[2]])
-data(ft)
-qMeta <- qMetadata(ft, 1)
+data(ft, package='DaparToolshed')
+qMeta <- qMetacell(ft, 1)
 X <- adjacencyMatrix(ft, 1)
 level <- typeDataset(ft, 1)
 conds <- colData(ft)$Condition
-aggQmeta <- aggQmetadata(qMeta, X, level, conds)
+aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
 }
 \seealso{

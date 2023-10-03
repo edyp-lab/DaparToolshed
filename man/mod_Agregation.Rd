@@ -10,11 +10,21 @@ mod_Agregation_ui(id)
 
 mod_Agregation_server(
   id,
-  dataIn = reactive({     NULL }),
-  steps.enabled = reactive({     NULL }),
-  remoteReset = reactive({     FALSE }),
-  steps.status = reactive({     NULL }),
-  current.pos = reactive({     1 }),
+  dataIn = reactive({
+     NULL
+ }),
+  steps.enabled = reactive({
+     NULL
+ }),
+  remoteReset = reactive({
+     FALSE
+ }),
+  steps.status = reactive({
+     NULL
+ }),
+  current.pos = reactive({
+     1
+ }),
   verbose = FALSE
 )
 }
@@ -38,6 +48,9 @@ a step active in the timeline. Default is 1.}
 
 \item{verbose}{A \code{logical(1)} to indicates whether run and debug infos must
 be printed in the console. Default is FALSE.}
+}
+\value{
+NA
 }
 \description{
 xxxxx
@@ -67,10 +80,10 @@ xxxxxx
 }
 
 \examples{
-if(interactive()){
- run_workflow('Agregation', verbose = TRUE)
+if (interactive()) {
+    run_workflow("Agregation", verbose = TRUE)
 }
 }
 \seealso{
-The user manual of the package \code{Magellan}.
+The user manual of the package \code{MagellanNTK}.
 }

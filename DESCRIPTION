@@ -2,57 +2,46 @@ Package: DaparToolshed
 Type: Package
 Title: Tools for the Differential Analysis of Proteins Abundance with R
 Version: 0.99.0
-Date: 2021-09-16
+Date: 2022-07-20
 Authors@R: c(person(given = "Samuel", family = "Wieczorek",
-            email = "samuel.wieczorek@cea.fr",
-            role = c("aut","cre")),
-            person(given = "Thomas", family ="Burger",
-            email = "thomas.burger@cea.fr",
-            role = c("aut")),
-		person(given = "Enora", family ="Fremy",
-            email = "enora.fremy@cea.fr",
-            role = c("ctb"))
-            )
+    email = "samuel.wieczorek@cea.fr",
+    role = c("aut","cre")),
+    person(given = "Thomas", family ="Burger",
+    email = "thomas.burger@cea.fr",
+    role = c("aut")),
+    person(given = "Enora", family ="Fremy",
+    email = "enora.fremy@cea.fr",
+    role = c("ctb"))
+    )
 Description: This package contains a collection of functions for the
     visualisation and the statistical analysis of proteomic data.
-    fsdfsd
-    fsd
-    sd sfsfs .
+    fsdfsd fjsjkdfsd klsqhfsjdlf. fhdshf sofhsjkdhf fsd.
+    sd sfsfs.
 License: Artistic-2.0
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.3.0)
 Imports:
     Biobase,
-    Magellan,
-    grDevices,
+    DaparToolshedData,
+    MagellanNTK,
     S4Vectors,
     BiocGenerics,
-    PSMatch,
     QFeatures,
     methods,
     MsCoreUtils,
-    SummarizedExperiment,
-    MultiAssayExperiment,
     AnnotationFilter,
-    stringr,
     RColorBrewer,
-    gplots,
     highcharter,
-    tibble,
-    tidyr,
-    forcats,
-    multcomp,
-    purrr,
-    ggplot2,
-    reshape2,
     htmlwidgets,
     shiny,
-    shinyWidgets,
     shinyalert,
     shinyjs,
-    DT,
     sos,
     stats,
-    utils
+    utils,
+    rhandsontable,
+    shinyBS,
+    foreach,
+    tibble
 biocViews: 
     Proteomics,
     Normalization,
@@ -61,58 +50,16 @@ biocViews:
     QualityControl,
     GO,
     DataImport
-NeedsCompilation: no
-Collate:
-    AllGenerics.R
-    DaparToolshed.R
-    QFeatures_utils.R
-    example-data.R
-    qMetadata.R
-    DaparToolshed_aggregate.R
-    DaparToolshed_filter_Adjmat.R
-    DaparToolshed_QFeatures_Addons.R
-    DaparToolshed_filter_qMetadata.R
-    DaparToolshed-filterFeaturesOneSE.R
-    iterative_agregation.R
-    mod_Filtering.R
-    mod_Agregation.R
-    compute.t.tests.R
-    DiffAnalysis.R
-    mod_build_qMetadata_FunctionFilter.R
-    group_ttest.R
-    export_qfeatures.R
-    import_2_qfeatures.R
-    limmaAnalysis.R
-    normalize.R
-    utils.R
-    missingValuesImputation_PeptideLevel.R
-    missingValuesImputation_ProteinLevel.R
-    pepa.R
-    anova_analysis.R
-    clustering.R
-    mod_filtering_example.R
-    hypothesis_test.R
-    global.R
-    mod_Protein.R
-    mod_Protein_Description.R
-    mod_Protein_Filtering.R
-    mod_Protein_Normalization.R
-    mod_convert.R
-    mod_format_DT.R
-    mod_helpPopover.R
-    mod_settings.R
-    mod_Normalization.R
-    zzz.R
-    mod_tracker.R
-RoxygenNote: 7.1.2
-Packaged: 2017-10-13 11:13:04 UTC; sw175264
-Encoding: UTF-8
-LazyData: false
-URL: https://github.com/samWieczorek/DaparToolshed
-BugReports: https://github.com/samWieczorek/DaparToolshed/issues
 Suggests: 
+    BiocManager,
+    visNetwork,
+    igraph,
     knitr,
+    PSMatch,
     lme4,
+    DT,
+    DaparViz,
+    shinyWidgets,
     Matrix,
     vsn, 
     cp4p,
@@ -122,7 +69,6 @@ Suggests:
     apcluster,
     diptest,
     cluster,
-    shinyBS,
     rmarkdown,
     BiocStyle,
     testthat,
@@ -130,10 +76,72 @@ Suggests:
     factoextra,
     doParallel,
     dplyr,
-    foreach,
     colourpicker,
     openxlsx, 
     readxl,
     preprocessCore,
-    graph
+    graph,
+    grDevices,
+    forcats,
+    multcomp,
+    purrr,
+    stringr, 
+    gplots, 
+    tidyr
+NeedsCompilation: no
+Collate:
+    AllGenerics.R
+    mod_ds_metacell.R
+    plot_metacell.R
+    doc-data.R
+    DaparToolshed.R
+    QFeatures_utils.R
+    example-data.R
+    metacell.R
+    DaparToolshed_aggregate.R
+    DaparToolshed_filter_Adjmat.R
+    DaparToolshed_QFeatures_Addons.R
+    DaparToolshed_filter_qMetadata.R
+    DaparToolshed-filterFeaturesOneSE.R
+    iterative_agregation.R
+    mod_Filtering.R
+    mod_Agregation.R
+    mod_build_qMetadata_FunctionFilter.R
+    export_qfeatures.R
+    import_2_qfeatures.R
+    utils.R
+    pepa.R
+    mod_filtering_example.R
+    global.R
+    mod_Protein.R
+    mod_Protein_Description.R
+    mod_Protein_Filtering.R
+    mod_Protein_Normalization.R
+    mod_convert.R
+    mod_format_DT.R
+    mod_helpPopover.R
+    mod_settings.R
+    zzz.R
+    mod_tracker.R
+    mod_metacell_tree.R
+    mod_query_metacell.R
+    mod_buildDesign.R
+    mod_designExample.R
+    mod_infos_dataset.R
+    design_utils.R
+    mod_inputGroup.R
+    palette.R
+    shinyValue.R
+    mod_dl.R
+    mod_open_dataset.R
+    mod_open_demoDataset.R
+    get_pep_prot_cc.R
+    agregation.R
+RoxygenNote: 7.2.3
+Packaged: 2017-10-13 11:13:04 UTC; sw175264
+Encoding: UTF-8
+LazyData: false
+URL: https://github.com/prostarproteomics/DaparToolshed
+BugReports: https://github.com/prostarproteomics/DaparToolshed/issues
+VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

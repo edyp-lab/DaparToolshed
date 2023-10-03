@@ -17,7 +17,7 @@ This function counts the number of empty lines (all elements
 are equal to NA).
 }
 \examples{
-data(ft)
+data(ft, package='DaparToolshed')
 nEmptyLines(assay(ft, 1))
 
 }

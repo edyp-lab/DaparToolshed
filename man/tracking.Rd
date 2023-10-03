@@ -14,8 +14,6 @@ mod_tracker_server(id, object)
 \item{id}{xxx}
 
 \item{object}{A instance of the class \code{SummarizedExperiment}}
-
-\item{reset}{xxx}
 }
 \value{
 NA
@@ -23,8 +21,8 @@ NA
 A \code{list()} of integers
 }
 \description{
-This shiny module offers a UI to select a subset of a dataset
-and superimpose quantitative values of this selection on the complete plot
+This shiny module offers a UI to select a subset of a dataset and
+superimpose quantitative values of this selection on the complete plot
 Three modes of selection are implemented:
 \itemize{
 \item 'Protein list': xxx,
@@ -33,27 +31,28 @@ Three modes of selection are implemented:
 }
 }
 \examples{
-if (interactive()){
+if (interactive()) {
+    ui <- tagList(
+        mod_tracker_ui("track"),
+        uiOutput("show")
+    )
 
-ui <- tagList(
-  mod_tracker_ui('track'),
-  uiOutput('show')
-)
+    server <- function(input, output, session) {
+        rv <- reactiveValues(
+            tmp = NULL
+        )
 
-server <- function(input, output, session) {
-  rv <- reactiveValues(
-    tmp = NULL
-  )
-  
-  rv$tmp <- mod_tracker_server(id = 'track',
-                                object = reactive({ft[[1]]})
-  )
-  
-  output$show <- renderUI({
-    p(paste0(rv$tmp(), collapse = ' '))
-  })
-  
-}
-shinyApp(ui=ui, server=server)
+        rv$tmp <- mod_tracker_server(
+            id = "track",
+            object = reactive({
+                ft[[1]]
+            })
+        )
+
+        output$show <- renderUI({
+            p(paste0(rv$tmp(), collapse = " "))
+        })
+    }
+    shinyApp(ui = ui, server = server)
 }
 }
