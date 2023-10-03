@@ -216,9 +216,7 @@ createQFeatures <- function(data = NULL,
 
     # Fill the metadata for the first assay
     typeDataset(obj[["original"]]) <- typeDataset
-    if (tolower(typeDataset) == 'peptide')
-            
-    idcol(obj[["original"]]) <- keyId
+     idcol(obj[["original"]]) <- keyId
 
     if (tolower(typeDataset) == "peptide") {
       pkgs.require('PSMatch')
