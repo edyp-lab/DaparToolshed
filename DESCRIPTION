@@ -92,6 +92,9 @@ NeedsCompilation: no
 Collate:
     AllGenerics.R
     mod_ds_metacell.R
+    plots_volcano.R
+    plots_compare_assays.R
+    mod_mv_imputation.R
     plot_metacell.R
     doc-data.R
     DaparToolshed.R
@@ -137,7 +140,7 @@ Collate:
     mod_open_demoDataset.R
     get_pep_prot_cc.R
     agregation.R
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false

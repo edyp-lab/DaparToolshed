@@ -17,7 +17,9 @@ mod_ds_metacell_ui(id)
 
 mod_ds_metacell_server(
   id,
-  vizData,
+  vizData = reactive({
+     NULL
+ }),
   pal = reactive({
      NULL
  }),
@@ -53,7 +55,7 @@ metacellHisto_HC(
   pal = NULL
 )
 
-wrapper.mvImage(vizData, pattern = "Missing MEC")
+wrapper.mvImage(obj, pattern = "Missing MEC")
 
 mvImage(vizData)
 
@@ -76,6 +78,8 @@ hc_mvTypePlot2(vizData, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 
 \item{showValues}{A logical that indicates whether numeric values should be
 drawn above the bars.}
+
+\item{obj}{An object of class \code{DaparViz}.}
 
 \item{typeofMV}{xxx}
 
@@ -125,6 +129,7 @@ and the considered condition.
 library(highcharter)
 library(shinyBS)
 library(shiny)
+library(DaparViz)
 
 ui <- fluidPage(
   mod_ds_metacell_ui('test')

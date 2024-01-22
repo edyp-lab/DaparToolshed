@@ -80,7 +80,7 @@ Convert_server <- function(id,
                            verbose = FALSE
 ) {
   
-  
+  do.call(eval(parse(text='DaparToolshed::Convert_conf')), args = list())
   pkgs.require("openxlsx")
   
   
@@ -747,8 +747,56 @@ Convert_server <- function(id,
 
 
 
-#--------------------------------------------------
+#' @export
+#!
+convert_ui <- function(id) {
+  ns <- NS(id)
+  fluidPage(
+  MagellanNTK::nav_ui(ns('Convert'))
+)
+}
 
+
+#----------------------------------------------------------------------
+#' @export
+convert_server <- function(id){
+  
+  moduleServer(id, function(input, output, session){
+    ns <- session$ns
+    
+  dataOut <- reactiveVal()
+  
+ #observe({
+    dataOut(
+      MagellanNTK::nav_server('Convert',
+                              dataIn = reactive({data.frame()}))
+    )
+  #})
+ 
+  return(reactive({dataOut()$dataOut()$value}))
+})
+}
+
+#---------------------------------------------------------------
+
+
+ui <- fluidPage(convert_ui("test_convert"))
+
+server <- function(input, output) {
+  #dataOut <- reactiveVal()
+  #rv <- reactive
+  
+  dataOut <- convert_server("test_convert")
+  
+  observeEvent(dataOut(), {
+    print(dataOut())
+  })
+}
+
+shinyApp(ui, server)
+
+
+#--------------------------------------------
 library(MagellanNTK)
 
 run_workflow("Convert", dataIn = data.frame())

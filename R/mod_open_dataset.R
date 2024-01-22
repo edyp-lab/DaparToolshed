@@ -1,12 +1,12 @@
 # Module UI
 
-#' @title   mod_open_dataset_ui and mod_open_dataset_server
+#' @title   open_dataset_ui and open_dataset_server
 #' 
 #' @description  A shiny Module.
 #' 
 #' @param id xxx
 #' 
-#' @name mod_open_dataset
+#' @name open_dataset
 #'
 #' @keywords internal
 #' 
@@ -14,7 +14,7 @@
 #' if (interactive()){
 #' ui <- fluidPage(
 #' tagList(
-#'   mod_open_dataset_ui("qf_file"),
+#'   open_dataset_ui("qf_file"),
 #'   textOutput('res')
 #' )
 #' )
@@ -23,7 +23,7 @@
 #'   rv <- reactiveValues(
 #'     obj = NULL
 #'   )
-#'   rv$obj <- mod_open_dataset_server("qf_file")
+#'   rv$obj <- open_dataset_server("qf_file")
 #'   
 #'   output$res <- renderText({
 #'     rv$obj()
@@ -40,11 +40,11 @@ NULL
 
 
 #' @export 
-#' @rdname mod_open_dataset
+#' @rdname open_dataset
 #' @importFrom shiny NS tagList 
 #' @import shinyjs
 #' 
-mod_open_dataset_ui <- function(id){
+open_dataset_ui <- function(id){
   ns <- NS(id)
   tagList(
     fileInput(ns("file"), "Open file", multiple = FALSE),
@@ -55,12 +55,12 @@ mod_open_dataset_ui <- function(id){
 }
 
 
-#' @rdname mod_open_dataset
+#' @rdname open_dataset
 #' @export
 #' @importFrom shinyjs info
 #' @import QFeatures
 #' 
-mod_open_dataset_server <- function(id){
+open_dataset_server <- function(id){
   
   moduleServer(id, function(input, output, session){
     ns <- session$ns
@@ -211,20 +211,29 @@ mod_open_dataset_server <- function(id){
 
 ui <- fluidPage(
   tagList(
-    mod_open_dataset_ui("qf_file"),
+    open_dataset_ui("qf_file"),
     textOutput('res')
   )
 )
 
 server <- function(input, output, session) {
   rv <- reactiveValues(
-    obj = NULL
+    obj = NULL,
+    result = NULL
   )
-  rv$obj <- mod_open_dataset_server("qf_file")
+  
+ 
+    rv$result <- open_dataset_server("qf_file")
+  
+  observeEvent(req(rv$result()), {
+    rv$obj <- rv$result()
+  })
+  
   
   output$res <- renderText({
-    rv$obj()
-    paste0('Names of the datasets: ', names(rv$obj()))
+    rv$obj
+    print(rv$obj)
+    paste0('Names of the datasets: ', names(rv$obj))
   })
 }
 

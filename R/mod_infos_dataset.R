@@ -31,7 +31,7 @@ mod_infos_dataset_ui <- function(id){
     
     fluidRow(
       column(width=6,
-             mod_format_DT_ui(ns('dt')),
+             format_DT_ui(ns('dt')),
              br(),
              br(),
              
@@ -73,7 +73,7 @@ mod_infos_dataset_server <- function(id, obj){
         return(NULL)
       }
       
-      mod_format_DT_server('samples_tab',
+      format_DT_server('samples_tab',
                            data = reactive({
                              req(obj())
                              data.frame(colData(obj()))
@@ -88,7 +88,7 @@ mod_infos_dataset_server <- function(id, obj){
     })
     
     
-    mod_format_DT_server('dt',
+    format_DT_server('dt',
                          data = reactive({req(Get_QFeatures_summary())
                            tibble::as_tibble(Get_QFeatures_summary())}),
                          full_style=reactive({NULL}))
@@ -102,7 +102,7 @@ mod_infos_dataset_server <- function(id, obj){
       
       tagList(
         h4("Samples"),
-        mod_format_DT_ui(ns('samples_tab'))
+        format_DT_ui(ns('samples_tab'))
       )
       
     })
@@ -251,11 +251,11 @@ mod_infos_dataset_server <- function(id, obj){
         
         data <- experiments(obj())[[input$selectInputSE]]
         print(class(data))
-        mod_format_DT_server('dt2',
+        format_DT_server('dt2',
                              data = reactive({Get_SE_Summary()}),
                              full_style=reactive({NULL}))
         tagList(
-          mod_format_DT_ui(ns('dt2')),
+          format_DT_ui(ns('dt2')),
           br(),
           uiOutput(ns('info'))
         )

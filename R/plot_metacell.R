@@ -294,7 +294,7 @@ metacellHisto_HC <- function(vizData,
 #' The lines have been sorted in order to vizualize easily the different
 #' number of missing values. A white square is plotted for missing values.
 #' 
-#' @param vizData An object of class `VizData`.
+#' @param obj An object of class `DaparViz`.
 #' @param pattern xxx
 #'
 #' @return A heatmap
@@ -304,13 +304,13 @@ metacellHisto_HC <- function(vizData,
 #' @export
 #'
 #'
-wrapper.mvImage <- function(vizData, 
+wrapper.mvImage <- function(obj, 
                             pattern = "Missing MEC") {
-  stopifnot(inherits(vizData, 'VizData'))
+  stopifnot(inherits(obj, 'VizData'))
   
-  indices <- which(apply(match.metacell(vizData@metacell, 
+  indices <- which(apply(match.metacell(obj@metacell, 
                                         pattern, 
-                                        level = vizData@type),
+                                        level = obj@type),
                          1, sum) > 0)
   
   if (length(indices) == 0) {
@@ -325,7 +325,7 @@ wrapper.mvImage <- function(vizData,
     return(NULL)
   }
   
-  mvImage(vizData@qdata[indices, ], vizData@conds)
+  mvImage(obj@qdata[indices, ], obj@conds)
 }
 
 

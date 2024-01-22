@@ -1,12 +1,10 @@
-# Module UI
-
 #' @title   mod_open_demo_dataset_ui and mod_open_demo_dataset_server
 #' 
 #' @description  A shiny Module.
 #' 
 #' @param id xxx
 #' 
-#' @name mod_open_demo_dataset
+#' @name open_demo_dataset
 #'
 #' @keywords internal
 #' 
@@ -16,11 +14,11 @@ NULL
 
 
 #' @export 
-#' @rdname mod_open_demo_dataset
+#' @rdname open_demo_dataset
 #' @importFrom shiny NS tagList 
 #' @import shinyjs
 #' 
-mod_open_demoDataset_ui <- function(id){
+open_demoDataset_ui <- function(id){
   ns <- NS(id)
   tagList(
     shinyjs::useShinyjs(),
@@ -35,9 +33,8 @@ mod_open_demoDataset_ui <- function(id){
   )
 }
 
-# Module Server
 
-#' @rdname mod_open_demo_dataset
+#' @rdname open_demo_dataset
 #' 
 #' @export
 #' @keywords internal
@@ -47,7 +44,7 @@ mod_open_demoDataset_ui <- function(id){
 #' @importFrom shinyjs info
 #' @import QFeatures
 #' 
-mod_open_demoDataset_server <- function(id){
+open_demoDataset_server <- function(id){
   
   moduleServer(id, function(input, output, session){
     ns <- session$ns
@@ -121,7 +118,7 @@ library(shinyjs)
 
 ui <- fluidPage(
   tagList(
-    mod_open_demoDataset_ui("demo"),
+    open_demoDataset_ui("demo"),
     htmlOutput('res')
   )
 )
@@ -131,7 +128,7 @@ server <- function(input, output, session) {
     obj = NULL
   )
   
-  rv$obj <- mod_open_demoDataset_server("demo")
+  rv$obj <- open_demoDataset_server("demo")
   
   output$res <- renderText({
     rv$obj()

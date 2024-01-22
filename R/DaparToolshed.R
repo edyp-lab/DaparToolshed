@@ -6,7 +6,6 @@
 #' @section DaparToolshed functions:
 #' The foo functions ...
 #'
-#' @docType package
 #' @name DaparToolshed
 NULL
 #> NULL

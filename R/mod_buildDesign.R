@@ -59,7 +59,7 @@ mod_buildDesign_ui <- function(id) {
 
 
 #' @rdname build-design
-#' 
+#' @export
 mod_buildDesign_server <- function(id,
                                    quantCols) {
   pkgs.require("shinyBS")

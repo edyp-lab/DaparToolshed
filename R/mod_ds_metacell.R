@@ -66,6 +66,7 @@ mod_ds_metacell_server <- function(id,
             
             observe({
               req(vizData())
+              
               rv$type <- vizData()@type
             })
               
