@@ -133,14 +133,13 @@ PipelineProtein_Normalization_server <- function(id,
           includeMarkdown(file)
         else
           p('No Description available'),
-        
+
+        # Insert validation button
+        uiOutput(ns('Description_btn_validate_ui')),
         
         # Used to show some information about the dataset which is loaded
         # This function must be provided by the package of the process module
-        uiOutput(ns('datasetDescription_ui')),
-        
-        # Insert validation button
-        uiOutput(ns('Description_btn_validate_ui'))
+        uiOutput(ns('datasetDescription_ui'))
       )
     })
     
