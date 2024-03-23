@@ -17,7 +17,7 @@ mod_ds_metacell_ui(id)
 
 mod_ds_metacell_server(
   id,
-  vizData = reactive({
+  obj = reactive({
      NULL
  }),
   pal = reactive({
@@ -64,7 +64,7 @@ hc_mvTypePlot2(vizData, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 \arguments{
 \item{id}{xxx}
 
-\item{vizData}{xxx}
+\item{obj}{An object of class \code{DaparViz}.}
 
 \item{pal}{The different colors for conditions}
 
@@ -72,14 +72,14 @@ hc_mvTypePlot2(vizData, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 
 \item{showSelect}{xxx}
 
+\item{vizData}{xxx}
+
 \item{detailed}{'value' or 'percent'}
 
 \item{indLegend}{xxx}
 
 \item{showValues}{A logical that indicates whether numeric values should be
 drawn above the bars.}
-
-\item{obj}{An object of class \code{DaparViz}.}
 
 \item{typeofMV}{xxx}
 
@@ -137,8 +137,8 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   data(Exp1_R25_pept, package='DaparToolshedData')
-  vList <- convert2viz(Exp1_R25_pept)
-  vData <- vList@ll.vizData[[1]]
+  vList <- convert2Viz(Exp1_R25_pept)
+  vData <- vList[[1]]
   
   rv <- reactiveValues(
     tags = NULL
@@ -148,7 +148,7 @@ server <- function(input, output) {
    
   observe({
     rv$tags <- mod_ds_metacell_server('test',
-                           vizData = reactive({vData}),
+                           obj = reactive({vData}),
                            pal = reactive({NULL}),
                            pattern = reactive({pattern}),
                            showSelect = reactive({is.null(pattern)})

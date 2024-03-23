@@ -5,18 +5,19 @@
 #' It is called by the nav_pipeline module of the package MagellanNTK
 #' This documentation is for developpers who want to create their own pipelines nor processes
 #' to be managed with `MagellanNTK`.
+#' 
+#' @name module_PiplelineProtein
 
 
-
-#' @rdname example_module_PiplelineA
+#' @rdname module_PiplelineProtein
 #' @export
 #' 
 PipelineA_conf <- function(){
 Config(
   mode = 'pipeline',
-  fullname = 'PipelineA',
-  steps = c('Process 1', 'Process 2', 'Process 3'),
-  mandatory = c(FALSE, FALSE, TRUE)
+  fullname = 'PipelineProtein',
+  steps = c('Filtering', 'Normalization', 'Imputation', 'HypothesisTest'),
+  mandatory = c(FALSE, FALSE, FALSE, TRUE)
 )
 }
 
@@ -24,7 +25,7 @@ Config(
 
 #' @param id xxx
 #'
-#' @rdname example_pipelineA
+#' @rdname module_PiplelineProtein
 #'
 #' @author Samuel Wieczorek
 #' 
@@ -54,7 +55,7 @@ PipelineA_ui <- function(id){
 #' 
 #' @param current.pos xxx
 #' 
-#' @rdname example_pipelineA
+#' @rdname module_PiplelineProtein
 #'
 #' @import shiny
 #' @importFrom stats setNames

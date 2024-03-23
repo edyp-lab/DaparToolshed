@@ -5,25 +5,23 @@
 
 #' @export
 #' 
-PipelineB_Description_conf <- function(){
+PipelineA_Description_conf <- function(){
   Config(
-    fullname = 'PipelineB_Description',
-    mode = 'process',
-    steps = '',
-    mandatory = ''
-  )
+    fullname = 'PipelineA_Description',
+    mode = 'process'
+    )
 }
 
 
 
 #' @export
-PipelineB_Description_ui <- function(id){
+PipelineA_Description_ui <- function(id){
   ns <- NS(id)
 }
 
 
 #' @export
-PipelineB_Description_server <- function(id,
+PipelineA_Description_server <- function(id,
     dataIn = reactive({NULL}),
     steps.enabled = reactive({NULL}),
     remoteReset = reactive({FALSE}),
@@ -50,24 +48,19 @@ PipelineB_Description_server <- function(id,
     
     # Insert necessary code which is hosted by MagellanNTK
     # DO NOT MODIFY THIS LINE
-    eval(
-      str2expression(
-        Get_Workflow_Core_Code(
-          mode = 'process',
-          name = id,
-          w.names = names(widgets.default.values),
-          rv.custom.names = names(rv.custom.default.values)
-          
-        )
-      )
+    core.code <- Get_Workflow_Core_Code(
+      mode = 'process',
+      name = id,
+      w.names = names(widgets.default.values),
+      rv.custom.names = names(rv.custom.default.values)
     )
     
-    #rv.custom <- reactiveValues()
-    #rv.custom.default.values <- list()
+    eval(str2expression(core.code))
     
     ###### ------------------- Code for Description (step 0) -------------------------    #####
     output$Description <- renderUI({
-      file <- paste0(path, '/md/', name, '.md')
+      md.file <- paste0(id, '.md')
+      file <- file.path('md', md.file)
       tagList(
         if (file.exists(file))
           includeMarkdown(file)
@@ -93,7 +86,7 @@ PipelineB_Description_server <- function(id,
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
                              "Start",
-                             class = GlobalSettings$btn_success_color)
+                             class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     

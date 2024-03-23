@@ -220,7 +220,7 @@ mod_buildDesign_server <- function(id,
       if ((sum(rv$hot$Condition == "") == 0) && (input$convert_reorder != "None")) {
         tags$div(
           tags$div(style = "display:inline-block;",
-            actionButton(ns("btn_checkConds"), "Check conditions", class = GlobalSettings$actionBtnClass)
+            actionButton(ns("btn_checkConds"), "Check conditions", class = actionBtnClass)
           ),
           tags$div(style = "display:inline-block;",
             if (!is.null(rv$conditionsChecked)) {
@@ -391,7 +391,7 @@ mod_buildDesign_server <- function(id,
       
       tags$div(
         tags$div(style = "display:inline-block;",
-          actionButton(ns("btn_checkDesign"), "Check design", class = GlobalSettings$actionBtnClass)
+          actionButton(ns("btn_checkDesign"), "Check design", class = actionBtnClass)
         ),
         tags$div(
           style = "display:inline-block;",

@@ -7,7 +7,7 @@
 #' @name metacell-plots
 #' 
 #' @param id xxx
-#' @param vizData xxx
+#' @param obj An instance of the class `DaparViz`
 #' @param pal xxx
 #' @param pattern xxx
 #' @param showSelect xxx 
@@ -44,7 +44,7 @@ mod_ds_metacell_ui <- function(id) {
 #' @export
 #' 
 mod_ds_metacell_server <- function(id,
-                                   vizData = reactive({NULL}),
+                                   obj = reactive({NULL}),
                                    pal = reactive({NULL}), 
                                    pattern = reactive({NULL}),
                                    showSelect = reactive({TRUE})) {
@@ -65,9 +65,9 @@ mod_ds_metacell_server <- function(id,
             )
             
             observe({
-              req(vizData())
+              req(obj())
               
-              rv$type <- vizData()@type
+              rv$type <- obj()@type
             })
               
               tmp.tags <- mod_metacell_tree_server('tree', type = reactive({rv$type}))
@@ -79,13 +79,13 @@ mod_ds_metacell_server <- function(id,
             
             
             output$chooseTagUI <- renderUI({
-                req(vizData())
+                req(obj())
                 mod_metacell_tree_ui(ns('tree'))
              })
 
             output$qMetacell <- renderHighchart({
                tmp <- NULL
-               tmp <- metacellHisto_HC(vizData = vizData(),
+               tmp <- metacellHisto_HC(obj(),
                                        pattern = rv$chooseTag,
                                        pal = pal()
                                         )
@@ -97,9 +97,9 @@ mod_ds_metacell_server <- function(id,
             output$qMetacell_per_lines <- renderHighchart({
               tmp <- NULL
                tmp <-
-                  metacellPerLinesHisto_HC(vizData = vizData(),
+                  metacellPerLinesHisto_HC(obj(),
                                            pattern = rv$chooseTag,
-                                           indLegend = seq.int(from = 2, to = length(vizData()@conds))
+                                           indLegend = seq.int(from = 2, to = length(obj()@conds))
                                            )
                 # future(createPNGFromWidget(tmp,pattern))
                 # })
@@ -112,7 +112,7 @@ mod_ds_metacell_server <- function(id,
                tmp <- NULL
                 # isolate({
                 # pattern <- paste0(GetCurrentObjName(),".MVplot2")
-                tmp <- metacellPerLinesHistoPerCondition_HC(vizData = vizData(),
+                tmp <- metacellPerLinesHistoPerCondition_HC(obj(),
                                                             pattern = rv$chooseTag,
                                                             pal = pal()
                                                             )

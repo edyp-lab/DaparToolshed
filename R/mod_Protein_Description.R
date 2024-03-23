@@ -38,7 +38,7 @@ mod_Protein_Description_ui <- function(id) {
 #'
 #' @export
 #' @importFrom shinyjs disabled
-#' @importFrom MagellanNTK GlobalSettings Timestamp
+#' @importFrom MagellanNTK Timestamp
 #' @return NA
 #'
 #' @rdname pipeline-protein
@@ -122,13 +122,13 @@ mod_Protein_Description_server <- function(id,
                 if (isTRUE(rv$steps.enabled["Description"])) {
                     actionButton(ns("btn_validate_Description"),
                         paste0("Start ", config@name),
-                        class = MagellanNTK::GlobalSettings$btn_success_color
+                        class = btn_success_color
                     )
                 } else {
                     shinyjs::disabled(
                         actionButton(ns("btn_validate_Description"),
                             paste0("Start ", config@name),
-                            class = MagellanNTK::GlobalSettings$btn_success_color
+                            class = btn_success_color
                         )
                     )
                 }

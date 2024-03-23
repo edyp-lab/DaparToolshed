@@ -27,8 +27,7 @@ open_demoDataset_ui <- function(id){
       uiOutput(ns("linktoDemoPdf")),
       shinyjs::disabled(
           actionButton(ns('load_dataset_btn'), 'Load dataset', 
-                       class= MagellanNTK::GlobalSettings$actionBtnClass)),
-      mod_infos_dataset_ui(ns("mod_info"))
+                       class= actionBtnClass))
     )
   )
 }
@@ -91,8 +90,7 @@ open_demoDataset_server <- function(id){
     
     observeEvent(input$load_dataset_btn, {
       rv.openDemo$dataOut <- rv.openDemo$dataRead
-      mod_infos_dataset_server("mod_info", reactive({rv.openDemo$dataRead}))
-    })
+     })
     
     output$linktoDemoPdf <- renderUI({
       req(input$demoDataset)

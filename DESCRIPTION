@@ -96,6 +96,7 @@ Collate:
     plots_compare_assays.R
     mod_mv_imputation.R
     plot_metacell.R
+    normalize.R
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R
@@ -140,7 +141,7 @@ Collate:
     mod_open_demoDataset.R
     get_pep_prot_cc.R
     agregation.R
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false

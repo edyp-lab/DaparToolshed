@@ -70,7 +70,7 @@ dl_server <- function(id,
                 list(
                   ns("downloadDatacsv"), 
                   "csv",
-                  class = if (type=='Button') GlobalSettings$actionBtnClass else ''
+                  class = if (type=='Button') actionBtnClass else ''
                 )
         )
       })
@@ -83,7 +83,7 @@ dl_server <- function(id,
                 list(
                   ns("downloadDataExcel"), 
                   "xlsx",
-                  class = if (type=='Button') GlobalSettings$actionBtnClass else ''
+                  class = if (type=='Button') actionBtnClass else ''
                 )
         )
       })
@@ -95,7 +95,7 @@ dl_server <- function(id,
                 list(
                   ns("downloadDataRData"), 
                   "RData",
-                  class = if (type=='Button') GlobalSettings$actionBtnClass else ''
+                  class = if (type=='Button') actionBtnClass else ''
                 )
         )
       })

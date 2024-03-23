@@ -31,7 +31,7 @@ mod_Protein_Normalization_ui <- function(id) {
 #' @author Samuel Wieczorek
 #'
 #' @importFrom shinyjs disabled
-#' @importFrom MagellanNTK Timestamp GlobalSettings
+#' @importFrom MagellanNTK Timestamp
 #'
 #' @export
 #'
@@ -374,14 +374,14 @@ mod_Protein_Normalization_server <- function(id,
             if (rv$steps.enabled["Normalization"]) {
                 actionButton(ns("perform.normalization"),
                     "Perform normalization",
-                    class = MagellanNTK::GlobalSettings$actionBtnClass,
+                    class = actionBtnClass,
                     width = "170px"
                 )
             } else {
                 shinyjs::disabled(
                     actionButton(ns("perform.normalization"),
                         "Perform normalization",
-                        class = GlobalSettings$actionBtnClass,
+                        class = actionBtnClass,
                         width = "170px"
                     )
                 )
@@ -663,14 +663,14 @@ mod_Protein_Normalization_server <- function(id,
                 if (rv$steps.enabled["Save"]) {
                     actionButton(ns(paste0("valid.normalization", name)),
                         "Save normalization",
-                        class = MagellanNTK::GlobalSettings$btn_success_color,
+                        class = btn_success_color,
                         width = "170px"
                     )
                 } else {
                     shinyjs::disabled(
                         actionButton(ns(paste0("valid.normalization", name)),
                             "Save normalization",
-                            class = MagellanNTK::GlobalSettings$btn_success_color,
+                            class = btn_success_color,
                             width = "170px"
                         )
                     )

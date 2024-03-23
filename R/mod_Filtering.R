@@ -190,7 +190,7 @@ mod_Filtering_server <- function(id,
         output$Description_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Description_btn_validate"),
                 "Start",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Description"])
         })
@@ -322,7 +322,7 @@ mod_Filtering_server <- function(id,
         output$Quantimetadatafiltering_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Quantimetadatafiltering_btn_validate"),
                 "Perform qMetacell filtering",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
 
             cond <- length(rv.custom$funFilter$ll.fun()) > 0
@@ -475,7 +475,7 @@ mod_Filtering_server <- function(id,
         output$Variablefiltering_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Variablefiltering_btn_validate"),
                 "Perform",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             
             .cond1 <- rv$steps.enabled["Variablefiltering"]
@@ -571,7 +571,7 @@ mod_Filtering_server <- function(id,
         output$Save_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Save_btn_validate"),
                 "Perform",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Save"])
         })

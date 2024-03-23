@@ -10,14 +10,15 @@
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_mod_helpPopover.R
+#' @examplesIf interactive()
+#' shiny::runApp(mod_helpPopover("myTitle", "my content"))
 NULL
 
 
 
 #' @rdname mod_helpPopover
 #' @export
-#' @importFrom shiny NS tagList
+#' @importFrom shiny NS tagList div uiOutput fluidPage
 #' @importFrom shinyjs inlineCSS useShinyjs
 #'
 mod_helpPopover_ui <- function(id) {
@@ -43,7 +44,8 @@ mod_helpPopover_ui <- function(id) {
 }
 
 
-#'
+#' @importFrom shinyBS bsTooltip
+#' @importFrom shiny moduleServer HTML renderUI 
 #' @rdname mod_helpPopover
 #'
 #' @export
@@ -69,6 +71,23 @@ mod_helpPopover_server <- function(id, title, content) {
             )
         })
     })
+}
+
+
+
+#' @export
+#' @importFrom shiny shinyApp
+#' 
+mod_helpPopover <- function(title, content){
+
+ui <- mod_helpPopover_ui("help")
+
+server <- function(input, output, session) {
+  mod_helpPopover_server("help", title, content)
+}
+
+app <- shinyApp(ui = ui, server = server)
+
 }
 
 

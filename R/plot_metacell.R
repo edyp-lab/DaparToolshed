@@ -32,7 +32,7 @@ metacellPerLinesHisto_HC <- function(vizData,
                                      detailed = FALSE,
                                      indLegend = "auto",
                                      showValues = FALSE) {
-  stopifnot(inherits(vizData, "VizData"))
+  stopifnot(inherits(vizData, "DaparViz"))
   
   if(missing(pattern) || is.null(pattern))
     return(NULL)
@@ -108,7 +108,7 @@ metacellPerLinesHistoPerCondition_HC <- function(vizData,
                                                  indLegend = "auto",
                                                  showValues = FALSE,
                                                  pal = NULL) {
-  stopifnot(inherits(vizData, "VizData"))
+  stopifnot(inherits(vizData, "DaparViz"))
   
   if(missing(pattern) || is.null(pattern))
     return(NULL)
@@ -220,7 +220,7 @@ metacellHisto_HC <- function(vizData,
                              indLegend = "auto",
                              showValues = FALSE,
                              pal = NULL) {
-  stopifnot(inherits(vizData, "VizData"))
+  stopifnot(inherits(vizData, "DaparViz"))
   
   if(missing(pattern) || is.null(pattern))
     return(NULL)
@@ -306,7 +306,7 @@ metacellHisto_HC <- function(vizData,
 #'
 wrapper.mvImage <- function(obj, 
                             pattern = "Missing MEC") {
-  stopifnot(inherits(obj, 'VizData'))
+  stopifnot(inherits(obj, 'DaparViz'))
   
   indices <- which(apply(match.metacell(obj@metacell, 
                                         pattern, 

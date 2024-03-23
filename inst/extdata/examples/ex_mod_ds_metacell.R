@@ -9,8 +9,8 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   data(Exp1_R25_pept, package='DaparToolshedData')
-  vList <- convert2viz(Exp1_R25_pept)
-  vData <- vList@ll.vizData[[1]]
+  vList <- convert2Viz(Exp1_R25_pept)
+  vData <- vList[[1]]
   
   rv <- reactiveValues(
     tags = NULL
@@ -20,7 +20,7 @@ server <- function(input, output) {
    
   observe({
     rv$tags <- mod_ds_metacell_server('test',
-                           vizData = reactive({vData}),
+                           obj = reactive({vData}),
                            pal = reactive({NULL}),
                            pattern = reactive({pattern}),
                            showSelect = reactive({is.null(pattern)})

@@ -1,4 +1,4 @@
-#' @title   mod_infos_dataset_ui and mod_infos_dataset_server
+#' @title   infos_dataset_ui and infos_dataset_server
 #' @description  A shiny Module.
 #' 
 #' @param id shiny id
@@ -7,7 +7,7 @@
 #' @return A shiny app
 #'
 #' 
-#' @name mod_infos_dataset
+#' @name infos_dataset
 #' 
 #' @example inst/extdata/examples/ex_mod_infos_dataset.R
 
@@ -17,13 +17,13 @@ NULL
 
 #'
 #'
-#' @rdname mod_infos_dataset
+#' @rdname infos_dataset
 #'
 #' @export 
 #' @importFrom shiny NS tagList 
 #' @import QFeatures
 #' 
-mod_infos_dataset_ui <- function(id){
+infos_dataset_ui <- function(id){
   ns <- NS(id)
   
   tagList(
@@ -33,8 +33,6 @@ mod_infos_dataset_ui <- function(id){
       column(width=6,
              format_DT_ui(ns('dt')),
              br(),
-             br(),
-             
              uiOutput(ns('samples_tab_ui'))
              
       ),
@@ -52,14 +50,15 @@ mod_infos_dataset_ui <- function(id){
 
 # Module Server
 
-#' @rdname mod_infos_dataset
+#' @rdname infos_dataset
 #' @export
 #' 
 #' @keywords internal
 #' 
 #' @importFrom tibble as_tibble
 #' 
-mod_infos_dataset_server <- function(id, obj){
+infos_dataset_server <- function(id, 
+                                 obj = reactive({NULL})){
   
   
   moduleServer(id, function(input, output, session){

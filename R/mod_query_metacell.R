@@ -250,7 +250,7 @@ mod_query_metacell_server <- function(id,
                 req(rv.widgets$MetacellTag)
                 req(rv.widgets$MetacellFilters != "None")
                 
-                actionButton(ns('buildQueryBtn'), 'Apply', class = MagellanNTK::GlobalSettings$actionBtnClass)
+                actionButton(ns('buildQueryBtn'), 'Apply', class = actionBtnClass)
             })
             
             output$show_example_ui <- renderUI({

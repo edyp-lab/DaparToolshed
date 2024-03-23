@@ -4,7 +4,10 @@
 #' @description xxx
 #' @name mod_convert
 #' @author Samuel Wieczorek 
-#' @example inst/extdata/examples/ex_mod_convert.R
+#' @examples
+#' shiny::runApp(MagellanNTK::workflowApp("Convert", dataIn = data.frame())
+#' 
+#' 
 NULL
 
 redBtnClass <- "btn-danger"
@@ -170,7 +173,7 @@ Convert_server <- function(id,
     
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"), "Start",
-                             class = GlobalSettings$btn_success_color)
+                             class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -366,7 +369,7 @@ Convert_server <- function(id,
     
     output$SelectFile_btn_validate_ui <- renderUI({
       widget <-  actionButton(ns("SelectFile_btn_validate"), "Perform",
-                              class = GlobalSettings$btn_success_color)
+                              class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['SelectFile'] )
       
     })
@@ -524,7 +527,7 @@ Convert_server <- function(id,
     
     output$DataId_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("DataId_btn_validate"), "Perform",
-                             class = GlobalSettings$btn_success_color)
+                             class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['DataId'] )
     })
     
@@ -636,7 +639,7 @@ Convert_server <- function(id,
     output$ExpandFeatData_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("ExpandFeatData_btn_validate"),
                              "Perform",
-                             class = GlobalSettings$btn_success_color)
+                             class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['ExpandFeatData'] )
     })
     
@@ -672,7 +675,7 @@ Convert_server <- function(id,
     
     output$Design_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Design_btn_validate"), "Perform",
-                             class = GlobalSettings$btn_success_color)
+                             class = btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Design'] )
     })
     
@@ -708,7 +711,7 @@ Convert_server <- function(id,
     })
     
     output$Save_btn_validate_ui <- renderUI({
-      toggleWidget(actionButton(ns("Save_btn_validate"), "Create QFeatures dataset", class = GlobalSettings$btn_success_color),
+      toggleWidget(actionButton(ns("Save_btn_validate"), "Create QFeatures dataset", class = btn_success_color),
                    rv$steps.enabled['Save']
       )
     })
@@ -779,7 +782,7 @@ convert_server <- function(id){
 
 #---------------------------------------------------------------
 
-
+convert_toto <- function(){
 ui <- fluidPage(convert_ui("test_convert"))
 
 server <- function(input, output) {
@@ -793,13 +796,8 @@ server <- function(input, output) {
   })
 }
 
-shinyApp(ui, server)
-
-
-#--------------------------------------------
-library(MagellanNTK)
-
-run_workflow("Convert", dataIn = data.frame())
+app <- shinyApp(ui, server)
+}
 
 
 #--------------------------------------------------

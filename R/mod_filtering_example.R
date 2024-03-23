@@ -39,7 +39,7 @@ mod_filterExample_ui <- function(id) {
     fluidPage(
         actionButton(ns("show_filtering_example"),
             "Preview filtering",
-            class = MagellanNTK::GlobalSettings$actionBtnClass
+            class = actionBtnClass
         ),
         shinyBS::bsModal(ns("example_modal"),
             title = "Example preview of the filtering result.",

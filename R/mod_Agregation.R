@@ -65,7 +65,7 @@ mod_Agregation_ui <- function(id) {
 #' @rdname mod_agregation
 #' @importFrom shinyjs toggle hidden
 #' @importFrom utils write.table
-#' @importFrom MagellanNTK Timestamp toggleWidget GlobalSettings Get_Workflow_Core_Code
+#' @importFrom MagellanNTK Timestamp toggleWidget Get_Workflow_Core_Code
 #'
 #' @export
 #'
@@ -171,7 +171,7 @@ mod_Agregation_server <- function(id,
         output$Description_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Description_btn_validate"),
                 "Start",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Description"])
         })
@@ -217,7 +217,7 @@ mod_Agregation_server <- function(id,
         output$Filterpeptides_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Filterpeptides_btn_validate"),
                 "Run",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Filterpeptides"])
         })
@@ -340,7 +340,7 @@ mod_Agregation_server <- function(id,
                 uiOutput(ns("ObserverAggregationDone")),
                 shinyjs::hidden(downloadButton(ns("downloadAggregationIssues"),
                     "Download issues",
-                    class = GlobalSettings$actionBtnClass
+                    class = actionBtnClass
                 )),
                 hr(),
                 DT::DTOutput(ns("aggregationStats"))
@@ -436,7 +436,7 @@ mod_Agregation_server <- function(id,
         output$Agregation_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Agregation_btn_validate"),
                 "Perform",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Agregation"])
         })
@@ -508,7 +508,7 @@ mod_Agregation_server <- function(id,
         output$Save_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Save_btn_validate"),
                 "Perform",
-                class = MagellanNTK::GlobalSettings$btn_success_color
+                class = btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Save"])
         })
