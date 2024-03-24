@@ -204,7 +204,7 @@ PipelineProtein_Normalization_server <- function(id,
               uiOutput(ns("Normalization_varReduction_ui"))
             ),
             div(style = .style,
-              omXplore::plots_tracking_ui(ns("tracker")),
+              plots_tracking_ui(ns("tracker")),
                 hidden(uiOutput(ns("Normalization_sync_ui"))
               )
             ),
@@ -326,12 +326,21 @@ PipelineProtein_Normalization_server <- function(id,
       .meths <- normalizeMethods('withTracking')
       trackAvailable <- rv.widgets$Normalization_method %in% .meths
       shinyjs::toggle("Normalization_sync_ui",
-        condition = cond && trackAvailable
-      )
+        condition = cond && trackAvailable)
+      
+      shinyjs::toggle("Normalization_sync_ui",
+        condition = cond && trackAvailable)
+      
     })
     
 
     omXplore_density_server("density_plot", 
+      obj = reactive({rv$dataIn}),
+      i = reactive({length(rv$dataIn)})
+    )
+    
+    
+    selectProt <- plots_tracking_server("tracker",
       obj = reactive({rv$dataIn}),
       i = reactive({length(rv$dataIn)})
     )
@@ -343,10 +352,6 @@ PipelineProtein_Normalization_server <- function(id,
     )
     
 
-    selectProt <- plots_tracking_server("tracker",
-      obj = reactive({rv$dataIn}),
-      i = reactive({length(rv$dataIn)})
-    )
     
     
     mod_helpPopover_server(id = 'quantile_help',
