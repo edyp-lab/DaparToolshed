@@ -1,6 +1,17 @@
-## Overview of 'Normalization' from 'Pipeline Protein'
-
-
+---
+title: "Worfkflow Protein - Normalization"
+output:
+    BiocStyle::html_document:
+        highlight: tango
+        toc: false
+        number_sections: yes
+vignette: >
+    %\VignetteIndexEntry{Worfkflow Protein - Normalization}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+link-citations: true
+date: 23 mars 2024
+---
 
 # Methods available
 

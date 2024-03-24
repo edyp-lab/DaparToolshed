@@ -1,29 +1,3 @@
-#' @title List normalization methods with tracking option
-#'
-#' @param withTracking xxx
-#'
-#' @name normalizeMethods.dapar
-#'
-#' @export
-#' 
-#' @return xxx
-#' 
-#' @examples 
-#' normalizeMethods()
-#'
-normalizeMethods <- function(target = 'all'){
-  switch(target,
-    all =  c("GlobalQuantileAlignment", "SumByColumns", "QuantileCentering",
-    "MeanCentering", "LOESS",  "vsn"),
-  withTracking =  c("SumByColumns", "QuantileCentering", "MeanCentering"),
-  withoutTracking = c("GlobalQuantileAlignment", "SumByColumns",
-      "QuantileCentering", "MeanCentering", "LOESS", "vsn")
-  )
-
-}
-
-
-
 
 #' @title Normalisation
 #' 
@@ -41,57 +15,119 @@ normalizeMethods <- function(target = 'all'){
 #' by condition.
 #'
 #'
-#' @param obj An object of class \code{MSnSet}.
+#' @param obj An object of class `QFeatures`.
+#' @param i An integer which designs the assay in the obj
 #' @param method One of the following : "GlobalQuantileAlignment" (for
 #' normalizations of important magnitude), "SumByColumns", "QuantileCentering",
 #' "Mean Centering", "LOESS" and "vsn".
-#'
 #' @param withTracking xxx
+#' @param ... Additional parameters
+#' 
+#' @title Normalisation QuantileCentering
 #'
-#' @param ... xxx
-#' @author Samuel Wieczorek, Thomas Burger, Helene Borges
+#' @param qData xxx
+#'
+#' @param conds xxx
+#'
+#' @param type "overall" (shift all the sample distributions at once) or
+#' "within conditions" (shift the sample distributions within each
+#' condition at a time).
+#'
+#' @param subset.norm A vector of index indicating rows to be used for
+#' normalization
+#'
+#' @param quantile A float that corresponds to the quantile used to
+#' align the data.
+#' 
+#' @param scaling A boolean that indicates if the variance of the data have to
+#' be forced to unit (variance reduction) or not.
+#' 
+#' @param span xxx
+#' 
+#' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
+#' Enora Fremy
 #'
 #' @examples
+#' 
+#' ## Get the list of methods
+#' normalizeMethods()
+#' 
+#' 
 #' data(Exp1_R25_pept, package="DAPARdata")
+#' 
 #' conds <- Biobase::pData(Exp1_R25_pept)$Condition
 #' obj <- wrapper.normalizeD(
 #'     obj = Exp1_R25_pept, method = "QuantileCentering",
 #'     conds = conds, type = "within conditions"
 #' )
-#'
-#' @export
 #' 
+#' data(Exp1_R25_pept, package="DAPARdata")
+#' qData <- Biobase::exprs(Exp1_R25_pept)
+#' 
+#' normalized <- GlobalQuantileAlignment(qData)
+#' 
+#' normalized <- SumByColumns(qData, conds,
+#'     type = "within conditions",
+#'     subset.norm = seq_len(10)
+#' )
+#' 
+#' normalized <- QuantileCentering(Biobase::exprs(obj), conds,
+#' type = "within conditions", subset.norm = seq_len(10)
+#' )
+#' 
+#' normalized <- MeanCentering(qData, conds, type = "overall")
+#' 
+#' normalized <- vsn(qData, conds, type = "overall")
+#' 
+#' normalized <- LOESS(qData, conds, type = "overall")
+#'
+#' @name normalization_methods
+#'
+NULL
+
+
+#' @rdname normalization_methods
+#' @export
 #' @return xxx
 #'
-wrapper.normalizeD <- function(obj, method, withTracking = FALSE, ...) {
-  if (!(method %in% normalizeMethods.dapar(withTracking))) {
+normalizeMethods <- function(target = 'all'){
+  switch(target,
+    all =  c("GlobalQuantileAlignment", "SumByColumns", "QuantileCentering",
+    "MeanCentering", "LOESS",  "vsn"),
+  withTracking =  c("SumByColumns", "QuantileCentering", "MeanCentering"),
+  withoutTracking = c("GlobalQuantileAlignment", "SumByColumns",
+      "QuantileCentering", "MeanCentering", "LOESS", "vsn")
+  )
+
+}
+
+
+
+
+#' @export
+#' @return xxx
+#' @rdname normalization_methods
+#'
+wrapper.normalizeD <- function(obj, 
+  i,
+  method, 
+  withTracking = FALSE, 
+  ...) {
+  if (!(method %in% normalizeMethods())) {
     stop("'method' is not correct")
   }
+
+  conds <- colData(obj)[, "Condition"]
+  qData <- assay(obj[[i]])
   
-  conds <- Biobase::pData(obj)[, "Condition"]
-  qData <- Biobase::exprs(obj)
-  
-  switch(method,
-    GlobalQuantileAlignment = {
-      Biobase::exprs(obj) <- GlobalQuantileAlignment(qData)
-    },
-    SumByColumns = {
-      Biobase::exprs(obj) <- SumByColumns(qData, ...)
-    },
-    QuantileCentering = {
-      Biobase::exprs(obj) <- QuantileCentering(qData, ...)
-    },
-    MeanCentering = {
-      Biobase::exprs(obj) <- MeanCentering(qData, ...)
-    },
-    vsn = {
-      Biobase::exprs(obj) <- vsn(qData, ...)
-    },
-    # data must be log-expressed.
-    LOESS = {
-      Biobase::exprs(obj) <- LOESS(qData, ...)
-    }
-  )
+  assay(obj[[i]]) <- switch(method,
+    GlobalQuantileAlignment = GlobalQuantileAlignment(qData),
+    SumByColumns = SumByColumns(qData, ...),
+    QuantileCentering = QuantileCentering(qData, ...),
+    MeanCentering = MeanCentering(qData, ...),
+    vsn = vsn(qData, ...),
+    LOESS = LOESS(qData, ...) # data must be log-expressed.
+    )
   
   return(obj)
 }
@@ -99,61 +135,24 @@ wrapper.normalizeD <- function(obj, method, withTracking = FALSE, ...) {
 
 
 
-
-#' @title Normalisation GlobalQuantileAlignement
-#'
-#' @param qData xxxx
-#'
 #' @return A normalized numeric matrix
-#'
-#' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
-#' Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
-#' normalized <- GlobalQuantileAlignment(qData)
-#'
 #' @export
-#'
+#' @rdname normalization_methods
 #'
 GlobalQuantileAlignment <- function(qData) {
   
   pkgs.require('preprocessCore')
   
-  e <- preprocessCore::normalize.quantiles(as.matrix(qData))
+  e <- preprocessCore::normalize.quantiles(as.matrix(qData),
+    keep.names = TRUE)
   return(e)
 }
 
 
-#' @title Normalisation SumByColumns
-#'
-#' @param qData xxxx
-#'
-#' @param conds xxx
-#'
-#' @param type  Available values are "overall" (shift all the
-#' sample distributions at once) or "within conditions" (shift the sample
-#' distributions within each condition at a time).
-#'
-#' @param subset.norm A vector of index indicating rows to be used for
-#' normalization
-#'
+
 #' @return A normalized numeric matrix
-#'
-#' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
-#' Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
-#' normalized <- SumByColumns(qData, conds,
-#'     type = "within conditions",
-#'     subset.norm = seq_len(10)
-#' )
-#'
 #' @export
+#' @rdname normalization_methods
 #'
 SumByColumns <- function(qData,
   conds = NULL,
@@ -216,36 +215,11 @@ SumByColumns <- function(qData,
 }
 
 
-#' @title Normalisation QuantileCentering
-#'
-#' @param qData xxx
-#'
-#' @param conds xxx
-#'
-#' @param type "overall" (shift all the sample distributions at once) or
-#' "within conditions" (shift the sample distributions within each
-#' condition at a time).
-#'
-#' @param subset.norm A vector of index indicating rows to be used for
-#' normalization
-#'
-#' @param quantile A float that corresponds to the quantile used to
-#' align the data.
-#'
+
+
 #' @return A normalized numeric matrix
-#'
-#' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
-#' Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' obj <- Exp1_R25_pept
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
-#' normalized <- QuantileCentering(Biobase::exprs(obj), conds,
-#' type = "within conditions", subset.norm = seq_len(10)
-#' )
-#'
 #' @export
+#' @rdname normalization_methods
 #'
 QuantileCentering <- function(qData,
   conds = NULL,
@@ -304,34 +278,9 @@ QuantileCentering <- function(qData,
 }
 
 
-#' @title Normalisation MeanCentering
-#'
-#' @param qData xxx
-#'
-#' @param conds xxx
-#'
-#' @param type "overall" (shift all the sample distributions at once) or
-#' "within conditions" (shift the sample distributions within each
-#' condition at a time).
-#'
-#' @param subset.norm A vector of index indicating rows to be used for
-#' normalization
-#'
-#' @param scaling A boolean that indicates if the variance of the data have to
-#' be forced to unit (variance reduction) or not.
-#'
 #' @return A normalized numeric matrix
-#'
-#' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
-#' Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
-#' normalized <- MeanCentering(qData, conds, type = "overall")
-#'
 #' @export
+#' @rdname normalization_methods
 #'
 MeanCentering <- function(qData,
   conds,
@@ -378,31 +327,13 @@ MeanCentering <- function(qData,
   return(qData)
 }
 
-
-#' @title Normalisation vsn
-#'
-#' @param qData A numeric matrix.
-#'
-#' @param conds xxx
-#'
-#' @param type "overall" (shift all the sample distributions at once) or
-#' "within conditions" (shift the sample distributions within each condition
-#' at a time).
-#'
 #' @return A normalized numeric matrix
-#'
-#' @author Thomas Burger, Helene Borges, Anais Courtier, Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
-#' normalized <- vsn(qData, conds, type = "overall")
-#'
 #' @export
+#' @rdname normalization_methods
 #'
-#'
-vsn <- function(qData, conds, type = NULL) {
+vsn <- function(qData, 
+  conds, 
+  type = NULL) {
   pkgs.require('vsn')
   
   
@@ -424,31 +355,15 @@ vsn <- function(qData, conds, type = NULL) {
 }
 
 
-#' @title Normalisation LOESS
-#'
-#' @param qData A numeric matrix.
-#'
-#' @param conds xxx
-#'
-#' @param type "overall" (shift all the sample distributions at once) or
-#' "within conditions" (shift the sample distributions within each
-#' condition at a time).
-#'
-#' @param span xxx
-#'
 #' @return A normalized numeric matrix
-#'
-#' @author Thomas Burger, Helene Borges, Anais Courtier, Enora Fremy
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
-#' normalized <- LOESS(qData, conds, type = "overall")
-#'
 #' @export
+#' 
+#' @rdname normalization_methods
 #'
-LOESS <- function(qData, conds, type = "overall", span = 0.7) {
+LOESS <- function(qData, 
+  conds, 
+  type = "overall", 
+  span = 0.7) {
   
   pkgs.require('limma')
   
