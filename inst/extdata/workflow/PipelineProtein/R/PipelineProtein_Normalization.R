@@ -375,51 +375,7 @@ PipelineProtein_Normalization_server <- function(id,
     })
     # >>> END: Definition of the widgets
     
-    
-    
-    
-    
-    
-    # GetIndicesOfSelectedProteins_ForNorm <- reactive({
-    #   req(rv.norm$selectProt())
-    #   
-    #   ind <- NULL
-    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
-    #   tt <- rv.norm$selectProt()$type
-    #   switch(tt,
-    #     ProteinList = ind <- rv.norm$selectProt()$list.indices,
-    #     Random = ind <- rv.norm$selectProt()$rand.indices,
-    #     Column = ind <- rv.norm$selectProt()$col.indices
-    #   )
-    #   if (length(ind) == 0) {
-    #     ind <- NULL
-    #   }
-    #   ind
-    # })
-    
-    # GetIndicesOfSelectedProteins <- reactive({
-    #   req(rv.norm$trackFromBoxplot())
-    #   
-    #   ind <- NULL
-    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
-    #   tt <- rv.norm$trackFromBoxplot()$type
-    #   switch(tt,
-    #     ProteinList = ind <- rv.norm$trackFromBoxplot()$list.indices,
-    #     Random = ind <- rv.norm$trackFromBoxplot()$rand.indices,
-    #     Column = ind <- rv.norm$trackFromBoxplot()$col.indices
-    #   )
-    #   if (length(ind) == 0) {
-    #     ind <- NULL
-    #   }
-    #   
-    #   ind
-    # })
-    
-    
-    
-    
-    
-    
+
     
     observeEvent(input$Normalization_btn_validate, {
       # Do some stuff 
@@ -455,7 +411,7 @@ PipelineProtein_Normalization_server <- function(id,
               type = rv.widgets$Normalization_type,
               cond = .conds,
               quantile = quant,
-              subset.norm = GetIndicesOfSelectedProteins_ForNorm()
+              subset.norm = selectProt()
             )
           },
           MeanCentering = {
@@ -466,7 +422,7 @@ PipelineProtein_Normalization_server <- function(id,
               conds = .conds,
               type = rv.widgets$Normalization_type,
               scaling = rv.widgets$Normalization_varReduction,
-              subset.norm = GetIndicesOfSelectedProteins_ForNorm()
+              subset.norm = selectProt()
             )
           },
           SumByColumns = {
@@ -476,7 +432,7 @@ PipelineProtein_Normalization_server <- function(id,
               method = rv.widgets$Normalization_method,
               conds = .conds,
               type = rv.widgets$Normalization_type,
-              subset.norm = GetIndicesOfSelectedProteins_ForNorm()
+              subset.norm = selectProt()
             )
           },
           LOESS = {
