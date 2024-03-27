@@ -10,7 +10,8 @@
 #' 
 #' @return A shiny app
 #'
-#' @example inst/extdata/examples/ex_mod_inputGroup.R
+#' @examplesIf interactive()
+#' shiny::runApp(mod_inputGroup())
 #' 
 NULL
 
@@ -176,14 +177,19 @@ mod_inputGroup_server <- function(id, df, quantCols) {
 
 
 
-ui <- mod_inputGroup_ui("help")
+#' @export
+#' @rdname mod_inputGroup
+#' 
+mod_inputGroup <- function(){
+
+ui <- mod_inputGroup_ui("inputGroup")
 
 server <- function(input, output, session) {
   
   file <- system.file('extdata/Exp1_R25_prot.txt', package='DaparToolshedData')
   df <- read.csv(file, header = TRUE, sep = "\t", as.is = T)
   
-  toto <- mod_inputGroup_server("help", df, colnames(df)[49:54])
+  toto <- mod_inputGroup_server("inputGroup", df, colnames(df)[49:54])
     
   observeEvent(toto(), ignoreNULL=FALSE,{
     print(toto())
@@ -191,4 +197,5 @@ server <- function(input, output, session) {
   
 }
 
-shinyApp(ui = ui, server = server)
+app <- shinyApp(ui = ui, server = server)
+}

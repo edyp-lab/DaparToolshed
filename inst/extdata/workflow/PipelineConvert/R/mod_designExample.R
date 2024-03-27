@@ -10,13 +10,16 @@
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_design_example.R
-#'
+#' @examplesIf interactive()
+#' shiny::runApp(mod_designExample(2))
+#' 
 NULL
 
 options(shiny.reactlog=TRUE) 
 
 #' @rdname design-example
+#' @importFrom rhandsontable rHandsontableOutput
+#' @importFrom shiny NS
 #' @import shiny
 #' @export
 #' 
@@ -36,7 +39,7 @@ mod_designExample_server <- function(id, n){
   
   
   example_2 <- function(){
-    pal <- ExtendPalette(3, listBrewerPalettes[1])
+    pal <- ExtendPalette(3, "Dark2")
     color_rend <- paste0("function (instance, td, row, col, prop, value,
       cellProperties) {
       Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -62,7 +65,7 @@ mod_designExample_server <- function(id, n){
   
   
   example_3 <- function(){
-    pal <- ExtendPalette(3, listBrewerPalettes[1])
+    pal <- ExtendPalette(3, "Dark2")
     
     color_rend <- paste0(
       "function (instance, td, row, col, prop, value, cellProperties) {
@@ -126,5 +129,21 @@ mod_designExample_server <- function(id, n){
   })
   
   })
+}
+
+
+
+
+
+#' @rdname design-example
+#' @export
+mod_designExample <- function(n = 1) {
+  
+  ui <- mod_designExample_ui('designEx')
+  server <- function(input, output, session) {
+    mod_designExample_server('designEx', n)
+  }
+  
+  app <-shinyApp(ui, server)
 }
 

@@ -162,7 +162,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
 
 
-        mod_helpPopover_server("tag_help",
+        mod_popover_for_help_server("tag_help",
             title = "Nature of data to filter",
             content = "Define xxx"
         )
@@ -184,7 +184,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
     threshold are deleted.</li>
     </ul>"
 
-        mod_helpPopover_server("filterScope_help",
+        mod_popover_for_help_server("filterScope_help",
             title = "Scope",
             content = HTML(help.txt1)
         )
@@ -192,7 +192,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
         output$chooseTag_ui <- renderUI({
             widget <- selectInput(ns("tag"),
-                mod_helpPopover_ui(ns("tag_help")),
+                mod_popover_for_help_ui(ns("tag_help")),
                 choices = list_tags(),
                 selected = rv.widgets$tag,
                 width = "200px"
@@ -213,7 +213,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         output$chooseScope_ui <- renderUI({
             req(rv.widgets$tag != "None")
             widget <- selectInput(ns("scope"),
-                mod_helpPopover_ui(ns("filterScope_help")),
+                mod_popover_for_help_ui(ns("filterScope_help")),
                 choices = c(
                     "None" = "None",
                     "Whole Line" = "WholeLine",
@@ -232,13 +232,13 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
         output$qMetacellScope_widgets_set2_ui <- renderUI({
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
-            mod_helpPopover_server("chooseValPercent_help",
+            mod_popover_for_help_server("chooseValPercent_help",
                 title = paste("#/% of values to ", rv.widgets$keepRemove),
                 content = "Define xxx"
             )
 
             widget1 <- radioButtons(ns("valPercent"),
-                mod_helpPopover_ui(ns("chooseValPercent_help")),
+                mod_popover_for_help_ui(ns("chooseValPercent_help")),
                 choices = val_vs_percent(),
                 selected = rv.widgets$valPercent
             )
@@ -267,13 +267,13 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         output$value_ui <- renderUI({
             req(rv.widgets$valPercent == "Count")
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
-            mod_helpPopover_server("value_th_help",
+            mod_popover_for_help_server("value_th_help",
                 title = "Count threshold",
                 content = "Define xxx"
             )
 
             widget <- selectInput(ns("valueTh"),
-                mod_helpPopover_ui(ns("value_th_help")),
+                mod_popover_for_help_ui(ns("value_th_help")),
                 choices = getListNbValuesInLines(
                     object = obj(),
                     conds = conds(),
@@ -283,7 +283,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 width = "150px"
             )
             tagList(
-                mod_helpPopover_ui(ns("keepVal_help")),
+                mod_popover_for_help_ui(ns("keepVal_help")),
                 MagellanNTK::toggleWidget(widget, is.enabled())
             )
         })
@@ -292,12 +292,12 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
             req(rv.widgets$valPercent == "Percentage")
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
 
-            mod_helpPopover_server("percentTh_help",
+            mod_popover_for_help_server("percentTh_help",
                 title = "Percentage threshold",
                 content = "Define xxx"
             )
             widget <- sliderInput(ns("percentTh"),
-                mod_helpPopover_ui(ns("percentTh_help")),
+                mod_popover_for_help_ui(ns("percentTh_help")),
                 min = 0,
                 max = 100,
                 step = 1,
@@ -305,7 +305,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 width = "250px"
             )
             tagList(
-                mod_helpPopover_ui(ns("keepVal_percent_help")),
+                mod_popover_for_help_ui(ns("keepVal_percent_help")),
                 MagellanNTK::toggleWidget(widget, is.enabled())
             )
         })

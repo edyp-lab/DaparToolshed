@@ -24,10 +24,9 @@
 #' 
 #' @return NA
 #'
-#' @examples
-#' if (interactive()) {
-#'     run_workflow("Filtering", verbose = TRUE)
-#' }
+#' @examplesIf
+#' shiny::runApp(workflowApp("Filtering", verbose = TRUE)
+#' 
 NULL
 
 

@@ -100,6 +100,7 @@ Collate:
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R
+    default_funcs.R
     example-data.R
     metacell.R
     DaparToolshed_aggregate.R
@@ -121,22 +122,16 @@ Collate:
     mod_Protein_Description.R
     mod_Protein_Filtering.R
     mod_Protein_Normalization.R
-    mod_convert.R
     mod_format_DT.R
-    mod_helpPopover.R
     mod_settings.R
     zzz.R
     mod_tracker.R
     mod_metacell_tree.R
     mod_query_metacell.R
-    mod_buildDesign.R
-    mod_designExample.R
     mod_infos_dataset.R
     design_utils.R
-    mod_inputGroup.R
     palette.R
     shinyValue.R
-    mod_dl.R
     mod_open_dataset.R
     mod_open_demoDataset.R
     get_pep_prot_cc.R

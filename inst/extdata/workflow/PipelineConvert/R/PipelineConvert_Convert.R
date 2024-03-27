@@ -4,8 +4,10 @@
 #' @description xxx
 #' @name mod_convert
 #' @author Samuel Wieczorek 
-#' @examples
-#' shiny::runApp(MagellanNTK::workflowApp("Convert", dataIn = data.frame())
+#' @examplesIf interactive()
+#' source("~/GitHub/DaparToolshed/inst/extdata/workflow/WorkflowConvert/R/Workflowconvert_Convert.R")
+#' path <- system.file('extdata/workflow/WorkflowConvert', package = 'DaparToolshed')
+#' shiny::runApp(MagellanNTK::workflowApp("Convert")
 #' 
 #' 
 NULL
@@ -15,21 +17,23 @@ PrevNextBtnClass <- "btn-info"
 btn_success_color <- 'info'
 
 optionsBtnClass <- "info"
-options(shiny.fullstacktrace = T)
+options(shiny.fullstacktrace = TRUE)
 
 #' @rdname mod_convert
 #' @export
 #' 
-Convert_conf <- function(){
+PipelineConvert_Convert_conf <- function(){
   # This list contains the basic configuration of the process
   Config(
-    fullname = 'Convert',
+    fullname = 'PipelineConvert_Convert',
     # Define the type of module
     mode = 'process',
     # List of all steps of the process
     steps = c('Select File', 'Data Id', 'Exp and Feat Data', 'Design'),
     # A vector of boolean indicating if the steps are mandatory or not.
-    mandatory = c(TRUE, TRUE, TRUE, TRUE)
+    mandatory = c(TRUE, TRUE, TRUE, TRUE),
+    dirpath_to_md_file = system.file('extdata/workflow/PipelineConvert/md/', package='DaparToolshed')
+    
   )
 }
 
@@ -50,7 +54,7 @@ Convert_conf <- function(){
 #'
 #' @return NA
 #'
-Convert_ui <- function(id) {
+PipelineConvert_Convert_ui <- function(id) {
   ns <- NS(id)
 }
 
@@ -74,16 +78,14 @@ Convert_ui <- function(id) {
 #'
 #' @return NA
 #'
-Convert_server <- function(id,
-                           dataIn = NULL,
+PipelineConvert_Convert_server <- function(id,
+                           dataIn = reactive({NULL}),
                            steps.enabled = reactive({NULL}),
                            remoteReset = reactive({FALSE}),
                            steps.status = reactive({NULL}),
-                           current.pos = reactive({1}),
-                           verbose = FALSE
+                           current.pos = reactive({1})
 ) {
   
-  do.call(eval(parse(text='DaparToolshed::Convert_conf')), args = list())
   pkgs.require("openxlsx")
   
   
@@ -130,7 +132,8 @@ Convert_server <- function(id,
     # #Define local reactive variables
     rv.convert <- reactiveValues(
       tab = NULL,
-      design = NULL
+      design = NULL,
+      inputGroup = NULL
     )
     
     # >>>
@@ -140,27 +143,22 @@ Convert_server <- function(id,
     
     output$Description <- renderUI({
       md.file <- paste0(id, '.md')
-      path <- system.file('extdata/workflow/PipelineA/md', package='MagellanNTK')
-      file <- file.path(path, md.file)
+      file <- file.path(config@dirpath_to_md_file, md.file)
       
       tagList(
         # In this example, the md file is found in the extdata/module_examples directory
         # but with a real app, it should be provided by the package which
         # contains the UI for the different steps of the process module.
-        # system.file(xxx)
-        
-        if (file.exists(file))
-          includeMarkdown(file)
-        else
-          p('No Description available'),
-        
+        uiOutput(ns('Description_btn_validate_ui')),
         
         # Used to show some information about the dataset which is loaded
         # This function must be provided by the package of the process module
         uiOutput(ns('datasetDescription_ui')),
         
-        # Insert validation button
-        uiOutput(ns('Description_btn_validate_ui'))
+        if (file.exists(file))
+          includeMarkdown(file)
+        else
+          p('No Description available')
       )
     })
     
@@ -173,16 +171,16 @@ Convert_server <- function(id,
     
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"), "Start",
-                             class = btn_success_color)
+                             class = 'info')
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
     
     observeEvent(input$Description_btn_validate, {
-      rv$dataIn <- dataIn
+      rv$dataIn <- dataIn()
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -232,16 +230,18 @@ Convert_server <- function(id,
       req(rv.widgets$SelectFile_software)
       fluidRow(
         column(width = 2,
-               mod_helpPopover_server("help_chooseFile",
-                                      title = "Data file",
-                                      content = "Select one (.txt, .csv, .tsv, .xls, .xlsx) file."
+               mod_popover_for_help_server(
+                 "help_chooseFile",
+                 title = "Data file",
+                 content = "Select one (.txt, .csv, .tsv, .xls, .xlsx) file."
                ),
-               mod_helpPopover_ui(ns("help_chooseFile"))
+               mod_popover_for_help_ui(ns("help_chooseFile"))
         ),
         column(width = 10,
-               widget <- fileInput(ns("SelectFile_file"), "",
-                                   multiple = FALSE,
-                                   accept = c(".txt", ".tsv", ".csv", ".xls", ".xlsx")
+               widget <- fileInput(
+                 ns("SelectFile_file"), "",
+                 multiple = FALSE,
+                 accept = c(".txt", ".tsv", ".csv", ".xls", ".xlsx")
                )
         )
       )
@@ -369,7 +369,7 @@ Convert_server <- function(id,
     
     output$SelectFile_btn_validate_ui <- renderUI({
       widget <-  actionButton(ns("SelectFile_btn_validate"), "Perform",
-                              class = btn_success_color)
+                              class = 'info')
       toggleWidget(widget, rv$steps.enabled['SelectFile'] )
       
     })
@@ -385,7 +385,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['SelectFile'] <- global$VALIDATED
+      rv$steps.status['SelectFile'] <- stepStatus$VALIDATED
       
     })
     
@@ -426,13 +426,13 @@ Convert_server <- function(id,
       #.choices <- setNames(nm = c("AutoID", colnames(rv.convert$tab)))
       #names(.choices) <- c("Auto ID", colnames(rv.convert$tab))
       
-      mod_helpPopover_server("help_convertIdType",
+      mod_popover_for_help_server("help_convertIdType",
                              title = "ID definition",
                              content = "If you choose the automatic ID, 
                             Prostar will build an index.")
       
       tagList(
-        mod_helpPopover_ui(ns("help_convertIdType")),
+        mod_popover_for_help_ui(ns("help_convertIdType")),
         widget <- selectInput(ns("DataId_datasetId"), 
                               label = "", 
                               choices = setNames(nm = c("AutoID", colnames(rv.convert$tab))),
@@ -478,13 +478,13 @@ Convert_server <- function(id,
       req(rv.convert$tab)
       req(rv.widgets$SelectFile_typeOfData != "protein")
       
-      mod_helpPopover_server("help_ProteinId",
+      mod_popover_for_help_server("help_ProteinId",
                              title = "Select protein IDs",
                              content = "Select the column containing the parent protein IDs."
       )
       
       tagList(
-        mod_helpPopover_ui(ns("help_ProteinId")),
+        mod_popover_for_help_ui(ns("help_ProteinId")),
         widget <- selectInput(ns("DataId_parentProteinId"),
                               "",
                               choices = setNames(nm =c("", colnames(rv.convert$tab))),
@@ -527,7 +527,7 @@ Convert_server <- function(id,
     
     output$DataId_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("DataId_btn_validate"), "Perform",
-                             class = btn_success_color)
+                             class = 'info')
       toggleWidget(widget, rv$steps.enabled['DataId'] )
     })
     
@@ -541,7 +541,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['DataId'] <- global$VALIDATED
+      rv$steps.status['DataId'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -594,22 +594,22 @@ Convert_server <- function(id,
       req(as.logical(rv.widgets$ExpandFeatData_idMethod))
       rv.widgets$ExpandFeatData_quantCols
       
-      mod_inputGroup_server('inputGroup', 
-                            df = rv.convert$tab, 
-                            quantCols = rv.widgets$ExpandFeatData_quantCols)
-      mod_inputGroup_ui(ns('inputGroup'))
+      # rv.convert$inputGroup <- mod_inputGroup_server('inputGroup', 
+      #                       df = rv.convert$tab, 
+      #                       quantCols = rv.widgets$ExpandFeatData_quantCols)
+      # mod_inputGroup_ui(ns('inputGroup'))
     })
     
     output$ExpandFeatData_quantCols_ui <- renderUI({
       req(rv.convert$tab)
       
-      mod_helpPopover_server("help_ExpandFeatData_quantCols",
+      mod_popover_for_help_server("help_ExpandFeatData_quantCols",
                              title = "Quantitative data",
                              content = "Select the columns that are quantitation values
             by clicking in the field below.")
       
       tagList(
-        mod_helpPopover_ui(ns("help_ExpandFeatData_quantCols")),
+        mod_popover_for_help_ui(ns("help_ExpandFeatData_quantCols")),
         widget <- selectInput(ns("ExpandFeatData_quantCols"),
                               label = "",
                               choices = setNames(nm=colnames(rv.convert$tab)),
@@ -639,7 +639,7 @@ Convert_server <- function(id,
     output$ExpandFeatData_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("ExpandFeatData_btn_validate"),
                              "Perform",
-                             class = btn_success_color)
+                             class = 'info')
       toggleWidget(widget, rv$steps.enabled['ExpandFeatData'] )
     })
     
@@ -653,7 +653,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['ExpandFeatData'] <- global$VALIDATED
+      rv$steps.status['ExpandFeatData'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for Design UI---------------
@@ -662,7 +662,7 @@ Convert_server <- function(id,
     ############# STEP 4 ######################
     output$Design <- renderUI({
       
-      #browser()
+      browser()
       rv.convert$design <- mod_buildDesign_server("designEx", rv.widgets$ExpandFeatData_quantCols)
       
       wellPanel(
@@ -675,7 +675,7 @@ Convert_server <- function(id,
     
     output$Design_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Design_btn_validate"), "Perform",
-                             class = btn_success_color)
+                             class = 'info')
       toggleWidget(widget, rv$steps.enabled['Design'] )
     })
     
@@ -691,7 +691,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Design'] <- global$VALIDATED
+      rv$steps.status['Design'] <- stepStatus$VALIDATED
     })
     
     # >>> START ------------- Code for Save UI---------------
@@ -706,12 +706,14 @@ Convert_server <- function(id,
     
     output$mod_dl_ui <- renderUI({
       req(config@mode == 'process')
-      req(rv$steps.status['Save'] == global$VALIDATED)
+      req(rv$steps.status['Save'] == stepStatus$VALIDATED)
       dl_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_ui <- renderUI({
-      toggleWidget(actionButton(ns("Save_btn_validate"), "Create QFeatures dataset", class = btn_success_color),
+      toggleWidget(actionButton(ns("Save_btn_validate"), 
+        "Create QFeatures dataset", 
+        class = 'info'),
                    rv$steps.enabled['Save']
       )
     })
@@ -731,9 +733,9 @@ Convert_server <- function(id,
                                    software = rv.widgets$SelectFile_software)
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
-      dataOut$trigger <- MagellanNTK::Timestamp()
+      dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
       dl_server('createQuickLink', 
                 dataIn = reactive({rv$dataIn}),
                 extension = c('csv', 'xlsx', 'RData'))
@@ -747,57 +749,3 @@ Convert_server <- function(id,
   })
 }
 
-
-
-
-#' @export
-#!
-convert_ui <- function(id) {
-  ns <- NS(id)
-  fluidPage(
-  MagellanNTK::nav_ui(ns('Convert'))
-)
-}
-
-
-#----------------------------------------------------------------------
-#' @export
-convert_server <- function(id){
-  
-  moduleServer(id, function(input, output, session){
-    ns <- session$ns
-    
-  dataOut <- reactiveVal()
-  
- #observe({
-    dataOut(
-      MagellanNTK::nav_server('Convert',
-                              dataIn = reactive({data.frame()}))
-    )
-  #})
- 
-  return(reactive({dataOut()$dataOut()$value}))
-})
-}
-
-#---------------------------------------------------------------
-
-convert_toto <- function(){
-ui <- fluidPage(convert_ui("test_convert"))
-
-server <- function(input, output) {
-  #dataOut <- reactiveVal()
-  #rv <- reactive
-  
-  dataOut <- convert_server("test_convert")
-  
-  observeEvent(dataOut(), {
-    print(dataOut())
-  })
-}
-
-app <- shinyApp(ui, server)
-}
-
-
-#--------------------------------------------------

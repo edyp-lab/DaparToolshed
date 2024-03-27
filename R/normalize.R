@@ -102,39 +102,6 @@ normalizeMethods <- function(target = 'all'){
 }
 
 
-
-
-#' @export
-#' @return xxx
-#' @rdname normalization_methods
-#'
-wrapper.normalizeD <- function(obj, 
-  i,
-  method, 
-  withTracking = FALSE, 
-  ...) {
-  if (!(method %in% normalizeMethods())) {
-    stop("'method' is not correct")
-  }
-
-  conds <- colData(obj)[, "Condition"]
-  qData <- assay(obj[[i]])
-  
-  assay(obj[[i]]) <- switch(method,
-    GlobalQuantileAlignment = GlobalQuantileAlignment(qData),
-    SumByColumns = SumByColumns(qData, ...),
-    QuantileCentering = QuantileCentering(qData, ...),
-    MeanCentering = MeanCentering(qData, ...),
-    vsn = vsn(qData, ...),
-    LOESS = LOESS(qData, ...) # data must be log-expressed.
-    )
-  
-  return(obj)
-}
-
-
-
-
 #' @return A normalized numeric matrix
 #' @export
 #' @rdname normalization_methods

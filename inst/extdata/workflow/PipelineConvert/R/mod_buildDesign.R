@@ -10,7 +10,8 @@
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_build_design.R
+#' @exampleIf interactive()
+#' shiny::runApp(mod_buildDesign(letters[seq(6)]))
 #'
 NULL
 
@@ -220,7 +221,8 @@ mod_buildDesign_server <- function(id,
       if ((sum(rv$hot$Condition == "") == 0) && (input$convert_reorder != "None")) {
         tags$div(
           tags$div(style = "display:inline-block;",
-            actionButton(ns("btn_checkConds"), "Check conditions", class = actionBtnClass)
+            actionButton(ns("btn_checkConds"), "Check conditions", 
+              class = "btn btn-primary")
           ),
           tags$div(style = "display:inline-block;",
             if (!is.null(rv$conditionsChecked)) {
@@ -391,7 +393,8 @@ mod_buildDesign_server <- function(id,
       
       tags$div(
         tags$div(style = "display:inline-block;",
-          actionButton(ns("btn_checkDesign"), "Check design", class = actionBtnClass)
+          actionButton(ns("btn_checkDesign"), "Check design", 
+            class = "btn btn-primary")
         ),
         tags$div(
           style = "display:inline-block;",
@@ -459,6 +462,21 @@ mod_buildDesign_server <- function(id,
 
 
 
+
+
+
+
+#' @rdname build-design
+#' @export
+mod_buildDesign <- function(quantCols) {
+  
+  ui <- mod_buildDesign_ui('buildDesign')
+  server <- function(input, output, session) {
+    mod_buildDesign_server('buildDesign', quantCols)
+  }
+  
+  app <- shinyApp(ui, server)
+}
 
 
 

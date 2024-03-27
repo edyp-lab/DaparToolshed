@@ -37,6 +37,10 @@ Convert_conf <- function(){
 #' @param id shiny id
 #'
 #' @rdname mod_convert
+#' 
+#' @examplesIf 
+#' shiny::runApp(workflowApp("Convert", dataIn = data.frame())
+#' 
 #'
 #' @keywords internal
 #' @export
@@ -63,6 +67,7 @@ Convert_ui <- function(id) {
 #' @import QFeatures
 #' @importFrom shinyalert shinyalert
 #' @importFrom shinyjs disabled
+#' @importFrom MagellanNTK mod_popover_for_help_ui mod_popover_for_help_server
 #'
 #' @export
 #'
@@ -231,11 +236,11 @@ Convert_server <- function(id,
       req(rv.widgets$SelectFile_software)
       fluidRow(
         column(width = 2,
-               mod_helpPopover_server("help_chooseFile",
+               mod_popover_for_help_server("help_chooseFile",
                                       title = "Data file",
                                       content = "Select one (.txt, .csv, .tsv, .xls, .xlsx) file."
                ),
-               mod_helpPopover_ui(ns("help_chooseFile"))
+               mod_popover_for_help_ui(ns("help_chooseFile"))
         ),
         column(width = 10,
                widget <- fileInput(ns("SelectFile_file"), "",
@@ -425,13 +430,13 @@ Convert_server <- function(id,
       #.choices <- setNames(nm = c("AutoID", colnames(rv.convert$tab)))
       #names(.choices) <- c("Auto ID", colnames(rv.convert$tab))
       
-      mod_helpPopover_server("help_convertIdType",
+      mod_popover_for_help_server("help_convertIdType",
                              title = "ID definition",
                              content = "If you choose the automatic ID, 
                             Prostar will build an index.")
       
       tagList(
-        mod_helpPopover_ui(ns("help_convertIdType")),
+        mod_popover_for_help_ui(ns("help_convertIdType")),
         widget <- selectInput(ns("DataId_datasetId"), 
                               label = "", 
                               choices = setNames(nm = c("AutoID", colnames(rv.convert$tab))),
@@ -477,13 +482,13 @@ Convert_server <- function(id,
       req(rv.convert$tab)
       req(rv.widgets$SelectFile_typeOfData != "protein")
       
-      mod_helpPopover_server("help_ProteinId",
+      mod_popover_for_help_server("help_ProteinId",
                              title = "Select protein IDs",
                              content = "Select the column containing the parent protein IDs."
       )
       
       tagList(
-        mod_helpPopover_ui(ns("help_ProteinId")),
+        mod_popover_for_help_ui(ns("help_ProteinId")),
         widget <- selectInput(ns("DataId_parentProteinId"),
                     "",
                     choices = setNames(nm =c("", colnames(rv.convert$tab))),
@@ -600,13 +605,13 @@ Convert_server <- function(id,
     output$ExpandFeatData_quantCols_ui <- renderUI({
       req(rv.convert$tab)
       
-      mod_helpPopover_server("help_ExpandFeatData_quantCols",
+      mod_popover_for_help_server("help_ExpandFeatData_quantCols",
                               title = "Quantitative data",
                               content = "Select the columns that are quantitation values
             by clicking in the field below.")
       
       tagList(
-        mod_helpPopover_ui(ns("help_ExpandFeatData_quantCols")),
+        mod_popover_for_help_ui(ns("help_ExpandFeatData_quantCols")),
         widget <- selectInput(ns("ExpandFeatData_quantCols"),
                     label = "",
                     choices = setNames(nm=colnames(rv.convert$tab)),
@@ -747,8 +752,4 @@ Convert_server <- function(id,
 
 
 
-#--------------------------------------------------
 
-library(MagellanNTK)
-
-run_workflow("Convert", dataIn = data.frame())

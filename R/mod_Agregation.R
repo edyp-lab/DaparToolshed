@@ -27,10 +27,9 @@
 #' 
 #' @return NA
 #'
-#' @examples
-#' if (interactive()) {
-#'     run_workflow("Agregation", verbose = TRUE)
-#' }
+#' @examplesIf
+#' shiny::runApp(workflowApp("Agregation", verbose = TRUE))
+#' 
 NULL
 
 

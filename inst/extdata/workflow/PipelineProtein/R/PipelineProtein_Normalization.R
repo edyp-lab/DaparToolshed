@@ -110,7 +110,8 @@ PipelineProtein_Normalization_server <- function(id,
       trackFromBoxplot = NULL,
       selectProt = NULL,
       resetTracking = FALSE,
-      sync = FALSE
+      sync = FALSE,
+      tmp.dataset = NULL
     )
     
     
@@ -274,7 +275,7 @@ PipelineProtein_Normalization_server <- function(id,
       req(rv.widgets$Normalization_method == "QuantileCentering")
       widget <- textInput(
         ns('Normalization_quantile'),
-        mod_helpPopover_ui(ns('quantile_help')),
+        mod_popover_for_help_ui(ns('quantile_help')),
         value = rv.widgets$Normalization_quantile,
         width = '100px')
       toggleWidget(widget, rv$steps.enabled['Normalization'] )
@@ -354,7 +355,7 @@ PipelineProtein_Normalization_server <- function(id,
 
     
     
-    mod_helpPopover_server(id = 'quantile_help',
+    mod_popover_for_help_server(id = 'quantile_help',
       title = "Normalization quantile",
       content = "lower limit/noise (quantile = 0.15),
             median (quantile = 0.5). Min value=0, max value=1"
@@ -375,7 +376,51 @@ PipelineProtein_Normalization_server <- function(id,
     })
     # >>> END: Definition of the widgets
     
-
+    
+    
+    
+    
+    
+    # GetIndicesOfSelectedProteins_ForNorm <- reactive({
+    #   req(rv.norm$selectProt())
+    #   
+    #   ind <- NULL
+    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
+    #   tt <- rv.norm$selectProt()$type
+    #   switch(tt,
+    #     ProteinList = ind <- rv.norm$selectProt()$list.indices,
+    #     Random = ind <- rv.norm$selectProt()$rand.indices,
+    #     Column = ind <- rv.norm$selectProt()$col.indices
+    #   )
+    #   if (length(ind) == 0) {
+    #     ind <- NULL
+    #   }
+    #   ind
+    # })
+    
+    # GetIndicesOfSelectedProteins <- reactive({
+    #   req(rv.norm$trackFromBoxplot())
+    #   
+    #   ind <- NULL
+    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
+    #   tt <- rv.norm$trackFromBoxplot()$type
+    #   switch(tt,
+    #     ProteinList = ind <- rv.norm$trackFromBoxplot()$list.indices,
+    #     Random = ind <- rv.norm$trackFromBoxplot()$rand.indices,
+    #     Column = ind <- rv.norm$trackFromBoxplot()$col.indices
+    #   )
+    #   if (length(ind) == 0) {
+    #     ind <- NULL
+    #   }
+    #   
+    #   ind
+    # })
+    
+    
+    
+    
+    
+    
     
     observeEvent(input$Normalization_btn_validate, {
       # Do some stuff 
@@ -387,38 +432,34 @@ PipelineProtein_Normalization_server <- function(id,
       .tmp <- NULL
       .tmp <- try({
         .conds <- colData(rv$dataIn)[, "Condition"]
-        
+        qdata <- SummarizedExperiment::assay(rv$dataIn[[length(rv$dataIn)]])
+        type <- metadata(rv$dataIn[[length(rv$dataIn)]])$typeDataset
+
         switch(rv.widgets$Normalization_method,
           
           G_noneStr = rv$dataIn[[length(rv$dataIn)]],
           
           GlobalQuantileAlignment = {
-            wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method
-            )
+            GlobalQuantileAlignment(qdata)
           },
+          
           QuantileCentering = {
             quant <- NA
             if (!is.null(rv.widgets$Normalization_quantile)) {
               quant <- as.numeric(rv.widgets$Normalization_quantile)
             }
-            wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method,
-              type = rv.widgets$Normalization_type,
-              cond = .conds,
-              quantile = quant,
-              subset.norm = selectProt()
-            )
+            
+            QuantileCentering(
+              qData = qdata, 
+              conds = .conds, 
+              type = type, 
+              subset.norm = selectProt(), 
+              quantile = quant)
           },
+          
           MeanCentering = {
-            wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method,
+            MeanCentering(
+              qData = qdata, 
               conds = .conds,
               type = rv.widgets$Normalization_type,
               scaling = rv.widgets$Normalization_varReduction,
@@ -426,20 +467,16 @@ PipelineProtein_Normalization_server <- function(id,
             )
           },
           SumByColumns = {
-            wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method,
+            SumByColumns(
+              qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type,
               subset.norm = selectProt()
             )
           },
           LOESS = {
-            wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method,
+            LOESS(
+              qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type,
               span = as.numeric(rv.widgets$Normalization_spanLOESS)
@@ -447,9 +484,7 @@ PipelineProtein_Normalization_server <- function(id,
           },
           vsn = {
             wrapper.normalizeD(
-              obj = rv$dataIn,
-              i = length(rv$dataIn),
-              method = rv.widgets$Normalization_method,
+              qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type
             )
@@ -465,18 +500,15 @@ PipelineProtein_Normalization_server <- function(id,
           text = .tmp[[1]],
           type = 'error' )
       } else {
-        # DO NOT MODIFY THE THREE FOLLOWINF LINES
+        # DO NOT MODIFY THE THREE FOLLOWING LINES
         dataOut$trigger <- Timestamp()
-        dataOut$value <- rv$dataIn
-        rv$steps.status['Normalization'] <- stepStatus$VALIDATED
+        #dataOut$value <- rv$dataIn
+        rv.norm$tmp.dataset <- .tmp
+       rv$steps.status['Normalization'] <- stepStatus$VALIDATED
       }
       
     })
     
-    
-    output$showPlot <- renderPlot({
-      plot(as.matrix(dataIn()[[1]]))
-    })
     # <<< END ------------- Code for step 1 UI---------------
     
     
@@ -504,15 +536,15 @@ PipelineProtein_Normalization_server <- function(id,
     })
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
-                                          dataset = rnorm(1:5),
-                                          name = id)
+      new.dataset <- rv$dataIn[[length(rv$dataIn)]]
+      assay(new.dataset) <- rv.norm$tmp.dataset
+      rv$dataIn <- addDatasets(rv$dataIn, new.dataset, id)
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      Save_Dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      Save_Dataset_server('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

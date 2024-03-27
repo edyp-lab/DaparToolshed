@@ -74,9 +74,9 @@ xxxxxx
 }
 
 \examples{
-if (interactive()) {
-    run_workflow("Filtering", verbose = TRUE)
-}
+\dontshow{if () (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+shiny::runApp(workflowApp("Filtering", verbose = TRUE)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 The user manual of the package \code{MagellanNTK}.
