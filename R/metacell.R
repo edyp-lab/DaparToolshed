@@ -438,11 +438,13 @@ Set_POV_MEC_tags <- function(conds, df, level){
 GetSoftAvailables <- function(){
   
   
-  funcs <- ls('package:DaparToolshed')
-  funcs <- funcs[grep('Metacell_', funcs)]
-  funcs <- strsplit(funcs, 'Metacell_')
-  funcs <- unlist(lapply(funcs, function(x) x[[2]]))
-  funcs <- funcs[-which(funcs=='generic')]
+  # funcs <- ls('package:DaparToolshed')
+  # funcs <- funcs[grep('Metacell_', funcs)]
+  # funcs <- strsplit(funcs, 'Metacell_')
+  # funcs <- unlist(lapply(funcs, function(x) x[[2]]))
+  # funcs <- funcs[-which(funcs=='generic')]
+  
+  funcs <- c("DIA_NN", "maxquant", "proline")
   
   return(funcs)
 }

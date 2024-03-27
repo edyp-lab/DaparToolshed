@@ -190,7 +190,8 @@ PipelineConvert_Convert_server <- function(id,
     
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
     output$SelectFile <- renderUI({
-      wellPanel(
+      fluidPage(
+        wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
         # The renderUI() function of each widget is managed by MagellanNTK
@@ -207,7 +208,7 @@ PipelineConvert_Convert_server <- function(id,
         
         # Insert validation button
         uiOutput(ns('SelectFile_btn_validate_ui')),
-        
+        )
       )
     })
     
@@ -262,7 +263,8 @@ PipelineConvert_Convert_server <- function(id,
       
       ext <- GetExtension(rv.widgets$SelectFile_file$name)
       
-      if (((ext %in% c("xls", "xlsx"))) && is.null(rv.widgets$SelectFile_XLSsheets))
+      if (((ext %in% c("xls", "xlsx"))) && 
+          is.null(rv.widgets$SelectFile_XLSsheets))
         return(NULL)
       
       
@@ -358,7 +360,7 @@ PipelineConvert_Convert_server <- function(id,
     
     output$SelectFile_replaceAllZeros_ui <- renderUI({
       widget <- checkboxInput(ns("SelectFile_replaceAllZeros"), 
-                              "Replacve all 0 and NaN by NA",
+                              "Replace all 0 and NaN by NA",
                               value = rv.widgets$SelectFile_replaceAllZeros
       )
       
@@ -594,10 +596,10 @@ PipelineConvert_Convert_server <- function(id,
       req(as.logical(rv.widgets$ExpandFeatData_idMethod))
       rv.widgets$ExpandFeatData_quantCols
       
-      # rv.convert$inputGroup <- mod_inputGroup_server('inputGroup', 
-      #                       df = rv.convert$tab, 
-      #                       quantCols = rv.widgets$ExpandFeatData_quantCols)
-      # mod_inputGroup_ui(ns('inputGroup'))
+      rv.convert$inputGroup <- mod_inputGroup_server('inputGroup',
+                            df = rv.convert$tab,
+                            quantCols = rv.widgets$ExpandFeatData_quantCols)
+      mod_inputGroup_ui(ns('inputGroup'))
     })
     
     output$ExpandFeatData_quantCols_ui <- renderUI({
@@ -662,8 +664,8 @@ PipelineConvert_Convert_server <- function(id,
     ############# STEP 4 ######################
     output$Design <- renderUI({
       
-      browser()
-      rv.convert$design <- mod_buildDesign_server("designEx", rv.widgets$ExpandFeatData_quantCols)
+      rv.convert$design <- mod_buildDesign_server("designEx", 
+        rv.widgets$ExpandFeatData_quantCols)
       
       wellPanel(
         mod_buildDesign_ui(ns("designEx")),
@@ -674,7 +676,7 @@ PipelineConvert_Convert_server <- function(id,
     
     
     output$Design_btn_validate_ui <- renderUI({
-      widget <- actionButton(ns("Design_btn_validate"), "Perform",
+      widget <- actionButton(ns("Design_btn_validate"), "Validate design",
                              class = 'info')
       toggleWidget(widget, rv$steps.enabled['Design'] )
     })
@@ -736,6 +738,7 @@ PipelineConvert_Convert_server <- function(id,
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
+      browser()
       dl_server('createQuickLink', 
                 dataIn = reactive({rv$dataIn}),
                 extension = c('csv', 'xlsx', 'RData'))
