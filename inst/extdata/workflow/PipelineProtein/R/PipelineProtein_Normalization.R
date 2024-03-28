@@ -24,9 +24,8 @@ PipelineProtein_Normalization_conf <- function(){
     fullname = 'PipelineProtein_Normalization',
     mode = 'process',
     steps = c('Normalization'),
-    mandatory = c(FALSE),
-    dirpath_to_md_file = system.file('extdata/workflow/PipelineProtein/md/', package='DaparToolshed')
-  )
+    mandatory = c(FALSE)
+    )
 }
 
 
@@ -121,9 +120,8 @@ PipelineProtein_Normalization_server <- function(id,
     
     
     output$Description <- renderUI({
-      md.file <- paste0(id, '.md')
-      file <- file.path(config@dirpath_to_md_file, md.file)
-      
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
       
       tagList(
         # In this example, the md file is found in the extdata/module_examples directory
@@ -375,52 +373,6 @@ PipelineProtein_Normalization_server <- function(id,
       
     })
     # >>> END: Definition of the widgets
-    
-    
-    
-    
-    
-    
-    # GetIndicesOfSelectedProteins_ForNorm <- reactive({
-    #   req(rv.norm$selectProt())
-    #   
-    #   ind <- NULL
-    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
-    #   tt <- rv.norm$selectProt()$type
-    #   switch(tt,
-    #     ProteinList = ind <- rv.norm$selectProt()$list.indices,
-    #     Random = ind <- rv.norm$selectProt()$rand.indices,
-    #     Column = ind <- rv.norm$selectProt()$col.indices
-    #   )
-    #   if (length(ind) == 0) {
-    #     ind <- NULL
-    #   }
-    #   ind
-    # })
-    
-    # GetIndicesOfSelectedProteins <- reactive({
-    #   req(rv.norm$trackFromBoxplot())
-    #   
-    #   ind <- NULL
-    #   ll <- Biobase::fData(rv$current.obj)[, rv$current.obj@experimentData@other$proteinId]
-    #   tt <- rv.norm$trackFromBoxplot()$type
-    #   switch(tt,
-    #     ProteinList = ind <- rv.norm$trackFromBoxplot()$list.indices,
-    #     Random = ind <- rv.norm$trackFromBoxplot()$rand.indices,
-    #     Column = ind <- rv.norm$trackFromBoxplot()$col.indices
-    #   )
-    #   if (length(ind) == 0) {
-    #     ind <- NULL
-    #   }
-    #   
-    #   ind
-    # })
-    
-    
-    
-    
-    
-    
     
     observeEvent(input$Normalization_btn_validate, {
       # Do some stuff 
