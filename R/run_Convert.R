@@ -14,25 +14,28 @@ NULL
 
 #' @rdname Convert_wrapper
 #' @export
-convert_dataset_ui <- function(id = 'PipelineConvert_Convert'){
+convert_dataset_ui <- function(id){
   requireNamespace('MagellanNTK')
   ns <- NS(id)
-  tagList(
-    MagellanNTK::nav_ui(ns(id))
-  )
+    tagList(
+      MagellanNTK::nav_ui(ns('PipelineConvert_Convert'))
+    )
 }
 
 
 #' @export
 #' @rdname Convert_wrapper
 #' 
-convert_dataset_server <- function(id = 'PipelineConvert_Convert',
-  path = system.file('extdata/workflow/PipelineConvert', package = 'DaparToolshed'),
-  dataIn = reactive({data.frame()}),
-  tl.layout = NULL,
-  mode = "user"){
+convert_dataset_server <- function(id){
   
   requireNamespace('MagellanNTK')
+  
+
+  path <- system.file('extdata/workflow/PipelineConvert', package = 'DaparToolshed')
+  dataIn <- NULL
+  tl.layout <- NULL
+  mode <- "user"
+  
   
   MagellanNTK::source_shinyApp_files()
   
@@ -68,11 +71,11 @@ convert_dataset_server <- function(id = 'PipelineConvert_Convert',
 #' @export
 convert_dataset <- function() {
   
-  ui <- convert_dataset_ui()
+  ui <- convert_dataset_ui('Convert')
   
   server <- function(input, output, session) {
     
-    res <- convert_dataset_server()
+    res <- convert_dataset_server('Convert')
     
     observeEvent(req(res()$dataOut()$trigger), {
       print(res()$dataOut()$value)

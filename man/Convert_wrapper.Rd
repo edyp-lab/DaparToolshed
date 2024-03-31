@@ -9,23 +9,9 @@
 \usage{
 convert_dataset_ui(id)
 
-convert_dataset_server(
-  id,
-  path = NULL,
-  dataIn = reactive({
-     NULL
- }),
-  tl.layout = NULL,
-  mode = "user"
-)
+convert_dataset_server(id)
 
-convert_dataset(
-  id = "PipelineConvert_Convert",
-  path = system.file("extdata/workflow/PipelineConvert", package = "DaparToolshed"),
-  dataIn = data.frame(),
-  tl.layout = NULL,
-  mode = "user"
-)
+convert_dataset()
 }
 \description{
 These functions are inspired by the functions run_workflow() in the package
