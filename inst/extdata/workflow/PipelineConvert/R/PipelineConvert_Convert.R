@@ -31,8 +31,7 @@ PipelineConvert_Convert_conf <- function(){
     # List of all steps of the process
     steps = c('Select File', 'Data Id', 'Exp and Feat Data', 'Design'),
     # A vector of boolean indicating if the steps are mandatory or not.
-    mandatory = c(TRUE, TRUE, TRUE, TRUE),
-    dirpath_to_md_file = system.file('extdata/workflow/PipelineConvert/md/', package='DaparToolshed')
+    mandatory = c(TRUE, TRUE, TRUE, TRUE)
     
   )
 }
@@ -142,8 +141,9 @@ PipelineConvert_Convert_server <- function(id,
     
     
     output$Description <- renderUI({
-      md.file <- paste0(id, '.md')
-      file <- file.path(config@dirpath_to_md_file, md.file)
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
+      
       
       tagList(
         # In this example, the md file is found in the extdata/module_examples directory

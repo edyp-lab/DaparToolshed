@@ -96,6 +96,7 @@ Collate:
     plots_compare_assays.R
     mod_mv_imputation.R
     plot_metacell.R
+    run_Convert.R
     normalize.R
     doc-data.R
     DaparToolshed.R
