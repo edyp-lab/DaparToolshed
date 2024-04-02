@@ -3,7 +3,7 @@
 #' @description
 #' This module contains the configuration information for the corresponding pipeline.
 #' It is called by the nav_pipeline module of the package MagellanNTK
-#' This documentation is for developpers who want to create their own pipelines nor processes
+#' This documentation is for developers who want to create their own pipelines nor processes
 #' to be managed with `MagellanNTK`.
 #' 
 #' @name module_PiplelineProtein
@@ -12,7 +12,7 @@
 #' @rdname module_PiplelineProtein
 #' @export
 #' 
-PipelineA_conf <- function(){
+PipelineProtein_conf <- function(){
 Config(
   mode = 'pipeline',
   fullname = 'PipelineProtein',
@@ -31,7 +31,7 @@ Config(
 #' 
 #' @export
 #' 
-PipelineA_ui <- function(id){
+PipelineProtein_ui <- function(id){
   ns <- NS(id)
 }
 
@@ -62,7 +62,7 @@ PipelineA_ui <- function(id){
 #' 
 #' @export
 #'
-PipelineA_server <- function(id,
+PipelineProtein_server <- function(id,
   dataIn = reactive({NULL}),
   steps.enabled = reactive({NULL}),
   remoteReset = reactive({FALSE}),
