@@ -14,6 +14,8 @@ infos_dataset_server(
      NULL
  })
 )
+
+infos_dataset(obj)
 }
 \arguments{
 \item{id}{shiny id}
@@ -27,21 +29,9 @@ A shiny app
 A shiny Module.
 }
 \examples{
-
-library(QFeatures)
-library(DaparViz)
-library(shinyjs)
-library(shiny)
-
-data(ft_na, package='DaparViz')
-
-ui <- fluidPage(infos_dataset_ui("mod_info"))
-
-server <- function(input, output, session) {
-  infos_dataset_server("mod_info", reactive({ft_na}))
-}
-
-shinyApp(ui, server)
-
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(Exp1_R25_prot, package = 'DaparToolshedData')
+shiny::runApp(infos_dataset(Exp1_R25_prot))
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

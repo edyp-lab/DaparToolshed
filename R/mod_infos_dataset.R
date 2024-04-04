@@ -9,7 +9,9 @@
 #' 
 #' @name infos_dataset
 #' 
-#' @example inst/extdata/examples/ex_mod_infos_dataset.R
+#' @examplesIf interactive()
+#' data(Exp1_R25_prot, package = 'DaparToolshedData')
+#' shiny::runApp(infos_dataset(Exp1_R25_prot))
 
 NULL
 
@@ -319,3 +321,18 @@ infos_dataset_server <- function(id,
   
 }
 
+
+
+#' @export
+#' @rdname infos_dataset
+#' 
+infos_dataset <- function(obj){
+  
+  ui <- fluidPage(infos_dataset_ui("mod_info"))
+  
+  server <- function(input, output, session) {
+    infos_dataset_server("mod_info", reactive({obj}))
+  }
+
+  app <- shiny::shinyApp(ui, server)
+}
