@@ -95,9 +95,11 @@ Collate:
     plots_volcano.R
     plots_compare_assays.R
     mod_mv_imputation.R
+    funcs_missingValuesFiltering.R
     plot_metacell.R
     run_Convert.R
-    normalize.R
+    funcs_normalize.R
+    funcs_filtering.R
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R

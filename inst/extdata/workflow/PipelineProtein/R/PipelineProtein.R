@@ -7,6 +7,13 @@
 #' to be managed with `MagellanNTK`.
 #' 
 #' @name module_PiplelineProtein
+#' @examplesIf interactive()
+#' source("~/GitHub/DaparToolshed/inst/extdata/workflow/PipelineProtein/R/PipelineProtein.R")
+#' path <- system.file('extdata/workflow/PipelineProtein', package = 'DaparToolshed')
+#' shiny::runApp(MagellanNTK::workflowApp("PipelineProtein")
+#' 
+#' 
+NULL
 
 
 #' @rdname module_PiplelineProtein
@@ -16,8 +23,10 @@ PipelineProtein_conf <- function(){
 Config(
   mode = 'pipeline',
   fullname = 'PipelineProtein',
-  steps = c('Filtering', 'Normalization', 'Imputation', 'HypothesisTest'),
-  mandatory = c(FALSE, FALSE, FALSE, TRUE)
+  # steps = c('Filtering', 'Normalization', 'Imputation', 'HypothesisTest'),
+  # mandatory = c(FALSE, FALSE, FALSE, TRUE)
+  steps = c('Normalization'),
+  mandatory = c(FALSE)
 )
 }
 

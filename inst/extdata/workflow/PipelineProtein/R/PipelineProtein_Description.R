@@ -5,9 +5,9 @@
 
 #' @export
 #' 
-PipelineA_Description_conf <- function(){
+PipelineProtein_Description_conf <- function(){
   Config(
-    fullname = 'PipelineA_Description',
+    fullname = 'PipelineProtein_Description',
     mode = 'process'
     )
 }
@@ -15,13 +15,13 @@ PipelineA_Description_conf <- function(){
 
 
 #' @export
-PipelineA_Description_ui <- function(id){
+PipelineProtein_Description_ui <- function(id){
   ns <- NS(id)
 }
 
 
 #' @export
-PipelineA_Description_server <- function(id,
+PipelineProtein_Description_server <- function(id,
     dataIn = reactive({NULL}),
     steps.enabled = reactive({NULL}),
     remoteReset = reactive({FALSE}),
