@@ -180,16 +180,15 @@ mod_query_metacell_server <- function(id,
                     dataOut$query <- NULL
                     dataOut$indices <- NULL
                 }
-                
-                
             }, priority=1000)
 
             tmp.tags <- mod_metacell_tree_server('tree',
-                                                 obj = reactive({obj()}),
-                                                 reset = reactive({rv$reset_tree})
-                                                 )
+              obj = reactive({obj()}),
+              reset = reactive({rv$reset_tree})
+              )
             
-            observeEvent(tmp.tags()$values, ignoreNULL = FALSE, ignoreInit = TRUE, {
+            observeEvent(tmp.tags()$values, 
+              ignoreNULL = FALSE, ignoreInit = TRUE, {
                 #print('marqueur 3')
                 rv.widgets$MetacellTag <- tmp.tags()$values
             }, priority = 900)

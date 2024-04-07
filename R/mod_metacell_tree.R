@@ -17,7 +17,7 @@
 #' shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
 #' 
 #' data(Exp1_R25_prot, package = 'DaparToolshedData')
-#' shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
+#' shiny::runApp(mod_metacell_tree(Exp1_R25_prot[[1]]))
 #'
 NULL
 
@@ -34,7 +34,7 @@ NULL
 mod_metacell_tree_ui <- function(id) {
     ns <- NS(id)
    require(shinyBS)
-    tagList(
+    fluidPage(
         shinyjs::useShinyjs(),
         fluidRow(
             column(width=6, 
@@ -43,7 +43,7 @@ mod_metacell_tree_ui <- function(id) {
                        #p('Select tags'),
                        tags$img(src = "images/metacelltree.png", height = "50px"))
                    ),
-                   bsTooltip(ns("openModalBtn"), "Click to open tags selection tool",
+              shinyBS::bsTooltip(ns("openModalBtn"), "Click to open tags selection tool",
                              "right", options = list(container = "body"))),
             column(width=6, uiOutput(ns('selectedNodes'))
             )

@@ -4,6 +4,7 @@
 \alias{metacell-tree}
 \alias{mod_metacell_tree_ui}
 \alias{mod_metacell_tree_server}
+\alias{mod_metacell_tree}
 \title{Displays a correlation matrix of the quantitative data of a
 numeric matrix.}
 \usage{
@@ -11,20 +12,22 @@ mod_metacell_tree_ui(id)
 
 mod_metacell_tree_server(
   id,
-  type = reactive({
+  obj = reactive({
      NULL
  }),
   reset = reactive({
      NULL
  })
 )
+
+mod_metacell_tree(obj)
 }
 \arguments{
 \item{id}{xxx}
 
-\item{type}{xxx}
-
 \item{reset}{xxx}
+
+\item{type}{xxx}
 }
 \value{
 NA
@@ -33,25 +36,11 @@ NA
 xxxx
 }
 \examples{
-library(shiny)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(Exp1_R25_pept, package = 'DaparToolshedData')
+shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
 
-
-ui <- fluidPage(
-  mod_metacell_tree_ui('tree')
-)
-
-server <- function(input, output) {
-  rv <- reactiveValues(
-    tags = NULL
-  )
-  
-  observe({
-    rv$tags <- mod_metacell_tree_server('tree', type = reactive({'peptide'}))
-  })
-  
-  
-}
-
-if (interactive())
-  shinyApp(ui = ui, server = server)
+data(Exp1_R25_prot, package = 'DaparToolshedData')
+shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
+\dontshow{\}) # examplesIf}
 }

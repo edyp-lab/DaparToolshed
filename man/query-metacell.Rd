@@ -4,7 +4,8 @@
 \alias{query-metacell}
 \alias{mod_query_metacell_ui}
 \alias{mod_query_metacell_server}
-\title{xxxx}
+\alias{mod_query_metacell}
+\title{Query cell metadata module}
 \usage{
 mod_query_metacell_ui(id)
 
@@ -29,21 +30,23 @@ mod_query_metacell_server(
      NULL
  })
 )
+
+mod_query_metacell(obj)
 }
 \arguments{
-\item{id}{xxx}
+\item{id}{A character(1)}
 
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{SummarizedExperiment}}
 
-\item{filters}{xxx}
+\item{filters}{Available values are}
 
-\item{val_vs_percent}{xxx}
+\item{val_vs_percent}{Available values are}
 
-\item{operator}{xxx}
+\item{operator}{Available values are}
 
 \item{reset}{xxx}
 
-\item{op_names}{xxx}
+\item{op_names}{Available values are}
 }
 \value{
 NA
@@ -52,46 +55,9 @@ NA
 xxxx
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(Exp1_R25_prot, package = 'DaparToolshedData')
+shiny::runApp(mod_query_metacell(Exp1_R25_prot[[1]]))
 
-library(shiny)
-library(shinyBS)
-
-ui <- fluidPage(
-  tagList(
-    shinyjs::useShinyjs(),
-    actionButton('external_reset', 'Reset'),
-    mod_query_metacell_ui('query'),
-    uiOutput('res'),
-    shinyjs::disabled(actionButton('perform', 'Perform')),
-    
-  )
-)
-
-server <- function(input, output) {
-  
-  
-  
-  utils::data("Exp1_R25_prot", package='DaparToolshedData')
-  
-  tmp <- mod_query_metacell_server('query', 
-                                   obj = reactive({Exp1_R25_prot}),
-                                   reset = reactive({input$external_reset + input$perform}),
-                                   op_names = reactive({c('Push p-value', 'Keep original p-value')})
-  )
-  
-  observeEvent(tmp()$trigger, {
-    #print(tmp()$indices)
-    shinyjs::toggleState("perform",
-                         condition = length(tmp()$indices) > 0
-    )
-    
-  })
-  
-  output$res <- renderUI({
-    p(paste0(tmp()$params$MetacellTag, collapse='\n'))
-  })
-}
-
-shinyApp(ui = ui, server = server)
-
+\dontshow{\}) # examplesIf}
 }
