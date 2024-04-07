@@ -46,8 +46,8 @@ PipelineProtein_Filtering_conf <- function(){
   Config(
     fullname = 'PipelineProtein_Filtering',
     mode = 'process',
-    steps = c('Step 1', 'Step 2'),
-    mandatory = c(FALSE, TRUE)
+    steps = c("Quanti metadata filtering", "Variable filtering"),
+    mandatory = c(FALSE, FALSE)
   )
 }
 
@@ -75,26 +75,47 @@ PipelineProtein_Filtering_server <- function(id,
   steps.status = reactive({NULL}),
   current.pos = reactive({1}),
   path = NULL
-){
+  ){
   
   
-  
-  #source(paste0(path, '/foo.R'), local=TRUE)$value
   
   # Define default selected values for widgets
   # This is only for simple workflows
   widgets.default.values <- list(
-    Step1_select1 = 1,
-    Step1_select2 = NULL,
-    Step1_select3 = 1,
-    Step1_btn1 = NULL,
-    Step2_select1 = 1,
-    Step2_select2 = 1
+    Quantimetadatafiltering_tag = "None",
+    Quantimetadatafiltering_scope = "None",
+    Quantimetadatafiltering_keepRemove = "delete",
+    Quantimetadatafiltering_valueTh = 0,
+    Quantimetadatafiltering_percentTh = 0,
+    Quantimetadatafiltering_valuePercent = 0,
+    Quantimetadatafiltering_valPercent = "Value",
+    Quantimetadatafiltering_operator = "<=",
+    
+    Variablefiltering_cname = "None",
+    Variablefiltering_value = NULL,
+    Variablefiltering_operator = ""
   )
   
   
   rv.custom.default.values <- list(
-    foo = NULL
+    deleted.stringBased = NULL,
+    deleted.metacell = NULL,
+    deleted.numeric = NULL,
+    funFilter = NULL,
+    varFilters = list(),
+    varQueries = list(),
+    varFilter_DT = data.frame(
+      query = "-",
+      nbDeleted = "-",
+      TotalMainAssay = "-",
+      stringsAsFactors = FALSE
+    ),
+    qMetacell_Filter_SummaryDT = data.frame(
+      query = "-",
+      nbDeleted = "-",
+      TotalMainAssay = "-",
+      stringsAsFactors = FALSE
+    )
   )
   
   ###-------------------------------------------------------------###
@@ -123,9 +144,8 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     output$Description <- renderUI({
-      md.file <- paste0(id, '.md')
-      file <- file.path('md', md.file)
-      
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
       tagList(
         ### In this example, the md file is found in the extdata/module_examples 
         ### directory but with a real app, it should be provided by the package 
@@ -166,7 +186,7 @@ PipelineProtein_Filtering_server <- function(id,
       rv$dataIn <- dataIn()
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -176,7 +196,7 @@ PipelineProtein_Filtering_server <- function(id,
     # >>> 
     
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
-    output$Step1 <- renderUI({
+    output$Quantimetadatafiltering <- renderUI({
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -185,16 +205,12 @@ PipelineProtein_Filtering_server <- function(id,
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
-        uiOutput(ns('Step1_btn1_ui')),
-        uiOutput(ns('Step1_select1_ui')),
-        uiOutput(ns('Step1_select2_ui')),
-        uiOutput(ns('Step1_select3_ui')),
-        #foo_ui(ns('foo')),
+        DT::dataTableOutput(ns("qMetacell_Filter_DT")),
+        uiOutput(ns("Quantimetadatafiltering_buildQuery_ui")),
+        uiOutput(ns("example_ui")),
+        mod_ds_qMetacell_ui(ns("plots")),
         # Insert validation button
-        uiOutput(ns('Step1_btn_validate_ui')),
-        
-        # Additional code
-        plotOutput(ns('showPlot'))
+        uiOutput(ns("Quantimetadatafiltering_btn_validate_ui"))
       )
     })
     
@@ -203,75 +219,103 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     
-    
-    # rv.custom$foo <- foo_server('foo',
-    #   obj = reactive({rv$dataIn}),
-    #   reset = reactive({NULL}),
-    #   is.enabled = reactive({rv$steps.enabled['Step1']})
-    # )
-    
-    
-    
-    output$Step1_btn1_ui <- renderUI({
-      widget <- actionButton(ns('Step1_btn1'),
-        'Step1_btn1',
-        class = btn_success_color)
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    # This part must be customized by the developer of a new module
-    output$Step1_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select1'),
-        'Select 1 in renderUI',
-        choices = 1:4,
-        selected = rv.widgets$Step1_select1,
-        width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    output$Step1_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select2'),
-        'Select 2 in renderUI',
-        choices = 1:4,
-        selected = rv.widgets$Step1_select2,
-        width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'])
-    })
-    
-    
-    output$Step1_select3_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select3'),
-        'Select 1 in renderUI',
-        choices = 1:4,
-        selected = rv.widgets$Step1_select3,
-        width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'])
-    })
-    
-    
-    
-    output$Step1_btn_validate_ui <- renderUI({
-      widget <-  actionButton(ns("Step1_btn_validate"),
-        "Perform",
-        class = btn_success_color)
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
+    output$example_ui <- renderUI({
+      req(length(rv.custom$funFilter$ll.fun()) > 0)
+      req(rv$steps.status["Quantimetadatafiltering"] == 0)
       
+      temp <- filterFeaturesOneSE(
+        object = mainAssay(rv$dataIn),
+        filters = rv.custom$funFilter$ll.fun()
+      )
+      mod_filterExample_server(
+        id = "filteringExample",
+        objBefore = reactive({
+          mainAssay(rv$dataIn)
+        }),
+        objAfter = reactive({
+          temp
+        }),
+        query = reactive({
+          rv.custom$funFilter$ll.query()
+        })
+      )
+      widget <- mod_filterExample_ui(ns("filteringExample"))
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Quantimetadatafiltering"])
+    })
+    
+    
+    mod_ds_qMetacell_server(
+      id = "plots",
+      se = reactive({ mainAssay(rv$dataIn)}),
+      init.pattern = "missing",
+      conds = design.qf(rv$dataIn)$Condition
+    )
+    
+    output$qMetacell_Filter_DT <- DT::renderDataTable(
+      server = TRUE,{
+        df <- rv.custom$qMetacell_Filter_SummaryDT
+        df[, "query"] <- ConvertListToHtml(rv.custom$funFilter$ll.query())
+        showDT(df)
+      }
+    )
+    
+    output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
+      widget <- mod_build_qMetacell_FunctionFilter_ui(ns("query"))
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Quantimetadatafiltering"])
+    })
+    
+    rv.custom$funFilter <- mod_build_qMetacell_FunctionFilter_server(
+      id = "query",
+      obj = reactive({mainAssay(rv$dataIn)}),
+      conds = reactive({design.qf(rv$dataIn)$Condition}),
+      list_tags = reactive({
+        req(rv$dataIn)
+        c(
+          "None" = "None",
+          qMetacell.def(typeDataset(mainAssay(rv$dataIn)))$node
+        )
+      }),
+      keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
+      val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
+      operator = reactive({stats::setNames(nm = SymFilteringOperators())})
+    )
+    
+    
+    output$Quantimetadatafiltering_btn_validate_ui <- renderUI({
+      widget <- actionButton(ns("Quantimetadatafiltering_btn_validate"),
+        "Perform qMetacell filtering",
+        class = btn_success_color
+      )
+      
+      cond <- length(rv.custom$funFilter$ll.fun()) > 0
+      cond <- cond && rv$steps.enabled["Quantimetadatafiltering"]
+      MagellanNTK::toggleWidget(widget, cond)
     })
     # >>> END: Definition of the widgets
     
     
-    observeEvent(input$Step1_btn_validate, {
-      # Do some stuff
-      new.dataset <- 10*rv$dataIn[[length(rv$dataIn)]]
-      rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
-                                          dataset = new.dataset,
-                                          name = paste0('temp_',id))
+    observeEvent(input$Quantimetadatafiltering_btn_validate, {
+      rv$dataIn <- filterFeaturesOneSE(
+        object = rv$dataIn,
+        i = length(rv$dataIn),
+        name = "qMetacellFiltered",
+        filters = rv.custom$funFilter$ll.fun()
+      )
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
-      dataOut$trigger <- Timestamp()
+      # Add infos
+      nBefore <- nrow(rv$dataIn[[length(rv$dataIn) - 1]])
+      nAfter <- nrow(rv$dataIn[[length(rv$dataIn)]])
+      
+      rv.custom$qMetacell_Filter_SummaryDT[, "nbDeleted"] <- nBefore - nAfter
+      rv.custom$qMetacell_Filter_SummaryDT[, "TotalMainAssay"] <- nrow(mainAssay(rv$dataIn))
+      
+      par <- rv.custom$funFilter$ll.widgets.value()
+      params(rv$dataIn, length(rv$dataIn)) <- par
+      dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step1'] <- global$VALIDATED
+      rv$steps.status["Quantimetadatafiltering"] <- stepStatus$VALIDATED
     })
     
     
@@ -284,55 +328,193 @@ PipelineProtein_Filtering_server <- function(id,
     
     # >>> START ------------- Code for step 2 UI---------------
     
-    output$Step2 <- renderUI({
+    output$Variablefiltering <- renderUI({
       wellPanel(
-        # Two examples of widgets in a renderUI() function
-        uiOutput(ns('Step2_select1_ui')),
-        uiOutput(ns('Step2_select2_ui')),
-        
-        # Insert validation button
-        # This line is necessary. DO NOT MODIFY
-        uiOutput(ns('Step2_btn_validate_ui'))
+        DT::dataTableOutput(ns("VarFilter_DT")),
+        # Build queries
+        uiOutput(ns("Variablefiltering_cname_ui")),
+        uiOutput(ns("Variablefiltering_value_ui")),
+        uiOutput(ns("Variablefiltering_operator_ui")),
+        uiOutput(ns("Variablefiltering_addFilter_btn_ui")),
+        # Show example
+        uiOutput(ns("Variablefiltering_example_ui")),
+        # Process the queries
+        uiOutput(ns("Variablefiltering_btn_validate_ui"))
       )
     })
     
     
-    output$Step2_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select1'),
-        'Select 1 in renderUI',
-        choices = 1:4,
-        selected = rv.widgets$Step2_select1,
-        width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
-    })
     
-    output$Step2_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select2'),
-        'Select 1 in renderUI',
-        choices = 1:4,
-        selected = rv.widgets$Step2_select2,
-        width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
-    })
-    
-    output$Step2_btn_validate_ui <- renderUI({
-      widget <- actionButton(ns("Step2_btn_validate"),
-        "Perform",
-        class = btn_success_color)
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
-    })
-    
-    observeEvent(input$Step2_btn_validate, {
-      # Do some stuff
-      new.dataset <- 10*rv$dataIn[[length(rv$dataIn)]]
-      rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
-                                          dataset = new.dataset,
-                                          name = paste0('temp_',id))
+    output$Variablefiltering_example_ui <- renderUI({
+      req(length(rv.custom$varFilters) > 0)
+      req(rv$steps.status["Variablefiltering"] == 0)
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
-      dataOut$trigger <- Timestamp()
+      temp <- filterFeaturesOneSE(
+        object = mainAssay(rv$dataIn),
+        filters = rv.custom$varFilters
+      )
+      
+      mod_filterExample_server(
+        id = "varFilterExample",
+        objBefore = reactive({
+          mainAssay(rv$dataIn)
+        }),
+        objAfter = reactive({
+          temp
+        }),
+        query = reactive({
+          rv.custom$varQueries
+        })
+      )
+      
+      widget <- mod_filterExample_ui(ns("varFilterExample"))
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Variablefiltering"])
+    })
+    
+    
+    output$VarFilter_DT <- DT::renderDataTable(
+      server = TRUE,
+      {
+        rv.custom$varFilter_DT[, "query"] <- ConvertListToHtml(rv.custom$varQueries)
+        showDT(rv.custom$varFilter_DT)
+      }
+    )
+    
+    showDT <- function(df) {
+      DT::datatable(df,
+        extensions = c("Scroller"),
+        escape = FALSE,
+        rownames = FALSE,
+        options = list(
+          dom = "rt",
+          initComplete = .initComplete(),
+          deferRender = TRUE,
+          bLengthChange = FALSE
+        )
+      )
+    }
+    
+    
+    output$Variablefiltering_cname_ui <- renderUI({
+      .choices <- c(
+        "None",
+        colnames(rowData(mainAssay(rv$dataIn)))
+      )
+      
+      widget <- selectInput(ns("Variablefiltering_cname"),
+        "Column name",
+        choices = stats::setNames(.choices, nm = .choices),
+        width = "300px"
+      )
+      
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Variablefiltering"])
+    })
+    
+    
+    output$Variablefiltering_operator_ui <- renderUI({
+      req(rv.widgets$Variablefiltering_value)
+      if (is.na(as.numeric(rv.widgets$Variablefiltering_value))) {
+        .operator <- c("==", "!=", "startsWith", "endsWith", "contains")
+      } else {
+        .operator <- DaparToolshed::SymFilteringOperators()
+      }
+      
+      
+      widget <- selectInput(ns("Variablefiltering_operator"),
+        "operator",
+        choices = stats::setNames(nm = .operator),
+        width = "100px"
+      )
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Variablefiltering"])
+    })
+    
+    output$Variablefiltering_value_ui <- renderUI({
+      widget <- textInput(ns("Variablefiltering_value"),
+        "value",
+        width = "100px"
+      )
+      MagellanNTK::toggleWidget(widget, 
+        rv$steps.enabled["Variablefiltering"])
+    })
+    
+    
+    output$Variablefiltering_btn_validate_ui <- renderUI({
+      widget <- actionButton(ns("Variablefiltering_btn_validate"),
+        "Perform",
+        class = btn_success_color
+      )
+      
+      .cond1 <- rv$steps.enabled["Variablefiltering"]
+      .cond2 <- length(rv.custom$varFilters) > 0
+      MagellanNTK::toggleWidget( widget, .cond1 && .cond2)
+    })
+    
+    
+    output$Variablefiltering_addFilter_btn_ui <- renderUI({
+      widget <- actionButton(
+        ns("Variablefiltering_addFilter_btn"),
+        "Add filter"
+      )
+      MagellanNTK::toggleWidget(
+        widget,
+        rv$steps.enabled["Variablefiltering"]
+      )
+    })
+    
+    
+    observeEvent(input$Variablefiltering_addFilter_btn, {
+      type.val <- as.numeric(rv.widgets$Variablefiltering_value)
+      if (!is.na(type.val)) {
+        value <- type.val
+      } else {
+        rv.widgets$Variablefiltering_value
+      }
+      
+      
+      rv.custom$varFilters <- append(
+        rv.custom$varFilters,
+        VariableFilter(
+          field = rv.widgets$Variablefiltering_cname,
+          value = value,
+          condition = rv.widgets$Variablefiltering_operator
+        )
+      )
+      rv.custom$varQueries <- append(
+        rv.custom$varQueries,
+        paste0(
+          rv.widgets$Variablefiltering_cname, " ",
+          rv.widgets$Variablefiltering_operator, " ",
+          value
+        )
+      )
+    })
+    
+    
+    
+    observeEvent(input$Variablefiltering_btn_validate, {
+      rv$dataIn <- filterFeaturesOneSE(
+        object = rv$dataIn,
+        i = length(rv$dataIn),
+        name = "variableFiltered",
+        filters = rv.custom$varFilters
+      )
+      # Add infos
+      nBefore <- nrow(rv$dataIn[[length(rv$dataIn) - 1]])
+      nAfter <- nrow(mainAssay(rv$dataIn))
+      
+      
+      rv.custom$varFilter_DT[, "nbDeleted"] <- nBefore - nAfter
+      rv.custom$varFilter_DT[, "TotalMainAssay"] <- nrow(mainAssay(rv$dataIn))
+      
+      # Add the parameters values to the new dataset
+      params(rv$dataIn[[length(rv$dataIn)]]) <- rv.custom$varQueries
+      
+      dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step2'] <- global$VALIDATED
+      rv$steps.status["Variablefiltering"] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -350,7 +532,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     output$dl_ui <- renderUI({
       req(config@mode == 'process')
-      req(rv$steps.status['Save'] == global$VALIDATED)
+      req(rv$steps.status['Save'] == stepStatus$VALIDATED)
       dl_ui(ns('createQuickLink'))
     })
     
@@ -363,7 +545,6 @@ PipelineProtein_Filtering_server <- function(id,
     })
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      new.dataset <- 10*rv$dataIn[[length(rv$dataIn)]]
       rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
                                           dataset = new.dataset,
                                           name = id)
@@ -371,7 +552,7 @@ PipelineProtein_Filtering_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
       dl_server('createQuickLink', dataIn = reactive({rv$dataIn}))
       
     })

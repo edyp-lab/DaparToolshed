@@ -8,25 +8,25 @@ given their indice.}
 deleteLinesFromIndices(obj, deleteThat = NULL, processText = "")
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet} containing
+\item{obj}{An object of class \code{SummarizedExperiment} containing
 quantitative data.}
 
 \item{deleteThat}{A vector of integers which are the indices of lines to
 delete.}
 
-\item{processText}{A string to be included in the \code{MSnSet}
+\item{processText}{A string to be included in the \code{SummarizedExperiment}
 object for log.}
 }
 \value{
-An instance of class \code{MSnSet} that have been filtered.
+An instance of class \code{SummarizedExperiment} that have been filtered.
 }
 \description{
 Delete the lines in the matrix of intensities and the metadata table
 given their indice.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-obj <- deleteLinesFromIndices(Exp1_R25_pept[seq_len(100)], c(seq_len(10)))
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- deleteLinesFromIndices(Exp1_R25_pept[[1]], c(seq_len(10)))
 
 }
 \author{

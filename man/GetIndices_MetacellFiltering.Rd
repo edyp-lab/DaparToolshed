@@ -3,10 +3,11 @@
 \name{GetIndices_MetacellFiltering}
 \alias{GetIndices_MetacellFiltering}
 \title{Delete the lines in the matrix of intensities and the metadata table
-given their indice.}
+given their indices.}
 \usage{
 GetIndices_MetacellFiltering(
   obj,
+  conds,
   level,
   pattern = NULL,
   type = NULL,
@@ -18,6 +19,8 @@ GetIndices_MetacellFiltering(
 \arguments{
 \item{obj}{An object of class \code{SummarizedExperiment} containing
 quantitative data.}
+
+\item{conds}{xxx}
 
 \item{level}{A vector of integers which are the indices of lines to
 delete.}
@@ -38,7 +41,7 @@ An instance of class \code{SummarizedExperiment} that have been filtered.
 }
 \description{
 Delete the lines in the matrix of intensities and the metadata table
-given their indice.
+given their indices.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

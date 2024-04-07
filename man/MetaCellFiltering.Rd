@@ -7,7 +7,7 @@
 MetaCellFiltering(obj, indices, cmd, processText = "")
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet} containing
+\item{obj}{An object of class \code{SummarizedExperiment} containing
 quantitative data.}
 
 \item{indices}{A vector of integers which are the indices of lines to
@@ -15,11 +15,11 @@ keep.}
 
 \item{cmd}{xxxx. Available values are: 'delete', 'keep'.}
 
-\item{processText}{A string to be included in the \code{MSnSet}
+\item{processText}{A string to be included in the \code{SummarizedExperiment}
 object for log.}
 }
 \value{
-An instance of class \code{MSnSet} that have been filtered.
+An instance of class \code{SummarizedExperiment} that have been filtered.
 }
 \description{
 #' Filters the lines of \code{Biobase::exprs()} table with conditions on the

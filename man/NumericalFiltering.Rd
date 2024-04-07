@@ -7,7 +7,7 @@
 NumericalFiltering(obj, name = NULL, value = NULL, operator = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{name}{The name of the column that correspond to the line to filter}
 
@@ -18,17 +18,17 @@ NumericalFiltering(obj, name = NULL, value = NULL, operator = NULL)
 \value{
 An list of 2 items :
 \itemize{
-\item obj : an object of class \code{MSnSet} in which the lines have been
+\item obj : an object of class \code{SummarizedExperiment} in which the lines have been
 deleted,
-\item deleted : an object of class \code{MSnSet} which contains the deleted lines
+\item deleted : an object of class \code{SummarizedExperiment} which contains the deleted lines
 }
 }
 \description{
 This function removes lines in the dataset based on numerical conditions.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-NumericalFiltering(Exp1_R25_pept[seq_len(100)], "A_Count", "6", "==")
+data(Exp1_R25_pept, package="DaparToolshedData")
+NumericalFiltering(Exp1_R25_pept[[1]], "A_Count", "6", "==")
 
 }
 \author{

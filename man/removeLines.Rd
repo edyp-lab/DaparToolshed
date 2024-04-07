@@ -7,7 +7,7 @@
 removeLines(obj, idLine2Delete = NULL, prefix = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{idLine2Delete}{The name of the column that correspond to the
 data to filter}
@@ -15,15 +15,15 @@ data to filter}
 \item{prefix}{A character string that is the prefix to find in the data}
 }
 \value{
-An object of class \code{MSnSet}.
+An object of class \code{SummarizedExperiment}.
 }
 \description{
 Removes lines in the dataset based on a prefix string.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-removeLines(Exp1_R25_pept[seq_len(100)], "Potential_contaminant")
-removeLines(Exp1_R25_pept[seq_len(100)], "Reverse")
+data(Exp1_R25_pept, package="DaparToolshedData")
+removeLines(Exp1_R25_pept[[1]], "Potential_contaminant")
+removeLines(Exp1_R25_pept[[1]], "Reverse")
 
 }
 \author{

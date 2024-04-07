@@ -14,7 +14,7 @@ StringBasedFiltering(
 )
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{idCont2Delete}{The name of the column that correspond to the
 contaminants to filter}
@@ -31,12 +31,12 @@ find in the data}
 \value{
 An list of 4 items :
 \itemize{
-\item obj : an object of class \code{MSnSet} in which the lines have been deleted
-\item deleted.both : an object of class \code{MSnSet} which contains the deleted
+\item obj : an object of class \code{SummarizedExperiment} in which the lines have been deleted
+\item deleted.both : an object of class \code{SummarizedExperiment} which contains the deleted
 lines corresponding to both contaminants and reverse,
-\item deleted.contaminants : n object of class \code{MSnSet} which contains the
+\item deleted.contaminants : n object of class \code{SummarizedExperiment} which contains the
 deleted lines corresponding to contaminants,
-\item deleted.reverse : an object of class \code{MSnSet} which contains the
+\item deleted.reverse : an object of class \code{SummarizedExperiment} which contains the
 deleted lines corresponding to reverse,
 }
 }
@@ -45,9 +45,9 @@ Removes lines in the dataset based on a prefix strings (contaminants,
 reverse or both).
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 StringBasedFiltering(
-Exp1_R25_pept[seq_len(100)], "Potential_contaminant", "+", "Reverse", "+")
+Exp1_R25_pept[[1]], "Potential_contaminant", "+", "Reverse", "+")
 
 }
 \author{

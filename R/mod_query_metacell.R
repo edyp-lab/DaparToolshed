@@ -1,21 +1,24 @@
-#' @title xxxx
+#' @title Query cell metadata module
 #'
 #' @description
 #' xxxx
 #'
 #' @name query-metacell
 #' 
-#' @param id xxx
-#' @param obj xxx
-#' @param filters xxx
-#' @param val_vs_percent xxx
-#' @param operator xxx
+#' @param id A character(1) 
+#' @param obj An instance of the class `SummarizedExperiment`
+#' @param filters Available values are 
+#' @param val_vs_percent Available values are 
+#' @param operator Available values are 
 #' @param reset xxx
-#' @param op_names xxx
+#' @param op_names Available values are 
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_mod_query_metacell.R
+#' @examplesIf interactive()
+#' data(Exp1_R25_prot, package = 'DaparToolshedData')
+#' shiny::runApp(mod_query_metacell(Exp1_R25_prot[[1]]))
+#' 
 #'
 NULL
 
@@ -95,7 +98,7 @@ mod_query_metacell_server <- function(id,
     moduleServer(id, function(input, output, session) {
             ns <- session$ns
 
-            popover_for_help_server("filterScope_help",
+            MagellanNTK::mod_popover_for_help_server("filterScope_help",
                 title = "Scope",
                     content = HTML("To filter the missing values, the choice of
                         the lines to be kept is made by different options:
@@ -237,7 +240,7 @@ mod_query_metacell_server <- function(id,
             output$choose_metacellFilters_ui <- renderUI({
                 req(rv.widgets$MetacellTag)
                 selectInput(ns("ChooseMetacellFilters"),
-                            popover_for_help_ui(ns("filterScope_help")),
+                  MagellanNTK::mod_popover_for_help_ui(ns("filterScope_help")),
                             choices = c("None" = "None", GetFiltersScope()),
                             selected = rv.widgets$MetacellFilters,
                             width = "200px"
@@ -272,7 +275,7 @@ mod_query_metacell_server <- function(id,
                 req(rv.widgets$MetacellTag)
                 req(!(rv.widgets$MetacellFilters %in% c("None", "WholeLine")))
 
-                popover_for_help_server("choose_val_vs_percent_help",
+                MagellanNTK::mod_popover_for_help_server("choose_val_vs_percent_help",
                     title = paste("#/% of values to ", rv.widgets$KeepRemove),
                         content = "Define xxx"
                 )
@@ -281,7 +284,7 @@ mod_query_metacell_server <- function(id,
                     fluidRow(
                         column(4,
                             radioButtons(ns("choose_val_vs_percent"),
-                                         popover_for_help_ui(ns("choose_val_vs_percent_help")),
+                              MagellanNTK::mod_popover_for_help_ui(ns("choose_val_vs_percent_help")),
                                          choices = setNames(nm = c("Count", "Percentage")),
                                          selected = rv.widgets$val_vs_percent
                                          )
@@ -304,15 +307,15 @@ mod_query_metacell_server <- function(id,
                 req(rv.widgets$val_vs_percent == "Count")
                 req(!(rv.widgets$MetacellFilters %in% c("None", "WholeLine")))
 
-                popover_for_help_server("metacell_value_th_help",
+                MagellanNTK::mod_popover_for_help_server("metacell_value_th_help",
                     title = "Count threshold",
                     content = "Define xxx"
                     )
 
                 tagList(
-                    popover_for_help_ui(ns("modulePopover_keepVal")),
+                  MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_keepVal")),
                     selectInput(ns("choose_metacell_value_th"),
-                                popover_for_help_ui(ns("metacell_value_th_help")),
+                      MagellanNTK::mod_popover_for_help_ui(ns("metacell_value_th_help")),
                         choices = getListNbValuesInLines(obj(), type = rv.widgets$MetacellFilters),
                         selected = rv.widgets$metacell_value_th,
                         width = "150px"
@@ -326,15 +329,15 @@ mod_query_metacell_server <- function(id,
                 req(rv.widgets$val_vs_percent == "Percentage")
                 req(!(rv.widgets$MetacellFilters %in% c("None", "WholeLine")))
 
-                popover_for_help_server("metacell_percent_th_help",
+                MagellanNTK::mod_popover_for_help_server("metacell_percent_th_help",
                     title = "Percentage threshold",
                         content = "Define xxx"
                 )
                 
                 tagList(
-                    popover_for_help_ui(ns("modulePopover_keepVal_percent")),
+                  MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_keepVal_percent")),
                     sliderInput(ns("choose_metacell_percent_th"),
-                                popover_for_help_ui(ns("metacell_percent_th_help")),
+                      MagellanNTK::mod_popover_for_help_ui(ns("metacell_percent_th_help")),
                         min = 0,
                         max = 100,
                         step = 1,
@@ -471,3 +474,23 @@ mod_query_metacell_server <- function(id,
 
 
 
+#' @export
+#' @rdname query-metacell
+#' 
+mod_query_metacell <- function(obj){
+  
+  
+  ui <- mod_query_metacell_ui('query')
+  
+  server <- function(input, output, session){
+    res <- mod_query_metacell_server('query',
+      obj = reactive({obj}))
+    
+    observeEvent(res(), {
+      print(res())
+    })
+  }
+  
+  app <- shiny::shinyApp(ui, server)
+  
+}

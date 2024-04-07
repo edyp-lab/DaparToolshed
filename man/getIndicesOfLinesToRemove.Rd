@@ -7,7 +7,7 @@
 getIndicesOfLinesToRemove(obj, idLine2Delete = NULL, prefix = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{idLine2Delete}{The name of the column that correspond to the data
 to filter}
@@ -21,11 +21,9 @@ A vector of integers.
 Get the indices of the lines to delete, based on a prefix string
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-ind <- getIndicesOfLinesToRemove(Exp1_R25_pept[seq_len(100)], 
-"Potential_contaminant",
-    prefix = "+"
-)
+data(Exp1_R25_pept, package="DaparToolshedData")
+ind <- getIndicesOfLinesToRemove(Exp1_R25_pept[[1]], 
+"Potential_contaminant", prefix = "+")
 
 }
 \author{

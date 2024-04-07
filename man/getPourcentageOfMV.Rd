@@ -7,18 +7,17 @@
 getPourcentageOfMV(obj)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 }
 \value{
 A floating number
 }
 \description{
-Returns the percentage of missing values in the quantitative
-data (\code{Biobase::exprs()} table of the dataset).
+Returns the percentage of missing values in the quantitative data.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-getPourcentageOfMV(Exp1_R25_pept[seq_len(100), ])
+data(Exp1_R25_pept, package="DaparToolshedData")
+getPourcentageOfMV(Exp1_R25_pept[[1]])
 
 }
 \author{

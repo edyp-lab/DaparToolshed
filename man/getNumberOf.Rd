@@ -7,7 +7,7 @@
 getNumberOf(obj, name = NULL, prefix = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{name}{The name of a column.}
 
@@ -21,8 +21,8 @@ Returns the number of lines, in a given column, where content matches
 the prefix.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-getNumberOf(Exp1_R25_pept[seq_len(100)], "Potential_contaminant", "+")
+data(Exp1_R25_pept, package="DaparToolshedData")
+getNumberOf(Exp1_R25_pept[[1]], "Potential_contaminant", "+")
 
 }
 \author{

@@ -16,7 +16,7 @@ xxx
 This function looks for the lines where each element respect the query.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq.int(from=20, to=30)]
 level <- 'peptide'
 pattern <- "Missing POV"

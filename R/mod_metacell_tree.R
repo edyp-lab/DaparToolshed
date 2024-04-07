@@ -12,7 +12,12 @@
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_mod_metacell_tree.R
+#' @examplesIf interactive()
+#' data(Exp1_R25_pept, package = 'DaparToolshedData')
+#' shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
+#' 
+#' data(Exp1_R25_prot, package = 'DaparToolshedData')
+#' shiny::runApp(mod_metacell_tree(Exp1_R25_pept[[1]]))
 #'
 NULL
 
@@ -53,16 +58,17 @@ mod_metacell_tree_ui <- function(id) {
 
 #' @import shinyBS
 #' @import highcharter
+#' @import shinyjs
 #' 
 #' @rdname metacell-tree
 #' 
 #' @export
 #' 
 mod_metacell_tree_server <- function(id, 
-                                     type = reactive({NULL}),
+                                     obj = reactive({NULL}),
                                      reset = reactive({NULL})) {
    
-  pkgs.require(c("shinyBS", "shinyjs"))
+  #pkgs.require(c("shinyBS", "shinyjs"))
     
     
     convertWidgetName <- function(name){
@@ -163,16 +169,15 @@ mod_metacell_tree_server <- function(id,
 
         
         init_tree <- function(){
+          req(omXplore::get_type(obj()))
+          #print('------------ init_tree() ---------------')
+          rv$meta <- DAPAR::metacell.def(omXplore::get_type(obj()))
+          rv$mapping <- BuildMapping(rv$meta)$names
+          rv$bg_colors <- BuildMapping(rv$meta)$colors
           
-            req(type())
-
-          rv$meta <- metacell.def(type())
-            rv$mapping <- BuildMapping(rv$meta)$names
-            rv$bg_colors <- BuildMapping(rv$meta)$colors
-            
-            tmp <- unname(rv$mapping[names(rv$mapping)])
-            rv$tags <- setNames(rep(FALSE, length(tmp)), nm = gsub('_cb', '', tmp))
-            rv$autoChanged <- TRUE
+          tmp <- unname(rv$mapping[names(rv$mapping)])
+          rv$tags <- setNames(rep(FALSE, length(tmp)), nm = gsub('_cb', '', tmp))
+          rv$autoChanged <- TRUE
         }
         
         
@@ -185,7 +190,7 @@ mod_metacell_tree_server <- function(id,
             # dataOut$trigger <- as.numeric(Sys.time())
             # dataOut$values <- NULL
             
-            if (!is.null(type()))
+            if (!is.null(omXplore::get_type(obj())))
                 init_tree()
             dataOut$trigger <- as.numeric(Sys.time())
             dataOut$values <- NULL
@@ -193,7 +198,6 @@ mod_metacell_tree_server <- function(id,
         
         observeEvent(input$openModalBtn,{
             
-            print('------------ observeEvent(input$openModalBtn ---------------')
             init_tree()
             update_CB()
             updateRadioButtons(session, 'checkbox_mode', selected = 'single')
@@ -217,10 +221,8 @@ observeEvent(input$lastModalClose,  ignoreInit = FALSE, ignoreNULL = TRUE, {
 
 
 observeEvent(id, ignoreInit = FALSE, {
-  req(type())
-  #if (!is.null(type()))
-        init_tree()
-
+  if (!is.null(omXplore::get_type(obj())))
+    init_tree()
   dataOut$trigger <- as.numeric(Sys.time())
   dataOut$values <- NULL
 }, priority = 1000)
@@ -264,7 +266,7 @@ observeEvent(input$checkbox_mode, {
 
 output$tree <- renderUI({
     div(style = "overflow-y: auto;",
-        uiOutput(ns(paste0('metacell_tree_', type())))
+        uiOutput(ns(paste0('metacell_tree_', omXplore::get_type(obj()))))
     )
 })
 
@@ -274,149 +276,152 @@ output$tree <- renderUI({
 # Define tree for protein dataset
 output$metacell_tree_protein <- renderUI({
     
-    
-    div(class='wtree',
+  nb <- GetNbTags(obj())
+  pourcentages <- round(100*nb/sum(nb), digits = 1)
+  
+  div(class='wtree',
+    tags$ul(
+      tags$li(
+        checkboxInput(ns('quantified_cb'),
+          tags$span(style = Get_bg_color('quantified_cb'), 
+            paste0('Quantified (', nb['Quantified'], ' - ', pourcentages['Quantified'], '%)'))),
         tags$ul(
-            tags$li(
-                checkboxInput(ns('quantified_cb'),
-                              tags$span(style = Get_bg_color('quantified_cb'), 'Quantified')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('quantbydirectid_cb'),
-                                      tags$span(style = Get_bg_color('quantbydirectid_cb'), 'Quant. by direct id')
-                        )
-                        
-                    ),
-                    tags$li(
-                        
-                        checkboxInput(ns('quantbyrecovery_cb'),
-                                      tags$span(style = Get_bg_color('quantbyrecovery_cb'), 'Quant. by recovery')
-                                      
-                        )
-                    )
-                )
-            ),
-            
-            
-            tags$li(
-                checkboxInput(ns('missing_cb'),
-                              tags$span(style = Get_bg_color('missing_cb'), 'Missing')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('missingpov_cb'),
-                                      tags$span(style = Get_bg_color('missingpov_cb'), 'Missing POV')
-                        )
-                    ),
-                    tags$li(
-                        checkboxInput(ns('missingmec_cb'),
-                                      tags$span(style = Get_bg_color('missingmec_cb'), 'Missing MEC')
-                        )
-                    )
-                )
-            ),
-            
-            
-            tags$li(
-                checkboxInput(ns('imputed_cb'),
-                              tags$span(style = Get_bg_color('imputed_cb'), 'Imputed')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('imputedpov_cb'),
-                                      tags$span(style = Get_bg_color('imputedpov_cb'), 'Imputed POV')
-                        )
-                    ),
-                    tags$li(
-                        checkboxInput(ns('imputedmec_cb'),
-                                      tags$span(style = Get_bg_color('imputedmec_cb'), 'Imputed MEC')
-                        )
-                    )
-                )
-            ),
-            
-            tags$li(
-                checkboxInput(ns('combinedtags_cb'),
-                              tags$span(style = Get_bg_color('combinedtags_cb'), 'Combined tags')
-                )
-                # tags$ul(
-                #     tags$li(
-                #         checkboxInput(ns('partiallyquantified_cb'),
-                #                       tags$span(style = .style, 'Partially quantified')
-                #         )
-                #     )
-                # )
-            )
-            
+          tags$li(
+            checkboxInput(ns('quantbydirectid_cb'),
+              tags$span(style = Get_bg_color('quantbydirectid_cb'), 
+                paste0('Quant. by direct id (', nb['Quant. by direct id'], ' - ', pourcentages['Quant. by direct id'], '%)')))),
+          tags$li(
+            checkboxInput(ns('quantbyrecovery_cb'),
+              tags$span(style = Get_bg_color('quantbyrecovery_cb'), 
+                paste0('Quant. by recovery (', nb['Quant. by recovery'], ' - ', pourcentages['Quant. by recovery'], '%)'))))
+        )),
+      
+      
+      tags$li(
+        checkboxInput(ns('missing_cb'),
+          tags$span(style = Get_bg_color('missing_cb'), 
+            paste0('Missing (', nb['Missing'], ' - ', pourcentages['Missing'], '%)'))),
+        tags$ul(
+          tags$li(
+            checkboxInput(ns('missingpov_cb'),
+              tags$span(style = Get_bg_color('missingpov_cb'), 
+                paste0('Missing POV (', nb['Missing POV'], ' - ', pourcentages['Missing POV'], '%)')))),
+          tags$li(
+            checkboxInput(ns('missingmec_cb'),
+              tags$span(style = Get_bg_color('missingmec_cb'), 
+                paste0('Missing MEC (', nb['Missing MEC'], ' - ', pourcentages['Missing MEC'], '%)'))))
+        )),
+      
+      
+      tags$li(
+        checkboxInput(ns('imputed_cb'),
+          tags$span(style = Get_bg_color('imputed_cb'), 
+            paste0('Imputed (', nb['Imputed'], ' - ', pourcentages['Imputed'], '%)'))),
+        tags$ul(
+          tags$li(
+            checkboxInput(ns('imputedpov_cb'),
+              tags$span(style = Get_bg_color('imputedpov_cb'), 
+                paste0('Imputed POV (', nb['Imputed POV'], ' - ', pourcentages['Imputed POV'], '%)')))),
+          tags$li(
+            checkboxInput(ns('imputedmec_cb'),
+              tags$span(style = Get_bg_color('imputedmec_cb'), 
+                paste0('Imputed MEC (', nb['Imputed MEC'], ' - ', pourcentages['Imputed MEC'], '%)'))))
         )
+      ),
+      
+      tags$li(
+        checkboxInput(ns('combinedtags_cb'),
+          tags$span(style = Get_bg_color('combinedtags_cb'), 
+            paste0('Combined tags (', nb['Combined tags'], ' - ', pourcentages['Combined tags'], '%)')))
+        # tags$ul(
+        #     tags$li(
+        #         checkboxInput(ns('partiallyquantified_cb'),
+        #                       tags$span(style = .style, 'Partially quantified')
+        #         )
+        #     )
+        # )
+      )
+      
     )
+  )
 })
 
 
 
 
 output$metacell_tree_peptide <- renderUI({
-    div(class='wtree',
+  nb <- GetNbTags(obj())
+  pourcentages <- round(100*nb/sum(nb), digits = 1)
+  
+  div(class='wtree',
+    tags$ul(
+      tags$li(
+        checkboxInput(ns('quantified_cb'),
+          tags$span(style = Get_bg_color('quantified_cb'),
+            paste0('Quantified (', nb['Quantified'], ' - ', pourcentages['Quantified'], '%)'))
+        ),
         tags$ul(
-            tags$li(
-                checkboxInput(ns('quantified_cb'),
-                              tags$span(style = Get_bg_color('quantified_cb'), 'Quantified')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('quantbydirectid_cb'),
-                                      tags$span(style = Get_bg_color('quantbydirectid_cb'), 'Quant. by direct id')
-                        )
-                    ),
-                    tags$li(
-                        checkboxInput(ns('quantbyrecovery_cb'),
-                                      tags$span(style = Get_bg_color('quantbyrecovery_cb'), 'Quant. by recovery')
-                        )
-                    )
-                )
-            ),
-            
-            
-            tags$li(
-                checkboxInput(ns('missing_cb'),
-                              tags$span(style = Get_bg_color('missing_cb'), 'Missing')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('missingpov_cb'),
-                                      tags$span(style = Get_bg_color('missingpov_cb'), 'Missing POV')
-                        )
-                    ),
-                    tags$li(
-                        checkboxInput(ns('missingmec_cb'),
-                                      tags$span(style = Get_bg_color('missingmec_cb'), 'Missing MEC')
-                        )
-                    )
-                )
-            ),
-            
-            
-            tags$li(
-                checkboxInput(ns('imputed_cb'),
-                              tags$span(style = Get_bg_color('imputed_cb'), 'Imputed')
-                ),
-                tags$ul(
-                    tags$li(
-                        checkboxInput(ns('imputedpov_cb'),
-                                      tags$span(style = Get_bg_color('imputedpov_cb'), 'Imputed POV')
-                        )
-                    ),
-                    tags$li(
-                        checkboxInput(ns('imputedmec_cb'),
-                                      tags$span(style = Get_bg_color('imputedmec_cb'), 'Imputed MEC')
-                        )
-                    )
-                )
+          tags$li(
+            checkboxInput(ns('quantbydirectid_cb'),
+              tags$span(style = Get_bg_color('quantbydirectid_cb'),
+                paste0('Quant. by direct id (', nb['Quant. by direct id'], ' - ', pourcentages['Quant. by direct id'], '%)'))
             )
-            
+          ),
+          tags$li(
+            checkboxInput(ns('quantbyrecovery_cb'),
+              tags$span(style = Get_bg_color('quantbyrecovery_cb'),
+                paste0('Quant. by recovery (', nb['Quant. by recovery'], ' - ', pourcentages['Quant. by recovery'], '%)'))
+            )
+          )
         )
+      ),
+      
+      
+      tags$li(
+        checkboxInput(ns('missing_cb'),
+          tags$span(style = Get_bg_color('missing_cb'),
+            paste0('Missing (', nb['Missing'], ' - ', pourcentages['Missing'], '%)'))
+        ),
+        tags$ul(
+          tags$li(
+            checkboxInput(ns('missingpov_cb'),
+              tags$span(style = Get_bg_color('missingpov_cb'),
+                paste0('Missing POV (', nb['Missing POV'], ' - ', pourcentages['Missing POV'], '%)'))
+            )
+          ),
+          tags$li(
+            checkboxInput(ns('missingmec_cb'),
+              tags$span(style = Get_bg_color('missingmec_cb'),
+                paste0('Missing MEC (', nb['Missing MEC'], ' - ', pourcentages['Missing MEC'], '%)'))
+            )
+          )
+        )
+      ),
+      
+      
+      tags$li(
+        checkboxInput(ns('imputed_cb'),
+          tags$span(style = Get_bg_color('imputed_cb'),
+            paste0('Imputed (', nb['Imputed'], ' - ', pourcentages['Imputed'], '%)'))
+        ),
+        tags$ul(
+          tags$li(
+            checkboxInput(ns('imputedpov_cb'),
+              tags$span(style = Get_bg_color('imputedpov_cb'),
+                paste0('Imputed POV (', nb['Imputed POV'], ' - ', pourcentages['Imputed POV'], '%)'))
+            )
+          ),
+          tags$li(
+            checkboxInput(ns('imputedmec_cb'),
+              tags$span(style = Get_bg_color('imputedmec_cb'),
+                paste0('Imputed MEC (', nb['Imputed MEC'], ' - ', pourcentages['Imputed MEC'], '%)'))
+            )
+          )
+        )
+      )
+      
     )
+  )
 })
 
 
@@ -446,7 +451,7 @@ update_CB <- function(nametokeep=NULL){
 somethingChanged <- reactive({
   events <- unlist(lapply(names(rv$mapping), function(x) input[[x]]))
     compare <- rv$tags == events
-    length(which(compare==FALSE))>0
+    length(which(compare==FALSE)) > 0
 })
 
 
@@ -478,7 +483,7 @@ observeEvent(somethingChanged(), ignoreInit = TRUE, {
                    update_CB(newSelection)
                    },
                subtree = {
-                   level <- type()
+                   level <- omXplore::get_type(obj())
                    # As the leaves are disabled, this selection is a node
                    # by default, all its children must be also selected
                    for (i in newSelection){
@@ -577,3 +582,26 @@ ul {
 }"
 
 
+
+
+#' @export
+#' @rdname metacell-tree
+#' 
+mod_metacell_tree <- function(obj){
+  ui <- fluidPage(
+    mod_metacell_tree_ui('tree')
+    )
+  
+  server <- function(input, output) {
+    
+    tags <- mod_metacell_tree_server('tree', 
+      obj = reactive({obj}))
+    
+    observeEvent(req(tags()$trigger), {
+      print(tags()$values)
+    })
+  }
+  
+  app <- shinyApp(ui, server)
+  
+}

@@ -204,6 +204,25 @@ custom_metacell_colors <- function()
 
 
 
+#' @title Number of each metacell tags
+#' @param obj A instance of the class `SummarizedExperiment`
+#' @examples
+#' data(Exp1_R25_prot, package = 'DaparToolshedData')
+#' GetNbTags(Exp1_R25_prot[[1]])
+#' 
+#' @export
+#' 
+GetNbTags <- function(obj){
+  df <- omXplore::get_metacell(obj)
+  level <- omXplore::get_type(obj)
+  nodes <- metacell.def(level)$node
+  
+  nb <- sapply(nodes, function(x) length(which(df == x)))
+  return(nb)
+}
+
+
+
 #' @title Parent name of a node
 #' @description xxx
 #' @param level xxx

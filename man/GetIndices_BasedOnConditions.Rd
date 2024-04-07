@@ -33,7 +33,7 @@ all conditions
 or at least one condition.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
 level <- GetTypeofData(obj)
 pattern <- 'Missing'

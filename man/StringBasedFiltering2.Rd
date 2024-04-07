@@ -7,7 +7,7 @@
 StringBasedFiltering2(obj, cname = NULL, tag = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
 \item{cname}{The name of the column that correspond to the line to filter}
 
@@ -17,16 +17,16 @@ find in the data}
 \value{
 An list of 4 items :
 \itemize{
-\item obj : an object of class \code{MSnSet} in which the lines have been deleted
-\item deleted : an object of class \code{MSnSet} which contains the deleted lines
+\item obj : an object of class \code{SummarizedExperiment} in which the lines have been deleted
+\item deleted : an object of class \code{SummarizedExperiment} which contains the deleted lines
 }
 }
 \description{
 Removes lines in the dataset based on a prefix strings.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
-obj.filter <- StringBasedFiltering2(Exp1_R25_pept[seq_len(100)], 
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.filter <- StringBasedFiltering2(Exp1_R25_pept[[1]], 
 "Potential_contaminant", "+")
 
 }
