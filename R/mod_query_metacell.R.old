@@ -1,7 +1,8 @@
 #' @title Query cell metadata module
 #'
 #' @description
-#' xxxx
+#' This module aims to compute the indices of lines that respects the 
+#' query
 #'
 #' @name query-metacell
 #' 
@@ -13,7 +14,7 @@
 #' @param reset xxx
 #' @param op_names Available values are 
 #' 
-#' @return NA
+#' @return A vector of indices
 #'
 #' @examplesIf interactive()
 #' data(Exp1_R25_prot, package = 'DaparToolshedData')
@@ -53,31 +54,42 @@ mod_query_metacell_ui <- function(id) {
 #' @export
 #' 
 mod_query_metacell_server <- function(id,
-                                      obj = reactive({NULL}),
-                                      filters = reactive({NULL}),
-                                      val_vs_percent = reactive({NULL}),
-                                      operator = reactive({NULL}),
-                                      reset = reactive({NULL}), 
-                                      op_names = reactive({NULL})
-                                      ){
+  obj,
+  conds,
+  list_tags = reactive({NULL}),
+  keep_vs_remove = reactive({NULL}),
+  val_vs_percent = reactive({NULL}),
+  operator = reactive({NULL}),
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ){
     
   pkgs.require(c("shinyjs", "shinyBS"))    
     
-    rv.widgets <- reactiveValues(
-        MetacellTag = NULL,
-        MetacellFilters = "None",
-        KeepRemove = "delete",
-        metacell_value_th = 0,
-        metacell_percent_th = 0,
-        val_vs_percent = "Count",
-        metacellFilter_operator = "<="
-    )
+  widgets.default.values <- list(
+    tag = "None",
+    scope = "None",
+    keepRemove = "delete",
+    valueTh = 0,
+    percentTh = 0,
+    valPercent = "Count",
+    operator = "<="
+  )
     
     rv <- reactiveValues(
         tags = NULL, 
         tmp.tags = NULL,
         op_names = setNames(nm = c('delete', 'keep')),
         reset_tree = NULL
+    )
+    
+    
+    rv.custom.default.values <- list(
+      indices = NULL,
+      functionFilter = NULL,
+      query = list(),
+      fun.list = list(),
+      widgets.value = list()
     )
 
     dataOut <- reactiveValues(
@@ -485,8 +497,8 @@ mod_query_metacell <- function(obj){
     res <- mod_query_metacell_server('query',
       obj = reactive({obj}))
     
-    observeEvent(res(), {
-      print(res())
+    observeEvent(res()$trigger, {
+      print(res()$values)
     })
   }
   

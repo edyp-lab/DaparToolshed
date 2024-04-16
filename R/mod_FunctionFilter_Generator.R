@@ -6,7 +6,7 @@
 #' class `FunctionFilter` to filter the quantitative metadata of an instance
 #' of the class `SummarizedExperiment`)
 #'
-#' @name query_qMetacell
+#' @name mod_FunctionFilter_Generator
 #'
 #' @return As for all modules used with `MagellanNTK`, the return value is a
 #' `list()` of two items:
@@ -17,71 +17,35 @@
 #'   language,
 #'   - ll.widgets.value: a list of the values of widgets.
 #'
-#' @examples
-#' if (interactive()) {
-#'     data(ft_na, package='DaparToolshed')
-#'     ui <- mod_build_qMetacell_FunctionFilter_ui("query")
-#'
-#'     server <- function(input, output, session) {
-#'         rv <- reactiveValues(
-#'             res = NULL
-#'         )
-#'         ll.tags <- c(
-#'             "None" = "None",
-#'             qMetacell.def(typeDataset(ft_na[[1]]))$node
-#'         )
-#'         rv.custom$res <- mod_build_qMetacell_FunctionFilter_server("query",
-#'             obj = reactive({
-#'                 ft_na[[1]]
-#'             }),
-#'             conds = reactive({
-#'                 colData(ft_na)$Condition
-#'             }),
-#'             list_tags = reactive({
-#'                 ll.tags
-#'             }),
-#'             keep_vs_remove = reactive({
-#'                 setNames(nm = c("delete", "keep"))
-#'             }),
-#'             val_vs_percent = reactive({
-#'                 setNames(nm = c("Count", "Percentage"))
-#'             }),
-#'             operator = reactive({
-#'                 setNames(nm = SymFilteringOperators())
-#'             })
-#'         )
-#'
-#'
-#'         observeEvent(rv.custom$res$dataOut()$trigger, ignoreNULL = TRUE, 
-#'         ignoreInit = TRUE, {
-#'             print(rv.custom$res$dataOut()$fun)
-#'         })
-#'     }
-#'
-#'     shinyApp(ui = ui, server = server)
-#' }
+#' @examplesIf interactive()
+#' data(ft_na, package='DaparToolshed')
+#' obj <- ft_na[[1]]
+#' conds <- get_group(ft_na)
+#' list_tags <- c("None" = "None",metacell.def(typeDataset(ft_na[[1]]))$node)
+#' operator = setNames(nm = SymFilteringOperators())
+#' keep_vs_remove <- setNames(nm = c("delete", "keep"))
+#' val_vs_percent <- setNames(nm = c("Count", "Percentage"))
+#' 
+#' shiny::runApp(
+#' mod_FunctionFilter_Generator_ui(
+#' obj, conds, list_tags, keep_vs_remove, val_vs_percent, operator))
+#' 
 NULL
 
 
 
 
 
-
-
-
-
-#' @param id xxx
-#'
 #' @export
 #'
-#' @rdname query_qMetacell
+#' @rdname mod_FunctionFilter_Generator
 #'
-mod_build_qMetacell_FunctionFilter_ui <- function(id) {
+mod_FunctionFilter_Generator_ui <- function(id) {
     ns <- NS(id)
     tagList(
         div(
             fluidRow(
-                column(2, uiOutput(ns("chooseTag_ui"))),
+                column(2, uiOutput(ns("tree_UI"))),
                 column(2, uiOutput(ns("chooseKeepRemove_ui"))),
                 column(2, uiOutput(ns("chooseScope_ui"))),
                 column(6, tagList(
@@ -105,7 +69,7 @@ mod_build_qMetacell_FunctionFilter_ui <- function(id) {
 #' @param obj An instance of the class `SummarizedExperiment`
 #' @param conds A `character()` which contains the name of the conditions. The
 #' length of this vector must be equal to the number of samples in the assay
-#' (i.e. number of columns in àssay(obj))
+#' (i.e. number of columns in assay(obj))
 #' @param list_tags xxx
 #' @param keep_vs_remove xxx
 #' @param val_vs_percent xxx
@@ -114,11 +78,11 @@ mod_build_qMetacell_FunctionFilter_ui <- function(id) {
 #' @param is.enabled A `logical(1)` that indicates whether the module is
 #' enabled or disabled. This is a remote command.
 #'
-#' @rdname query_qMetacell
+#' @rdname mod_FunctionFilter_Generator
 #'
 #' @export
 #'
-mod_build_qMetacell_FunctionFilter_server <- function(id,
+mod_FunctionFilter_Generator_server <- function(id,
     obj,
     conds,
     list_tags = reactive({NULL}),
@@ -133,7 +97,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
     widgets.default.values <- list(
         tag = "None",
         scope = "None",
-        keepRemove = "delete",
+      keep_vs_remove = "delete",
         valueTh = 0,
         percentTh = 0,
         valPercent = "Count",
@@ -147,7 +111,16 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         fun.list = list(),
         widgets.value = list()
     )
+    
 
+    GetFiltersScope <- function()
+      c("Whole Line" = "WholeLine",
+        "Whole matrix" = "WholeMatrix",
+        "For every condition" = "AllCond",
+        "At least one condition" = "AtLeastOneCond"
+      )
+    
+    
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
 
@@ -166,6 +139,8 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
             title = "Nature of data to filter",
             content = "Define xxx"
         )
+        
+        
         help.txt1 <- "To filter the missing values, the choice of the lines to 
         be kept is made by different options:
     <ul>
@@ -190,22 +165,38 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         )
 
 
-        output$chooseTag_ui <- renderUI({
-            widget <- selectInput(ns("tag"),
-                mod_popover_for_help_ui(ns("tag_help")),
-                choices = list_tags(),
-                selected = rv.widgets$tag,
-                width = "200px"
-            )
+        output$tree_UI <- renderUI({
+            widget <- mod_metacell_tree_ui(ns('tree'))
             MagellanNTK::toggleWidget(widget, is.enabled())
         })
+        
+        
+        tmp.tags <- mod_metacell_tree_server('tree',
+          obj = reactive({obj()}),
+          reset = reactive({rv$reset_tree})
+        )
+        
+        observeEvent(tmp.tags()$values, 
+          ignoreNULL = FALSE, ignoreInit = TRUE, {
+            rv.widgets$tag <- tmp.tags()$values
+          }, priority = 900)
 
+        
+        
+        keep_vs_remove <- reactive({
+          #if(is.null(op_names()))
+            setNames(nm = c('delete', 'keep'))
+          #else
+          #  setNames(c('delete', 'keep'), nm = op_names())
+        })
+        
+        
         output$chooseKeepRemove_ui <- renderUI({
             req(rv.widgets$tag != "None")
             widget <- radioButtons(ns("keepRemove"),
                 "Type of filter operation",
-                choices = keep_vs_remove(),
-                selected = rv.widgets$keepRemove
+                choices = setNames(nm = c('delete', 'keep')),
+                selected = rv.widgets$keep_vs_remove
             )
             MagellanNTK::toggleWidget(widget, is.enabled())
         })
@@ -213,7 +204,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         output$chooseScope_ui <- renderUI({
             req(rv.widgets$tag != "None")
             widget <- selectInput(ns("scope"),
-                mod_popover_for_help_ui(ns("filterScope_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("filterScope_help")),
                 choices = c(
                     "None" = "None",
                     "Whole Line" = "WholeLine",
@@ -232,8 +223,8 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
         output$qMetacellScope_widgets_set2_ui <- renderUI({
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
-            mod_popover_for_help_server("chooseValPercent_help",
-                title = paste("#/% of values to ", rv.widgets$keepRemove),
+          MagellanNTK::mod_popover_for_help_server("chooseValPercent_help",
+                title = paste("#/% of values to ", rv.widgets$keep_vs_remove),
                 content = "Define xxx"
             )
 
@@ -267,13 +258,13 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
         output$value_ui <- renderUI({
             req(rv.widgets$valPercent == "Count")
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
-            mod_popover_for_help_server("value_th_help",
+            MagellanNTK::mod_popover_for_help_server("value_th_help",
                 title = "Count threshold",
                 content = "Define xxx"
             )
 
             widget <- selectInput(ns("valueTh"),
-                mod_popover_for_help_ui(ns("value_th_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("value_th_help")),
                 choices = getListNbValuesInLines(
                     object = obj(),
                     conds = conds(),
@@ -283,7 +274,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 width = "150px"
             )
             tagList(
-                mod_popover_for_help_ui(ns("keepVal_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("keepVal_help")),
                 MagellanNTK::toggleWidget(widget, is.enabled())
             )
         })
@@ -292,12 +283,12 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
             req(rv.widgets$valPercent == "Percentage")
             req(!(rv.widgets$scope %in% c("None", "WholeLine")))
 
-            mod_popover_for_help_server("percentTh_help",
+            MagellanNTK::mod_popover_for_help_server("percentTh_help",
                 title = "Percentage threshold",
                 content = "Define xxx"
             )
             widget <- sliderInput(ns("percentTh"),
-                mod_popover_for_help_ui(ns("percentTh_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("percentTh_help")),
                 min = 0,
                 max = 100,
                 step = 1,
@@ -305,7 +296,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 width = "250px"
             )
             tagList(
-                mod_popover_for_help_ui(ns("keepVal_percent_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("keepVal_percent_help")),
                 MagellanNTK::toggleWidget(widget, is.enabled())
             )
         })
@@ -321,7 +312,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 txt_summary <- "No filtering is processed."
             } else if (rv.widgets$scope == "WholeLine") {
                 txt_summary <- paste(
-                    rv.widgets$keepRemove,
+                    rv.widgets$keep_vs_remove,
                     "lines that contain only",
                     rv.widgets$tag
                 )
@@ -340,7 +331,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                 }
 
                 txt_summary <- paste(
-                    rv.widgets$keepRemove,
+                    rv.widgets$keep_vs_remove,
                     " lines where number of ",
                     rv.widgets$tag,
                     " data ",
@@ -363,14 +354,11 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
 
         # Set useless widgets to default values
-        observeEvent(rv.widgets$scope == "WholeLine",
-            {
+        observeEvent(rv.widgets$scope == "WholeLine", {
                 rv.widgets$percentThh <- 0
                 rv.widgets$valueTh <- 0
                 rv.widgets$valPercent <- "Percentage"
-            },
-            priority = 1000
-        )
+            }, priority = 1000)
 
 
 
@@ -387,18 +375,18 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
             ff <- switch(rv.widgets$scope,
                 WholeLine = FunctionFilter("qMetacellWholeLine",
-                    cmd = rv.widgets$keepRemove,
+                    cmd = rv.widgets$keep_vs_remove,
                     pattern = rv.widgets$tag
                 ),
                 WholeMatrix = FunctionFilter("qMetacellWholeMatrix",
-                    cmd = rv.widgets$keepRemove,
+                    cmd = rv.widgets$keep_vs_remove,
                     pattern = rv.widgets$tag,
                     percent = rv.widgets$valPercent,
                     th = th,
                     operator = rv.widgets$operator
                 ),
                 AllCond = FunctionFilter("qMetacellOnConditions",
-                    cmd = rv.widgets$keepRemove,
+                    cmd = rv.widgets$keep_vs_remove,
                     mode = rv.widgets$scope,
                     pattern = rv.widgets$tag,
                     conds = conds(),
@@ -407,7 +395,7 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                     operator = rv.widgets$operator
                 ),
                 AtLeastOneCond = FunctionFilter("qMetacellOnConditions",
-                    cmd = rv.widgets$keepRemove,
+                    cmd = rv.widgets$keep_vs_remove,
                     mode = rv.widgets$scope,
                     pattern = rv.widgets$tag,
                     conds = conds(),
@@ -416,12 +404,12 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
                     operator = rv.widgets$operator
                 )
             )
-
             ff
         })
 
 
         observeEvent(input$BuildFilter_btn, {
+
             rv.custom$ll.fun <- append(rv.custom$ll.fun, BuildFunctionFilter())
             rv.custom$ll.query <- append(rv.custom$ll.query, WriteQuery())
             rv.custom$ll.widgets.value <- append(
@@ -432,26 +420,49 @@ mod_build_qMetacell_FunctionFilter_server <- function(id,
 
             # Append a new FunctionFilter to the list
             dataOut$trigger <- as.numeric(Sys.time())
-            dataOut$ll.fun <- rv.custom$ll.fun
-            dataOut$ll.query <- rv.custom$ll.query
-            dataOut$ll.widgets.value <- rv.custom$ll.widgets.value
+            dataOut$value <- list(
+              ll.fun = rv.custom$ll.fun,
+              ll.query = rv.custom$ll.query,
+              ll.widgets.value = rv.custom$ll.widgets.value
+            )
         })
 
-
-
-        list(
-            trigger = reactive({
-                dataOut$trigger
-            }),
-            ll.fun = reactive({
-                dataOut$ll.fun
-            }),
-            ll.query = reactive({
-                dataOut$ll.query
-            }),
-            ll.widgets.value = reactive({
-                dataOut$ll.widgets.value
-            })
-        )
+        return(reactive({dataOut}))
     })
+}
+
+
+
+#' @export
+#' @rdname mod_FunctionFilter_Generator
+#' 
+mod_FunctionFilter_Generator <- function(
+    obj,
+    conds, 
+    list_tags,
+    keep_vs_remove,
+    val_vs_percent,
+    operator){
+  
+  
+  ui <- mod_FunctionFilter_Generator_ui('query')
+  
+  server <- function(input, output, session){
+    
+    res <- mod_FunctionFilter_Generator_server('query',
+      obj = reactive({obj}),
+      conds = reactive({conds}),
+      list_tags = reactive({list_tags}),
+      keep_vs_remove = reactive({keep_vs_remove}),
+      val_vs_percent = reactive({val_vs_percent}),
+      operator = reactive({operator}))
+    
+    observeEvent(res()$trigger, {
+      #browser()
+      print(res()$value)
+    })
+  }
+  
+  app <- shiny::shinyApp(ui, server)
+  
 }

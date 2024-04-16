@@ -241,16 +241,11 @@ mod_Filtering_server <- function(id,
             )
             mod_filterExample_server(
                 id = "filteringExample",
-                objBefore = reactive({
-                    mainAssay(rv$dataIn)
-                }),
-                objAfter = reactive({
-                    temp
-                }),
-                query = reactive({
-                    rv.custom$funFilter$ll.query()
-                })
+                objBefore = reactive({mainAssay(rv$dataIn)}),
+                objAfter = reactive({temp}),
+                query = reactive({rv.custom$funFilter$ll.query()})
             )
+            
             widget <- mod_filterExample_ui(ns("filteringExample"))
             MagellanNTK::toggleWidget(widget, 
                 rv$steps.enabled["Quantimetadatafiltering"])
@@ -259,16 +254,13 @@ mod_Filtering_server <- function(id,
 
         mod_ds_qMetacell_server(
             id = "plots",
-            se = reactive({
-                mainAssay(rv$dataIn)
-            }),
+            se = reactive({mainAssay(rv$dataIn)}),
             init.pattern = "missing",
             conds = design.qf(rv$dataIn)$Condition
-        )
+          )
 
         output$qMetacell_Filter_DT <- DT::renderDataTable(
-            server = TRUE,
-            {
+            server = TRUE,{
                 df <- rv.custom$qMetacell_Filter_SummaryDT
                 df[, "query"] <- ConvertListToHtml(rv.custom$funFilter$ll.query())
                 showDT(df)
@@ -283,28 +275,17 @@ mod_Filtering_server <- function(id,
 
         rv.custom$funFilter <- mod_build_qMetacell_FunctionFilter_server(
             id = "query",
-            obj = reactive({
-                mainAssay(rv$dataIn)
-            }),
-            conds = reactive({
-                design.qf(rv$dataIn)$Condition
-            }),
+            obj = reactive({mainAssay(rv$dataIn)}),
+            conds = reactive({design.qf(rv$dataIn)$Condition}),
             list_tags = reactive({
                 req(rv$dataIn)
-                c(
-                    "None" = "None",
+                c("None" = "None",
                     qMetacell.def(typeDataset(mainAssay(rv$dataIn)))$node
                 )
             }),
-            keep_vs_remove = reactive({
-                stats::setNames(nm = c("delete", "keep"))
-            }),
-            val_vs_percent = reactive({
-                stats::setNames(nm = c("Count", "Percentage"))
-            }),
-            operator = reactive({
-                stats::setNames(nm = SymFilteringOperators())
-            })
+            keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
+            val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
+            operator = reactive({stats::setNames(nm = SymFilteringOperators())})
         )
 
 
@@ -386,15 +367,9 @@ mod_Filtering_server <- function(id,
 
             mod_filterExample_server(
                 id = "varFilterExample",
-                objBefore = reactive({
-                    mainAssay(rv$dataIn)
-                }),
-                objAfter = reactive({
-                    temp
-                }),
-                query = reactive({
-                    rv.custom$varQueries
-                })
+                objBefore = reactive({mainAssay(rv$dataIn)}),
+                objAfter = reactive({temp}),
+                query = reactive({rv.custom$varQueries})
             )
 
             widget <- mod_filterExample_ui(ns("varFilterExample"))
@@ -404,12 +379,10 @@ mod_Filtering_server <- function(id,
 
 
         output$VarFilter_DT <- DT::renderDataTable(
-            server = TRUE,
-            {
+            server = TRUE,{
                 rv.custom$varFilter_DT[, "query"] <- ConvertListToHtml(rv.custom$varQueries)
                 showDT(rv.custom$varFilter_DT)
-            }
-        )
+            })
 
         showDT <- function(df) {
             DT::datatable(df,
@@ -504,8 +477,7 @@ mod_Filtering_server <- function(id,
             }
 
 
-            rv.custom$varFilters <- append(
-                rv.custom$varFilters,
+            rv.custom$varFilters <- append(rv.custom$varFilters,
                 VariableFilter(
                     field = rv.widgets$Variablefiltering_cname,
                     value = value,
