@@ -46,7 +46,7 @@ mod_Metacell_Filtering_ui <- function(id) {
     uiOutput(ns("Quantimetadatafiltering_buildQuery_ui")),
   shinydashboardPlus::box(
     DT::dataTableOutput(ns("qMetacell_Filter_DT"))
-    ,mod_ds_metacell_ui(ns("plots"))
+    ,uiOutput(ns('plots_ui'))
     ),
     # Insert validation button
     uiOutput(ns("Quantimetadatafiltering_btn_validate_ui"))
@@ -119,12 +119,21 @@ mod_Metacell_Filtering_server <- function(id,
       #browser()
     })
 
-    mod_ds_metacell_server(
-      id = "plots",
-      obj = reactive({obj()[[i()]]}),
-      pattern = "missing",
-      conds = omXplore::get_group(obj())$Condition
-    )
+    
+    output$plots_ui <- renderUI({
+      
+      mod_ds_metacell_Histos_server(
+        id = "plots",
+        obj = reactive({obj()[[i()]]}),
+        pattern = reactive({"Missing"}),
+        group = reactive({omXplore::get_group(obj())})
+      )
+      
+      
+      mod_ds_metacell_Histos_ui(ns("plots"))
+    })
+    
+    
     
     showDT <- function(df) {
       DT::datatable(df,
