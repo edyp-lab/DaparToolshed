@@ -6,7 +6,7 @@
 #' class `FunctionFilter` to filter the quantitative metadata of an instance
 #' of the class `SummarizedExperiment`)
 #'
-#' @name mod_FunctionFilter_Generator
+#' @name mod_qMetacell_FunctionFilter_Generator
 #'
 #' @return As for all modules used with `MagellanNTK`, the return value is a
 #' `list()` of two items:
@@ -18,7 +18,7 @@
 #'   - ll.widgets.value: a list of the values of widgets.
 #'
 #' @examplesIf interactive()
-#' data(ft_na, package='DaparToolshed')
+#' data(ft_na)
 #' obj <- ft_na[[1]]
 #' conds <- get_group(ft_na)
 #' list_tags <- c("None" = "None",metacell.def(typeDataset(ft_na[[1]]))$node)
@@ -27,7 +27,7 @@
 #' val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 #' 
 #' shiny::runApp(
-#' mod_FunctionFilter_Generator_ui(
+#' mod_qMetacell_FunctionFilter_Generator_ui(
 #' obj, conds, list_tags, keep_vs_remove, val_vs_percent, operator))
 #' 
 NULL
@@ -38,9 +38,9 @@ NULL
 
 #' @export
 #'
-#' @rdname mod_FunctionFilter_Generator
+#' @rdname mod_qMetacell_FunctionFilter_Generator
 #'
-mod_FunctionFilter_Generator_ui <- function(id) {
+mod_qMetacell_FunctionFilter_Generator_ui <- function(id) {
     ns <- NS(id)
     tagList(
         div(
@@ -78,11 +78,11 @@ mod_FunctionFilter_Generator_ui <- function(id) {
 #' @param is.enabled A `logical(1)` that indicates whether the module is
 #' enabled or disabled. This is a remote command.
 #'
-#' @rdname mod_FunctionFilter_Generator
+#' @rdname mod_qMetacell_FunctionFilter_Generator
 #'
 #' @export
 #'
-mod_FunctionFilter_Generator_server <- function(id,
+mod_qMetacell_FunctionFilter_Generator_server <- function(id,
     obj,
     conds,
     list_tags = reactive({NULL}),
@@ -135,7 +135,7 @@ mod_FunctionFilter_Generator_server <- function(id,
 
 
 
-        mod_popover_for_help_server("tag_help",
+        MagellanNTK::mod_popover_for_help_server("tag_help",
             title = "Nature of data to filter",
             content = "Define xxx"
         )
@@ -159,7 +159,7 @@ mod_FunctionFilter_Generator_server <- function(id,
     threshold are deleted.</li>
     </ul>"
 
-        mod_popover_for_help_server("filterScope_help",
+        MagellanNTK::mod_popover_for_help_server("filterScope_help",
             title = "Scope",
             content = HTML(help.txt1)
         )
@@ -229,7 +229,7 @@ mod_FunctionFilter_Generator_server <- function(id,
             )
 
             widget1 <- radioButtons(ns("valPercent"),
-                mod_popover_for_help_ui(ns("chooseValPercent_help")),
+              MagellanNTK::mod_popover_for_help_ui(ns("chooseValPercent_help")),
                 choices = val_vs_percent(),
                 selected = rv.widgets$valPercent
             )
@@ -245,8 +245,8 @@ mod_FunctionFilter_Generator_server <- function(id,
             tagList(
                 fluidRow(
                     column(4, MagellanNTK::toggleWidget(widget1, is.enabled())),
-                    column(
-                        8, MagellanNTK::toggleWidget(widget2, is.enabled()),
+                    column(8, 
+                      MagellanNTK::toggleWidget(widget2, is.enabled()),
                         uiOutput(ns("value_ui")),
                         uiOutput(ns("percentage_ui"))
                     )
@@ -434,9 +434,9 @@ mod_FunctionFilter_Generator_server <- function(id,
 
 
 #' @export
-#' @rdname mod_FunctionFilter_Generator
+#' @rdname mod_qMetacell_FunctionFilter_Generator
 #' 
-mod_FunctionFilter_Generator <- function(
+mod_qMetacell_FunctionFilter_Generator <- function(
     obj,
     conds, 
     list_tags,
@@ -445,11 +445,11 @@ mod_FunctionFilter_Generator <- function(
     operator){
   
   
-  ui <- mod_FunctionFilter_Generator_ui('query')
+  ui <- mod_qMetacell_FunctionFilter_Generator_ui('query')
   
   server <- function(input, output, session){
     
-    res <- mod_FunctionFilter_Generator_server('query',
+    res <- mod_qMetacell_FunctionFilter_Generator_server('query',
       obj = reactive({obj}),
       conds = reactive({conds}),
       list_tags = reactive({list_tags}),

@@ -177,7 +177,7 @@ PipelineProtein_Filtering_server <- function(id,
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
         "Start",
-        class = btn_success_color)
+        class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -229,15 +229,9 @@ PipelineProtein_Filtering_server <- function(id,
       )
       mod_filterExample_server(
         id = "filteringExample",
-        objBefore = reactive({
-          mainAssay(rv$dataIn)
-        }),
-        objAfter = reactive({
-          temp
-        }),
-        query = reactive({
-          rv.custom$funFilter$ll.query()
-        })
+        objBefore = reactive({mainAssay(rv$dataIn)}),
+        objAfter = reactive({temp}),
+        query = reactive({rv.custom$funFilter$ll.query()})
       )
       widget <- mod_filterExample_ui(ns("filteringExample"))
       MagellanNTK::toggleWidget(widget, 
@@ -266,7 +260,7 @@ PipelineProtein_Filtering_server <- function(id,
         rv$steps.enabled["Quantimetadatafiltering"])
     })
     
-    rv.custom$funFilter <- mod_build_qMetacell_FunctionFilter_server(
+    rv.custom$funFilter <- mod_qMetacell_FunctionFilter_Generator_server(
       id = "query",
       obj = reactive({mainAssay(rv$dataIn)}),
       conds = reactive({design.qf(rv$dataIn)$Condition}),
@@ -274,7 +268,7 @@ PipelineProtein_Filtering_server <- function(id,
         req(rv$dataIn)
         c(
           "None" = "None",
-          qMetacell.def(typeDataset(mainAssay(rv$dataIn)))$node
+          omXplore::metacell.def(omXplore::get_type(mainAssay(rv$dataIn)))$node
         )
       }),
       keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
@@ -286,7 +280,7 @@ PipelineProtein_Filtering_server <- function(id,
     output$Quantimetadatafiltering_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Quantimetadatafiltering_btn_validate"),
         "Perform qMetacell filtering",
-        class = btn_success_color
+        class = MagellanNTK::btn_success_color
       )
       
       cond <- length(rv.custom$funFilter$ll.fun()) > 0
@@ -444,7 +438,7 @@ PipelineProtein_Filtering_server <- function(id,
     output$Variablefiltering_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Variablefiltering_btn_validate"),
         "Perform",
-        class = btn_success_color
+        class = MagellanNTK::btn_success_color
       )
       
       .cond1 <- rv$steps.enabled["Variablefiltering"]
@@ -539,7 +533,7 @@ PipelineProtein_Filtering_server <- function(id,
     output$Save_btn_validate_ui <- renderUI({
       toggleWidget(
         actionButton(ns("Save_btn_validate"), "Save",
-                     class = btn_success_color),
+                     class = MagellanNTK::btn_success_color),
         rv$steps.enabled['Save']
         )
     })

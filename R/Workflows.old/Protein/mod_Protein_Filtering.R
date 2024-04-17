@@ -112,13 +112,13 @@ mod_Protein_Filtering_server <- function(id,
                     if (isTRUE(rv$steps.enabled["Description"])) {
                         actionButton(ns("btn_validate_Description"),
                             paste0("Start ", config@name),
-                            class = btn_success_color
+                            class = "btn-success"
                         )
                     } else {
                         shinyjs::disabled(
                             actionButton(ns("btn_validate_Description"),
                                 paste0("Start ", config@name),
-                                class = btn_success_color
+                                class = "btn-success"
                             )
                         )
                     }
@@ -244,13 +244,13 @@ mod_Protein_Filtering_server <- function(id,
                             if (rv$steps.enabled["Step1"]) {
                                 actionButton(ns(paste0("btn_validate_", name)),
                                     "Perform",
-                                    class = btn_success_color
+                                    class = "btn-success"
                                 )
                             } else {
                                 shinyjs::disabled(
                                     actionButton(ns(paste0("btn_validate_", name)),
                                         "Perform",
-                                        class = btn_success_color
+                                        class = "btn-success"
                                     )
                                 )
                             }
@@ -327,13 +327,13 @@ mod_Protein_Filtering_server <- function(id,
                             if (rv$steps.enabled["Step2"]) {
                                 actionButton(ns(paste0("btn_validate_", name)),
                                     "Perform",
-                                    class = btn_success_color
+                                    class = "btn-success"
                                 )
                             } else {
                                 shinyjs::disabled(
                                     actionButton(ns(paste0("btn_validate_", name)),
                                         "Perform",
-                                        class = btn_success_color
+                                        class = "btn-success"
                                     )
                                 )
                             }
@@ -361,13 +361,13 @@ mod_Protein_Filtering_server <- function(id,
                 if (rv$steps.enabled["Step3"]) {
                     actionButton(ns("btn_validate_Step3"),
                         "Perform",
-                        class = btn_success_color
+                        class = "btn-success"
                     )
                 } else {
                     shinyjs::disabled(
                         actionButton(ns("btn_validate_Step3"),
                             "Perform",
-                            class = btn_success_color
+                            class = "btn-success"
                         )
                     )
                 }

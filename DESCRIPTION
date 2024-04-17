@@ -112,31 +112,27 @@ Collate:
     DaparToolshed_filter_qMetadata.R
     DaparToolshed-filterFeaturesOneSE.R
     iterative_agregation.R
-    mod_Filtering.R
+    mod_Metacell_Filtering.R
     mod_Agregation.R
-    mod_build_qMetadata_FunctionFilter.R
+    mod_qMetacell_FunctionFilter_Generator.R
     export_qfeatures.R
     import_2_qfeatures.R
     utils.R
     pepa.R
     mod_filtering_example.R
     global.R
-    mod_Protein.R
-    mod_Protein_Description.R
-    mod_Protein_Filtering.R
-    mod_Protein_Normalization.R
     mod_format_DT.R
     mod_settings.R
     zzz.R
     mod_tracker.R
     mod_metacell_tree.R
-    mod_query_metacell.R
     mod_infos_dataset.R
     design_utils.R
     palette.R
     shinyValue.R
     mod_open_dataset.R
     mod_open_demoDataset.R
+    mod_VariableFilter_Generator.R
     get_pep_prot_cc.R
     agregation.R
 RoxygenNote: 7.3.1

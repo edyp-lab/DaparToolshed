@@ -177,7 +177,7 @@ Convert_server <- function(id,
     
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"), "Start",
-                             class = btn_success_color)
+                             class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -236,11 +236,11 @@ Convert_server <- function(id,
       req(rv.widgets$SelectFile_software)
       fluidRow(
         column(width = 2,
-               mod_popover_for_help_server("help_chooseFile",
+          MagellanNTK::mod_popover_for_help_server("help_chooseFile",
                                       title = "Data file",
                                       content = "Select one (.txt, .csv, .tsv, .xls, .xlsx) file."
                ),
-               mod_popover_for_help_ui(ns("help_chooseFile"))
+          MagellanNTK::mod_popover_for_help_ui(ns("help_chooseFile"))
         ),
         column(width = 10,
                widget <- fileInput(ns("SelectFile_file"), "",
@@ -373,7 +373,7 @@ Convert_server <- function(id,
     
     output$SelectFile_btn_validate_ui <- renderUI({
       widget <-  actionButton(ns("SelectFile_btn_validate"), "Perform",
-                              class = btn_success_color)
+                              class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['SelectFile'] )
       
     })
@@ -430,13 +430,13 @@ Convert_server <- function(id,
       #.choices <- setNames(nm = c("AutoID", colnames(rv.convert$tab)))
       #names(.choices) <- c("Auto ID", colnames(rv.convert$tab))
       
-      mod_popover_for_help_server("help_convertIdType",
+      MagellanNTK::mod_popover_for_help_server("help_convertIdType",
                              title = "ID definition",
                              content = "If you choose the automatic ID, 
                             Prostar will build an index.")
       
       tagList(
-        mod_popover_for_help_ui(ns("help_convertIdType")),
+        MagellanNTK::mod_popover_for_help_ui(ns("help_convertIdType")),
         widget <- selectInput(ns("DataId_datasetId"), 
                               label = "", 
                               choices = setNames(nm = c("AutoID", colnames(rv.convert$tab))),
@@ -482,13 +482,13 @@ Convert_server <- function(id,
       req(rv.convert$tab)
       req(rv.widgets$SelectFile_typeOfData != "protein")
       
-      mod_popover_for_help_server("help_ProteinId",
+      MagellanNTK::mod_popover_for_help_server("help_ProteinId",
                              title = "Select protein IDs",
                              content = "Select the column containing the parent protein IDs."
       )
       
       tagList(
-        mod_popover_for_help_ui(ns("help_ProteinId")),
+        MagellanNTK::mod_popover_for_help_ui(ns("help_ProteinId")),
         widget <- selectInput(ns("DataId_parentProteinId"),
                     "",
                     choices = setNames(nm =c("", colnames(rv.convert$tab))),
@@ -531,7 +531,7 @@ Convert_server <- function(id,
     
     output$DataId_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("DataId_btn_validate"), "Perform",
-                             class = btn_success_color)
+                             class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['DataId'] )
     })
     
@@ -605,13 +605,13 @@ Convert_server <- function(id,
     output$ExpandFeatData_quantCols_ui <- renderUI({
       req(rv.convert$tab)
       
-      mod_popover_for_help_server("help_ExpandFeatData_quantCols",
+      MagellanNTK::mod_popover_for_help_server("help_ExpandFeatData_quantCols",
                               title = "Quantitative data",
                               content = "Select the columns that are quantitation values
             by clicking in the field below.")
       
       tagList(
-        mod_popover_for_help_ui(ns("help_ExpandFeatData_quantCols")),
+        MagellanNTK::mod_popover_for_help_ui(ns("help_ExpandFeatData_quantCols")),
         widget <- selectInput(ns("ExpandFeatData_quantCols"),
                     label = "",
                     choices = setNames(nm=colnames(rv.convert$tab)),
@@ -641,7 +641,7 @@ Convert_server <- function(id,
     output$ExpandFeatData_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("ExpandFeatData_btn_validate"),
                              "Perform",
-                             class = btn_success_color)
+                             class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['ExpandFeatData'] )
     })
     
@@ -677,7 +677,7 @@ Convert_server <- function(id,
     
     output$Design_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Design_btn_validate"), "Perform",
-                             class = btn_success_color)
+                             class = MagellanNTK::btn_success_color)
       toggleWidget(widget, rv$steps.enabled['Design'] )
     })
     
@@ -713,7 +713,8 @@ Convert_server <- function(id,
     })
     
     output$Save_btn_validate_ui <- renderUI({
-      toggleWidget(actionButton(ns("Save_btn_validate"), "Create QFeatures dataset", class = btn_success_color),
+      toggleWidget(actionButton(ns("Save_btn_validate"), "Create QFeatures dataset", 
+        class = MagellanNTK::btn_success_color),
                    rv$steps.enabled['Save']
       )
     })

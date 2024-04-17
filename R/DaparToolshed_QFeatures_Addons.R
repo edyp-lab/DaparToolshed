@@ -530,6 +530,7 @@ mainAssay <- function(object) {
 
 
 
+#' @export
 #' @exportMethod params
 #' @rdname QFeatures-accessors
 setMethod(
@@ -550,7 +551,7 @@ setMethod(
 )
 
 
-
+#' @export
 #' @exportMethod params
 #' @rdname QFeatures-accessors
 "params<-" <- function(object, i, slotName = "params", value) {

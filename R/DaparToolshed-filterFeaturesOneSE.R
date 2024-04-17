@@ -226,12 +226,9 @@ setMethod(
                 }
                 object <- object[sel]
             } else if (inherits(x, "FunctionFilter")) {
-                object <- do.call(
-                    x@name,
-                    append(
-                        list(object = object),
-                        x@params
-                    )
+              
+                object <- do.call(x@name,
+                    append(list(object = object), x@params)
                 )
             }
         }

@@ -21,6 +21,9 @@
 #' @examplesIf interactive()
 #' data(ft_na)
 #' obj <- ft_na[[1]]
+#' operator = setNames(nm = SymFilteringOperators())
+#' keep_vs_remove <- setNames(nm = c("delete", "keep"))
+#' value = 3
 #' shiny::runApp(
 #' mod_VariableFilter_Generator(obj, keep_vs_remove, value, operator))
 #' 

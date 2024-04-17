@@ -130,7 +130,7 @@ setMethod(
 
 
     # Add colors to quantitative table
-    mc <- qMetacell.def(typeDataset(object))
+    mc <- omXplore::metacell.def(omXplore::get_type(object))
     colors <- as.list(stats::setNames(mc$color, mc$node))
     tags <- cbind(
         keyId = rep("identified", nrow(object)),

@@ -1080,7 +1080,7 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' 
 #' @examples
 #' \dontrun{
-#' ll <- qMetacell.def('peptide')$node
+#' ll <- omXplore::metacell.def('peptide')$node
 #' for (i in 1:length(ll))
 #' test <- lapply(combn(ll, i, simplify = FALSE), 
 #' function(x) tag <- qMetacell_combine(x, 'peptide'))

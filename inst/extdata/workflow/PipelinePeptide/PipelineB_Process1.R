@@ -158,7 +158,7 @@ PipelineB_Process1_server <- function(id,
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
                              "Start",
-                             class = btn_success_color)
+                             class = "btn-success")
      toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -216,7 +216,7 @@ PipelineB_Process1_server <- function(id,
     output$Step1_btn1_ui <- renderUI({
       widget <- actionButton(ns('Step1_btn1'),
                            'Step1_btn1',
-                           class = btn_success_color)
+                           class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step1'] )
     })
 
@@ -255,7 +255,7 @@ PipelineB_Process1_server <- function(id,
     output$Step1_btn_validate_ui <- renderUI({
     widget <-  actionButton(ns("Step1_btn_validate"),
                    "Perform",
-                   class = btn_success_color)
+                   class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step1'] )
       
     })
@@ -317,7 +317,7 @@ PipelineB_Process1_server <- function(id,
     output$Step2_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Step2_btn_validate"),
                      "Perform",
-                     class = btn_success_color)
+                     class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step2'] )
     })
     
@@ -352,7 +352,7 @@ PipelineB_Process1_server <- function(id,
     
     output$Save_btn_validate_ui <- renderUI({
       toggleWidget(actionButton(ns("Save_btn_validate"), "Save",
-                                  class = btn_success_color),
+                                  class = "btn-success"),
                      rv$steps.enabled['Save']
                      )
     })

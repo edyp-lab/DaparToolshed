@@ -14,7 +14,7 @@
 #' obj <- ft[[1]]
 #' level <- typeOfData(ft, 1)
 #' pattern <- "missing"
-#' mask <- match.qMetacell(
+#' mask <- match.metacell(
 #'     metadata = qMetacell(obj),
 #'     pattern = pattern,
 #'     level = level
@@ -26,7 +26,7 @@
 #'
 #' data(ft, package='DaparToolshed')
 #' obj <- ft[[1]]
-#' mask <- match.qMetacell(
+#' mask <- match.metacell(
 #'     metadata = qMetacell(obj),
 #'     pattern = "missing POV",
 #'     level = typeOfData(obj)
@@ -35,7 +35,7 @@
 #'
 #' #' data(ft, package='DaparToolshed')
 #' obj <- ft[[1]]
-#' mask <- match.qMetacell(
+#' mask <- match.metacell(
 #'     metadata = qMetacell(obj),
 #'     pattern = "missing",
 #'     level = typeOfData(obj)
@@ -49,55 +49,39 @@
 #'
 NULL
 
-#' @title Quantitative cell metadata scopes for filtering
-#'
+
 #' @export
 #'
 #' @rdname qMetacell-filter
 #'
-#' @return NA
+#' @return A vector of filtering scopes
 #' 
 #' @examples
 #' qMetacellFilteringScope()
 #'
 qMetacellFilteringScope <- function() {
-    c(
-        "None",
-        "WholeLine",
-        "WholeMatrix",
-        "AllCond",
-        "AtLeastOneCond"
-    )
+    c("None", "WholeLine", "WholeMatrix", "AllCond",  "AtLeastOneCond")
 }
 
 
 
-#' @title Operators for complex queries
-#'
 #' @export
 #'
 #' @rdname qMetacell-filter
 #'
-#' @return NA
+#' @return A vector of operators
 #' 
 #' @examples 
 #' SymFilteringOperators()
 #'
 SymFilteringOperators <- function() {
-    c(
-        "<=",
-        "<",
-        ">=",
-        ">",
-        "==",
-        "!="
-    )
+    c( "<=", "<", ">=", ">", "==", "!=")
 }
 
 
 
 
-#' @param object xxx
+#' @param object An instance of the class `SummarizedExperiment`
 #' @param cmd A `character(1)` xxx
 #' @param pattern A `character(1)` xxx
 #' @param percent A boolean to indicate whether the threshold represent an 
@@ -114,27 +98,21 @@ SymFilteringOperators <- function() {
 #' @rdname qMetacell-filter
 #' 
 #' @examples 
-#' NA
+#' data(ft_na)
+#' obj <- ft_na[[1]]
 #'
 qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
     if (missing(object)) {
         return(NULL)
-    }
-    if (missing(cmd)) {
+    } else
+      stopifnot(inherits(object), 'SummarizedExperiment')
+  
+    if (missing(cmd) || missing(pattern) || 
+        missing(percent) || missing(th) ||
+        missing(operator)) {
         return(object)
     }
-    if (missing(pattern)) {
-        return(object)
-    }
-    if (missing(percent)) {
-        return(object)
-    }
-    if (missing(th)) {
-        return(object)
-    }
-    if (missing(operator)) {
-        return(object)
-    }
+
 
     stopifnot(inherits(object, "SummarizedExperiment"))
     stopifnot("qMetacell" %in% names(rowData(object)))
@@ -146,8 +124,8 @@ qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
 
 
     # Check parameters
-    mask <- match.qMetacell(
-        df = qMetacell(object),
+    mask <- match.metacell(
+      metadata = qMetacell(object),
         pattern = pattern,
         level = level
     )
@@ -223,13 +201,13 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
     indices <- NULL
     level <- typeDataset(object)
 
-    if (!(pattern %in% qMetacell.def(level)$node)) {
+    if (!all(pattern %in% omXplore::metacell.def(level)$node)) {
         warning("Either 'pattern' nor 'type' are equal to 'None'")
         return(NULL)
     }
 
-    mask <- match.qMetacell(
-        df = qMetacell(object),
+    mask <- match.metacell(
+        metadata = qMetacell(object),
         pattern = pattern,
         level = level
     )
@@ -325,8 +303,8 @@ qMetacellOnConditions <- function(object,
     }
 
 
-    mask <- match.qMetacell(
-        df = qMetacell(object),
+    mask <- match.metacell(
+      metadata = qMetacell(object),
         pattern = pattern,
         level = typeDataset(object)
     )

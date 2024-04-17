@@ -112,13 +112,13 @@ mod_Protein_Description_server <- function(id,
                 if (isTRUE(rv$steps.enabled["Description"])) {
                     actionButton(ns("btn_validate_Description"),
                         paste0("Start ", config@name),
-                        class = MagellanNTK::btn_success_color
+                        class = "btn-success"
                     )
                 } else {
                     shinyjs::disabled(
                         actionButton(ns("btn_validate_Description"),
                             paste0("Start ", config@name),
-                            class = btn_success_color
+                            class = "btn-success"
                         )
                     )
                 }

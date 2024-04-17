@@ -225,7 +225,7 @@ search.qMetacell.tags('missing POV', 'peptide')
 search.qMetacell.tags('quanti', 'peptide')
 
 \dontrun{
-ll <- qMetacell.def('peptide')$node
+ll <- omXplore::metacell.def('peptide')$node
 for (i in 1:length(ll))
 test <- lapply(combn(ll, i, simplify = FALSE), 
 function(x) tag <- qMetacell_combine(x, 'peptide'))

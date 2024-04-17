@@ -32,7 +32,7 @@ mod_settings_ui <- function(id) {
                     div(
                         style = "display:inline-block; 
                         vertical-align: middle; padding-right: 20px;",
-                        mod_popover_for_help_ui(ns("modulePopover_numPrecision"))
+                      MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_numPrecision"))
                     ),
                     div(
                         style = "display:inline-block; 
@@ -175,7 +175,7 @@ mod_settings_server <- function(id, obj) {
 
 
 
-        mod_popover_for_help_server("modulePopover_numPrecision",
+        MagellanNTK::mod_popover_for_help_server("modulePopover_numPrecision",
             data = list(
                 title = HTML(
                     paste0("<strong><font size=\"4\">

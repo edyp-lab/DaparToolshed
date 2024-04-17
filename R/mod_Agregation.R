@@ -170,7 +170,7 @@ mod_Agregation_server <- function(id,
         output$Description_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Description_btn_validate"),
                 "Start",
-                class = btn_success_color
+                class = MagellanNTK::btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Description"])
         })
@@ -216,7 +216,7 @@ mod_Agregation_server <- function(id,
         output$Filterpeptides_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Filterpeptides_btn_validate"),
                 "Run",
-                class = btn_success_color
+                class = MagellanNTK::btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Filterpeptides"])
         })
@@ -385,7 +385,7 @@ mod_Agregation_server <- function(id,
 
         output$warningAgregationMethod <- renderUI({
             req(rv$dataIn)
-            m <- match.qMetacell(qMetacell(rv$dataIn, length(rv$dataIn)),
+            m <- match.metacell(qMetacell(rv$dataIn, length(rv$dataIn)),
                 pattern = "missing",
                 level = "peptide"
             )
@@ -435,7 +435,7 @@ mod_Agregation_server <- function(id,
         output$Agregation_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Agregation_btn_validate"),
                 "Perform",
-                class = btn_success_color
+                class = MagellanNTK::btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Agregation"])
         })
@@ -507,7 +507,7 @@ mod_Agregation_server <- function(id,
         output$Save_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Save_btn_validate"),
                 "Perform",
-                class = btn_success_color
+                class = MagellanNTK::btn_success_color
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Save"])
         })

@@ -151,7 +151,7 @@ PipelineProtein_Normalization_server <- function(id,
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
                              "Start",
-                             class = btn_success_color)
+                             class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -273,7 +273,7 @@ PipelineProtein_Normalization_server <- function(id,
       req(rv.widgets$Normalization_method == "QuantileCentering")
       widget <- textInput(
         ns('Normalization_quantile'),
-        mod_popover_for_help_ui(ns('quantile_help')),
+        MagellanNTK::mod_popover_for_help_ui(ns('quantile_help')),
         value = rv.widgets$Normalization_quantile,
         width = '100px')
       toggleWidget(widget, rv$steps.enabled['Normalization'] )
@@ -353,7 +353,7 @@ PipelineProtein_Normalization_server <- function(id,
 
     
     
-    mod_popover_for_help_server(id = 'quantile_help',
+    MagellanNTK::mod_popover_for_help_server(id = 'quantile_help',
       title = "Normalization quantile",
       content = "lower limit/noise (quantile = 0.15),
             median (quantile = 0.5). Min value=0, max value=1"
@@ -368,7 +368,7 @@ PipelineProtein_Normalization_server <- function(id,
     output$Normalization_btn_validate_ui <- renderUI({
       widget <-  actionButton(ns("Normalization_btn_validate"),
                               "Run Normalization",
-                              class = btn_success_color)
+                              class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Normalization'] )
       
     })
@@ -477,7 +477,7 @@ PipelineProtein_Normalization_server <- function(id,
       tagList(
         toggleWidget( 
                      actionButton(ns("Save_btn_validate"), "Save",
-                                  class = btn_success_color),
+                                  class = "btn-success"),
                      rv$steps.enabled['Save']
         ),
         if (config@mode == 'process' && rv$steps.status['Save'] == stepStatus$VALIDATED) {

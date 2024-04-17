@@ -148,7 +148,7 @@ mod_filtering_example_server <- function(id,
       
       
       if (is.enriched){
-        .style <- BuildColorStyles(get_type(obj()))
+        .style <- BuildColorStyles(omXplore::get_type(obj()))
         c.tags <- names(.style)
         c.colors <- unlist(.style, use.names = FALSE)
         

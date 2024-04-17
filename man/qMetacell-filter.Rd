@@ -40,9 +40,9 @@ with SymFilteringOperators().}
 \value{
 NA
 
-NA
+A vector of filtering scopes
 
-NA
+A vector of operators
 
 NA
 
@@ -59,7 +59,7 @@ data(ft, package='DaparToolshed')
 obj <- ft[[1]]
 level <- typeOfData(ft, 1)
 pattern <- "missing"
-mask <- match.qMetacell(
+mask <- match.metacell(
     metadata = qMetacell(obj),
     pattern = pattern,
     level = level
@@ -71,7 +71,7 @@ ind <- qMetacellWholeMatrix(mask, op, percent, th)
 
 data(ft, package='DaparToolshed')
 obj <- ft[[1]]
-mask <- match.qMetacell(
+mask <- match.metacell(
     metadata = qMetacell(obj),
     pattern = "missing POV",
     level = typeOfData(obj)
@@ -80,7 +80,7 @@ ind <- qMetacellWholeLine(mask)
 
 #' data(ft, package='DaparToolshed')
 obj <- ft[[1]]
-mask <- match.qMetacell(
+mask <- match.metacell(
     metadata = qMetacell(obj),
     pattern = "missing",
     level = typeOfData(obj)
@@ -96,6 +96,7 @@ qMetacellFilteringScope()
 
 SymFilteringOperators()
 
-NA
+data(ft_na)
+obj <- ft_na[[1]]
 
 }
