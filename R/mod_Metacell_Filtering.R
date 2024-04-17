@@ -126,11 +126,25 @@ mod_Metacell_Filtering_server <- function(id,
     #   conds = design.qf(obj())$Condition
     # )
     
-    # output$qMetacell_Filter_DT <- DT::renderDataTable(server = TRUE,{
-    #     df <- rv.custom$qMetacell_Filter_SummaryDT
-    #     df[, "query"] <- ConvertListToHtml(rv.custom$funFilter$ll.query())
-    #     showDT(df)
-    #   })
+    showDT <- function(df) {
+      DT::datatable(df,
+        extensions = c("Scroller"),
+        escape = FALSE,
+        rownames = FALSE,
+        options = list(
+          dom = "rt",
+          initComplete = .initComplete(),
+          deferRender = TRUE,
+          bLengthChange = FALSE
+        )
+      )
+    }
+    
+    output$qMetacell_Filter_DT <- DT::renderDataTable(server = TRUE,{
+        df <- rv.custom$qMetacell_Filter_SummaryDT
+        df[, "query"] <- ConvertListToHtml(rv.custom$funFilter()$value$ll.query)
+        showDT(df)
+      })
     
     output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
       widget <- mod_qMetacell_FunctionFilter_Generator_ui(ns("query"))
