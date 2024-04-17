@@ -2,8 +2,9 @@
 % Please edit documentation in R/mod_ds_metacell.R, R/plot_metacell.R
 \name{metacell-plots}
 \alias{metacell-plots}
-\alias{mod_ds_metacell_ui}
-\alias{mod_ds_metacell_server}
+\alias{mod_ds_metacell_Histos_ui}
+\alias{mod_ds_metacell_Histos_server}
+\alias{mod_ds_metacell_Histos}
 \alias{metacellPerLinesHisto_HC}
 \alias{metacellPerLinesHistoPerCondition_HC}
 \alias{metacellHisto_HC}
@@ -13,9 +14,9 @@
 \title{Displays a correlation matrix of the quantitative data of a
 numeric matrix.}
 \usage{
-mod_ds_metacell_ui(id)
+mod_ds_metacell_Histos_ui(id)
 
-mod_ds_metacell_server(
+mod_ds_metacell_Histos_server(
   id,
   obj = reactive({
      NULL
@@ -30,6 +31,8 @@ mod_ds_metacell_server(
      TRUE
  })
 )
+
+mod_ds_metacell_Histos(obj, pal, pattern, showSelect)
 
 metacellPerLinesHisto_HC(
   vizData,
@@ -126,40 +129,10 @@ whereas the y-axis count the number of observed values for this entity
 and the considered condition.
 }
 \examples{
-library(highcharter)
-library(shinyBS)
-library(shiny)
-library(DaparViz)
-
-ui <- fluidPage(
-  mod_ds_metacell_ui('test')
-)
-
-server <- function(input, output) {
-  data(Exp1_R25_pept, package='DaparToolshedData')
-  vList <- convert2Viz(Exp1_R25_pept)
-  vData <- vList[[1]]
-  
-  rv <- reactiveValues(
-    tags = NULL
-  )
-  #pattern <- c('Missing POV', 'Missing MEC')
-   pattern <- NULL
-   
-  observe({
-    rv$tags <- mod_ds_metacell_server('test',
-                           obj = reactive({vData}),
-                           pal = reactive({NULL}),
-                           pattern = reactive({pattern}),
-                           showSelect = reactive({is.null(pattern)})
-    )
-  })
-  
-}
-
-if (interactive())
-  shinyApp(ui = ui, server = server)
-
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(ft_na)
+shiny::runApp(mod_ds_metacell_Histos(ft_na[[1]]))
+\dontshow{\}) # examplesIf}
 
 library(QFeatures)
 library(DaparViz)

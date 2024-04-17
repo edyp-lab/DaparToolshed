@@ -46,7 +46,7 @@ mod_Metacell_Filtering_ui <- function(id) {
     uiOutput(ns("Quantimetadatafiltering_buildQuery_ui")),
   shinydashboardPlus::box(
     DT::dataTableOutput(ns("qMetacell_Filter_DT"))
-    #,mod_ds_qMetacell_ui(ns("plots"))
+    ,mod_ds_metacell_ui(ns("plots"))
     ),
     # Insert validation button
     uiOutput(ns("Quantimetadatafiltering_btn_validate_ui"))
@@ -118,13 +118,13 @@ mod_Metacell_Filtering_server <- function(id,
       stopifnot(inherits(obj(), 'QFeatures'))
       #browser()
     })
-    # 
-    # mod_ds_qMetacell_server(
-    #   id = "plots",
-    #   se = reactive({obj()}),
-    #   init.pattern = "missing",
-    #   conds = design.qf(obj())$Condition
-    # )
+
+    mod_ds_metacell_server(
+      id = "plots",
+      obj = reactive({obj()[[i()]]}),
+      pattern = "missing",
+      conds = omXplore::get_group(obj())$Condition
+    )
     
     showDT <- function(df) {
       DT::datatable(df,
@@ -142,7 +142,8 @@ mod_Metacell_Filtering_server <- function(id,
     
     output$qMetacell_Filter_DT <- DT::renderDataTable(server = TRUE,{
         df <- rv.custom$qMetacell_Filter_SummaryDT
-        df[, "query"] <- ConvertListToHtml(rv.custom$funFilter()$value$ll.query)
+        query <- rv.custom$funFilter()$value$ll.query
+        df[, "query"] <- ConvertListToHtml(query)
         showDT(df)
       })
     

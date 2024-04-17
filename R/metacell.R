@@ -957,7 +957,7 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             
             ind <- match.metacell(metadata = qMetacell(object), 
                                    pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
-                                   level = typeDataset(object) & !is.na(assay(object))
+                                   level = omXplore::get_type(object) & !is.na(assay(object))
             )
             
             names.meta <- colnames(GetMetacell(obj))
@@ -1217,7 +1217,7 @@ AggregateMetacell <- function(X, obj.pep) {
   
   issues <- NULL
   meta <- GetMetacell(obj.pep)
-  level <- obj.pep@experimentData@other$typeOfData
+  level <- omXplore::get_type(obj.pep)
   rowcol <- function(meta.col, X.col) (meta.col)[X.col > 0]
   
   df <- data.frame(stringsAsFactors = TRUE)

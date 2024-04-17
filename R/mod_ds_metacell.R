@@ -7,21 +7,24 @@
 #' @name metacell-plots
 #' 
 #' @param id xxx
-#' @param obj An instance of the class `DaparViz`
+#' @param obj An instance of the class `SummarizedExperiment`
 #' @param pal xxx
 #' @param pattern xxx
 #' @param showSelect xxx 
 #' 
 #' @return NA
 #'
-#' @example inst/extdata/examples/ex_mod_ds_metacell.R
+#' @examplesIf interactive()
+#' data(ft_na)
+#' grp <- omXplore::get_group(ft_na)
+#' shiny::runApp(mod_ds_metacell_Histos(ft_na[[1]], group = grp))
 #'
 NULL
 
 #' @rdname metacell-plots
 #' @export
 #' 
-mod_ds_metacell_ui <- function(id) {
+mod_ds_metacell_Histos_ui <- function(id) {
     ns <- NS(id)
     tagList(
         shinyjs::useShinyjs(),
@@ -30,11 +33,11 @@ mod_ds_metacell_ui <- function(id) {
         uiOutput(ns('chooseTagUI')),
         fluidRow(
             column(width = 4,
-                   highchartOutput(ns("qMetacell")), height = "600px"),
+                   highchartOutput(ns("histo")), height = "600px"),
             column(width = 4,
-                   highchartOutput(ns("qMetacell_per_lines"))),
+                   highchartOutput(ns("histo_per_lines"))),
             column(width = 4,
-                   highchartOutput(ns("qmetacell_per_lines_per_conds")))
+                   highchartOutput(ns("histo_per_lines_per_conds")))
             )
         )
 }
@@ -43,9 +46,10 @@ mod_ds_metacell_ui <- function(id) {
 #' @rdname metacell-plots
 #' @export
 #' 
-mod_ds_metacell_server <- function(id,
+mod_ds_metacell_Histos_server <- function(id,
                                    obj = reactive({NULL}),
-                                   pal = reactive({NULL}), 
+                                   group = reactive({NULL}),
+                                    pal = reactive({NULL}), 
                                    pattern = reactive({NULL}),
                                    showSelect = reactive({TRUE})) {
     moduleServer(id, function(input, output, session) {
@@ -64,13 +68,13 @@ mod_ds_metacell_server <- function(id,
                 type = NULL
             )
             
-            observe({
-              req(obj())
-              
-              rv$type <- obj()@type
+            observeEvent(obj(), {
+              #rv$type <- omXplore::get_type(obj())
+              rv$type <- metadata(obj())$typeDataset
             })
               
-              tmp.tags <- mod_metacell_tree_server('tree', type = reactive({rv$type}))
+              tmp.tags <- mod_metacell_tree_server('tree', 
+                obj = reactive({obj()}))
 
             
             observeEvent(tmp.tags()$values, ignoreNULL = FALSE, ignoreInit = TRUE,{
@@ -83,24 +87,25 @@ mod_ds_metacell_server <- function(id,
                 mod_metacell_tree_ui(ns('tree'))
              })
 
-            output$qMetacell <- renderHighchart({
+            output$histo <- renderHighchart({
                tmp <- NULL
                tmp <- metacellHisto_HC(obj(),
-                                       pattern = rv$chooseTag,
-                                       pal = pal()
-                                        )
+                 group = group(),
+                 pattern = rv$chooseTag,
+                 pal = pal())
                 tmp
             })
 
 
 
-            output$qMetacell_per_lines <- renderHighchart({
+            output$histo_per_lines <- renderHighchart({
               tmp <- NULL
                tmp <-
                   metacellPerLinesHisto_HC(obj(),
-                                           pattern = rv$chooseTag,
-                                           indLegend = seq.int(from = 2, to = length(obj()@conds))
-                                           )
+                    group = group(),
+                    pattern = rv$chooseTag,
+                    indLegend = seq.int(from = 2, to = length(group))
+                    )
                 # future(createPNGFromWidget(tmp,pattern))
                 # })
                 tmp
@@ -108,14 +113,15 @@ mod_ds_metacell_server <- function(id,
 
 
 
-            output$qmetacell_per_lines_per_conds <- renderHighchart({
+            output$histo_per_lines_per_conds <- renderHighchart({
                tmp <- NULL
                 # isolate({
                 # pattern <- paste0(GetCurrentObjName(),".MVplot2")
                 tmp <- metacellPerLinesHistoPerCondition_HC(obj(),
-                                                            pattern = rv$chooseTag,
-                                                            pal = pal()
-                                                            )
+                  group = group(),
+                  pattern = rv$chooseTag,
+                  pal = pal()
+                  )
                 # future(createPNGFromWidget(tmp,pattern))
                 # })
                 tmp
@@ -125,4 +131,38 @@ mod_ds_metacell_server <- function(id,
 }
 
 
+
+#' @export
+#' @rdname metacell-plots
+#' 
+mod_ds_metacell_Histos <- function(obj,
+  group,
+  pal,
+  pattern,
+  showSelect){
+ui <- fluidPage(
+  mod_ds_metacell_Histos_ui('test')
+)
+
+server <- function(input, output) {
+  
+  rv <- reactiveValues(
+    tags = NULL
+  )
+  pattern <- NULL
+  
+  observe({
+    rv$tags <- mod_ds_metacell_Histos_server('test',
+      obj = reactive({obj}),
+      group = reactive({group}),
+      pal = reactive({NULL}),
+      pattern = reactive({pattern}),
+      showSelect = reactive({is.null(pattern)})
+    )
+  })
+  
+}
+
+app <- shiny::shinyApp(ui = ui, server = server)
+}
 

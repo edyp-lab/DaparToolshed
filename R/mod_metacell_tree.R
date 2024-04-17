@@ -5,7 +5,7 @@
 #' xxxx
 #' 
 #' @param id xxx
-#' @param type xxx
+#' @param obj An instance of the class `SummarizedExperiment`
 #' @param reset xxx
 #'
 #' @name metacell-tree
