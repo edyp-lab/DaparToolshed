@@ -54,12 +54,13 @@ mod_Variable_Filtering_ui <- function(id) {
     # For more details, please refer to the dev document.
     
     uiOutput(ns("variable_buildQuery_ui")),
+    # Insert validation button
+    uiOutput(ns("variable_btn_validate_ui")),
     shinydashboardPlus::box(
       DT::dataTableOutput(ns("variable_Filter_DT"))
       ,uiOutput(ns('plots_ui'))
-    ),
-    # Insert validation button
-    uiOutput(ns("variable_btn_validate_ui"))
+    )
+    
   )
 }
 
@@ -180,6 +181,7 @@ mod_Variable_Filtering_server <- function(id,
     
     
     observeEvent(input$variable_btn_validate, {
+      
       browser()
       tmp <- filterFeaturesOneSE(
         object = obj(),

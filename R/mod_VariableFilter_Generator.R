@@ -135,7 +135,7 @@ mod_VariableFilter_Generator_server <- function(id,
     
     output$chooseKeepRemove_ui <- renderUI({
  
-      widget <- radioButtons(ns("keepRemove"),
+      widget <- radioButtons(ns("keep_vs_remove"),
         "Type of filter operation",
         choices = setNames(nm = c('delete', 'keep')),
         selected = rv.widgets$keep_vs_remove
@@ -200,7 +200,7 @@ mod_VariableFilter_Generator_server <- function(id,
     output$value_ui <- renderUI({
       widget <- textInput(ns("value"),
         "value",
-        value = rv.widgets$value,
+        placeholder = 'Enter value...',
         width = "100px"
       )
       MagellanNTK::toggleWidget(widget, is.enabled())
@@ -226,13 +226,12 @@ mod_VariableFilter_Generator_server <- function(id,
     
     BuildVariableFilter <- reactive({
       req(rv.widgets$value)
-      
-      
 
-        VariableFilter(
+        QFeatures::VariableFilter(
           field = rv.widgets$cname,
           value = Extract_Value(rv.widgets$value),
-          condition = rv.widgets$operator
+          condition = rv.widgets$operator,
+          not = rv.widgets$keep_vs_remove == "delete"
         )
     })
     
@@ -247,6 +246,7 @@ mod_VariableFilter_Generator_server <- function(id,
     })
     
     observeEvent(input$addFilter_btn, {
+
       rv.custom$ll.var <- append(rv.custom$ll.var, BuildVariableFilter())
       rv.custom$ll.query <- append(rv.custom$ll.query, WriteQuery())
       rv.custom$ll.widgets.value <- append(rv.custom$ll.widgets.value,

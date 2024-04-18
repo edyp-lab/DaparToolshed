@@ -11,14 +11,11 @@
 \alias{FunctionFilter-class}
 \alias{FunctionFilter}
 \alias{filterFeaturesOneSE,QFeatures-method}
-\alias{filterFeaturesOneSE,SummarizedExperiment-method}
 \title{Filter features of one SE based on their rowData}
 \usage{
 FunctionFilter(name, ...)
 
 \S4method{filterFeaturesOneSE}{QFeatures}(object, i, name = "newAssay", filters)
-
-\S4method{filterFeaturesOneSE}{SummarizedExperiment}(object, filters)
 }
 \arguments{
 \item{name}{A \code{character(1)} naming the new assay. Default is
