@@ -7,7 +7,17 @@
 #' This function is written with specifications of the package `MagellanNTK` so
 #' as to be easily integrated into workflfow compliant with `MagellanNTK`.
 #'
-#' @name mod_Metacell_Filtering
+#' @name mod_Variable_Filtering
+#' 
+#' @param id xxx
+#' @param obj An instance of the class `QFeatures`
+#' @param keep_vs_remove A character(1) indicating whether to keep or delete 
+#' items. Default value is "delete"
+#' @param operator xxx
+#' @param reset A `ìnteger(1)` xxxx
+#' @param is.enabled A `logical(1)` that indicates whether the module is
+#' enabled or disabled. This is a remote command.
+#'
 #'
 #' @return As for all modules used with `MagellanNTK`, the return value is a
 #' `list()` of two items:
@@ -20,7 +30,7 @@
 #'
 #' @examplesIf interactive()
 #' data(ft_na)
-#' shiny::runApp(mod_Metacell_Filtering(ft_na[[1]]))
+#' shiny::runApp(mod_Variable_Filtering(ft_na[[1]]))
 #' 
 NULL
 
@@ -30,9 +40,9 @@ NULL
 
 #' @export
 #'
-#' @rdname mod_Metacell_Filtering
+#' @rdname mod_Variable_Filtering
 #'
-mod_Metacell_Filtering_ui <- function(id) {
+mod_Variable_Filtering_ui <- function(id) {
   ns <- NS(id)
   wellPanel(
     # uiOutput for all widgets in this UI
@@ -43,33 +53,25 @@ mod_Metacell_Filtering_ui <- function(id) {
     # Be aware of the naming convention for ids in uiOutput()
     # For more details, please refer to the dev document.
     
-    uiOutput(ns("Quantimetadatafiltering_buildQuery_ui")),
-  shinydashboardPlus::box(
-    DT::dataTableOutput(ns("qMetacell_Filter_DT"))
-    ,uiOutput(ns('plots_ui'))
+    uiOutput(ns("variable_buildQuery_ui")),
+    shinydashboardPlus::box(
+      DT::dataTableOutput(ns("variable_Filter_DT"))
+      ,uiOutput(ns('plots_ui'))
     ),
     # Insert validation button
-    uiOutput(ns("Quantimetadatafiltering_btn_validate_ui"))
+    uiOutput(ns("variable_btn_validate_ui"))
   )
 }
 
 
 
 
-#' @param id xxx
-#' @param obj An instance of the class `QFeatures`
-#' @param keep_vs_remove A character(1) indicating whether to keep or delete 
-#' items. Default value is "delete"
-#' @param operator xxx
-#' @param reset A `ìnteger(1)` xxxx
-#' @param is.enabled A `logical(1)` that indicates whether the module is
-#' enabled or disabled. This is a remote command.
-#'
-#' @rdname mod_Metacell_Filtering
+
+#' @rdname mod_Variable_Filtering
 #'
 #' @export
 #'
-mod_Metacell_Filtering_server <- function(id,
+mod_Variable_Filtering_server <- function(id,
   obj,
   i,
   reset = reactive({NULL}),
@@ -86,7 +88,7 @@ mod_Metacell_Filtering_server <- function(id,
     fun.list = list(),
     widgets.value = list(),
     funFilter = reactive({NULL}),
-    qMetacell_Filter_SummaryDT = data.frame(
+    variable_Filter_SummaryDT = data.frame(
       query = "-",
       nbDeleted = "-",
       TotalMainAssay = "-",
@@ -111,7 +113,7 @@ mod_Metacell_Filtering_server <- function(id,
     observe({
       stopifnot(inherits(obj(), 'QFeatures'))
     })
-
+    
     
     output$plots_ui <- renderUI({
       
@@ -140,29 +142,23 @@ mod_Metacell_Filtering_server <- function(id,
       )
     }
     
-    output$qMetacell_Filter_DT <- DT::renderDataTable(server = TRUE,{
-        df <- rv.custom$qMetacell_Filter_SummaryDT
-        query <- rv.custom$funFilter()$value$ll.query
-        df[, "query"] <- ConvertListToHtml(query)
-        showDT(df)
-      })
+    output$variable_Filter_DT <- DT::renderDataTable(server = TRUE,{
+      req(rv.custom$funFilter()$value$ll.query)
+
+      df <- rv.custom$variable_Filter_SummaryDT
+      query <- rv.custom$funFilter()$value$ll.query
+      df[, "query"] <- ConvertListToHtml(query)
+      showDT(df)
+    })
     
-    output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
-      widget <- mod_qMetacell_FunctionFilter_Generator_ui(ns("query"))
+    output$variable_buildQuery_ui <- renderUI({
+      widget <- mod_VariableFilter_Generator_ui(ns("query"))
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
     
-    rv.custom$funFilter <- mod_qMetacell_FunctionFilter_Generator_server(
+    rv.custom$funFilter <- mod_VariableFilter_Generator_server(
       id = "query",
-      obj = reactive({obj()[[i()]]}),
-      conds = reactive({omXplore::get_group(obj())}),
-      list_tags = reactive({
-        req(obj()[[i()]])
-        c("None" = "None", omXplore::metacell.def(omXplore::get_type(obj()[[i()]]))$node)
-      }),
-      keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
-      val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
-      operator = reactive({stats::setNames(nm = SymFilteringOperators())})
+      obj = reactive({obj()[[i()]]})
     )
     
     
@@ -171,26 +167,25 @@ mod_Metacell_Filtering_server <- function(id,
     })
     
     
-    output$Quantimetadatafiltering_btn_validate_ui <- renderUI({
+    output$variable_btn_validate_ui <- renderUI({
       #browser()
-      req(length(rv.custom$funFilter()$value$ll.fun) > 0)
+      req(length(rv.custom$funFilter()$value$ll.var) > 0)
       
-      widget <- actionButton(ns("Quantimetadatafiltering_btn_validate"),
-        "Perform qMetacell filtering",
-        class = "btn-success"
-      )
+      widget <- actionButton(ns("variable_btn_validate"),
+        "Perform filtering", class = "btn-success")
       
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
     # >>> END: Definition of the widgets
     
     
-    observeEvent(input$Quantimetadatafiltering_btn_validate, {
+    observeEvent(input$variable_btn_validate, {
+      browser()
       tmp <- filterFeaturesOneSE(
         object = obj(),
         i = i(),
-        name = "qMetacellFiltered",
-        filters = rv.custom$funFilter()$value$ll.fun
+        name = "variableFiltered",
+        filters = rv.custom$funFilter()$value$ll.var
       )
       
       # Add infos
@@ -198,8 +193,8 @@ mod_Metacell_Filtering_server <- function(id,
       nBefore <- nrow(tmp[[length(tmp) - 1]])
       nAfter <- nrow(tmp[[length(tmp)]])
       
-      rv.custom$qMetacell_Filter_SummaryDT[, "nbDeleted"] <- nBefore - nAfter
-      rv.custom$qMetacell_Filter_SummaryDT[, "TotalMainAssay"] <- nrow(assay(tmp[[length(tmp)]]))
+      rv.custom$variable_Filter_SummaryDT[, "nbDeleted"] <- nBefore - nAfter
+      rv.custom$variable_Filter_SummaryDT[, "TotalMainAssay"] <- nrow(assay(tmp[[length(tmp)]]))
       
       par <- rv.custom$funFilter()$value$ll.widgets.value
       params(tmp[[i()]], length(tmp[[i()]])) <- par
@@ -214,14 +209,14 @@ mod_Metacell_Filtering_server <- function(id,
 
 
 #' @export
-#' @rdname mod_Metacell_Filtering
+#' @rdname mod_Variable_Filtering
 #' 
-mod_Metacell_Filtering <- function(obj, i){
-  ui <- mod_Metacell_Filtering_ui('query')
+mod_Variable_Filtering <- function(obj, i){
+  ui <- mod_Variable_Filtering_ui('query')
   
   server <- function(input, output, session){
     
-    res <- mod_Metacell_Filtering_server('query',
+    res <- mod_Variable_Filtering_server('query',
       obj = reactive({obj}),
       i = reactive({i}))
     

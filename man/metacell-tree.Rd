@@ -25,9 +25,9 @@ mod_metacell_tree(obj)
 \arguments{
 \item{id}{xxx}
 
-\item{reset}{xxx}
+\item{obj}{An instance of the class \code{SummarizedExperiment}}
 
-\item{type}{xxx}
+\item{reset}{xxx}
 }
 \value{
 NA

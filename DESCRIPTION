@@ -113,6 +113,7 @@ Collate:
     DaparToolshed-filterFeaturesOneSE.R
     iterative_agregation.R
     mod_Metacell_Filtering.R
+    mod_Variable_Filtering.R
     mod_Agregation.R
     mod_qMetacell_FunctionFilter_Generator.R
     export_qfeatures.R

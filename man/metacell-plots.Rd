@@ -21,6 +21,9 @@ mod_ds_metacell_Histos_server(
   obj = reactive({
      NULL
  }),
+  group = reactive({
+     NULL
+ }),
   pal = reactive({
      NULL
  }),
@@ -32,10 +35,11 @@ mod_ds_metacell_Histos_server(
  })
 )
 
-mod_ds_metacell_Histos(obj, pal, pattern, showSelect)
+mod_ds_metacell_Histos(obj, group, pal, pattern, showSelect)
 
 metacellPerLinesHisto_HC(
-  vizData,
+  obj,
+  group,
   pattern = NULL,
   detailed = FALSE,
   indLegend = "auto",
@@ -43,7 +47,8 @@ metacellPerLinesHisto_HC(
 )
 
 metacellPerLinesHistoPerCondition_HC(
-  vizData,
+  obj,
+  group,
   pattern = NULL,
   indLegend = "auto",
   showValues = FALSE,
@@ -51,7 +56,8 @@ metacellPerLinesHistoPerCondition_HC(
 )
 
 metacellHisto_HC(
-  vizData,
+  obj,
+  group = NULL,
   pattern = NULL,
   indLegend = "auto",
   showValues = FALSE,
@@ -60,22 +66,20 @@ metacellHisto_HC(
 
 wrapper.mvImage(obj, pattern = "Missing MEC")
 
-mvImage(vizData)
+mvImage(obj)
 
-hc_mvTypePlot2(vizData, pal = NULL, pattern, typeofMV = NULL, title = NULL)
+hc_mvTypePlot2(obj, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 }
 \arguments{
 \item{id}{xxx}
 
-\item{obj}{An object of class \code{DaparViz}.}
+\item{obj}{xxx}
 
 \item{pal}{The different colors for conditions}
 
 \item{pattern}{xxx}
 
 \item{showSelect}{xxx}
-
-\item{vizData}{xxx}
 
 \item{detailed}{'value' or 'percent'}
 
@@ -106,7 +110,7 @@ This method plots a bar plot which represents the distribution of the
 number of missing values (NA) per lines (ie proteins).
 
 Plots a heatmap of the quantitative data. Each column represent one of
-the conditions in the object of class \code{VizData} and
+the conditions in the object of class \code{obj} and
 the color is proportional to the mean of intensity for each line of
 the dataset.
 The lines have been sorted in order to vizualize easily the different
@@ -131,60 +135,55 @@ and the considered condition.
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data(ft_na)
-shiny::runApp(mod_ds_metacell_Histos(ft_na[[1]]))
+grp <- omXplore::get_group(ft_na)
+shiny::runApp(mod_ds_metacell_Histos(ft_na[[1]], group = grp))
 \dontshow{\}) # examplesIf}
-
-library(QFeatures)
-library(DaparViz)
-
-#vList <- BuildExampleDataset('QFeatures')
-vList <- BuildExampleDataset('MSnbase')
-#vList <- BuildExampleDataset('list')
-
-vData <- GetVizData(vList, 1)
-pal <- ExtendPalette(length(unique(vData@conds)), "Dark2")
-
-
-metacellPerLinesHisto_HC(vData, pattern = "Missing POV")
-metacellPerLinesHisto_HC(vData)
-metacellPerLinesHisto_HC(vData, pattern = "Quantified")
-metacellPerLinesHisto_HC(vData, pattern = "Quant. by direct id")
-metacellPerLinesHisto_HC(vData, pattern = "Quant. by recovery")
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(ft_na)
+grp <- omXplore::get_group(ft_na)
+metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
+metacellPerLinesHisto_HC(ft_na[[1]])
+metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quantified")
+metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quant. by direct id")
+metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHisto_HC(vData, pattern = pattern)
+metacellPerLinesHisto_HC(ft_na[[1]], pattern = pattern)
 
 
-metacellPerLinesHistoPerCondition_HC(vData, pattern = "Missing POV")
-metacellPerLinesHistoPerCondition_HC(vData)
-metacellPerLinesHistoPerCondition_HC(vData, pattern = "Quantified")
-metacellPerLinesHistoPerCondition_HC(vData, pattern = "Quant. by direct id")
-metacellPerLinesHistoPerCondition_HC(vData, pattern = "Quant. by recovery")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Missing POV")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]])
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quantified")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quant. by direct id")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHistoPerCondition_HC(vData, pattern = pattern)
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = pattern)
 
 
-metacellHisto_HC(vData, pattern = "Missing POV")
-metacellHisto_HC(vData)
-metacellHisto_HC(vData, pattern = "Quantified")
-metacellHisto_HC(vData, pattern = "Quant. by direct id")
-metacellHisto_HC(vData, pattern = "Quant. by recovery")
+metacellHisto_HC(ft_na[[1]], pattern = "Missing POV")
+metacellHisto_HC(ft_na[[1]])
+metacellHisto_HC(ft_na[[1]], pattern = "Quantified")
+metacellHisto_HC(ft_na[[1]], pattern = "Quant. by direct id")
+metacellHisto_HC(ft_na[[1]], pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellHisto_HC(vData, pattern = pattern)
+metacellHisto_HC(ft_na[[1]], pattern = pattern)
+
+
+\dontshow{\}) # examplesIf}
 data(Exp1_R25_pept, package = 'DaparToolshedData')
 vData <- convert2viz(Exp1_R25_pept)
 pattern <- "Missing POV"
 pal <- ExtendPalette(2, "Dark2")
-metacellHisto_HC(vData@ll.vizData[[1]], pattern, showValues = TRUE, pal = pal)
+metacellHisto_HC(vData@ll.obj[[1]], pattern, showValues = TRUE, pal = pal)
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
 vData <- convert2viz(Exp1_R25_pept)
-mvImage(vData@ll.vizData[[1]])
+mvImage(vData@ll.obj[[1]])
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
 vData <- convert2viz(Exp1_R25_pept)
-pal <- ExtendPalette(length(unique(vData@ll.vizData[[1]]@conds)), "Dark2")
+pal <- ExtendPalette(length(unique(vData@ll.obj[[1]]@conds)), "Dark2")
 pattern <- "Missing MEC"
-hc_mvTypePlot2(vData@ll.vizData[[1]], pattern = pattern, pal = pal)
+hc_mvTypePlot2(vData@ll.obj[[1]], pattern = pattern, pal = pal)
 
 }
 \author{
