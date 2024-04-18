@@ -181,8 +181,7 @@ mod_Variable_Filtering_server <- function(id,
     
     
     observeEvent(input$variable_btn_validate, {
-      
-      browser()
+
       tmp <- filterFeaturesOneSE(
         object = obj(),
         i = i(),
