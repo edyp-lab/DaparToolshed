@@ -117,14 +117,17 @@ mod_Variable_Filtering_server <- function(id,
     })
     
     
-    output$plots_ui <- renderUI({
-      
+    observe({
+      req(is.enabled())
       mod_ds_metacell_Histos_server(
         id = "plots",
         obj = reactive({obj()[[i()]]}),
         pattern = reactive({"Missing"}),
         group = reactive({omXplore::get_group(obj())})
       )
+    })
+    
+    output$plots_ui <- renderUI({
       widget <- mod_ds_metacell_Histos_ui(ns("plots"))
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
@@ -172,7 +175,7 @@ mod_Variable_Filtering_server <- function(id,
     
     output$variable_btn_validate_ui <- renderUI({
       #browser()
-      req(length(rv.custom$funFilter()$value$ll.var) > 0)
+      #req(length(rv.custom$funFilter()$value$ll.var) > 0)
       
       widget <- actionButton(ns("variable_btn_validate"),
         "Perform filtering", class = "btn-success")
@@ -183,7 +186,7 @@ mod_Variable_Filtering_server <- function(id,
     
     
     observeEvent(input$variable_btn_validate, {
-
+     # req(is.enabled())
       tmp <- filterFeaturesOneSE(
         object = obj(),
         i = i(),

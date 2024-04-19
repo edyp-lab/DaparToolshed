@@ -70,8 +70,8 @@ mod_Metacell_Filtering_ui <- function(id) {
 #' @export
 #'
 mod_Metacell_Filtering_server <- function(id,
-  obj,
-  i,
+  obj = reactive({NULL}),
+  i = reactive({1}),
   reset = reactive({NULL}),
   is.enabled = reactive({TRUE})) {
   
@@ -195,6 +195,7 @@ mod_Metacell_Filtering_server <- function(id,
     
     
     observeEvent(input$Quantimetadatafiltering_btn_validate, {
+      #req(is.enabled())
       tmp <- filterFeaturesOneSE(
         object = obj(),
         i = i(),

@@ -93,8 +93,8 @@ PipelineProtein_Filtering_server <- function(id,
     deleted.stringBased = NULL,
     deleted.metacell = NULL,
     deleted.numeric = NULL,
-    tmp1 = NULL,
-    tmp2 = NULL
+    tmp1 = reactive({NULL}),
+    tmp2 = reactive({NULL})
   )
   
   ###-------------------------------------------------------------###
@@ -197,12 +197,14 @@ PipelineProtein_Filtering_server <- function(id,
     # >>> START: Definition of the widgets
     output$mod_metacell_filtering_ui <- renderUI({
 
-      rv.custom$tmp1 <- mod_Metacell_Filtering_server(
+
+        rv.custom$tmp1 <- mod_Metacell_Filtering_server(
         id = "metaFiltering",
         obj = reactive({rv$dataIn}),
         i = reactive({length(rv$dataIn)}),
         is.enabled = reactive({rv$steps.enabled["Cellmetadatafiltering"]})
       )
+
       
       widget <- mod_Metacell_Filtering_ui(ns("metaFiltering"))
       MagellanNTK::toggleWidget(widget, 
@@ -224,7 +226,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     observeEvent(input$Cellmetadatafiltering_btn_validate, {
-      
+      rv.custom$tmp <- rv.custom$tmp2()$value
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
@@ -247,14 +249,28 @@ PipelineProtein_Filtering_server <- function(id,
     
 
     output$mod_variable_filtering_ui <- renderUI({
+      
+       dataIn <- rv$dataIn
+      # # If the previous step has been run and validated,
+      # # Update dataIn to its result
+       #if (rv$steps.status["Cellmetadatafiltering"] == stepStatus$VALIDATED)
+         if (!is.null(rv.custom$tmp1()$value))
+         dataIn <- rv.custom$tmp1()$value
 
+      rv.custom$tmp2 <- mod_Variable_Filtering_server(
+        id = "varFiltering",
+        obj = reactive({dataIn}),
+        i = reactive({length(dataIn)}),
+        is.enabled = reactive({rv$steps.enabled["Variablefiltering"]})
+      )
+     
+      
     widget <- mod_Variable_Filtering_ui(ns("varFiltering"))
     MagellanNTK::toggleWidget(widget, 
       rv$steps.enabled["Variablefiltering"])
   })
   
-  
-    
+
     output$Variablefiltering_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Variablefiltering_btn_validate"),
         "Validate step",
@@ -264,21 +280,10 @@ PipelineProtein_Filtering_server <- function(id,
     })
 
     
+    
     observeEvent(input$Variablefiltering_btn_validate, {
       
-      dataIn <- rv$dataIn
-      # If the previous step has been run and validated,
-      # Update dataIn to its result
-      if (rv$steps.status["Cellmetadatafiltering"] == stepStatus$VALIDATED)
-        dataIn <- rv.custom$tmp1()
-      
-      rv.custom$tmp2 <- mod_Variable_Filtering_server(
-        id = "varFiltering",
-        object = reactive({dataIn}),
-        i = reactive({length(dataIn)}),
-        is.enabled = reactive({rv$steps.enabled["Variablefiltering"]})
-      )
-      
+      rv.custom$tmp <- rv.custom$tmp2()$value
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
@@ -313,15 +318,25 @@ PipelineProtein_Filtering_server <- function(id,
     })
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-
+      # Clean the result
+      #data.tmp <- rv.custom$tmp2()$value
+      nTotal <- length(rv.custom$tmp)
+      nOriginal <- length(rv$dataIn)
+      if (nTotal- nOriginal > 1)
+        rv.custom$tmp <- QFeatures::removeAssay(
+          rv.custom$tmp, 
+          (nOriginal+1):(nTotal-1))
+      
+      
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
-      dataOut$value <- Add_Datasets_to_Object(
-        object = rv.custom$tmp2(),
-        dataset = new.dataset,
-        name = id)
+      # dataOut$value <- addDatasets(
+      #   object = rv.custom$tmp2(),
+      #   dataset = new.dataset,
+      #   name = id)
+      dataOut$value <- rv.custom$tmp
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      dl_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      dl_server('createQuickLink', dataIn = reactive({rv.custom$tmp}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------
