@@ -94,7 +94,8 @@ PipelineProtein_Filtering_server <- function(id,
     deleted.metacell = NULL,
     deleted.numeric = NULL,
     tmp1 = reactive({NULL}),
-    tmp2 = reactive({NULL})
+    tmp2 = reactive({NULL}),
+    tmp = reactive({NULL})
   )
   
   ###-------------------------------------------------------------###
@@ -194,18 +195,16 @@ PipelineProtein_Filtering_server <- function(id,
     })
     
     
+    rv.custom$tmp1 <- mod_Metacell_Filtering_server(
+      id = "metaFiltering",
+      obj = reactive({rv$dataIn}),
+      i = reactive({length(rv$dataIn)}),
+      is.enabled = reactive({rv$steps.enabled["Cellmetadatafiltering"]})
+    )
+    
     # >>> START: Definition of the widgets
     output$mod_metacell_filtering_ui <- renderUI({
 
-
-        rv.custom$tmp1 <- mod_Metacell_Filtering_server(
-        id = "metaFiltering",
-        obj = reactive({rv$dataIn}),
-        i = reactive({length(rv$dataIn)}),
-        is.enabled = reactive({rv$steps.enabled["Cellmetadatafiltering"]})
-      )
-
-      
       widget <- mod_Metacell_Filtering_ui(ns("metaFiltering"))
       MagellanNTK::toggleWidget(widget, 
         rv$steps.enabled["Cellmetadatafiltering"])
@@ -226,7 +225,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     observeEvent(input$Cellmetadatafiltering_btn_validate, {
-      rv.custom$tmp <- rv.custom$tmp2()$value
+      rv.custom$tmp <- rv.custom$tmp1()$value
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
@@ -248,23 +247,25 @@ PipelineProtein_Filtering_server <- function(id,
     })
     
 
-    output$mod_variable_filtering_ui <- renderUI({
-      
-       dataIn <- rv$dataIn
+    observe({
+      dataIn <- rv$dataIn
       # # If the previous step has been run and validated,
       # # Update dataIn to its result
-       #if (rv$steps.status["Cellmetadatafiltering"] == stepStatus$VALIDATED)
-         if (!is.null(rv.custom$tmp1()$value))
-         dataIn <- rv.custom$tmp1()$value
-
+      #if (rv$steps.status["Cellmetadatafiltering"] == stepStatus$VALIDATED)
+      if (!is.null(rv.custom$tmp1()$value))
+        dataIn <- rv.custom$tmp1()$value
+      
       rv.custom$tmp2 <- mod_Variable_Filtering_server(
         id = "varFiltering",
         obj = reactive({dataIn}),
         i = reactive({length(dataIn)}),
         is.enabled = reactive({rv$steps.enabled["Variablefiltering"]})
       )
-     
       
+    })
+    
+    
+    output$mod_variable_filtering_ui <- renderUI({
     widget <- mod_Variable_Filtering_ui(ns("varFiltering"))
     MagellanNTK::toggleWidget(widget, 
       rv$steps.enabled["Variablefiltering"])
@@ -319,7 +320,6 @@ PipelineProtein_Filtering_server <- function(id,
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
       # Clean the result
-      #data.tmp <- rv.custom$tmp2()$value
       nTotal <- length(rv.custom$tmp)
       nOriginal <- length(rv$dataIn)
       if (nTotal- nOriginal > 1)
@@ -334,6 +334,7 @@ PipelineProtein_Filtering_server <- function(id,
       #   object = rv.custom$tmp2(),
       #   dataset = new.dataset,
       #   name = id)
+      print(rv.custom$tmp)
       dataOut$value <- rv.custom$tmp
       rv$steps.status['Save'] <- stepStatus$VALIDATED
       dl_server('createQuickLink', dataIn = reactive({rv.custom$tmp}))

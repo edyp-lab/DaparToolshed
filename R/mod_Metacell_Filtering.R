@@ -86,12 +86,7 @@ mod_Metacell_Filtering_server <- function(id,
     fun.list = list(),
     widgets.value = list(),
     funFilter = reactive({NULL}),
-    qMetacell_Filter_SummaryDT = data.frame(
-      query = "-",
-      nbDeleted = "-",
-      TotalMainAssay = "-",
-      stringsAsFactors = FALSE
-    )
+    qMetacell_Filter_SummaryDT = NULL
   )
   
   
@@ -108,9 +103,18 @@ mod_Metacell_Filtering_server <- function(id,
     )
     
     
-    observe({
+    observeEvent(req(obj()), {
       req(obj())
+      browser()
       stopifnot(inherits(obj(), 'QFeatures'))
+      rv$dataIn <- obj()
+      rv.custom$qMetacell_Filter_SummaryDT <- data.frame(
+        query = "-",
+        nbDeleted = "-",
+        TotalMainAssay = "-",
+        stringsAsFactors = FALSE
+      )
+      print(rv$dataIn)
     })
 
     
@@ -118,9 +122,9 @@ mod_Metacell_Filtering_server <- function(id,
       
       mod_ds_metacell_Histos_server(
         id = "plots",
-        obj = reactive({obj()[[i()]]}),
+        obj = reactive({rv$dataIn[[i()]]}),
         pattern = reactive({"Missing"}),
-        group = reactive({omXplore::get_group(obj())})
+        group = reactive({omXplore::get_group(rv$dataIn)})
       )
       
       widget <- mod_ds_metacell_Histos_ui(ns("plots"))
@@ -144,30 +148,31 @@ mod_Metacell_Filtering_server <- function(id,
     }
     
     output$qMetacell_Filter_DT <- DT::renderDataTable(server = TRUE,{
+
         df <- rv.custom$qMetacell_Filter_SummaryDT
         query <- rv.custom$funFilter()$value$ll.query
         df[, "query"] <- ConvertListToHtml(query)
         showDT(df)
       })
     
-    output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
-      
+    
     observe({
       req(is.enabled())
       rv.custom$funFilter <- mod_qMetacell_FunctionFilter_Generator_server(
         id = "query",
-        obj = reactive({obj()[[i()]]}),
-        conds = reactive({omXplore::get_group(obj())}),
+        obj = reactive({rv$dataIn[[i()]]}),
+        conds = reactive({omXplore::get_group(rv$dataIn)}),
         list_tags = reactive({
-          req(obj()[[i()]])
-          c("None" = "None", omXplore::metacell.def(omXplore::get_type(obj()[[i()]]))$node)
+          req(rv$dataIn[[i()]])
+          c("None" = "None", omXplore::metacell.def(omXplore::get_type(rv$dataIn[[i()]]))$node)
         }),
         keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
         val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
         operator = reactive({stats::setNames(nm = SymFilteringOperators())})
       )
     })
-      
+    
+    output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
       widget <- mod_qMetacell_FunctionFilter_Generator_ui(ns("query"))
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
@@ -195,16 +200,15 @@ mod_Metacell_Filtering_server <- function(id,
     
     
     observeEvent(input$Quantimetadatafiltering_btn_validate, {
-      #req(is.enabled())
+
       tmp <- filterFeaturesOneSE(
-        object = obj(),
+        object = rv$dataIn,
         i = i(),
         name = "qMetacellFiltered",
         filters = rv.custom$funFilter()$value$ll.fun
       )
       
       # Add infos
-      #browser()
       nBefore <- nrow(tmp[[length(tmp) - 1]])
       nAfter <- nrow(tmp[[length(tmp)]])
       
