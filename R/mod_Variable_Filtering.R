@@ -112,6 +112,7 @@ mod_Variable_Filtering_server <- function(id,
     
     
     observe({
+      req(obj())
       stopifnot(inherits(obj(), 'QFeatures'))
     })
     
@@ -124,7 +125,8 @@ mod_Variable_Filtering_server <- function(id,
         pattern = reactive({"Missing"}),
         group = reactive({omXplore::get_group(obj())})
       )
-      mod_ds_metacell_Histos_ui(ns("plots"))
+      widget <- mod_ds_metacell_Histos_ui(ns("plots"))
+      MagellanNTK::toggleWidget(widget, is.enabled())
     })
     
     
@@ -153,16 +155,16 @@ mod_Variable_Filtering_server <- function(id,
     })
     
     output$variable_buildQuery_ui <- renderUI({
+      observe({
+        req(is.enabled())
+        rv.custom$funFilter <- mod_VariableFilter_Generator_server(
+          id = "query",
+          obj = reactive({obj()[[i()]]})
+        )
+      })
       widget <- mod_VariableFilter_Generator_ui(ns("query"))
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
-    
-    rv.custom$funFilter <- mod_VariableFilter_Generator_server(
-      id = "query",
-      obj = reactive({obj()[[i()]]})
-    )
-    
-    
     
     observeEvent(rv.custom$funFilter()$trigger, {
     })
