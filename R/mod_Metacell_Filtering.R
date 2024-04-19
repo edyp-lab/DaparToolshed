@@ -103,9 +103,9 @@ mod_Metacell_Filtering_server <- function(id,
     )
     
     
-    observeEvent(req(obj()), {
+    observeEvent(obj(), ignoreNULL = TRUE,{
       req(obj())
-      browser()
+      #browser()
       stopifnot(inherits(obj(), 'QFeatures'))
       rv$dataIn <- obj()
       rv.custom$qMetacell_Filter_SummaryDT <- data.frame(
@@ -114,8 +114,8 @@ mod_Metacell_Filtering_server <- function(id,
         TotalMainAssay = "-",
         stringsAsFactors = FALSE
       )
-      print(rv$dataIn)
-    })
+      #print(rv$dataIn)
+    }, priority = 1000)
 
     
     output$plots_ui <- renderUI({

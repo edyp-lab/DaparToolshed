@@ -248,6 +248,7 @@ PipelineProtein_Filtering_server <- function(id,
     
 
     observe({
+      req(rv$dataIn)
       dataIn <- rv$dataIn
       # # If the previous step has been run and validated,
       # # Update dataIn to its result
