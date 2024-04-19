@@ -144,7 +144,7 @@ PipelineA_Process3_server <- function(id,
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
                              "Start",
-                             class = MagellanNTK::btn_success_color)
+                             class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -195,7 +195,7 @@ PipelineA_Process3_server <- function(id,
     output$Step1_btn1_ui <- renderUI({
       widget <- actionButton(ns('Step1_btn1'),
                              'Step1_btn1',
-                             class = MagellanNTK::btn_success_color)
+                             class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step1'] )
     })
     
@@ -234,7 +234,7 @@ PipelineA_Process3_server <- function(id,
     output$Step1_btn_validate_ui <- renderUI({
       widget <-  actionButton(ns("Step1_btn_validate"),
                               "Perform",
-                              class = MagellanNTK::btn_success_color)
+                              class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step1'] )
       
     })
@@ -294,7 +294,7 @@ PipelineA_Process3_server <- function(id,
     output$Step2_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Step2_btn_validate"),
                              "Perform",
-                             class = MagellanNTK::btn_success_color)
+                             class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Step2'] )
     })
     
@@ -323,7 +323,7 @@ PipelineA_Process3_server <- function(id,
     output$Save_btn_validate_ui <- renderUI({
       tagList(
         toggleWidget(actionButton(ns("Save_btn_validate"), "Save",
-                                  class = MagellanNTK::btn_success_color),
+                                  class = "btn-success"),
                      rv$steps.enabled['Save']
         ),
         if (config@mode == 'process' && rv$steps.status['Save'] == global$VALIDATED) {

@@ -240,7 +240,9 @@ mod_VariableFilter_Generator_server <- function(id,
       #req()
       
       value <- Extract_Value(rv.widgets$value)
-      query <- paste0(rv.widgets$cname, " ", rv.widgets$operator, " ", value)
+      query <- paste0(
+        rv.widgets$keep_vs_remove, " values for which ",
+        rv.widgets$cname, " ", rv.widgets$operator, " ", value)
       query
       
     })

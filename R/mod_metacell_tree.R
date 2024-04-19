@@ -221,6 +221,7 @@ observeEvent(input$lastModalClose,  ignoreInit = FALSE, ignoreNULL = TRUE, {
 
 
 observeEvent(id, ignoreInit = FALSE, {
+
   if (!is.null(omXplore::get_type(obj())))
     init_tree()
   dataOut$trigger <- as.numeric(Sys.time())

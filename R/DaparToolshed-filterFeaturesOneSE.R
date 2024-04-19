@@ -172,37 +172,17 @@ setMethod(
             return(object)
         }
         ## Create the filtered assay
-        #new.se <- filterFeaturesOneSE(object, i, filters)
-        
         
         new.se <- object[[i]]
         
         for (x in filters) {
           if (inherits(x, "AnnotationFilter")) {
-            
-            # This function cannot be used here because it is only used to
-            # filter all the SE of a QFeatures object. And one wants here
-            # to filter only one SummarizedExperiment object
-            # #sel <- QFeatures::filterFeatures(object, x)
-            # 
-            #if (AnnotationFilter::field(x) %in% names(.tmp)) {
-            # .tmp <- rowData(object[[i]])
-            # filter.mask <- do.call(AnnotationFilter::condition(x),
-            #   list(.tmp[, AnnotationFilter::field(x)],
-            #     AnnotationFilter::value(x)))
-            #     
-            
             new.se <- filterFeatures(object, x, i)[[i]]
-            #}
           } else if (inherits(x, "FunctionFilter")) {
-            new.se <- do.call(x@name, 
-              list(object = object[[i]]), x@params)
+            new.se <- do.call(x@name, append(list(object = object[[i]]), x@params))
           }
         }
-        
-        
-        
-        
+
         ## Add the assay to the QFeatures object
         object <- addAssay(object,
             new.se,
@@ -232,38 +212,3 @@ setMethod(
 )
 
 
-# 
-# ##' @importFrom BiocGenerics do.call
-# ##' @importFrom AnnotationFilter field
-# ##' @exportMethod filterFeaturesOneSE
-# ##' @rdname QFeatures-filtering-oneSE
-# setMethod(
-#     "filterFeaturesOneSE", "SummarizedExperiment",
-#     function(object, i, filters) {
-#         for (x in filters) {
-#             if (inherits(x, "AnnotationFilter")) {
-#                 
-#                 # This function cannot be used here because it is only used to
-#                 # filter all the SE of a QFeatures object. And one wants here
-#                 # to filter only one SummarizedExperiment object
-#                 # #sel <- QFeatures::filterFeatures(object, x)
-#                 # 
-#               #if (AnnotationFilter::field(x) %in% names(.tmp)) {
-#                 # .tmp <- rowData(object[[i]])
-#                 # filter.mask <- do.call(AnnotationFilter::condition(x),
-#                 #   list(.tmp[, AnnotationFilter::field(x)],
-#                 #     AnnotationFilter::value(x)))
-#                 #     
-#                 
-#                 object[[i]] <- filterFeatures(object, x, i)[[i]]
-#                 #}
-#             } else if (inherits(x, "FunctionFilter")) {
-#               object[[i]] <- do.call(x@name, 
-#                 list(object = object[[i]]), x@params)
-#             }
-#         }
-# 
-# 
-#         return(object[[i]])
-#     }
-# )

@@ -1,7 +1,7 @@
 #' @title Shiny example process module.
 #'
 #' @description
-#' This module contains the configuration informations for the corresponding pipeline.
+#' This module contains the configuration information for the corresponding pipeline.
 #' It is called by the nav_pipeline module of the package MagellanNTK
 #' 
 #' The name of the server and ui functions are formatted with keywords separated by '_', as follows:

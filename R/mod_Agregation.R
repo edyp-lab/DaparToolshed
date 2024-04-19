@@ -170,7 +170,7 @@ mod_Agregation_server <- function(id,
         output$Description_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Description_btn_validate"),
                 "Start",
-                class = MagellanNTK::btn_success_color
+                class = "btn-success"
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Description"])
         })
@@ -216,7 +216,7 @@ mod_Agregation_server <- function(id,
         output$Filterpeptides_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Filterpeptides_btn_validate"),
                 "Run",
-                class = MagellanNTK::btn_success_color
+                class = "btn-success"
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Filterpeptides"])
         })
@@ -435,7 +435,7 @@ mod_Agregation_server <- function(id,
         output$Agregation_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Agregation_btn_validate"),
                 "Perform",
-                class = MagellanNTK::btn_success_color
+                class = "btn-success"
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Agregation"])
         })
@@ -507,7 +507,7 @@ mod_Agregation_server <- function(id,
         output$Save_btn_validate_ui <- renderUI({
             widget <- actionButton(ns("Save_btn_validate"),
                 "Perform",
-                class = MagellanNTK::btn_success_color
+                class = "btn-success"
             )
             MagellanNTK::toggleWidget(widget, rv$steps.enabled["Save"])
         })

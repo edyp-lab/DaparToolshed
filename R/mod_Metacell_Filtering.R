@@ -109,6 +109,7 @@ mod_Metacell_Filtering_server <- function(id,
     
     
     observe({
+      req(obj())
       stopifnot(inherits(obj(), 'QFeatures'))
     })
 
@@ -121,7 +122,9 @@ mod_Metacell_Filtering_server <- function(id,
         pattern = reactive({"Missing"}),
         group = reactive({omXplore::get_group(obj())})
       )
-      mod_ds_metacell_Histos_ui(ns("plots"))
+      
+      widget <- mod_ds_metacell_Histos_ui(ns("plots"))
+      MagellanNTK::toggleWidget(widget, is.enabled())
     })
     
     
@@ -148,22 +151,28 @@ mod_Metacell_Filtering_server <- function(id,
       })
     
     output$Quantimetadatafiltering_buildQuery_ui <- renderUI({
+      
+    observe({
+      req(is.enabled())
+      rv.custom$funFilter <- mod_qMetacell_FunctionFilter_Generator_server(
+        id = "query",
+        obj = reactive({obj()[[i()]]}),
+        conds = reactive({omXplore::get_group(obj())}),
+        list_tags = reactive({
+          req(obj()[[i()]])
+          c("None" = "None", omXplore::metacell.def(omXplore::get_type(obj()[[i()]]))$node)
+        }),
+        keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
+        val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
+        operator = reactive({stats::setNames(nm = SymFilteringOperators())})
+      )
+    })
+      
       widget <- mod_qMetacell_FunctionFilter_Generator_ui(ns("query"))
       MagellanNTK::toggleWidget(widget, is.enabled())
     })
     
-    rv.custom$funFilter <- mod_qMetacell_FunctionFilter_Generator_server(
-      id = "query",
-      obj = reactive({obj()[[i()]]}),
-      conds = reactive({omXplore::get_group(obj())}),
-      list_tags = reactive({
-        req(obj()[[i()]])
-        c("None" = "None", omXplore::metacell.def(omXplore::get_type(obj()[[i()]]))$node)
-      }),
-      keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
-      val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
-      operator = reactive({stats::setNames(nm = SymFilteringOperators())})
-    )
+    
     
     
     
