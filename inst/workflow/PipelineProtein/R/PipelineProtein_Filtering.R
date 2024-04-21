@@ -164,8 +164,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     observeEvent(input$Description_btn_validate, {
-      rv$dataIn <- dataIn()
-      #rv.custom$tmp1 <- rv.custom$tmp2 <- dataIn()
+      rv$dataIn <- rv.custom$tmp <- dataIn()
       
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
@@ -306,9 +305,10 @@ PipelineProtein_Filtering_server <- function(id,
     })
     
     output$dl_ui <- renderUI({
-      req(config@mode == 'process')
       req(rv$steps.status['Save'] == stepStatus$VALIDATED)
-      dl_ui(ns('createQuickLink'))
+      req(config@mode == 'process')
+      
+      MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_ui <- renderUI({
@@ -331,14 +331,12 @@ PipelineProtein_Filtering_server <- function(id,
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
-      # dataOut$value <- addDatasets(
-      #   object = rv.custom$tmp2(),
-      #   dataset = new.dataset,
-      #   name = id)
-      print(rv.custom$tmp)
       dataOut$value <- rv.custom$tmp
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      dl_server('createQuickLink', dataIn = reactive({rv.custom$tmp}))
+      
+      
+      MagellanNTK::mod_download_dataset_server('createQuickLink', 
+        dataIn = reactive({rv.custom$tmp}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

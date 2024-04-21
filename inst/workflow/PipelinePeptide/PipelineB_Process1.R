@@ -347,7 +347,7 @@ PipelineB_Process1_server <- function(id,
     output$dl_ui <- renderUI({
       req(config@mode == 'process')
       req(rv$steps.status['Save'] == global$VALIDATED)
-      dl_ui(ns('createQuickLink'))
+      MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_ui <- renderUI({
@@ -366,7 +366,7 @@ PipelineB_Process1_server <- function(id,
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- global$VALIDATED
-      dl_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      MagellanNTK::mod_download_dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

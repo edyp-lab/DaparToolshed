@@ -709,7 +709,7 @@ Convert_server <- function(id,
     output$mod_dl_ui <- renderUI({
       req(config@mode == 'process')
       req(rv$steps.status['Save'] == global$VALIDATED)
-      dl_ui(ns('createQuickLink'))
+      MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_ui <- renderUI({
@@ -735,7 +735,7 @@ Convert_server <- function(id,
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- global$VALIDATED
-      dl_server('createQuickLink', 
+      MagellanNTK::mod_download_dataset_server('createQuickLink', 
                 dataIn = reactive({rv$dataIn}),
                 extension = c('csv', 'xlsx', 'RData'))
       

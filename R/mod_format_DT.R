@@ -40,7 +40,7 @@ format_DT_ui <- function(id) {
     useShinyjs(),
     # shinyjs::hidden(
     #   div(id = ns("dl_div"),
-    #       dl_ui(ns("DL_btns"))
+    #       MagellanNTK::mod_download_dataset_ui(ns("DL_btns"))
     #   )
     # ),
     fluidRow(

@@ -8,6 +8,7 @@ open_dataset: MagellanNTK
 open_demoDataset: MagellanNTK
 view_dataset: omXplore
 infos_dataset: MagellanNTK
+download_dataset: MagellanNTK
 addDatasets: DaparToolshed
 keepDatasets: DaparToolshed
 
