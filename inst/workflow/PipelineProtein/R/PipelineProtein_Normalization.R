@@ -16,7 +16,7 @@
 #' the code for the process `ProcessProtein` which is part of the pipeline called `PipelineProtein`.
 
 
-#' @rdname PipelineProtein_Normalization
+#' @rdname PipelineProtein
 #' @export
 #' 
 PipelineProtein_Normalization_conf <- function(){
@@ -31,7 +31,7 @@ PipelineProtein_Normalization_conf <- function(){
 
 #' @param id xxx
 #' 
-#' @rdname PipelineProtein_Normalization
+#' @rdname PipelineProtein
 #' 
 #' @author Samuel Wieczorek
 #' 
@@ -59,7 +59,7 @@ PipelineProtein_Normalization_ui <- function(id){
 #' 
 #' @param current.pos xxx
 #'
-#' @rdname PipelineProtein_Normalization
+#' @rdname PipelineProtein
 #' 
 #' @importFrom stats setNames rnorm
 #' 

@@ -938,6 +938,8 @@ GetMetacell <- function(obj) {
 #' @return NA
 #' 
 #' @rdname q_metacell
+#' @exportMethod UpdateMetacellAfterImputation
+#' @export
 #' 
 setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
           function(object,
@@ -955,18 +957,20 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             # }
             
             
-            ind <- match.metacell(metadata = qMetacell(object), 
-                                   pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
-                                   level = omXplore::get_type(object) & !is.na(assay(object))
-            )
+            ind <- match.metacell(
+              metadata = get_metacell(object), 
+              pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
+              level = omXplore::get_type(object)) & !is.na(assay(object))
             
-            names.meta <- colnames(GetMetacell(obj))
-            rowData(object)$names.meta[ind] <- gsub(from,
-                                                    to, 
-                                                    rowData(object)$names.meta[ind],
-                                                    fixed = TRUE)
+            rowData(object)$qMetacell[ind] <- gsub(
+              pattern = "Missing", 
+              replacement = "Imputed",
+              x = get_metacell(object)[ind],
+              fixed = TRUE)
             object
           })
+
+
 
 
 #' @title

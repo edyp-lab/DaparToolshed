@@ -12,11 +12,12 @@
 #' path <- system.file('extdata/workflow/PipelineProtein', package = 'DaparToolshed')
 #' shiny::runApp(MagellanNTK::workflowApp("PipelineProtein")
 #' 
+#' @name PipelineProtein
 #' 
 NULL
 
 
-#' @rdname module_PiplelineProtein
+#' @rdname PipelineProtein
 #' @export
 #' 
 PipelineProtein_conf <- function(){
@@ -34,7 +35,7 @@ Config(
 
 #' @param id xxx
 #'
-#' @rdname module_PiplelineProtein
+#' @rdname PipelineProtein
 #'
 #' @author Samuel Wieczorek
 #' 
@@ -64,7 +65,7 @@ PipelineProtein_ui <- function(id){
 #' 
 #' @param current.pos xxx
 #' 
-#' @rdname module_PiplelineProtein
+#' @rdname PipelineProtein
 #'
 #' @import shiny
 #' @importFrom stats setNames

@@ -94,7 +94,11 @@ Collate:
     mod_ds_metacell.R
     plots_volcano.R
     plots_compare_assays.R
-    mod_mv_imputation.R
+    missingValuesImputation_ProteinLevel.R
+    missingValuesImputation_PeptideLevel.R
+    mod_DetQuantImpValues.R
+    mod_Imputation_POV.R
+    utils_DAPAR.R
     funcs_missingValuesFiltering.R
     plot_metacell.R
     run_Convert.R

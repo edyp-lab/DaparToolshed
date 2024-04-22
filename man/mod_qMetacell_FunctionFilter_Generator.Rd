@@ -93,7 +93,7 @@ keep_vs_remove <- setNames(nm = c("delete", "keep"))
 val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 
 shiny::runApp(
-mod_qMetacell_FunctionFilter_Generator_ui(
+mod_qMetacell_FunctionFilter_Generator(
 obj, conds, list_tags, keep_vs_remove, val_vs_percent, operator))
 \dontshow{\}) # examplesIf}
 }

@@ -1,3 +1,3 @@
-## Overview of 'Process3'
+## Overview of 'Imputation' process
 
-This page describes the computations done with Process3.
+This page describes the computations done with Imputation.

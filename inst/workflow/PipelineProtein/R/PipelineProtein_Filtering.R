@@ -15,7 +15,7 @@
 #' In this example, `PipelineProtein_Filtering_ui()` and `PipelineProtein_Filtering_server()` define
 #' the code for the process `PipelineProtein` which is part of the pipeline called `PipelineProtein`.
 #'
-#' @name example_module_process1
+#' @name PipelineProtein
 #' 
 #' @param id xxx
 #' @param dataIn The dataset
@@ -44,7 +44,7 @@
 #' 
 NULL
 
-#' @rdname example_module_process1
+#' @rdname PipelineProtein
 #' @export
 #' 
 PipelineProtein_Filtering_conf <- function(){
@@ -57,7 +57,7 @@ PipelineProtein_Filtering_conf <- function(){
 }
 
 
-#' @rdname example_module_process1
+#' @rdname PipelineProtein
 #' 
 #' @export
 #'
@@ -67,7 +67,7 @@ PipelineProtein_Filtering_ui <- function(id){
 
 
 
-#' @rdname example_module_process1
+#' @rdname PipelineProtein
 #' 
 #' @importFrom stats setNames rnorm
 #' 

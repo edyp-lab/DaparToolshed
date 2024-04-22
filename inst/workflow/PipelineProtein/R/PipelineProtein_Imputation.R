@@ -12,16 +12,23 @@
 #' This convention is important because MagellanNTK call the different
 #' server and ui functions by building dynamically their name.
 #' 
-#' In this example, `PipelineA_ProcessA_ui()` and `PipelineA_ProcessA_server()` define
-#' the code for the process `ProcessA` which is part of the pipeline called `PipelineA`.
+#' In this example, `PipelineProtein_Imputation_ui()` and `PipelineProtein_Imputation_server()` define
+#' the code for the process `ProcessA` which is part of the pipeline called `PipelineProtein`.
+#' 
+#' @examplesIf interactive()
+#' library(MagellanNTK)
+#' data(ft_na)
+#' path <- system.file('workflow/PipelineProtein', package = 'DaparToolshed')
+#' shiny::runApp(workflowApp("PipelineProtein_Imputation", path, dataIn = ft_na))
+#' 
+#' 
 
-
-#' @rdname example_module_process3
+#' @rdname PipelineProtein
 #' @export
 #' 
-PipelineA_Process3_conf <- function(){
+PipelineProtein_Imputation_conf <- function(){
   Config(
-    fullname = 'PipelineA_Process3',
+    fullname = 'PipelineProtein_Imputation',
     mode = 'process',
     steps = c('Step 1', 'Step 2'),
     mandatory = c(FALSE, TRUE)
@@ -30,13 +37,13 @@ PipelineA_Process3_conf <- function(){
 
 #' @param id xxx
 #' 
-#' @rdname example_module_Process3
+#' @rdname PipelineProtein
 #' 
 #' @author Samuel Wieczorek
 #' 
 #' @export
 #'
-PipelineA_Process3_ui <- function(id){
+PipelineProtein_Imputation_ui <- function(id){
   ns <- NS(id)
 }
 
@@ -58,13 +65,13 @@ PipelineA_Process3_ui <- function(id){
 #' 
 #' @param current.pos xxx
 #'
-#' @rdname example_module_Process3
+#' @rdname PipelineProtein
 #' 
 #' @importFrom stats setNames rnorm
 #' 
 #' @export
 #' 
-PipelineA_Process3_server <- function(id,
+PipelineProtein_Imputation_server <- function(id,
   dataIn = reactive({NULL}),
   steps.enabled = reactive({NULL}),
   remoteReset = reactive({FALSE}),
