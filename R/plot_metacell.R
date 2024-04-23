@@ -336,13 +336,15 @@ metacellHisto_HC <- function(obj,
 #'
 #'
 wrapper.mvImage <- function(obj, 
-                            pattern = "Missing MEC") {
+  group,
+  pattern = "Missing MEC") {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
-  indices <- which(apply(match.metacell(omXplore::get_metacell, 
-                                        pattern, 
-                                        level = omXplore::get_type(obj)),
-                         1, sum) > 0)
+  indices <- which(apply(match.metacell(
+    omXplore::get_metacell(obj), 
+    pattern, 
+    level = omXplore::get_type(obj)),
+    1, sum) > 0)
   
   if (length(indices) == 0) {
     warning("The dataset contains no Missing value on Entire Condition. 
@@ -383,7 +385,7 @@ wrapper.mvImage <- function(obj,
 #'
 #' @rdname metacell-plots
 #'
-mvImage <- function(obj) {
+mvImage <- function(obj, group) {
   
   pkgs.require(c('grDevices', 'stats'))
   
@@ -456,10 +458,9 @@ mvImage <- function(obj) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package = 'DaparToolshedData')
-#' vData <- convert2viz(Exp1_R25_pept)
-#' pal <- ExtendPalette(length(unique(vData@ll.obj[[1]]@conds)), "Dark2")
+#' pal <- ExtendPalette(length(unique(get_group(Exp1_R25_pept))), "Dark2")
 #' pattern <- "Missing MEC"
-#' hc_mvTypePlot2(vData@ll.obj[[1]], pattern = pattern, pal = pal)
+#' hc_mvTypePlot2(Exp1_R25_pept[[1]], group = get_group(Exp1_R25_pept), pattern = pattern, pal = pal)
 #'
 #' @import highcharter
 #' @rdname metacell-plots
@@ -467,21 +468,26 @@ mvImage <- function(obj) {
 #' @export
 #'
 hc_mvTypePlot2 <- function(obj,
-                           pal = NULL,
-                           pattern,
-                           typeofMV = NULL,
-                           title = NULL) {
+  group,
+  pal = NULL,
+  pattern,
+  typeofMV = NULL,
+  title = NULL) {
+  
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
   pkgs.require('stats')
   
-  myColors <- NULL
+  
+  qdata <- SummarizedExperiment::assay(obj)
+  myColors <- pal
   if (is.null(pal)) {
     warning("Color palette set to default.")
-    pal <- ExtendPalette(length(unique(group)))
+    myColors <- ExtendPalette(length(unique(group)))
   } else {
     if (length(pal) != length(unique(group))) {
       warning("The color palette has not the same dimension as the 
                 number of samples")
-      pal <- ExtendPalette(length(unique(group)))
+      myColors <- ExtendPalette(length(unique(group)))
     }
   }
   
@@ -501,7 +507,7 @@ hc_mvTypePlot2 <- function(obj,
     if (length(which(group == iCond)) == 1) {
       mTemp[, iCond] <- qdata[, which(group == iCond)]
       nbNA[, iCond] <- as.integer(
-        match.metacell(omXplore::get_metacell[, which(group == iCond)],
+        match.metacell(omXplore::get_metacell(obj)[, which(group == iCond)],
                        pattern = pattern,
                        level = omXplore::get_type(obj))
       )
@@ -514,7 +520,7 @@ hc_mvTypePlot2 <- function(obj,
       mTemp[, iCond] <- apply(assay(obj)[, .qcond], 1, mean, na.rm = TRUE)
       
       nbNA[, iCond] <- rowSums(
-        match.metacell(omXplore::get_metacell[, .qcond],
+        match.metacell(omXplore::get_metacell(obj)[, .qcond],
                        pattern = pattern,
                        level = omXplore::get_type(obj))
       )

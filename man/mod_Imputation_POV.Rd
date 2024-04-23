@@ -57,7 +57,8 @@ as to be easily integrated into workflfow compliant with \code{MagellanNTK}.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-data(ft_na)
-shiny::runApp(mod_Imputation_POV(ft_na[[1]]))
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(100)]
+shiny::runApp(mod_Imputation_POV(obj[[1]]))
 \dontshow{\}) # examplesIf}
 }

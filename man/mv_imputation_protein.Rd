@@ -12,26 +12,26 @@
 \alias{wrapper.impute.slsa}
 \title{Finds the LAPALA}
 \usage{
-findMECBlock(obj, i)
+findMECBlock(obj, grp)
 
-reIntroduceMEC(obj, i, MECIndex)
+reIntroduceMEC(obj, grp, MECIndex)
 
-wrapper.impute.KNN(obj = NULL, i, K)
+wrapper.impute.KNN(obj = NULL, grp, K)
 
-wrapper.impute.fixedValue(obj, i, fixVal = 0, na.type)
+wrapper.impute.fixedValue(obj, grp, fixVal = 0, na.type)
 
-wrapper.impute.pa(obj = NULL, i, q.min = 0.025)
+wrapper.impute.pa(obj = NULL, grp, q.min = 0.025)
 
-wrapper.impute.detQuant(obj, i, qval = 0.025, factor = 1, na.type)
+wrapper.impute.detQuant(obj, qval = 0.025, factor = 1, na.type)
 
 getQuantile4Imp(qdata, qval = 0.025, factor = 1)
 
-wrapper.impute.slsa(obj = NULL, i = 1)
+wrapper.impute.slsa(obj = NULL, grp)
 }
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
 
-\item{i}{xxx}
+\item{grp}{xxx}
 
 \item{MECIndex}{A data.frame that contains index of MEC (see findMECBlock)}
 
@@ -90,26 +90,25 @@ of each column of an expression set, up to a scaling factor
 
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(100)]
-lapala <- findMECBlock(obj, 1)
+obj <- Exp1_R25_pept[[1]][seq_len(100)]
+grp <- get_group(Exp1_R25_pept)
+lapala <- findMECBlock(obj, grp)
 na.type = c("Missing POV", "Missing MEC")
-obj <- wrapper.impute.detQuant(obj, 1, na.type = na.type)
-obj <- reIntroduceMEC(obj, 1, lapala)
+obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
+obj.imp.pov <- reIntroduceMEC(obj, grp, lapala)
 
-obj <- Exp1_R25_pept[seq_len(10), ]
-obj.imp.pov <- wrapper.impute.KNN(obj, 1, 3)
+obj.imp.pov <- wrapper.impute.KNN(obj, grp, 3)
 
-obj.imp.pov <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = "Missing POV")
-obj.imp.mec <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = "Missing MEC")
-obj.imp.na <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = c("Missing MEC", "Missing POV"))
+obj.imp.pov <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing POV")
+obj.imp.mec <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing MEC")
+obj.imp.na <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = c("Missing MEC", "Missing POV"))
 
-obj.imp.pov <- wrapper.impute.pa(obj, 1)
+obj.imp.pov <- wrapper.impute.pa(obj, grp)
 
-qdata <- SummarizedExperiment::assay(obj[[1]])
+qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)
 
-obj <- Exp1_R25_pept[seq_len(100)]
-obj.slsa.pov <- wrapper.impute.slsa(obj, 1)
+obj.slsa.pov <- wrapper.impute.slsa(obj, grp)
 
 
 

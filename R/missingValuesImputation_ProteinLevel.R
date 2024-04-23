@@ -36,7 +36,7 @@
 #' of each column of an expression set, up to a scaling factor
 #' 
 #' @param obj An object of class `QFeatures`.
-#' @param i xxx
+#' @param grp xxx
 #' @param MECIndex A data.frame that contains index of MEC (see findMECBlock) 
 #' @param q.min Same as the function `impute.pa()` in the package `imp4p`
 #' @param K the number of neighbors.
@@ -56,26 +56,25 @@
 #'
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' lapala <- findMECBlock(obj, 1)
+#' obj <- Exp1_R25_pept[[1]][seq_len(100)]
+#' grp <- get_group(Exp1_R25_pept)
+#' lapala <- findMECBlock(obj, grp)
 #' na.type = c("Missing POV", "Missing MEC")
-#' obj <- wrapper.impute.detQuant(obj, 1, na.type = na.type)
-#' obj <- reIntroduceMEC(obj, 1, lapala)
+#' obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
+#' obj.imp.pov <- reIntroduceMEC(obj, grp, lapala)
 #' 
-#' obj <- Exp1_R25_pept[seq_len(10), ]
-#' obj.imp.pov <- wrapper.impute.KNN(obj, 1, 3)
+#' obj.imp.pov <- wrapper.impute.KNN(obj, grp, 3)
 #' 
-#' obj.imp.pov <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = "Missing POV")
-#' obj.imp.mec <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = "Missing MEC")
-#' obj.imp.na <- wrapper.impute.fixedValue(obj, 1, 0.001, na.type = c("Missing MEC", "Missing POV"))
+#' obj.imp.pov <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing POV")
+#' obj.imp.mec <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing MEC")
+#' obj.imp.na <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = c("Missing MEC", "Missing POV"))
 #'
-#' obj.imp.pov <- wrapper.impute.pa(obj, 1)
+#' obj.imp.pov <- wrapper.impute.pa(obj, grp)
 #' 
-#' qdata <- SummarizedExperiment::assay(obj[[1]])
+#' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
 #' 
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' obj.slsa.pov <- wrapper.impute.slsa(obj, 1)
+#' obj.slsa.pov <- wrapper.impute.slsa(obj, grp)
 #'
 #'
 #'
@@ -89,14 +88,14 @@ NULL
 #' @export
 #' @rdname mv_imputation_protein
 #'
-findMECBlock <- function(obj, i) {
-    groups <- unique(get_group(obj))
-    nbCond <- length(groups)
+findMECBlock <- function(obj, grp) {
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+    nbCond <- length(grp)
 
     s <- data.frame()
-    qdata <- SummarizedExperiment::assay(x = obj, i = i)
+    qdata <- SummarizedExperiment::assay(obj)
     for (cond in seq_len(nbCond)) {
-        ind <- which(get_group(obj) == groups[cond])
+        ind <- which(grp == unique(grp))
         lNA <- which(
             apply(is.na(qdata[, ind]), 1, sum) == length(ind))
         if (length(lNA) > 0) {
@@ -117,14 +116,14 @@ findMECBlock <- function(obj, i) {
 #' @export
 #' @rdname mv_imputation_protein
 #'
-reIntroduceMEC <- function(obj, i, MECIndex) {
-  .cond <- get_group(obj)
-  conditions <- unique(.cond)
+reIntroduceMEC <- function(obj, grp, MECIndex) {
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  conditions <- unique(grp)
   
   for (.row in seq(nrow(MECIndex)))
     {
-    replicates <- which(.cond == conditions[MECIndex[.row, "Condition"]])
-    SummarizedExperiment::assay(obj[[i]])[MECIndex[.row, "Line"], as.vector(replicates)] <- NA
+    replicates <- which(grp == conditions[MECIndex[.row, "Condition"]])
+    SummarizedExperiment::assay(obj)[MECIndex[.row, "Line"], as.vector(replicates)] <- NA
     }
     return(obj)
 }
@@ -136,11 +135,10 @@ reIntroduceMEC <- function(obj, i, MECIndex) {
 #' @export
 #' @rdname mv_imputation_protein
 #'
-wrapper.impute.KNN <- function(obj = NULL, i, K) {
-
+wrapper.impute.KNN <- function(obj = NULL, grp, K) {
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
     pkgs.require('impute')
     
-    stopifnot(inherits(obj, 'QFeatures'))
     if (missing(obj)) {
         stop("'obj' is required.")
     } else if (is.null(obj)) {
@@ -150,28 +148,28 @@ wrapper.impute.KNN <- function(obj = NULL, i, K) {
 
     data <- SummarizedExperiment::assay(obj[[i]])
 
-    conditions <- unique(get_group(obj))
+    conditions <- unique(grp)
     nbCond <- length(conditions)
 
     for (cond in seq_len(nbCond)) {
-        ind <- which(get_group(obj) == conditions[cond])
+        ind <- which(grp== conditions[cond])
         resKNN <- impute::impute.knn(
-          SummarizedExperiment::assay(obj[[i]])[, ind],
+          SummarizedExperiment::assay(obj)[, ind],
           k = K, 
           rowmax = 0.99, 
           colmax = 0.99, 
           maxp = 1500,
           rng.seed = sample(seq_len(1000), 1)
           )
-        SummarizedExperiment::assay(obj[[i]])[, ind] <- resKNN[[1]]
+        SummarizedExperiment::assay(obj)[, ind] <- resKNN
     }
 
-    SummarizedExperiment::assay(obj[[i]])[data == 0] <- NA
-    .metacell <- get_metacell(obj[[i]])
-    SummarizedExperiment::assay(obj[[i]])[.metacell == 'Missing MEC'] <- NA
+    SummarizedExperiment::assay(obj)[data == 0] <- NA
+    .metacell <- get_metacell(obj)
+    SummarizedExperiment::assay(obj)[.metacell == 'Missing MEC'] <- NA
     
     # Transform all previously tagged 'na.type' as 'Imputed'
-    obj[[i]] <- UpdateMetacellAfterImputation(obj[[i]])
+    obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
 }
@@ -183,16 +181,16 @@ wrapper.impute.KNN <- function(obj = NULL, i, K) {
 #' @export
 #'
 wrapper.impute.fixedValue <- function(obj, 
-  i,
+  grp,
   fixVal = 0, 
   na.type) {
     if (missing(obj))
         stop("'obj' is required.")
-
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
     if (fixVal == 0)
         warning("Be aware that fixVal = 0. No imputation will be realize.")
 
-    level <- get_type(obj[[i]])
+    level <- get_type(obj)
 
     if (missing(na.type)) {
         stop(paste0("'na.type' is required. Available values are: ", 
@@ -203,14 +201,14 @@ wrapper.impute.fixedValue <- function(obj,
     }
 
     ind.na.type <- match.metacell(
-      get_metacell(obj[[i]]),
+      get_metacell(obj),
       na.type,
       level = level
       )
     
-    .ind <- is.na(SummarizedExperiment::assay(obj[[i]])) & ind.na.type
-    SummarizedExperiment::assay(obj[[i]])[.ind] <- fixVal
-    obj[[i]] <- UpdateMetacellAfterImputation(obj[[i]])
+    .ind <- is.na(SummarizedExperiment::assay(obj)) & ind.na.type
+    SummarizedExperiment::assay(obj)[.ind] <- fixVal
+    obj <- UpdateMetacellAfterImputation(obj)
     return(obj)
 }
 
@@ -221,24 +219,24 @@ wrapper.impute.fixedValue <- function(obj,
 #'
 wrapper.impute.pa <- function(
     obj = NULL, 
-    i,
+    grp,
     q.min = 0.025) {
-    
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
     pkgs.require('imp4p')
 
     if (is.null(obj)) 
         stop("'obj' is required.")
 
     res <- imp4p::impute.pa(
-      SummarizedExperiment::assay(obj[[i]]), 
-      conditions = as.factor(get_group(obj)), 
+      SummarizedExperiment::assay(obj), 
+      conditions = as.factor(grp), 
       q.min = q.min,
       q.norm = 3,
       eps = 0)
     
-    SummarizedExperiment::assay(obj[[i]]) <- res[["tab.imp"]]
+    SummarizedExperiment::assay(obj) <- res[["tab.imp"]]
 
-    obj[[i]] <- UpdateMetacellAfterImputation(obj[[i]])
+    obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
 }
@@ -251,14 +249,13 @@ wrapper.impute.pa <- function(
 #'
 wrapper.impute.detQuant <- function(
     obj, 
-    i,
     qval = 0.025, 
     factor = 1, 
     na.type) {
   
     if (missing(obj))
         stop("'obj' is required.")
-    
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
     if (missing(na.type)){
       na.type <- c('Missing POV', 'Missing MEC')
     } else {
@@ -267,25 +264,25 @@ wrapper.impute.detQuant <- function(
       }
     }
 
-    qdata <- SummarizedExperiment::assay(obj[[i]])
+    qdata <- SummarizedExperiment::assay(obj)
     values <- getQuantile4Imp(qdata, qval, factor)
     for (iter in seq_len(ncol(qdata))) {
         col <- qdata[, iter]
-        ind.na.type <- match.metacell(get_metacell(obj[[i]])[,iter],
+        ind.na.type <- match.metacell(get_metacell(obj)[,iter],
                                       pattern = na.type,
-                                      level = get_type(obj[[i]])
+                                      level = get_type(obj)
                                       )
 
         col[ind.na.type] <- values$shiftedImpVal[iter]
         qdata[, iter] <- col
     }
 
-    SummarizedExperiment::assay(obj[[i]]) <- qdata
+    SummarizedExperiment::assay(obj) <- qdata
     msg <- "Missing values imputation using deterministic quantile"
-    metadata(obj[[i]])$processing <- c(metadata(obj[[i]])$processing, msg)
+    metadata(obj)$processing <- c(metadata(obj)$processing, msg)
 
-    metadata(obj[[i]])$processing$imputation.method <- "detQuantile"
-    obj[[i]] <- UpdateMetacellAfterImputation(obj[[i]])
+    metadata(obj)$processing$imputation.method <- "detQuantile"
+    obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
 }
@@ -317,24 +314,24 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #' @rdname mv_imputation_protein
 #'
 wrapper.impute.slsa <- function(
-    obj = NULL, 
-  i = 1) {
+    obj = NULL,
+  grp) {
     
     pkgs.require('imp4p')
     
     if (is.null(obj))
         stop("'obj' is required.")
-
-    MECIndex <- findMECBlock(obj, i)
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+    MECIndex <- findMECBlock(obj, grp)
 
     # sort conditions to be compliant with impute.slsa
-    conds <- factor(get_group(obj), levels = unique(get_group(obj)))
+    conds <- factor(grp, levels = unique(grp))
     sample.names.old <- colData(obj)$Sample.name
     sTab <- colData(obj)
     new.order <- unname(unlist(
       lapply(split(as.data.frame(sTab), conds), function(x) {x["Sample.name"]})
       ))
-    qdata <- SummarizedExperiment::assay(obj[[i]])[, new.order]
+    qdata <- SummarizedExperiment::assay(obj)[, new.order]
 
     res <- imp4p::impute.slsa(qdata,
                               conditions = conds,
@@ -347,9 +344,9 @@ wrapper.impute.slsa <- function(
     # restore old order
     res <- res[, sample.names.old]
 
-    SummarizedExperiment::assay(obj[[i]]) <- res
-    obj <- reIntroduceMEC(obj, i, MECIndex)
+    SummarizedExperiment::assay(obj) <- res
+    obj <- reIntroduceMEC(obj, grp, MECIndex)
 
-    obj[[i]] <- UpdateMetacellAfterImputation(obj[[i]])
+    obj <- UpdateMetacellAfterImputation(obj)
     return(obj)
 }
