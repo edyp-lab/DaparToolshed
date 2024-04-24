@@ -19,7 +19,7 @@
 #' @examplesIf interactive()
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
-#' shiny::runApp(mod_Imputation_POV(obj[[1]]))
+#' shiny::runApp(mod_Imputation_POV(obj, 1))
 #' 
 NULL
 
@@ -79,7 +79,10 @@ mod_Imputation_POV_server <- function(id,
   # Define default selected values for widgets
   # This is only for simple workflows
   widgets.default.values <- list(
-    POV_algorithm = NULL
+    POV_algorithm = NULL,
+    POV_KNN_n = 10,
+    POV_detQuant_quantile = 2.5,
+    POV_detQuant_factor = 1
   )
   
   rv.custom.default.values <- list(
@@ -102,8 +105,7 @@ mod_Imputation_POV_server <- function(id,
     
     observeEvent(obj(), ignoreNULL = TRUE,{
       req(obj())
-      #browser()
-      #stopifnot(inherits(obj(), 'QFeatures'))
+      stopifnot(inherits(obj(), 'QFeatures'))
       rv$dataIn <- obj()
       
       
@@ -111,18 +113,22 @@ mod_Imputation_POV_server <- function(id,
     
     
 
-    ouput$mvplots_ui <- renderUI({
+    output$mvplots_ui <- renderUI({
       widget <- mod_mv_plots_ui(ns("mvplots"))
       toggleWidget(widget, is.enabled())
     })
     
     
+    observe({
+      req(rv$dataIn)
     mod_mv_plots_server("mvplots",
-      data = reactive({rv$dataIn}),
-      title = "POV imputation",
-      pal = reactive({xxxx}),
+      data = reactive({rv$dataIn[[i()]]}),
+      grp = reactive({get_group(rv$dataIn)}),
+      mytitle = "POV imputation",
+      pal = reactive({NULL}),
       pattern = c("Missing", "Missing POV", "Missing MEC")
       )
+    })
     
     imputationAlgorithmsProteins_MEC <- list(
       "None" = "None",
@@ -139,6 +145,7 @@ mod_Imputation_POV_server <- function(id,
           "KNN" = "KNN"
         ),
         selected = rv.widgets$POV_algorithm,
+        
         width = "150px"
       )
       MagellanNTK::toggleWidget(widget, is.enabled())
@@ -149,7 +156,7 @@ mod_Imputation_POV_server <- function(id,
       req(rv.widgets$POV_algorithm == "detQuantile")
        tagList(
           h5("The POV will be imputed by the following values :"),
-          mod_DetQuantImpValues_ui("POV_DetQuantValues_DT")
+          mod_DetQuantImpValues_ui(ns("POV_DetQuantValues_DT"))
         )
     })
     
@@ -203,44 +210,63 @@ mod_Imputation_POV_server <- function(id,
     
     observeEvent(input$mod_Imputation_POV_btn_validate, {
       
-      rv$dataIn
+      req(rv$dataIn)
       m <- match.metacell(
-        get_metacell(rv$dataIn),
+        get_metacell(rv$dataIn[[i()]]),
         pattern = "Missing POV",
-        level = get_type(rv$dataIn)
+        level = get_type(rv$dataIn[[i()]])
       )
       nbPOVBefore <- length(which(m))
-      
+      #browser()
       withProgress(message = "", detail = "", value = 0, {
         incProgress(0.25, detail = "Find MEC blocks")
         
         .tmp <- NULL
-        .tmp <- try({
+        .param <- list()
+        try({
           switch(rv.widgets$POV_algorithm,
-            None = .tmp <- rv$dataIn,
+            None = .tmp <- rv$dataIn[[i()]],
             slsa = {
               incProgress(0.5, detail = "slsa Imputation")
-              .tmp <- wrapper.impute.slsa(rv$dataIn)
+              .tmp <- wrapper.impute.slsa(
+                obj = rv$dataIn[[i()]],
+                grp = omXplore::get_group(rv$dataIn),
+                coldata = MultiAssayExperiment::colData(rv$dataIn)
+                )
+              .param <- list(
+                  POV_algorithm = rv.widgets$POV_algorithm
+                )
             },
             detQuantile = {
               incProgress(0.5, detail = "det quantile Imputation")
               .tmp <- wrapper.impute.detQuant(
-                obj = rv$dataIn,
-                qval = rv.widgets$POV_detQuant_quantile / 100,
-                factor = rv.widgets$POV_detQuant_factor,
-                na.type = 'Missing POV')
+                  obj = rv$dataIn[[i()]],
+                  qval = rv.widgets$POV_detQuant_quantile / 100,
+                  factor = rv.widgets$POV_detQuant_factor,
+                  na.type = 'Missing POV')
+              .param <- list(
+                  POV_algorithm = rv.widgets$POV_algorithm,
+                  qval = rv.widgets$POV_detQuant_quantile / 100,
+                  factor = rv.widgets$POV_detQuant_factor,
+                  na.type = 'Missing POV')
             },
             KNN = {
               incProgress(0.5, detail = "KNN Imputation")
-              .tmp <- wrapper.impute.KNN(obj = rv$dataIn,
-                K = rv.widgets$POV_KNN_n)
+              .tmp <- wrapper.impute.KNN(
+                obj = rv$dataIn[[i()]],
+                grp = omXplore::get_group(rv$dataIn),
+                K = rv.widgets$POV_KNN_n);
+              .param <- list(
+                POV_algorithm = rv.widgets$POV_algorithm,
+                K = rv.widgets$POV_KNN_n
+              )
             }
           )
         })
         
         if(inherits(.tmp, "try-error")) {
           mod_SweetAlert_server(id = 'sweetalert_perform_POVimputation_button',
-            text = .tmp[[1]],
+            text = .tmp,
             type = 'error' )
         } else {
           # sendSweetAlert(
@@ -248,26 +274,23 @@ mod_Imputation_POV_server <- function(id,
           #   title = "Success",
           #   type = "success"
           # )
-          rv$dataIn <- .tmp
+          #rv$dataIn[[i()]] <- .tmp
           # incProgress(0.75, detail = 'Reintroduce MEC blocks')
           incProgress(1, detail = "Finalize POV imputation")
-          m <- match.metacell(DAPAR::GetMetacell(rv$dataIn),
+
+          
+          m <- match.metacell(omXplore::get_metacell(.tmp),
             pattern = "Missing POV",
-            level = DAPAR::GetTypeofData(rv$dataIn)
+            level = omXplore::get_type(.tmp)
           )
           nbPOVAfter <- length(which(m))
           rv$nbPOVimputed <- nbPOVBefore - nbPOVAfter
-          
-          rv$impute_Step <- 1
-          rv$imputePlotsSteps[["step1"]] <- rv$dataIn
-          rvModProcess$moduleProtImputationDone[1] <- TRUE
-          shinyjs::enable("perform.imputationMEC.button")
-          shinyjs::enable("ValidImputation")
+
         }
-      par <- rv.custom$funFilter()$value$ll.widgets.value
-      params(tmp[[i()]], length(tmp[[i()]])) <- par
+
+      params(.tmp) <- .param
       dataOut$trigger <- MagellanNTK::Timestamp()
-      dataOut$value <- tmp
+      dataOut$value <- .tmp
     })
       
     })

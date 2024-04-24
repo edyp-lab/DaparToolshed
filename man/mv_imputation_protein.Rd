@@ -26,7 +26,7 @@ wrapper.impute.detQuant(obj, qval = 0.025, factor = 1, na.type)
 
 getQuantile4Imp(qdata, qval = 0.025, factor = 1)
 
-wrapper.impute.slsa(obj = NULL, grp)
+wrapper.impute.slsa(obj = NULL, grp, coldata)
 }
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
@@ -108,7 +108,8 @@ obj.imp.pov <- wrapper.impute.pa(obj, grp)
 qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)
 
-obj.slsa.pov <- wrapper.impute.slsa(obj, grp)
+coldata <- MultiAssayExperiment::colData(Exp1_R25_pept)
+obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 
 
 

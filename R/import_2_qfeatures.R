@@ -58,19 +58,20 @@
 #' @rdname import-export-QFeatures
 #'
 createQFeatures <- function(data = NULL,
-                            file = NULL,
-                            sample,
-                            indQData,
-                            keyId = "AutoID",
-                            indexForMetacell = NULL,
-                            force.na = TRUE,
-                            typeDataset,
-                            parentProtId = NULL,
-                            analysis = "foo",
-                            processes = NULL,
-                            typePipeline = NULL,
-                            software = NULL,
-                            name = "original") {
+  file = NULL,
+  sample,
+  indQData,
+  keyId = "AutoID",
+  indexForMetacell = NULL,
+  logData = FALSE,
+  force.na = TRUE,
+  typeDataset,
+  parentProtId = NULL,
+  analysis = "foo",
+  processes = NULL,
+  typePipeline = NULL,
+  software = NULL,
+  name = "original") {
 
 
   pkgs.require('QFeatures')
@@ -162,11 +163,12 @@ createQFeatures <- function(data = NULL,
     
     
     # Creates the QFeatures object
-    obj <- QFeatures::readQFeatures(data,
-                                    ecol = indQData,
-                                    name = "original",
-                                    fnames = keyId
-                                    )
+    obj <- QFeatures::readQFeatures(
+      data,
+      quantCols = indQData,
+      name = "original",
+      fnames = keyId
+      )
 
     ## Encoding the sample data
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
@@ -181,31 +183,27 @@ createQFeatures <- function(data = NULL,
       #tmp.qMetacell <- apply(tmp.qMetacell, 2, function(x) gsub("\\s", "", x))
       tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
       colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
+      
+      qMetacell <- BuildMetacell(
+        from = software,
+        level = typeDataset,
+        qdata = assay(obj),
+        conds = colData(obj)$Condition,
+        df = tmp.qMetacell
+        )
     
+      colnames(qMetacell) <- gsub(".", "_", colnames(qMetacell), fixed = TRUE)
+    
+      # Add the quantitative cell metadata info
+      qMetacell(obj[["original"]]) <- qMetacell
+    
+      # Remove the identification columns which became useless
+      .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
+      rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
+      }
 
     
-    qMetacell <- BuildMetacell(from = software,
-                               level = typeDataset,
-                               qdata = assay(obj),
-                               conds = colData(obj)$Condition,
-                               df = tmp.qMetacell
-                               )
     
-    colnames(qMetacell) <- gsub(".", "_", colnames(qMetacell), fixed = TRUE)
-    
-    # Add the quantitative cell metadata info
-    qMetacell(obj[["original"]]) <- qMetacell
-    
-    # Remove the identification columns which became useless
-    .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
-    rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
-    }
-
-    if (force.na) {
-        obj <- QFeatures::zeroIsNA(obj, seq_along(obj))
-    }
-
-
     # Enrich the metadata for whole QFeatures object
     S4Vectors::metadata(obj)$versions <- ProstarVersions()
     S4Vectors::metadata(obj)$analysis <- list(
@@ -228,9 +226,16 @@ createQFeatures <- function(data = NULL,
       
       # Create the connected components
       #ConnectedComp(obj[[1]]) <- PSMatch::ConnectedComponents(X)
-      
-        
     }
 
+    
+    if (force.na) {
+      obj <- QFeatures::zeroIsNA(obj, seq_along(obj))
+    }
+    
+    if (logData) {
+      obj <- QFeatures::logTransform(obj, seq_along(obj))
+    }
+    
     return(obj)
 }

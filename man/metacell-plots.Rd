@@ -64,11 +64,11 @@ metacellHisto_HC(
   pal = NULL
 )
 
-wrapper.mvImage(obj, pattern = "Missing MEC")
+wrapper.mvImage(obj, group, pattern = "Missing MEC")
 
-mvImage(obj)
+mvImage(obj, group)
 
-hc_mvTypePlot2(obj, pal = NULL, pattern, typeofMV = NULL, title = NULL)
+hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 }
 \arguments{
 \item{id}{xxx}
@@ -180,10 +180,9 @@ vData <- convert2viz(Exp1_R25_pept)
 mvImage(vData@ll.obj[[1]])
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
-vData <- convert2viz(Exp1_R25_pept)
-pal <- ExtendPalette(length(unique(vData@ll.obj[[1]]@conds)), "Dark2")
+pal <- ExtendPalette(length(unique(get_group(Exp1_R25_pept))), "Dark2")
 pattern <- "Missing MEC"
-hc_mvTypePlot2(vData@ll.obj[[1]], pattern = pattern, pal = pal)
+hc_mvTypePlot2(Exp1_R25_pept[[1]], group = get_group(Exp1_R25_pept), pattern = pattern, pal = pal)
 
 }
 \author{

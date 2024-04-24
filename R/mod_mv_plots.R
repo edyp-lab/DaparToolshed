@@ -48,9 +48,9 @@ mod_mv_plots_ui <- function(id) {
 #' @rdname mod_mv_plots
 #' 
 mod_mv_plots_server <- function(id, 
-  data, 
+  data = reactive({NULL}), 
   grp = reactive({NULL}),
-  title = reactive({NULL}), 
+  mytitle = NULL, 
   pal = reactive({NULL}), 
   pattern,
   is.enabled = reactive({TRUE})) {
@@ -61,7 +61,7 @@ mod_mv_plots_server <- function(id,
     
     rv <- reactiveValues(
       grp = grp(),
-      title = title(),
+      title = mytitle,
       palette = pal()
     )
     
@@ -123,9 +123,9 @@ mod_mv_plots_server <- function(id,
       # renderImage
       # sends it, because deleteFile=TRUE.
       outfile <- tempfile(fileext = ".png")
-      
+      #browser()
       png(outfile)
-      wrapper.mvImage(data(), rv$grp)
+      wrapper.mvImage(obj = data(), group = rv$grp)
       dev.off()
       
       # Return a list
@@ -157,14 +157,14 @@ mod_mv_plots <- function(
     
   server <- function(input, output, session){
     
-    observe({
-      mod_mv_plots_server("mvImputationPlots_MV",
+    #observe({
+      res.imp <- mod_mv_plots_server("mvImputationPlots_MV",
       data = reactive({data}),
       title = reactive(title),
       pal = reactive(pal),
       pattern = c("Missing", "Missing POV", "Missing MEC")
       )
-    })
+    #})
   }
   
   app <- shiny::shinyApp(ui, server)

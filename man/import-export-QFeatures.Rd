@@ -11,6 +11,7 @@ createQFeatures(
   indQData,
   keyId = "AutoID",
   indexForMetacell = NULL,
+  logData = FALSE,
   force.na = TRUE,
   typeDataset,
   parentProtId = NULL,

@@ -95,9 +95,10 @@ setMethod(
         #  stop("Found an existing variable ", slotName, ".")
         rowData(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
-    if (length(i) != 1) {
+    } else {
+    if (inherits(object, "QFeatures"))
+      {
+      if (length(i) != 1) {
         stop("'i' must be of length one. Repeat the call to add a matrix to multiple assays.")
     }
     if (is.numeric(i) && i > length(object)) {
@@ -108,6 +109,8 @@ setMethod(
     }
     
     qMetacell(object[[i]], slotName) <- value
+    }
+}
     return(object)
 }
 
@@ -268,8 +271,8 @@ setMethod("ConnectedComp", "SummarizedExperiment",
   if (inherits(object, "SummarizedExperiment")) {
     S4Vectors::metadata(object)[[slotName]] <- value
     return(object)
-  }
-  stopifnot(inherits(object, "QFeatures"))
+  } else {
+    if(inherits(object, "QFeatures")){
   
   if (length(i) != 1) {
     stop("'i' must be of length one. Repeat the call to add a matrix to 
@@ -284,6 +287,8 @@ setMethod("ConnectedComp", "SummarizedExperiment",
   
   se <- object[[i]]
   S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    }
+  }
   return(object)
 }
 
@@ -313,20 +318,22 @@ setMethod("typeDataset", "SummarizedExperiment",
     if (inherits(object, "SummarizedExperiment")) {
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
-    if (length(i) != 1) {
-        stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-    }
-    if (is.numeric(i) && i > length(object)) {
-        stop("Subscript is out of bounds.")
-    }
-    if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
-    }
-    se <- object[[i]]
-    S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    } else {
+      if(inherits(object, "QFeatures")){
+          if (length(i) != 1) {
+              stop("'i' must be of length one. Repeat the call to add a matrix to 
+                multiple assays.")
+          }
+          if (is.numeric(i) && i > length(object)) {
+              stop("Subscript is out of bounds.")
+          }
+          if (is.character(i) && !(i %in% names(object))) {
+              stop("Assay '", i, "' not found.")
+          }
+          se <- object[[i]]
+          S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      }
+}
     return(object)
 }
 
@@ -360,8 +367,8 @@ setMethod(
     if (inherits(object, "SummarizedExperiment")) {
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
+    } else {
+      if (inherits(object, "QFeatures")){
     if (length(i) != 1) {
         stop("'i' must be of length one. Repeat the call to add a matrix to 
             multiple assays.")
@@ -374,6 +381,8 @@ setMethod(
     }
     se <- object[[i]]
     S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      }
+    }
     return(object)
 }
 
@@ -413,8 +422,8 @@ setMethod(
         }
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
+    } else {
+    if(inherits(object, "QFeatures")){
     if (typeDataset(object[[i]]) != "peptide") {
         stop("The dataset must contain peptides.")
     }
@@ -430,6 +439,8 @@ setMethod(
     }
     se <- object[[i]]
     S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    }
+    }
     return(object)
 }
 
@@ -462,8 +473,8 @@ setMethod(
     if (inherits(object, "SummarizedExperiment")) {
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
+    } else {
+    if (inherits(object, "QFeatures")){
     if (length(i) != 1) {
         stop("'i' must be of length one. Repeat the call to add a matrix to 
             multiple assays.")
@@ -476,6 +487,8 @@ setMethod(
     }
     se <- object[[i]]
     S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    }
+    }
     return(object)
 }
 
@@ -558,8 +571,8 @@ setMethod(
     if (inherits(object, "SummarizedExperiment")) {
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
-    }
-    stopifnot(inherits(object, "QFeatures"))
+    } else {
+    if (inherits(object, "QFeatures")){
     if (length(i) != 1) {
         stop("'i' must be of length one. Repeat the call to add a matrix to 
             multiple assays.")
@@ -572,6 +585,8 @@ setMethod(
     }
     # se <- object[[i]]
     S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    }
+    }
     return(object)
 }
 
@@ -608,11 +623,10 @@ setMethod(
   if (inherits(object, "SummarizedExperiment")) {
     S4Vectors::metadata(object)[[slotName]] <- value
     return(object)
-  }
-  stopifnot(inherits(object, "QFeatures"))
-  
-  if (length(i) != 1) {
-    stop("'i' must be of length one. Repeat the call to add a matrix to 
+  } else {
+    if(inherits(object, "QFeatures")){
+        if (length(i) != 1) {
+      stop("'i' must be of length one. Repeat the call to add a matrix to 
             multiple assays.")
   }
   if (is.numeric(i) && i > length(object)) {
@@ -623,5 +637,7 @@ setMethod(
   }
   se <- object[[i]]
   S4Vectors::metadata(object[[i]])[[slotName]] <- value
+    }
+  }
   return(object)
 }

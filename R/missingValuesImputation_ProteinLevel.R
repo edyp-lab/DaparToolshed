@@ -74,7 +74,8 @@
 #' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
 #' 
-#' obj.slsa.pov <- wrapper.impute.slsa(obj, grp)
+#' coldata <- MultiAssayExperiment::colData(Exp1_R25_pept)
+#' obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 #'
 #'
 #'
@@ -90,12 +91,14 @@ NULL
 #'
 findMECBlock <- function(obj, grp) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-    nbCond <- length(grp)
+  conditions <- unique(grp)
+  nbCond <- length(conditions)
 
     s <- data.frame()
     qdata <- SummarizedExperiment::assay(obj)
+    
     for (cond in seq_len(nbCond)) {
-        ind <- which(grp == unique(grp))
+        ind <- which(grp == conditions[cond])
         lNA <- which(
             apply(is.na(qdata[, ind]), 1, sum) == length(ind))
         if (length(lNA) > 0) {
@@ -278,10 +281,9 @@ wrapper.impute.detQuant <- function(
     }
 
     SummarizedExperiment::assay(obj) <- qdata
-    msg <- "Missing values imputation using deterministic quantile"
-    metadata(obj)$processing <- c(metadata(obj)$processing, msg)
-
-    metadata(obj)$processing$imputation.method <- "detQuantile"
+    #msg <- "Missing values imputation using deterministic quantile"
+    #metadata(obj)$processing <- c(metadata(obj)$processing, msg)
+    #metadata(obj)$processing$imputation.method <- "detQuantile"
     obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
@@ -315,31 +317,34 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #'
 wrapper.impute.slsa <- function(
     obj = NULL,
-  grp) {
+    grp,
+    coldata) {
     
     pkgs.require('imp4p')
     
     if (is.null(obj))
         stop("'obj' is required.")
   stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
     MECIndex <- findMECBlock(obj, grp)
 
     # sort conditions to be compliant with impute.slsa
     conds <- factor(grp, levels = unique(grp))
-    sample.names.old <- colData(obj)$Sample.name
-    sTab <- colData(obj)
-    new.order <- unname(unlist(
-      lapply(split(as.data.frame(sTab), conds), function(x) {x["Sample.name"]})
-      ))
+    sample.names.old <- coldata$Sample.name
+    sTab <- as.data.frame(coldata)
+    new.order <- unlist(
+      lapply(split(sTab, conds), 
+        function(x) {x["Sample.name"]})
+      )
     qdata <- SummarizedExperiment::assay(obj)[, new.order]
-
+    browser()
     res <- imp4p::impute.slsa(qdata,
-                              conditions = conds,
-                              nknn = 10,
-                              selec = "all",
-                              weight = 1,
-                              ind.comp = 1
-                              )
+      conditions = conds,
+      nknn = 10,
+      selec = "all",
+      weight = 1,
+      ind.comp = 1
+    )
 
     # restore old order
     res <- res[, sample.names.old]

@@ -10,13 +10,13 @@ mod_mv_plots_ui(id)
 
 mod_mv_plots_server(
   id,
-  data,
+  data = reactive({
+     NULL
+ }),
   grp = reactive({
      NULL
  }),
-  title = reactive({
-     NULL
- }),
+  mytitle = NULL,
   pal = reactive({
      NULL
  }),
@@ -31,11 +31,11 @@ mod_mv_plots(data, title = NULL, pal = NULL, pattern = NULL)
 \arguments{
 \item{data}{xxx}
 
-\item{title}{xxx}
-
 \item{pal}{xxx}
 
 \item{pattern}{xxx}
+
+\item{title}{xxx}
 
 \item{...}{xxx}
 }
