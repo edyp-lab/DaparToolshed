@@ -252,6 +252,7 @@ mod_Imputation_POV_server <- function(id,
             },
             KNN = {
               incProgress(0.5, detail = "KNN Imputation")
+              
               .tmp <- wrapper.impute.KNN(
                 obj = rv$dataIn[[i()]],
                 grp = omXplore::get_group(rv$dataIn),
@@ -260,6 +261,7 @@ mod_Imputation_POV_server <- function(id,
                 POV_algorithm = rv.widgets$POV_algorithm,
                 K = rv.widgets$POV_KNN_n
               )
+              
             }
           )
         })

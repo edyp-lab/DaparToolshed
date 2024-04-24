@@ -147,9 +147,8 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
     } else if (is.null(obj)) {
         stop("'obj' is NULL")
     }
-
-
-    data <- SummarizedExperiment::assay(obj[[i]])
+    
+    data <- SummarizedExperiment::assay(obj)
 
     conditions <- unique(grp)
     nbCond <- length(conditions)
@@ -164,7 +163,8 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
           maxp = 1500,
           rng.seed = sample(seq_len(1000), 1)
           )
-        SummarizedExperiment::assay(obj)[, ind] <- resKNN
+
+        SummarizedExperiment::assay(obj)[, ind] <- resKNN$data
     }
 
     SummarizedExperiment::assay(obj)[data == 0] <- NA
@@ -337,7 +337,6 @@ wrapper.impute.slsa <- function(
         function(x) {x["Sample.name"]})
       )
     qdata <- SummarizedExperiment::assay(obj)[, new.order]
-    browser()
     res <- imp4p::impute.slsa(qdata,
       conditions = conds,
       nknn = 10,
