@@ -17,9 +17,9 @@
 #'   - ll.widgets.value: a list of the values of widgets.
 #'
 #' @examplesIf interactive()
-#' data(Exp1_R25_pept, package="DaparToolshedData")
+#' data(Exp1_R25_prot, package="DaparToolshedData")
 #' obj <- Exp1_R25_prot[seq_len(100)]
-#' shiny::runApp(mod_Prot_Imputation_MEC(obj, length()))
+#' shiny::runApp(mod_Prot_Imputation_MEC(obj, length(obj)))
 #' 
 NULL
 
@@ -46,22 +46,8 @@ mod_Prot_Imputation_MEC_ui <- function(id) {
  
     #----------------------------------------------------
     
-    if (!imputationDone && sum(is.na(Biobase::exprs(rv$current.obj))) == 0) {
-      tags$p("Your dataset does not contain any missing values.")
-    } else {
-      tagList(
-        uiOutput(ns("warningMECImputation")),
-        uiOutput(ns("MEC_chooseImputationMethod_ui")),
-          uiOutput(ns("MEC_Params_ui")),
-          uiOutput(ns("MEC_showDetQuantValues_ui")),
-        uiOutput(ns("mod_Prot_Imputation_MEC_btn_validate_ui")),
-        tags$hr(),
-        withProgress(message = "", detail = "", value = 0, {
-          incProgress(0.5, detail = "Building plots...")
-          uiOutput(ns('mvplots_ui'))
-        })
-      )
-    }
+    
+      uiOutput(ns('mv_impute_MEC'))
   )
 }
 
@@ -95,7 +81,7 @@ mod_Prot_Imputation_MEC_server <- function(id,
   )
   
   rv.custom.default.values <- list(
-    
+    mv.present = FALSE
   )
   
   imputationAlgorithmsProteins_MEC <- list(
@@ -121,8 +107,45 @@ mod_Prot_Imputation_MEC_server <- function(id,
       req(obj())
       stopifnot(inherits(obj(), 'QFeatures'))
       rv$dataIn <- obj()
+      
+      qdata <- SummarizedExperiment::assay(rv$dataIn[[i()]])
+      rv.custom$mv.present <- sum(is.na(qdata)) > 0
+      
+      # If there is no MV in the dataset, return it
+      if (!rv.custom$mv.present){
+        dataOut$trigger <- MagellanNTK::Timestamp()
+        dataOut$value <- rv$dataIn
+      }
+      
     }, priority = 1000)
     
+    
+    
+    
+    output$mv_impute_MEC <- renderUI({
+      req(rv$dataIn)
+      widget <- NULL
+      
+      if (!rv.custom$mv.present) {
+        widget <- tags$p("Your dataset does not contain any missing values.")
+      } else {
+        
+      widget <- tagList(
+        uiOutput(ns("warningMECImputation")),
+        uiOutput(ns("MEC_chooseImputationMethod_ui")),
+        uiOutput(ns("MEC_Params_ui")),
+        uiOutput(ns("MEC_showDetQuantValues_ui")),
+        uiOutput(ns("mod_Prot_Imputation_MEC_btn_validate_ui")),
+        tags$hr(),
+        withProgress(message = "", detail = "", value = 0, {
+          incProgress(0.5, detail = "Building plots...")
+          uiOutput(ns('mvplots_ui'))
+        })
+      )
+      }
+      
+      MagellanNTK::toggleWidget(widget, is.enabled())
+    })
     
     
     output$mvplots_ui <- renderUI({
