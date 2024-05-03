@@ -1,7 +1,7 @@
 #' @title Shiny example process module.
 #'
 #' @description
-#' This module contains the configuration informations for the corresponding pipeline.
+#' This module contains the configuration information for the corresponding pipeline.
 #' It is called by the nav_pipeline module of the package MagellanNTK
 #' 
 #' The name of the server and ui functions are formatted with keywords separated by '_', as follows:
@@ -12,38 +12,39 @@
 #' This convention is important because MagellanNTK call the different
 #' server and ui functions by building dynamically their name.
 #' 
-#' In this example, `PipelineA_ProcessA_ui()` and `PipelineA_ProcessA_server()` define
-#' the code for the process `ProcessA` which is part of the pipeline called `PipelineA`.
+#' In this example, `PipelineProtein_HypothesisTest_ui()` and `PipelineProtein_HypothesisTest_server()` define
+#' the code for the process `ProcessProtein` which is part of the pipeline called `PipelineProtein`.
 
 
-#' @rdname example_module_process3
+#' @rdname PipelineProtein
 #' @export
 #' 
-PipelineA_Process3_conf <- function(){
+PipelineProtein_HypothesisTest_conf <- function(){
   Config(
-    fullname = 'PipelineA_Process3',
+    fullname = 'PipelineProtein_HypothesisTest',
     mode = 'process',
-    steps = c('Step 1', 'Step 2'),
-    mandatory = c(FALSE, TRUE)
+    steps = c('HypothesisTest'),
+    mandatory = c(FALSE)
   )
 }
 
+
 #' @param id xxx
 #' 
-#' @rdname example_module_Process3
+#' @rdname PipelineProtein
 #' 
 #' @author Samuel Wieczorek
 #' 
 #' @export
 #'
-PipelineA_Process3_ui <- function(id){
+PipelineProtein_HypothesisTest_ui <- function(id){
   ns <- NS(id)
 }
 
 
 #' @param id xxx
 #'
-#' @param dataIn The dataset
+#' @param dataIn An instance of the class 
 #'
 #' @param steps.enabled A vector of boolean which has the same length of the steps
 #' of the pipeline. This information is used to enable/disable the widgets. It is not
@@ -51,40 +52,42 @@ PipelineA_Process3_ui <- function(id){
 #' corresponding output variable
 #'
 #' @param remoteReset It is a remote command to reset the module. A boolean that
-#' indicates is the pipeline has been reseted by a program of higher level
+#' indicates if the pipeline has been reset by a program of higher level
 #' Basically, it is the program which has called this module
 #' 
 #' @param steps.status xxx
 #' 
 #' @param current.pos xxx
 #'
-#' @rdname example_module_Process3
+#' @rdname PipelineProtein
 #' 
 #' @importFrom stats setNames rnorm
 #' 
 #' @export
 #' 
-PipelineA_Process3_server <- function(id,
+PipelineProtein_HypothesisTest_server <- function(id,
   dataIn = reactive({NULL}),
   steps.enabled = reactive({NULL}),
   remoteReset = reactive({FALSE}),
   steps.status = reactive({NULL}),
-  current.pos = reactive({1}),
-  path = NULL
+  current.pos = reactive({1})
 ){
   
   # Define default selected values for widgets
   # This is only for simple workflows
   widgets.default.values <- list(
-    Step1_select1 = 1,
-    Step1_select2 = NULL,
-    Step1_select3 = 1,
-    Step1_btn1 = NULL,
-    Step2_select1 = 1,
-    Step2_select2 = 1
+    HypothesisTest_design = "None",
+    HypothesisTest_method = "None",
+    HypothesisTest_ttestOptions = 'Student',
+    HypothesisTest_thlogFC = 0
   )
   
-  rv.custom.default.values <- list()
+  rv.custom.default.values <- list(
+    listNomsComparaison = NULL,
+    n = NULL,
+    swap.history = NULL,
+    AllPairwiseComp = NULL
+  )
   
   ###-------------------------------------------------------------###
   ###                                                             ###
@@ -102,8 +105,7 @@ PipelineA_Process3_server <- function(id,
     )
     
     eval(str2expression(core.code))
-    
-    
+  
     
     # >>>
     # >>> START ------------- Code for Description UI---------------
@@ -111,31 +113,29 @@ PipelineA_Process3_server <- function(id,
     
     
     output$Description <- renderUI({
-      file <- paste0(config@path, '/md/', id, '.md')
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
       
       tagList(
-        # In this example, the md file is found in the module_examples directory
+        # In this example, the md file is found in the extdata/module_examples directory
         # but with a real app, it should be provided by the package which
         # contains the UI for the different steps of the process module.
-        # system.file(xxx)
-        
-        if (file.exists(file))
-          includeMarkdown(file)
-        else
-          p('No Description available'),
-        
+        # Insert validation button
+        uiOutput(ns('Description_btn_validate_ui')),
         
         # Used to show some information about the dataset which is loaded
         # This function must be provided by the package of the process module
         uiOutput(ns('datasetDescription_ui')),
         
-        # Insert validation button
-        uiOutput(ns('Description_btn_validate_ui'))
+        if (file.exists(file))
+          includeMarkdown(file)
+        else
+          p('No Description available')
       )
     })
     
     output$datasetDescription_ui <- renderUI({
-      # Insert your own code to vizualise some information
+      # Insert your own code to visualize some information
       # about your dataset. It will appear once the 'Start' button
       # has been clicked
       
@@ -143,8 +143,8 @@ PipelineA_Process3_server <- function(id,
     
     output$Description_btn_validate_ui <- renderUI({
       widget <- actionButton(ns("Description_btn_validate"),
-                             "Start",
-                             class = "btn-success")
+        "Start",
+        class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['Description'])
     })
     
@@ -159,11 +159,22 @@ PipelineA_Process3_server <- function(id,
     
     
     # >>>
-    # >>> START ------------- Code for step 1 UI---------------
+    # >>> START ------------- Code for HypothesisTest UI---------------
     # >>> 
     
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
-    output$Step1 <- renderUI({
+    output$HypothesisTest <- renderUI({
+      shinyjs::useShinyjs()
+      
+      .style <- "display:inline-block; vertical-align: middle; 
+      padding-right: 20px;"
+      m <- match.metacell(
+        omXplore::get_metacell(rv$dataIn[[i()]]),
+        pattern = c("Missing", "Missing POV", "Missing MEC"),
+        level = omXplore::get_type(rv$dataIn[[i()]])
+      )
+      NA.count <- length(which(m))
+      
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -172,143 +183,405 @@ PipelineA_Process3_server <- function(id,
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
-        uiOutput(ns('Step1_btn1_ui')),
-        uiOutput(ns('Step1_select1_ui')),
-        uiOutput(ns('Step1_select2_ui')),
-        uiOutput(ns('Step1_select3_ui')),
-        # Insert validation button
-        uiOutput(ns('Step1_btn_validate_ui')),
         
-        # Additional code
-        plotOutput(ns('showPlot'))
+        if (NA.count > 0) {
+          tags$p("Your dataset contains missing values. Before using the
+      Hypothesis test, you must filter/impute them.")
+        } else {
+        tagList(
+          div(
+            div(style = .style,
+              uiOutput(ns('HypothesisTest_warning_conditions_ui'))
+            ),
+            div(style = .style,
+              uiOutput(ns('HypothesisTest_design_ui'))
+            ),
+            
+            div(style = .style,
+              uiOutput(ns('HypothesisTest_method_ui'))
+            ),
+            
+            div(style = .style,
+              uiOutput(ns('HypothesisTest_ttestOptions_ui'))
+            ),
+            
+            div(style = .style,
+              uiOutput(ns('HypothesisTest_thlogFC_ui'))
+            ),
+            
+            tags$div(style = .style,
+              uiOutput("HypothesisTest_correspondingRatio_ui")
+            ),
+            
+            div(style = .style,
+              uiOutput('HypothesisTest_info_Limma_disabled_ui'),
+            ),
+            tags$hr(),
+            div(style = .style,
+              uiOutput(ns("HypothesisTest_swapConds_ui"))
+              )
+            ),
+          div(style = .style,
+            uiOutput(ns("HypothesisTest_perform_btn_ui"))
+          ),
+          
+          
+          
+            div(style = .style,
+              uiOutput(ns("HypothesisTest_btn_validate_ui"))
+            ),
+          tags$hr()
+          ,div(style = .style,
+            uiOutput(ns('HypothesisTest_plotFC_ui'))
+          )
+
+        )
+        }
       )
     })
     
     
+    
+    output$HypothesisTest_warning_conditions_ui <- renderUI({
+      req(length(unique(omXplore::get_group(rv$dataIn))) > 26)
+      req(getDesignLevel(QFeatures::colData(rv$dataIn)) > 1)
+      h3('Limma with this version of Prostar does not handle datasets with 
+      more than 26 conditions. Such, the Limma option is desactivated for the 
+        current dataset')
+    })
     # >>> START: Definition of the widgets
     
-    output$Step1_btn1_ui <- renderUI({
+    
+    output$HypothesisTest_design_ui <- renderUI({
+      widget <- selectInput(ns("HypothesisTest_design"), "Contrast",
+        choices = c("None" = "None", 
+          "One vs One" = "OnevsOne",
+          "One vs All" = "OnevsAll"),
+        selected = rv.widgets$HypothesisTest_design,
+        width = "150px"
+      )
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'] )
+    })
+    
+    output$HypothesisTest_method_ui <- renderUI({
+      .methods <- c("None" = "None", "t-tests" = "ttests")
+      if(enable_Limma())
+        .methods <- c(.methods, "Limma" = "Limma")
       
+      widget <- selectInput(ns("HypothesisTest_method"), "Statistical test",
+          choices = .methods,
+          selected = rv.widgets$HypothesisTest_method,
+          width = "150px"
+        )
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
+    })
+    
+    
+    
+    output$HypothesisTest_ttestOptions_ui <- renderUI({
+      widget <- radioButtons(ns("HypothesisTest_ttestOptions"), 
+        "t-tests options",
+      choices = c("Student", "Welch"),
+      selected = rv.widgets$HypothesisTest_ttestOptions,
+      width = "150px"
+    )
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
+    })
+    
+    
+    
+    output$HypothesisTest_thlogFC_ui <- renderUI({
+      widget <- textInput(ns("HypothesisTest_thlogFC"),
+        "log(FC) threshold",
+        value = rv.widgets$HypothesisTest_thlogFC,
+        width = "150px"
+      )
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
+    })
+    
+    
+    
+    output$HypothesisTest_correspondingRatio_ui <- renderUI({
+      ratio <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
+      p("(FC = ", 2^(ratio), ")")
+    })
+    
+    
+    output$HypothesisTest_plotFC_ui <- renderUI({
+      highchartOutput(ns("FoldChangePlot"), height = "100%")
+    })
+    
+    
+    output$HypothesisTest_perform_btn_ui <- renderUI({
+        widget <- actionButton(ns("HypothesisTest_perform_btn"),
+            "Perform log FC plot",
+            class = actionBtnClass
+          )
+    MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
+    })
+    
+    
+    output$FoldChangePlot <- renderHighchart({
+      req(rv.custom$AllPairwiseComp)
+      .params <- rv$current.obj@experimentData@other$Params$HypothesisTest.protein
+      name <- .params$HypothesisTest$AllPairwiseCompNames$logFC
       
-    })
-    
-    output$Step1_btn1_ui <- renderUI({
-      widget <- actionButton(ns('Step1_btn1'),
-                             'Step1_btn1',
-                             class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    # This part must be customized by the developer of a new module
-    output$Step1_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select1'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select1,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    output$Step1_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select2'),
-                            'Select 2 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select2,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    output$Step1_select3_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select3'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select3,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    
-    output$Step1_btn_validate_ui <- renderUI({
-      widget <-  actionButton(ns("Step1_btn_validate"),
-                              "Perform",
-                              class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
+      .comps <- omXplore::get_HTestComparisons(rv$dataIn[[i()]])
       
-    })
-    # >>> END: Definition of the widgets
-    
-    
-    observeEvent(input$Step1_btn_validate, {
-      # Do some stuff
+      l1 <- length(as.data.frame(Biobase::fData(rv$current.obj)[, name]))
+      l2 <- length(rv$AllPairwiseComp$logFC)
+      req(l2 + l1 > 0)
       
+      withProgress(message = "Computing plot...", detail = "", value = 0.5, {
+        if (l1 > 0) {
+          tmp.df <- as.data.frame(Biobase::fData(rv$current.obj)[, name])
+          
+          th <- .params$HypothesisTest$th_logFC
+          rv$tempplot$logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
+        } else if (l2 > 0) {
+          tmp.df <- rv$AllPairwiseComp$logFC
+          th <- as.numeric(rv$widgets$hypothesisTest$th_logFC)
+          rv$tempplot$logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
+        }
+        rv$tempplot$logFCDistr
+      })
+    })
+    
+
+    
+    output$showConds <- renderUI({
+      req(rv.custom$AllPairwiseComp)
+      .style <- "align: center; display:inline-block; vertical-align: middle;
+      padding-right: 50px; padding-bottom: 50px;"
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
-      dataOut$trigger <- Timestamp()
-      dataOut$value <- rv$dataIn
-      rv$steps.status['Step1'] <- stepStatus$VALIDATED
-    })
-    
-    
-    output$showPlot <- renderPlot({
-      plot(as.matrix(dataIn()[[1]]))
-    })
-    # <<< END ------------- Code for step 1 UI---------------
-    
-    
-    # >>> START ------------- Code for step 2 UI---------------
-    
-    output$Step2 <- renderUI({
-      wellPanel(
-        # Two examples of widgets in a renderUI() function
-        uiOutput(ns('Step2_select1_ui')),
-        uiOutput(ns('Step2_select2_ui')),
+      widget <- list()
+      input_list <- lapply(seq(rv.custom$n), function(i) {
+        ll.conds <- unlist(
+          strsplit(
+            colnames(rv.custom$AllPairwiseComp$logFC)[i],
+            split = "_"
+          )
+        )
         
-        # Insert validation button
-        # This line is necessary. DO NOT MODIFY
-        uiOutput(ns('Step2_btn_validate_ui'))
+        div(
+          div(style = .style, p(gsub("[()]", "", ll.conds[1]))),
+          div(style = .style, p(gsub("[()]", "", ll.conds[3]))),
+          div(style = .style,
+            widget[[i]] <- actionButton(paste0("compswap", i), "",
+              icon("sync", lib = "font-awesome"),
+              style = "border-width: 0px; padding: 0px",
+              width = "30px", height = "30px",
+              class = actionBtnClass
+            )
+          )
+        )
+      })
+      
+      
+      do.call(tagList, input_list)
+      for (i in seq(rv.custom$n))
+        MagellanNTK::toggleWidget(widget[[i]], rv$steps.enabled['HypothesisTest'])
+      
+    })
+    
+    
+    observeEvent(req(sum(GetSwapShinyValue()) > 0), {
+      req(rv.custom$AllPairwiseComp)
+      swap <- GetSwapShinyValue()
+      
+      isolate({
+        ind.swap <- which(swap != rv.custom$swap.history)
+        rv.custom$swap.history <- swap
+        if (length(ind.swap) > 0) {
+          for (i in ind.swap) {
+            current.comp <- colnames(rv.custom$AllPairwiseComp$logFC)[i]
+            
+            # Swap comparisons names
+            ll <- unlist(strsplit(current.comp, split = "_"))
+            tmp.cond1 <- gsub("[( )]", "", ll[1])
+            tmp.cond2 <- gsub("[( )]", "", ll[3])
+            tmp.logFC <- paste0("(", tmp.cond2, ")_vs_(", tmp.cond1, ")_logFC" )
+            tmp.pval <- paste0( "(",  tmp.cond2, ")_vs_(", tmp.cond1, ")_pval" )
+            colnames(rv.custom$AllPairwiseComp$logFC)[i] <- tmp.logFC
+            colnames(rv.custom$AllPairwiseComp$P_Value)[i] <- tmp.pval
+            
+            # Swap logFC values
+            .logFC <- rv$AllPairwiseComp$logFC
+            rv$AllPairwiseComp$logFC[, i] <- -.logFC[, i]
+          }
+        }
+      })
+    })
+    
+    GetSwapShinyValue <- reactive({
+      req(rv.custom$n)
+      unlist(lapply(seq(rv.custom$n), function(x) 
+        input[[paste0("compswap", x)]]
+      ))
+    })
+    
+    
+    ### Computation of comparisons selected in the variable
+    # 'rv$widgets$hypothesisTest$design'
+    ComputeComparisons <- reactive({
+      req(rv.widgets$hypothesisTest_method != "None")
+      req(rv.widgets$hypothesisTest_design != "None")
+      
+      
+      m <- match.metacell(omXplore::get_metacell(rv$dataIn[[i()]]),
+        pattern = "Missing",
+        level = omXplore::get_type(rv$dataIn[[i()]]))
+      
+      req(length(which(m)) == 0)
+      
+      df <- NULL
+      df <- switch(rv.widgets$hypothesisTest_method,
+        Limma = {
+          DaparToolshed::limmaCompleteTest(
+            SummarizedExperiment::assay(rv$dataIn, i()),
+            QFeatures::colData(rv$dataIn),
+            rv.widgets$hypothesisTest_design
+          )
+        },
+        ttests = {
+          DaparToolshed::compute_t_tests(
+            rv$dataIn,
+            contrast = rv.widgets$hypothesisTest_design,
+            type = rv.widgets$hypothesisTest_ttestOptions
+          )
+        }
+      )
+      
+      rv.custom$h_test$listNomsComparaison <- colnames(df$logFC)
+
+      df
+    }) %>% bindCache(
+      rv$dataIn,
+      rv.widgets$hypothesisTest_method,
+      rv.widgets$hypothesisTest_design,
+      rv.widgets$hypothesisTest_ttestOptions
+    )
+    
+    
+    
+    
+    
+    
+    
+    output$HypothesisTest_btn_validate_ui <- renderUI({
+      widget <-  actionButton(ns("HypothesisTest_btn_validate"),
+        "Run HypothesisTest",
+        class = "btn-success")
+      toggleWidget(widget, rv$steps.enabled['HypothesisTest'] )
+      
+    })
+    
+    
+    enable_Limma <- reactive({
+      req(rv$dataIn)
+      
+      enable <- TRUE
+      
+      nConds <-length(unique(omXplore::get_group(rv$dataIn)))
+      nLevel <- DAPAR::getDesignLevel(pData(rv$dataIn))   
+      enable <- (nConds <= 26 && nLevel == 1) ||
+        (nConds < 10 && (nLevel%in% c(2,3)))
+      
+      enable
+    })
+    
+    output$HypothesisTest_info_Limma_disabled_ui <- renderUI({
+      req(!enable_Limma())
+      tagList(
+        tags$p('Info: Limma has been disabled because the design of your dataset:'),
+        tags$ul(
+          tags$li(p('is of level 1 and contains more than 26 conditions,')),
+          tags$li('is of level 2 or 3 and contains more than 9 conditions.')
+        ),
+        tags$p('Prostar does not currently handle these cases.')
       )
     })
     
     
-    output$Step2_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select1'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step2_select1,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
+    
+    output$HypothesisTest_swapConds_ui <- renderUI({
+      shinyBS::bsCollapse(
+        id = "collapseExample",
+        open = "",
+        shinyBS::bsCollapsePanel(
+          title = "Swap conditions",
+          uiOutput("headerInputGroup"),
+          fluidRow(
+            column(width = 2, uiOutput("cond1_ui")),
+            column(width = 2, uiOutput("cond2_ui")),
+            column(width = 2, uiOutput("btns_ui"))
+          ),
+          style = "info"
+        )
+      )
     })
     
-    output$Step2_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select2'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step2_select2,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
-    })
+    # >>> END: Definition of the widgets
     
-    output$Step2_btn_validate_ui <- renderUI({
-      widget <- actionButton(ns("Step2_btn_validate"),
-                             "Perform",
-                             class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
-    })
-    
-    observeEvent(input$Step2_btn_validate, {
-      # Do some stuff
+    observeEvent(input$HypothesisTest_btn_validate, {
+      # Do some stuff 
+      
+      req(rv.widgets$HypothesisTest_method)
+      req(rv$dataIn)
       
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
-      dataOut$trigger <- Timestamp()
-      dataOut$value <- rv$dataIn
-      rv$steps.status['Step2'] <- stepStatus$VALIDATED
+      
+      
+      
+      
+      rv$widgets$hypothesisTest$design <- input$anaDiff_Design
+      rv$widgets$hypothesisTest$th_logFC <- as.numeric(input$seuilLogFC)
+      rv$widgets$hypothesisTest$ttest_options <- input$ttest_options
+      
+      rv$AllPairwiseComp <- ComputeComparisons()
+      
+      if(is.null(rv$AllPairwiseComp)){} 
+      else if(inherits(rv$AllPairwiseComp, "try-error")) {
+        
+        mod_SweetAlert_server(id = 'sweetalert_PerformLogFCPlot',
+          text = rv$AllPairwiseComp[[1]],
+          type = 'error' )
+      } else {
+        # sendSweetAlert(
+        #   session = session,
+        #   title = "Success",
+        #   type = "success"
+        # )
+        
+        rv.ht$n <- ncol(rv$AllPairwiseComp$logFC)
+        rv.ht$swap.history <- rep(0, rv.ht$n)
+        
+        rvModProcess$moduleHypothesisTestDone[1] <- TRUE
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      if(inherits(.tmp, "try-error")) {
+        
+        mod_SweetAlert_server(id = 'sweetalert_perform_HypothesisTest',
+          text = .tmp[[1]],
+          type = 'error' )
+      } else {
+        # DO NOT MODIFY THE THREE FOLLOWING LINES
+        dataOut$trigger <- Timestamp()
+        #dataOut$value <- rv$dataIn
+        rv.norm$tmp.dataset <- .tmp
+        rv$steps.status['HypothesisTest'] <- stepStatus$VALIDATED
+      }
+      
     })
     
-    # <<< END ------------- Code for step 2 UI---------------
+    # <<< END ------------- Code for step 1 UI---------------
     
     
     # >>> START ------------- Code for step 3 UI---------------
@@ -322,27 +595,29 @@ PipelineA_Process3_server <- function(id,
     
     output$Save_btn_validate_ui <- renderUI({
       tagList(
-        toggleWidget(actionButton(ns("Save_btn_validate"), "Save",
-                                  class = "btn-success"),
-                     rv$steps.enabled['Save']
+        toggleWidget( 
+          actionButton(ns("Save_btn_validate"), "Save",
+            class = "btn-success"),
+          rv$steps.enabled['Save']
         ),
-        if (config@mode == 'process' && rv$steps.status['Save'] == stepStatus$VALIDATED) {
-          Save_Dataset_ui(ns('createQuickLink'))
+        if (config@mode == 'process' && 
+            rv$steps.status['Save'] == stepStatus$VALIDATED) {
+          download_dataset_ui(ns('createQuickLink'))
         }
       )
       
     })
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
-                                          dataset = rnorm(1:5),
-                                          name = id)
+      new.dataset <- rv$dataIn[[length(rv$dataIn)]]
+      assay(new.dataset) <- rv.norm$tmp.dataset
+      rv$dataIn <- addDatasets(rv$dataIn, new.dataset, id)
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      Save_Dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      download_dataset_ui('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------
