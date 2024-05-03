@@ -107,6 +107,7 @@ Collate:
     run_Convert.R
     funcs_normalize.R
     funcs_filtering.R
+    mod_download_dataset.R
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R

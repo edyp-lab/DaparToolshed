@@ -245,11 +245,7 @@ PipelineProtein_Imputation_server <- function(id,
       )
     })
     
-    output$MECImputation_ui <- renderUI({
-      widget <- mod_Prot_Imputation_POV_ui(ns('mec'))
-      toggleWidget(widget, rv$steps.enabled['MECImputation'] )
-    })
-    
+ 
     #observe({
     #  req(rv$dataIn)
     #  dataIn <- rv$custom
@@ -300,6 +296,7 @@ PipelineProtein_Imputation_server <- function(id,
     
     # >>> START ------------- Code for step 3 UI---------------
     output$Save <- renderUI({
+     
       tagList(
         # Insert validation button
         # This line is necessary. DO NOT MODIFY
@@ -307,14 +304,20 @@ PipelineProtein_Imputation_server <- function(id,
       )
     })
     
+    
+   
     output$Save_btn_validate_ui <- renderUI({
-        widget <- actionButton(ns("Save_btn_validate"), "Save",
-          class = "btn-success")
-        MagellanNTK::toggleWidget(widget, rv$steps.enabled['Save'])
+      tagList(
+        toggleWidget( 
+          actionButton(ns("Save_btn_validate"), "Save",
+            class = "btn-success"),
+          rv$steps.enabled['Save']
+        ),
         if (config@mode == 'process' && 
             rv$steps.status['Save'] == stepStatus$VALIDATED) {
-          Save_Dataset_ui(ns('createQuickLink'))
+          download_dataset_ui(ns('createQuickLink'))
         }
+      )
     })
     
     observeEvent(input$Save_btn_validate, {
@@ -332,7 +335,7 @@ PipelineProtein_Imputation_server <- function(id,
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      Save_Dataset_server('createQuickLink', data = reactive({rv$dataIn}))
+      download_dataset_server('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

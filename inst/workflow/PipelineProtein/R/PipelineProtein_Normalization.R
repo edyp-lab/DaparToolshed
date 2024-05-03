@@ -476,11 +476,12 @@ PipelineProtein_Normalization_server <- function(id,
     output$Save_btn_validate_ui <- renderUI({
       tagList(
         toggleWidget( 
-                     actionButton(ns("Save_btn_validate"), "Save",
-                                  class = "btn-success"),
-                     rv$steps.enabled['Save']
+          actionButton(ns("Save_btn_validate"), "Save",
+            class = "btn-success"),
+          rv$steps.enabled['Save']
         ),
-        if (config@mode == 'process' && rv$steps.status['Save'] == stepStatus$VALIDATED) {
+        if (config@mode == 'process' && 
+            rv$steps.status['Save'] == stepStatus$VALIDATED) {
           Save_Dataset_ui(ns('createQuickLink'))
         }
       )
