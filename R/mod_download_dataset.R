@@ -1,85 +1,182 @@
-#' @title Download_btns shiny module.
+#' @title dl
+#'
+#' @description  A shiny Module.
 #' 
-#' @description A shiny module that shows download buttons in different formats.
 #' 
 #' @param id internal
-#' @param settings xxx
-#' @param obj A data.frame
-#' @param name xxxx.
-#' @param colors xxx
-#' @param tags xxx
+#' @param dataIn internal
+#' @param extension Available values are `csv` (default), `RData` and `Excel`.
+#' @param widget.type Available values are `Button` and `Link` (default).
+#' @param name internal
+#' @param excel.style xxx
 #'
+#' @return NA
 #'
-#' @name download_btns
+#' @name download_dataset
 #' @examplesIf interactive()
-#' data(lldata)
-#' shiny::runApp(download_btns(lldata))
+#' data(ft_na)
+#' shiny::runApp(download_dataset(ft_na))
 #'
 NULL
 
 
-#' @rdname download_btns
+#' @import shiny
+#'
+#' @rdname download_dataset
 #'
 #' @export
 #'
-download_btns_ui <- function(id, settings = list()) {
+download_dataset_ui <- function(id) {
   ns <- NS(id)
-  
   tagList(
-    downloadButton(ns("download_as_Excel_btn"), "Excel", class = settings$actionBtnClass),
-    downloadButton(ns("download_as_csv_btn"), "csv", class = settings$actionBtnClass),
-    downloadButton(ns("download_as_RData_btn"), "RData", class = settings$actionBtnClass)
+    h3('--- Default donwload dataset tool ---'),
+    uiOutput(ns('dl_xl')),
+    uiOutput(ns('dl_csv')),
+    uiOutput(ns('dl_raw'))
   )
 }
 
-
-
-
-#' @rdname download_btns
-#' @return NA
+#' @rdname download_dataset
 #'
 #' @export
 #'
-download_btns_server <- function(id,
-  obj = reactive({NULL}), 
-  name, 
-  colors = reactive({NULL}), 
-  tags = reactive({NULL})) {
+download_dataset_server <- function(id,
+  dataIn = reactive({NULL}),
+  extension = c('csv', 'xlsx', 'RData'),
+  widget.type = 'Link',
+  name = 'foo', 
+  excel.style = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    output$download_as_csv_btn <- downloadHandler(
+    rv <- reactiveValues(
+      UI_type = NULL,
+      export_file_RData = NULL,
+      export_file_csv = NULL,
+      export_file_xlsx = NULL
+    )
+    
+    observeEvent(dataIn(), ignoreNULL = TRUE,{
+      rv$export_file_csv <- tryCatch({
+        out.csv <- tempfile(fileext = ".csv")
+        write.csv(x = dataIn(), file = out.csv)
+        out.csv
+      },
+        warning = function(w) NULL,
+        error = function(e) NULL
+      )
+      
+      rv$export_file_xlsx <- tryCatch({
+        out.xlsx <- tempfile(fileext = ".xlsx")
+        write.excel(obj = dataIn(), filename = out.xlsx)
+        out.xlsx
+      },
+        warning = function(w) NULL,
+        error = function(e) NULL
+      )
+      
+      
+      rv$export_file_RData <- tryCatch({
+        out.RData <- tempfile(fileext = ".RData")
+        saveRDS(dataIn(), file = out.RData)
+        out.RData
+      },
+        warning = function(w) NULL,
+        error = function(e) NULL
+      )
+      
+      
+      print(rv$export_file_xlsx)
+      print(rv$export_file_RData)
+      print(rv$export_file_csv)
+    })
+    
+    GetType <- reactive({
+      if(length(extension) != length(widget.type)){
+        warning("Widget.type is not correctly configured. As one cannot decide, 
+            all values are set to default ('Link')")
+        rv$UI_type <- rep('Link', length(extension))
+      } else {
+        rv$UI_type <- widget.type
+      }
+      
+      rv$UI_type
+    })
+    
+    output$dl_csv <- renderUI({
+      req('csv' %in% extension)
+      req(rv$export_file_csv)
+      type <- GetType()[which(extension == 'csv')]
+      
+      do.call(paste0('download', type),
+        list(
+          ns("downloadDatacsv"),
+          "csv",
+          class = if (type=='Button') actionBtnClass else ''
+        )
+      )
+    })
+    
+    
+    output$dl_xl <- renderUI({
+      req('xlsx' %in% extension)
+      req(rv$export_file_xlsx)
+      type <- GetType()[which(extension == 'xlsx')]
+      do.call(paste0('download', type),
+        list(
+          ns("downloadDataExcel"), 
+          "xlsx",
+          class = if (type=='Button') actionBtnClass else ''
+        )
+      )
+    })
+    
+    output$dl_raw <- renderUI({
+      req('RData' %in% extension)
+      req(rv$export_file_RData)
+      type <- GetType()[which(extension == 'RData')]
+      do.call(paste0('download', type),
+        list(
+          ns("downloadDataRData"), 
+          "RData",
+          class = if (type=='Button') actionBtnClass else ''
+        )
+      )
+    })
+    
+    output$downloadDatacsv <- downloadHandler(
       filename = function() {
-        paste(name(), "-", Sys.Date(), ".csv", sep = "")
+        paste("data-", Sys.Date(), ".csv", sep = "")
       },
       content = function(file) {
-        write.table(obj(), file, sep = ";", row.names = FALSE)
+        file.copy(
+          from = rv$export_file_csv,
+          to = file
+        )
       }
     )
     
-    output$download_as_RData_btn <- downloadHandler(
+    output$downloadDataRData <- downloadHandler(
       filename = function() {
         paste ("data-", Sys.Date(), ".RData", sep = "")
       },
-      content = function(fname) {
-        saveRDS(obj(), file=fname)
+      content = function(file) {
+        file.copy(
+          from = rv$export_file_RData,
+          to = file
+        )
       }
     )
     
-    output$download_as_Excel_btn <- downloadHandler(
+    output$downloadDataExcel <- downloadHandler(
       filename = function() {
-        paste(name(), "-", Sys.Date(), ".xlsx", sep = "")
+        paste("data-", Sys.Date(), ".xlsx", sep = "")
       },
       content = function(file) {
-        fname <- paste("temp", Sys.Date(), ".xlsx", sep = "")
-        write.excel(
-          df = obj(),
-          colors = colors(),
-          tags = tags(),
-          filename = fname
+        file.copy(
+          from = rv$export_file_xlsx,
+          to = file
         )
-        
-        file.rename(fname, file)
       }
     )
   }
@@ -87,25 +184,22 @@ download_btns_server <- function(id,
 }
 
 
+
+
+#' @rdname download_dataset
+#'
 #' @export
-#' @rdname download_btns
-#' 
-download_btns <- function(obj){
-  ui <- fluidPage(
-    download_btns_ui(id = 'ex', 
-      settings = list(actionBtnClass = "btn-primary"))
-  )
+#'
+download_dataset <- function(data){
+  ui <- download_dataset_ui("dl")
   
-  server <- function(input, output) {
+  server <- function(input, output, session) {
     
-    download_btns_server(id = "ex",
-      data = reactive({obj}),
-      name = reactive({"myTest"}),
-      colors = reactive({NULL}),
-      tags = reactive({NULL
-      })
+    download_dataset_server("dl",
+      dataIn = reactive({data}),
+      extension = c('csv', 'xlsx', 'RData')
     )
   }
   
-  shinyApp(ui, server)
+  app <- shiny::shinyApp(ui = ui, server = server)
 }

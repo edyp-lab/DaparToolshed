@@ -216,7 +216,6 @@ PipelineProtein_Imputation_server <- function(id,
     
     observeEvent(input$POVImputation_btn_validate, {
       # Do some stuff
-      browser()
       rv$dataIn <- DaparToolshed::addDatasets(
         rv$dataIn,
         rv.custom$tmp1()$value,
@@ -329,6 +328,10 @@ PipelineProtein_Imputation_server <- function(id,
       len_diff <- len_end - len_start
       if (len_diff == 2)
         rv$dataIn <- QFeatures::removeAssay(rv$dataIn, length(rv$dataIn)-1)
+      
+      # rename last SE
+      names(rv$dataIn)[length(rv$dataIn)] <- 'Imputation'
+      
       
       
       # DO NOT MODIFY THE THREE FOLLOWING LINES
