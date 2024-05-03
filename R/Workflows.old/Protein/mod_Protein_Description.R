@@ -136,7 +136,7 @@ mod_Protein_Description_server <- function(id,
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
 
-            # rv$status['Description'] <- global$VALIDATED
+            # rv$status['Description'] <- stepStatus$VALIDATED
         })
 
         list(

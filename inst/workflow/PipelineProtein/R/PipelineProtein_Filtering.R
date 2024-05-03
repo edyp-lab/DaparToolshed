@@ -318,6 +318,7 @@ PipelineProtein_Filtering_server <- function(id,
         rv$steps.enabled['Save']
         )
     })
+    
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
       # Clean the result

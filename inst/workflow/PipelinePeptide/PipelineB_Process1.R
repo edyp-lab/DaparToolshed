@@ -167,7 +167,7 @@ PipelineB_Process1_server <- function(id,
       rv$dataIn <- dataIn()
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -271,7 +271,7 @@ PipelineB_Process1_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step1'] <- global$VALIDATED
+      rv$steps.status['Step1'] <- stepStatus$VALIDATED
     })
     
     
@@ -328,7 +328,7 @@ PipelineB_Process1_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step2'] <- global$VALIDATED
+      rv$steps.status['Step2'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -346,7 +346,7 @@ PipelineB_Process1_server <- function(id,
     
     output$dl_ui <- renderUI({
       req(config@mode == 'process')
-      req(rv$steps.status['Save'] == global$VALIDATED)
+      req(rv$steps.status['Save'] == stepStatus$VALIDATED)
       MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
     })
     
@@ -365,8 +365,9 @@ PipelineB_Process1_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
-      MagellanNTK::mod_download_dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
+      MagellanNTK::mod_download_dataset_server('createQuickLink', 
+        dataIn = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

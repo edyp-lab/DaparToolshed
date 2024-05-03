@@ -13,7 +13,7 @@
 #' server and ui functions by building dynamically their name.
 #' 
 #' In this example, `PipelineProtein_Imputation_ui()` and `PipelineProtein_Imputation_server()` define
-#' the code for the process `ProcessA` which is part of the pipeline called `PipelineProtein`.
+#' the code for the process `PipelineProtein_Imputation` which is part of the pipeline called `PipelineProtein`.
 #' 
 #' @examplesIf interactive()
 #' library(MagellanNTK)
@@ -30,8 +30,8 @@ PipelineProtein_Imputation_conf <- function(){
   Config(
     fullname = 'PipelineProtein_Imputation',
     mode = 'process',
-    steps = c('Step 1', 'Step 2'),
-    mandatory = c(FALSE, TRUE)
+    steps = c('POV Imputation', 'MEC Imputation'),
+    mandatory = c(FALSE, FALSE)
   )
 }
 
@@ -82,16 +82,15 @@ PipelineProtein_Imputation_server <- function(id,
   
   # Define default selected values for widgets
   # This is only for simple workflows
-  widgets.default.values <- list(
-    Step1_select1 = 1,
-    Step1_select2 = NULL,
-    Step1_select3 = 1,
-    Step1_btn1 = NULL,
-    Step2_select1 = 1,
-    Step2_select2 = 1
-  )
+  widgets.default.values <- list()
   
-  rv.custom.default.values <- list()
+  rv.custom.default.values <- list(
+    tmp1 = reactive({NULL}),
+    tmp2 = reactive({NULL}),
+    tmp = reactive({NULL}),
+    dataIn1 = NULL,
+    dataIn2 = NULL
+  )
   
   ###-------------------------------------------------------------###
   ###                                                             ###
@@ -118,7 +117,8 @@ PipelineProtein_Imputation_server <- function(id,
     
     
     output$Description <- renderUI({
-      file <- paste0(config@path, '/md/', id, '.md')
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
       
       tagList(
         # In this example, the md file is found in the module_examples directory
@@ -158,9 +158,12 @@ PipelineProtein_Imputation_server <- function(id,
     
     observeEvent(input$Description_btn_validate, {
       rv$dataIn <- dataIn()
+      rv.custom$dataIn1 <- dataIn()
+      rv.custom$dataIn2 <- dataIn()
+      
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -170,7 +173,7 @@ PipelineProtein_Imputation_server <- function(id,
     # >>> 
     
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
-    output$Step1 <- renderUI({
+    output$POVImputation <- renderUI({
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -179,140 +182,117 @@ PipelineProtein_Imputation_server <- function(id,
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
-        uiOutput(ns('Step1_btn1_ui')),
-        uiOutput(ns('Step1_select1_ui')),
-        uiOutput(ns('Step1_select2_ui')),
-        uiOutput(ns('Step1_select3_ui')),
+        box(uiOutput(ns("POVImputation_ui"))),
         # Insert validation button
-        uiOutput(ns('Step1_btn_validate_ui')),
-        
-        # Additional code
-        plotOutput(ns('showPlot'))
+        uiOutput(ns("POVImputation_btn_validate_ui"))
       )
     })
     
     
     # >>> START: Definition of the widgets
+    rv.custom$tmp1 <- mod_Prot_Imputation_POV_server(
+      id = 'pov',
+      obj = reactive({rv.custom$dataIn1}),
+      i = reactive({length(rv.custom$dataIn1)}),
+      is.enabled = reactive({rv$steps.enabled["POVImputation"]})
+      )
     
-    output$Step1_btn1_ui <- renderUI({
+    output$POVImputation_ui <- renderUI({
+      widget <- mod_Prot_Imputation_POV_ui(ns('pov'))
+      toggleWidget(widget, rv$steps.enabled['POVImputation'] )
+    })
+    
+    output$POVImputation_btn_validate_ui <- renderUI({
       
-      
-    })
-    
-    output$Step1_btn1_ui <- renderUI({
-      widget <- actionButton(ns('Step1_btn1'),
-                             'Step1_btn1',
-                             class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    # This part must be customized by the developer of a new module
-    output$Step1_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select1'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select1,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    output$Step1_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select2'),
-                            'Select 2 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select2,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    output$Step1_select3_ui <- renderUI({
-      widget <- selectInput(ns('Step1_select3'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step1_select3,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
-    })
-    
-    
-    
-    output$Step1_btn_validate_ui <- renderUI({
-      widget <-  actionButton(ns("Step1_btn_validate"),
-                              "Perform",
-                              class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step1'] )
+      widget <-  actionButton(
+        ns("POVImputation_btn_validate"),
+        "Validate step", class = "btn-success")
+      toggleWidget(widget, rv$steps.enabled['POVImputation'] &&
+          !is.null(rv.custom$tmp1()$value))
       
     })
     # >>> END: Definition of the widgets
     
     
-    observeEvent(input$Step1_btn_validate, {
+    observeEvent(input$POVImputation_btn_validate, {
       # Do some stuff
+      browser()
+      rv$dataIn <- DaparToolshed::addDatasets(
+        rv$dataIn,
+        rv.custom$tmp1()$value,
+        'POVImputation')
       
+      rv.custom$dataIn2 <- rv$dataIn
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
+      # DO NOT MODIFY THE THREE FOLLOWING LINES
       dataOut$trigger <- Timestamp()
-      dataOut$value <- rv$dataIn
-      rv$steps.status['Step1'] <- global$VALIDATED
+      dataOut$value <- NULL
+      rv$steps.status['POVImputation'] <- stepStatus$VALIDATED
     })
-    
-    
-    output$showPlot <- renderPlot({
-      plot(as.matrix(dataIn()[[1]]))
-    })
+
     # <<< END ------------- Code for step 1 UI---------------
     
     
     # >>> START ------------- Code for step 2 UI---------------
     
-    output$Step2 <- renderUI({
+    output$MECImputation <- renderUI({
       wellPanel(
-        # Two examples of widgets in a renderUI() function
-        uiOutput(ns('Step2_select1_ui')),
-        uiOutput(ns('Step2_select2_ui')),
+        uiOutput(ns('MECImputation_ui')),
         
         # Insert validation button
         # This line is necessary. DO NOT MODIFY
-        uiOutput(ns('Step2_btn_validate_ui'))
+        uiOutput(ns('MECImputation_btn_validate_ui'))
       )
     })
     
-    
-    output$Step2_select1_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select1'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step2_select1,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
+    output$MECImputation_ui <- renderUI({
+      widget <- mod_Prot_Imputation_POV_ui(ns('mec'))
+      toggleWidget(widget, rv$steps.enabled['MECImputation'] )
     })
     
-    output$Step2_select2_ui <- renderUI({
-      widget <- selectInput(ns('Step2_select2'),
-                            'Select 1 in renderUI',
-                            choices = 1:4,
-                            selected = rv.widgets$Step2_select2,
-                            width = '150px')
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
+    #observe({
+    #  req(rv$dataIn)
+    #  dataIn <- rv$custom
+      # # If the previous step has been run and validated,
+      # # Update dataIn to its result
+      #if (rv$steps.status["Cellmetadatafiltering"] == stepStatus$VALIDATED)
+     # browser()
+      # if (!is.null(rv.custom$tmp1()$value))
+      #   dataIn <- DaparToolshed::addDatasets(rv$dataIn, 
+      #     rv.custom$tmp1()$value, 'POVImputation')
+      
+    rv.custom$tmp2 <- mod_Prot_Imputation_MEC_server(
+      id = 'mec',
+      obj = reactive({rv.custom$dataIn2}),
+      i = reactive({length(rv.custom$dataIn2)}),
+      is.enabled = reactive({rv$steps.enabled["MECImputation"]})
+    )
+    #})
+    
+    output$MECImputation_ui <- renderUI({
+      widget <- mod_Prot_Imputation_MEC_ui(ns('mec'))
+      toggleWidget(widget, rv$steps.enabled['MECImputation'] )
     })
     
-    output$Step2_btn_validate_ui <- renderUI({
-      widget <- actionButton(ns("Step2_btn_validate"),
+    output$MECImputation_btn_validate_ui <- renderUI({
+      widget <- actionButton(ns("MECImputation_btn_validate"),
                              "Perform",
                              class = "btn-success")
-      toggleWidget(widget, rv$steps.enabled['Step2'] )
+      toggleWidget(widget, rv$steps.enabled['MECImputation'] )
     })
     
-    observeEvent(input$Step2_btn_validate, {
+    observeEvent(input$MECImputation_btn_validate, {
       # Do some stuff
+      rv$dataIn <- DaparToolshed::addDatasets(
+        rv$dataIn,
+        rv.custom$tmp2()$value,
+        'MECImputation')
       
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
-      dataOut$value <- rv$dataIn
-      rv$steps.status['Step2'] <- global$VALIDATED
+      dataOut$value <- NULL
+      rv$steps.status['MECImputation'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -328,28 +308,31 @@ PipelineProtein_Imputation_server <- function(id,
     })
     
     output$Save_btn_validate_ui <- renderUI({
-      tagList(
-        toggleWidget(actionButton(ns("Save_btn_validate"), "Save",
-                                  class = "btn-success"),
-                     rv$steps.enabled['Save']
-        ),
-        if (config@mode == 'process' && rv$steps.status['Save'] == global$VALIDATED) {
+        widget <- actionButton(ns("Save_btn_validate"), "Save",
+          class = "btn-success")
+        MagellanNTK::toggleWidget(widget, rv$steps.enabled['Save'])
+        if (config@mode == 'process' && 
+            rv$steps.status['Save'] == stepStatus$VALIDATED) {
           Save_Dataset_ui(ns('createQuickLink'))
         }
-      )
-      
     })
+    
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      rv$dataIn <- Add_Datasets_to_Object(object = rv$dataIn,
-                                          dataset = rnorm(1:5),
-                                          name = id)
+      browser()
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
+      len_start <- length(dataIn())
+      len_end <- length(rv$dataIn)
+      len_diff <- len_end - len_start
+      if (len_diff == 2)
+        rv$dataIn <- QFeatures::removeAssay(rv$dataIn, length(rv$dataIn)-1)
+      
+      
+      # DO NOT MODIFY THE THREE FOLLOWING LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
-      Save_Dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
+      Save_Dataset_server('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

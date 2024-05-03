@@ -154,6 +154,13 @@ mod_Prot_Imputation_POV_server <- function(id,
     
     output$POV_showDetQuantValues <- renderUI({
       req(rv.widgets$POV_algorithm == "detQuantile")
+      
+      mod_DetQuantImpValues_server(id = "MEC_DetQuantValues_DT",
+        obj = reactive({rv$dataIn}),
+        quant = reactive({rv.widgets$POV_detQuant_quantile}),
+        factor = reactive({rv.widgets$POV_detQuant_factor})
+      )
+      
        tagList(
           h5("The POV will be imputed by the following values :"),
           mod_DetQuantImpValues_ui(ns("POV_DetQuantValues_DT"))
@@ -287,11 +294,12 @@ mod_Prot_Imputation_POV_server <- function(id,
           )
           nbPOVAfter <- length(which(m))
           rv$nbPOVimputed <- nbPOVBefore - nbPOVAfter
-
         }
 
       params(.tmp) <- .param
+      
       dataOut$trigger <- MagellanNTK::Timestamp()
+      #dataOut$value <- DaparToolshed::addDatasets(rv$dataIn, .tmp, id)
       dataOut$value <- .tmp
     })
       

@@ -36,11 +36,12 @@ mod_DetQuantImpValues_ui <- function(id) {
 #' @rdname mod_DetQuantImpValues
 #' @export
 #'
-mod_DetQuantImpValues_server <- function(id,
-                                         obj = reactive({NULL}),
-                                         quant = reactive({1}),
-                                          factor = reactive({1})
-                                         ) {
+mod_DetQuantImpValues_server <- function(
+    id,
+    obj = reactive({NULL}),
+    quant = reactive({1}),
+    factor = reactive({1})
+  ) {
     moduleServer(id, function(input, output, session) {
         ns <- session$ns
         
@@ -72,8 +73,7 @@ mod_DetQuantImpValues <- function(obj){
     mod_DetQuantImpValues_ui("Title")
     )
 server <- function(input, output) {
-    
-    data("Exp1_R25_prot")
+
     mod_DetQuantImpValues_server(id = "Title",
                                  obj = reactive({obj}))
 }

@@ -105,6 +105,7 @@ mod_Prot_Imputation_MEC_server <- function(id,
     
     observeEvent(obj(), ignoreNULL = TRUE,{
       req(obj())
+      
       stopifnot(inherits(obj(), 'QFeatures'))
       rv$dataIn <- obj()
       
@@ -179,6 +180,13 @@ mod_Prot_Imputation_MEC_server <- function(id,
     
     output$MEC_showDetQuantValues_ui <- renderUI({
       req(rv.widgets$MEC_algorithm == "detQuantile")
+      
+      mod_DetQuantImpValues_server(id = "MEC_DetQuantValues_DT",
+        obj = reactive({rv$dataIn}),
+        quant = reactive({rv.widgets$MEC_detQuant_quantile}),
+        factor = reactive({rv.widgets$MEC_detQuant_factor})
+        )
+      
       tagList(
         h5("The MEC will be imputed by the following values :"),
         mod_DetQuantImpValues_ui(ns("MEC_DetQuantValues_DT"))
@@ -305,7 +313,14 @@ mod_Prot_Imputation_MEC_server <- function(id,
         }
         
         params(.tmp) <- .param
+        # Check if POV imputation has already been procceded
+        # if (xxx %in% names(rv$dataIn)){
+        #   
+        # } else {
+        #   
+        # }
         dataOut$trigger <- MagellanNTK::Timestamp()
+        dataOut$value <- .tmp
         dataOut$value <- .tmp
       })
       })

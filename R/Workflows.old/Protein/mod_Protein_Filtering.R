@@ -133,7 +133,7 @@ mod_Protein_Filtering_server <- function(id,
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
 
-            # rv$status['Description'] <- global$VALIDATED
+            # rv$status['Description'] <- stepStatus$VALIDATED
         })
 
 
@@ -266,7 +266,7 @@ mod_Protein_Filtering_server <- function(id,
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
 
-            # rv$status['Step1'] <- global$VALIDATED
+            # rv$status['Step1'] <- stepStatus$VALIDATED
         })
 
         #-------------------------- Code for step 2 ------------------------------
@@ -348,7 +348,7 @@ mod_Protein_Filtering_server <- function(id,
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
 
-            # rv$status['Step2'] <- global$VALIDATED
+            # rv$status['Step2'] <- stepStatus$VALIDATED
         })
 
 
@@ -382,7 +382,7 @@ mod_Protein_Filtering_server <- function(id,
             dataOut$value <- rv$dataIn
 
             # print(names(dataOut))
-            # rv$status['Step3'] <- global$VALIDATED
+            # rv$status['Step3'] <- stepStatus$VALIDATED
         })
 
 

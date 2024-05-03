@@ -153,7 +153,7 @@ PipelineA_Process3_server <- function(id,
       rv$dataIn <- dataIn()
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -248,7 +248,7 @@ PipelineA_Process3_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step1'] <- global$VALIDATED
+      rv$steps.status['Step1'] <- stepStatus$VALIDATED
     })
     
     
@@ -305,7 +305,7 @@ PipelineA_Process3_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Step2'] <- global$VALIDATED
+      rv$steps.status['Step2'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -326,7 +326,7 @@ PipelineA_Process3_server <- function(id,
                                   class = "btn-success"),
                      rv$steps.enabled['Save']
         ),
-        if (config@mode == 'process' && rv$steps.status['Save'] == global$VALIDATED) {
+        if (config@mode == 'process' && rv$steps.status['Save'] == stepStatus$VALIDATED) {
           Save_Dataset_ui(ns('createQuickLink'))
         }
       )
@@ -341,7 +341,7 @@ PipelineA_Process3_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
       Save_Dataset_server('createQuickLink', dataIn = reactive({rv$dataIn}))
       
     })

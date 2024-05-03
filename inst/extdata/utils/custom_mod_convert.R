@@ -186,7 +186,7 @@ Convert_server <- function(id,
       rv$dataIn <- dataIn()
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Description'] <- global$VALIDATED
+      rv$steps.status['Description'] <- stepStatus$VALIDATED
     })
     
     
@@ -389,7 +389,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['SelectFile'] <- global$VALIDATED
+      rv$steps.status['SelectFile'] <- stepStatus$VALIDATED
 
     })
     
@@ -545,7 +545,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['DataId'] <- global$VALIDATED
+      rv$steps.status['DataId'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
@@ -655,7 +655,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['ExpandFeatData'] <- global$VALIDATED
+      rv$steps.status['ExpandFeatData'] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for Design UI---------------
@@ -693,7 +693,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Design'] <- global$VALIDATED
+      rv$steps.status['Design'] <- stepStatus$VALIDATED
     })
     
     # >>> START ------------- Code for Save UI---------------
@@ -708,7 +708,7 @@ Convert_server <- function(id,
     
     output$mod_dl_ui <- renderUI({
       req(config@mode == 'process')
-      req(rv$steps.status['Save'] == global$VALIDATED)
+      req(rv$steps.status['Save'] == stepStatus$VALIDATED)
       MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
     })
     
@@ -734,7 +734,7 @@ Convert_server <- function(id,
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- rv$dataIn
-      rv$steps.status['Save'] <- global$VALIDATED
+      rv$steps.status['Save'] <- stepStatus$VALIDATED
       MagellanNTK::mod_download_dataset_server('createQuickLink', 
                 dataIn = reactive({rv$dataIn}),
                 extension = c('csv', 'xlsx', 'RData'))

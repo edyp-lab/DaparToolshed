@@ -180,7 +180,7 @@ mod_Agregation_server <- function(id,
             rv$dataIn <- dataIn()
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
-            rv$steps.status["Description"] <- global$VALIDATED
+            rv$steps.status["Description"] <- stepStatus$VALIDATED
         })
 
 
@@ -240,7 +240,7 @@ mod_Agregation_server <- function(id,
             # DO NOT MODIFY THE THREE FOLLOWINF LINES
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
-            rv$steps.status["Filterpeptides"] <- global$VALIDATED
+            rv$steps.status["Filterpeptides"] <- stepStatus$VALIDATED
         })
 
         output$Filterpeptides_ProteinId_ui <- renderUI({
@@ -455,7 +455,7 @@ mod_Agregation_server <- function(id,
                 rv$dataIn <- rv.custom$temp.agregate
                 dataOut$trigger <- MagellanNTK::Timestamp()
                 dataOut$value <- rv$dataIn
-                rv$steps.status["Agregation"] <- global$VALIDATED
+                rv$steps.status["Agregation"] <- stepStatus$VALIDATED
             } else {
                 shinyjs::toggle("downloadAggregationIssues",
                     condition = length(rv.custom$temp.agregate$issues) > 0
@@ -500,7 +500,7 @@ mod_Agregation_server <- function(id,
 
         output$mod_dl_ui <- renderUI({
             req(config@mode == "process")
-            req(rv$steps.status["Save"] == global$VALIDATED)
+            req(rv$steps.status["Save"] == stepStatus$VALIDATED)
             MagellanNTK::mod_download_dataset_ui(ns("createQuickLink"))
         })
 
@@ -516,7 +516,7 @@ mod_Agregation_server <- function(id,
         observeEvent(input$Save_btn_validate, {
             dataOut$trigger <- MagellanNTK::Timestamp()
             dataOut$value <- rv$dataIn
-            rv$steps.status["Save"] <- global$VALIDATED
+            rv$steps.status["Save"] <- stepStatus$VALIDATED
         })
 
 
