@@ -641,3 +641,29 @@ setMethod(
   }
   return(object)
 }
+
+
+
+#' @title xxx
+#' @description xxx
+#' @param obj xxx
+#' @param i xxx
+#' @export
+#' @return xxx
+#' 
+NAIsZero <- function(obj, i){
+  
+  .ind <- which(is.na(assay(Exp1_R25_prot[[1]])))
+  assay(Exp1_R25_prot[[i]])[.ind] <- 0
+  
+  m <- match.metacell(
+    omXplore::get_metacell(obj[[i]]),
+    pattern = c("Missing", "Missing POV", "Missing MEC"),
+    level = omXplore::get_type(obj[[i]])
+  )
+  
+  qMetacell(obj[[i]])[m] <- "Quantified"
+  
+  return(obj)
+  
+}

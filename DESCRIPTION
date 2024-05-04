@@ -100,6 +100,9 @@ Collate:
     mod_Prot_Imputation_POV.R
     mod_Prot_Imputation_MEC.R
     utils_DAPAR.R
+    anova_analysis.R
+    compute.t.tests.R
+    limmaAnalysis.R
     mod_mv_plots.R
     mod_Pirat.R
     funcs_missingValuesFiltering.R

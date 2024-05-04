@@ -27,8 +27,8 @@
 #' metacell.mask <- match.metacell(get_metacell(obj[[1]]), 
 #' c("Missing POV", "Missing MEC"), level)
 #' # Simulate imputation
-#' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
-#' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
+#' obj <- NAIsZero(obj, 1)
+#' obj <- NAIsZero(obj, 2)
 #' ttest <- compute_t_tests(obj, 2)
 #' 
 #' ttest <- compute_t_tests(obj, 1)

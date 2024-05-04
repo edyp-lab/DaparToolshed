@@ -12,7 +12,7 @@
 #' This convention is important because MagellanNTK call the different
 #' server and ui functions by building dynamically their name.
 #' 
-#' In this example, `PipelineProtein_HypothesisTest_ui()` and `PipelineProtein_HypothesisTest_server()` define
+#' In this example, `PipelineProtein_HypothesisTest_ulength(rv$dataIn)` and `PipelineProtein_HypothesisTest_server()` define
 #' the code for the process `ProcessProtein` which is part of the pipeline called `PipelineProtein`.
 
 
@@ -165,20 +165,20 @@ PipelineProtein_HypothesisTest_server <- function(id,
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
     output$HypothesisTest <- renderUI({
       shinyjs::useShinyjs()
-      
+
       .style <- "display:inline-block; vertical-align: middle; 
       padding-right: 20px;"
       m <- match.metacell(
-        omXplore::get_metacell(rv$dataIn[[i()]]),
+        omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
-        level = omXplore::get_type(rv$dataIn[[i()]])
+        level = omXplore::get_type(rv$dataIn[[length(rv$dataIn)]])
       )
       NA.count <- length(which(m))
       
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
-        # The renderUI() function of each widget is managed by MagellanNTK
+        # The renderUlength(rv$dataIn) function of each widget is managed by MagellanNTK
         # The dev only have to define a reactive() function for each
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
@@ -232,7 +232,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
             ),
           tags$hr()
           ,div(style = .style,
-            uiOutput(ns('HypothesisTest_plotFC_ui'))
+            highchartOutput(ns("FoldChangePlot"), height = "100%")
           )
 
         )
@@ -279,6 +279,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     
     output$HypothesisTest_ttestOptions_ui <- renderUI({
+      req(rv.widgets$HypothesisTest_method == "ttests")
       widget <- radioButtons(ns("HypothesisTest_ttestOptions"), 
         "t-tests options",
       choices = c("Student", "Welch"),
@@ -306,15 +307,11 @@ PipelineProtein_HypothesisTest_server <- function(id,
       p("(FC = ", 2^(ratio), ")")
     })
     
-    
-    output$HypothesisTest_plotFC_ui <- renderUI({
-      highchartOutput(ns("FoldChangePlot"), height = "100%")
-    })
-    
+ 
     
     output$HypothesisTest_perform_btn_ui <- renderUI({
         widget <- actionButton(ns("HypothesisTest_perform_btn"),
-            "Perform log FC plot",
+            "Compute log FC plot",
             class = actionBtnClass
           )
     MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
@@ -326,7 +323,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       .params <- rv$current.obj@experimentData@other$Params$HypothesisTest.protein
       name <- .params$HypothesisTest$AllPairwiseCompNames$logFC
       
-      .comps <- omXplore::get_HTestComparisons(rv$dataIn[[i()]])
+      .comps <- omXplore::get_HTestComparisons(rv$dataIn[[length(rv$dataIn)]])
       
       l1 <- length(as.data.frame(Biobase::fData(rv$current.obj)[, name]))
       l2 <- length(rv$AllPairwiseComp$logFC)
@@ -359,8 +356,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
         ll.conds <- unlist(
           strsplit(
             colnames(rv.custom$AllPairwiseComp$logFC)[i],
-            split = "_"
-          )
+            split = "_")
         )
         
         div(
@@ -380,7 +376,8 @@ PipelineProtein_HypothesisTest_server <- function(id,
       
       do.call(tagList, input_list)
       for (i in seq(rv.custom$n))
-        MagellanNTK::toggleWidget(widget[[i]], rv$steps.enabled['HypothesisTest'])
+        MagellanNTK::toggleWidget(widget[[i]], 
+          rv$steps.enabled['HypothesisTest'])
       
     })
     
@@ -424,30 +421,31 @@ PipelineProtein_HypothesisTest_server <- function(id,
     ### Computation of comparisons selected in the variable
     # 'rv$widgets$hypothesisTest$design'
     ComputeComparisons <- reactive({
-      req(rv.widgets$hypothesisTest_method != "None")
-      req(rv.widgets$hypothesisTest_design != "None")
+      req(rv.widgets$HypothesisTest_method != "None")
+      req(rv.widgets$HypothesisTest_design != "None")
       
-      
-      m <- match.metacell(omXplore::get_metacell(rv$dataIn[[i()]]),
+      browser()
+      m <- match.metacell(omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
         pattern = "Missing",
-        level = omXplore::get_type(rv$dataIn[[i()]]))
+        level = omXplore::get_type(rv$dataIn[[length(rv$dataIn)]]))
       
       req(length(which(m)) == 0)
       
       df <- NULL
-      df <- switch(rv.widgets$hypothesisTest_method,
+      df <- switch(rv.widgets$HypothesisTest_method,
         Limma = {
           DaparToolshed::limmaCompleteTest(
-            SummarizedExperiment::assay(rv$dataIn, i()),
-            QFeatures::colData(rv$dataIn),
-            rv.widgets$hypothesisTest_design
+            qData = SummarizedExperiment::assay(rv$dataIn, length(rv$dataIn)),
+            sTab = QFeatures::colData(rv$dataIn),
+            comp.type = rv.widgets$HypothesisTest_design
           )
         },
         ttests = {
           DaparToolshed::compute_t_tests(
-            rv$dataIn,
-            contrast = rv.widgets$hypothesisTest_design,
-            type = rv.widgets$hypothesisTest_ttestOptions
+            obj = rv$dataIn,
+            i = length(rv$dataIn),
+            contrast = rv.widgets$HypothesisTest_design,
+            type = rv.widgets$HypothesisTest_ttestOptions
           )
         }
       )
@@ -457,9 +455,9 @@ PipelineProtein_HypothesisTest_server <- function(id,
       df
     }) %>% bindCache(
       rv$dataIn,
-      rv.widgets$hypothesisTest_method,
-      rv.widgets$hypothesisTest_design,
-      rv.widgets$hypothesisTest_ttestOptions
+      rv.widgets$HypothesisTest_method,
+      rv.widgets$HypothesisTest_design,
+      rv.widgets$HypothesisTest_ttestOptions
     )
     
     
@@ -483,7 +481,8 @@ PipelineProtein_HypothesisTest_server <- function(id,
       enable <- TRUE
       
       nConds <-length(unique(omXplore::get_group(rv$dataIn)))
-      nLevel <- DAPAR::getDesignLevel(pData(rv$dataIn))   
+      design <- MultiAssayExperiment::colData(rv$dataIn)
+      nLevel <- getDesignLevel(design)   
       enable <- (nConds <= 26 && nLevel == 1) ||
         (nConds < 10 && (nLevel%in% c(2,3)))
       
@@ -523,28 +522,22 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     # >>> END: Definition of the widgets
     
-    observeEvent(input$HypothesisTest_btn_validate, {
+    observeEvent(input$HypothesisTest_perform_btn, {
       # Do some stuff 
       
       req(rv.widgets$HypothesisTest_method)
       req(rv$dataIn)
+
+      rv.widgets$HypothesisTest_thlogFC <- as.numeric(
+        rv.widgets$HypothesisTest_thlogFC)
+      browser()
+      rv.custom$AllPairwiseComp <- ComputeComparisons()
       
-      
-      
-      
-      
-      
-      rv$widgets$hypothesisTest$design <- input$anaDiff_Design
-      rv$widgets$hypothesisTest$th_logFC <- as.numeric(input$seuilLogFC)
-      rv$widgets$hypothesisTest$ttest_options <- input$ttest_options
-      
-      rv$AllPairwiseComp <- ComputeComparisons()
-      
-      if(is.null(rv$AllPairwiseComp)){} 
-      else if(inherits(rv$AllPairwiseComp, "try-error")) {
+      if(is.null(rv.custom$AllPairwiseComp)){} 
+      else if(inherits(rv.custom$AllPairwiseComp, "try-error")) {
         
         mod_SweetAlert_server(id = 'sweetalert_PerformLogFCPlot',
-          text = rv$AllPairwiseComp[[1]],
+          text = rv.custom$AllPairwiseComp[[1]],
           type = 'error' )
       } else {
         # sendSweetAlert(
@@ -553,33 +546,11 @@ PipelineProtein_HypothesisTest_server <- function(id,
         #   type = "success"
         # )
         
-        rv.ht$n <- ncol(rv$AllPairwiseComp$logFC)
-        rv.ht$swap.history <- rep(0, rv.ht$n)
-        
-        rvModProcess$moduleHypothesisTestDone[1] <- TRUE
+        rv.custom$n <- ncol(rv.custom$AllPairwiseComp$logFC)
+        rv.custom$swap.history <- rep(0, rv.custom$n)
       }
       
-      
-      
-      
-      
-      
-      
-      
-      if(inherits(.tmp, "try-error")) {
-        
-        mod_SweetAlert_server(id = 'sweetalert_perform_HypothesisTest',
-          text = .tmp[[1]],
-          type = 'error' )
-      } else {
-        # DO NOT MODIFY THE THREE FOLLOWING LINES
-        dataOut$trigger <- Timestamp()
-        #dataOut$value <- rv$dataIn
-        rv.norm$tmp.dataset <- .tmp
-        rv$steps.status['HypothesisTest'] <- stepStatus$VALIDATED
-      }
-      
-    })
+  })
     
     # <<< END ------------- Code for step 1 UI---------------
     
@@ -596,7 +567,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
     output$Save_btn_validate_ui <- renderUI({
       tagList(
         toggleWidget( 
-          actionButton(ns("Save_btn_validate"), "Save",
+          actionButton(ns("Save_btn_validate"), "Validate step",
             class = "btn-success"),
           rv$steps.enabled['Save']
         ),

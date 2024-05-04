@@ -7,8 +7,8 @@
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' test.design(Biobase::pData(Exp1_R25_pept)[, seq_len(3)])
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' test.design(MultiAssayExperiment::colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -105,8 +105,8 @@ test.design <- function(tab) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' check.conditions(Biobase::pData(Exp1_R25_pept)$Condition)
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' check.conditions(get_group(Exp1_R25_pept))
 #'
 #' @export
 #'
@@ -152,8 +152,8 @@ check.conditions <- function(conds) {
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' check.design(Biobase::pData(Exp1_R25_pept)[, seq_len(3)])
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' check.design(MultiAssayExperiment::colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -231,8 +231,8 @@ check.design <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' make.design(Biobase::pData(Exp1_R25_pept))
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' make.design(MultiAssayExperiment::colData(Exp1_R25_pept))
 #'
 #' @export
 #' 
@@ -267,8 +267,8 @@ make.design <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' make.design.1(Biobase::pData(Exp1_R25_pept))
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' make.design.1(MultiAssayExperiment::colData(Exp1_R25_pept))
 #'
 #' @export
 make.design.1 <- function(sTab) {
@@ -299,16 +299,6 @@ make.design.1 <- function(sTab) {
     n0 <- n0 + nb_Rep[j]
   }
   
-  
-  
-  
-  #for (j in seq_len(nb_cond)) {
-  #  coln <- c(coln, paste("Condition", j, collapse = NULL, sep = ""))
-  #  design[seq.int(from=n0, to=(n0 + nb_Rep[j] - 1)), j] <- rep(1, 
-  #                                                             length(seq.int(from=n0, to = (n0 + nb_Rep[j] - 1)))
-  # )
-  #  n0 <- n0 + nb_Rep[j]
-  # }
   colnames(design) <- coln
   
   return(design)
@@ -320,7 +310,7 @@ make.design.1 <- function(sTab) {
 
 #' @title Builds the design matrix for designs of level 2
 #'
-#' @param sTab The data.frame which correspond to the `pData()` function 
+#' @param sTab The data.frame which correspond to the `colData()` function 
 #' of package `MSnbase`.
 #'
 #' @return A design matrix
@@ -328,8 +318,8 @@ make.design.1 <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DAPARdata')
-#' make.design.2(Biobase::pData(Exp1_R25_pept))
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' make.design.2(MultiAssayExperiment::colData(Exp1_R25_pept))
 #'
 #'
 #' @export
@@ -377,7 +367,7 @@ make.design.2 <- function(sTab) {
 
 #' @title Builds the design matrix for designs of level 3
 #'
-#' @param sTab The data.frame which correspond to the `pData()` function 
+#' @param sTab The data.frame which correspond to the `colData()` function 
 #' of package `MSnbase`.
 #'
 #' @return A design matrix
@@ -385,8 +375,8 @@ make.design.2 <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' sTab <- cbind(Biobase::pData(Exp1_R25_pept), Tech.Rep = 1:6)
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' sTab <- cbind(MultiAssayExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
 #' make.design.3(sTab)
 #'
 #'
@@ -440,8 +430,8 @@ make.design.3 <- function(sTab) {
 #' @param sTab xxx
 #' 
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' sTab <- Biobase::pData(Exp1_R25_pept)
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' sTab <- MultiAssayExperiment::colData(Exp1_R25_pept)
 #' getDesignLevel(sTab)
 #'
 #' @export
@@ -458,8 +448,8 @@ getDesignLevel <- function(sTab){
 
 #' @title Builds the contrast matrix
 #'
-#' @param design The data.frame which correspond to the `pData()` function 
-#' of package `MSnbase`.
+#' @param design The data.frame which correspond to the `colData()` function 
+#' of package `MultiAssayExperiment`.
 #'
 #' @param condition xxxxx
 #'
@@ -470,14 +460,14 @@ getDesignLevel <- function(sTab){
 #'  H1:"C1!=(C2+C3)/2", etc. if there are three conditions).
 #' @param design.level xxx
 #'
-#' @return A constrat matrix
+#' @return A contrast matrix
 #'
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DAPARdata')
-#' design <- make.design(Biobase::pData(Exp1_R25_pept))
-#' conds <- Biobase::pData(Exp1_R25_pept)$Condition
+#' data(Exp1_R25_pept, package='DaparToolshedData')
+#' design <- make.design(MultiAssayExperiment::colData(Exp1_R25_pept))
+#' conds <- get_group(Exp1_R25_pept)
 #' make.contrast(design, conds)
 #'
 #' @export
@@ -575,10 +565,10 @@ make.contrast <- function(design,
 #' @author Hélène Borges, Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
+#' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept
-#' qData <- Biobase::exprs(obj)
-#' sTab <- Biobase::pData(obj)
+#' qData <- as.matrix(assay(obj[[2]]))
+#' sTab <- MultiAssayExperiment::colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'
 #' @export
@@ -690,14 +680,16 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_prot, package="DAPARdata")
-#' obj <- Exp1_R25_prot[seq_len(100)]
+#' data(Exp1_R25_prot, package='DaparToolshedData')
+#' obj <- Exp1_R25_prot[seq(100)]
 #' level <- 'protein'
-#' metacell.mask <- match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)
-#' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' obj <- MetaCellFiltering(obj, indices, cmd = "delete")
-#' qData <- Biobase::exprs(obj$new)
-#' sTab <- Biobase::pData(obj$new)
+#' metacell.mask <- match.metacell(get_metacell(obj[[1]]), 
+#' c("Missing POV", "Missing MEC"), level)
+#' # Simulate imputation
+#' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
+#' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
+#' qData <- as.matrix(assay(obj[[2]]))
+#' sTab <- MultiAssayExperiment::colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab)
 #'
 formatLimmaResult <- function(fit, conds, contrast, design.level) {
@@ -751,9 +743,6 @@ formatLimmaResult <- function(fit, conds, contrast, design.level) {
         tmp <- unique(conds)[as.numeric(compa[1, 2])]
         cn[i] <- paste(tmp, "_vs_(all-", tmp, ")", sep = "")
       }
-      
-      
-      
     }
   }
   
