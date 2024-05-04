@@ -26,8 +26,8 @@ Config(
   fullname = 'PipelineProtein',
   # steps = c('Filtering', 'Normalization', 'Imputation', 'HypothesisTest'),
   # mandatory = c(FALSE, FALSE, FALSE, TRUE)
-  steps = c('Normalization'),
-  mandatory = c(FALSE)
+  steps = c('Filtering', 'Normalization', 'Imputation', 'HypothesisTest'),
+  mandatory = c(FALSE, FALSE, FALSE, FALSE)
 )
 }
 
