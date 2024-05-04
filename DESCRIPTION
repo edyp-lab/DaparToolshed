@@ -100,6 +100,7 @@ Collate:
     mod_Prot_Imputation_POV.R
     mod_Prot_Imputation_MEC.R
     utils_DAPAR.R
+    hypothesisTest_plot.R
     anova_analysis.R
     compute.t.tests.R
     limmaAnalysis.R

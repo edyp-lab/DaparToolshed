@@ -320,27 +320,27 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     output$FoldChangePlot <- renderHighchart({
       req(rv.custom$AllPairwiseComp)
-      .params <- rv$current.obj@experimentData@other$Params$HypothesisTest.protein
-      name <- .params$HypothesisTest$AllPairwiseCompNames$logFC
       
-      .comps <- omXplore::get_HTestComparisons(rv$dataIn[[length(rv$dataIn)]])
+      #browser()
       
-      l1 <- length(as.data.frame(Biobase::fData(rv$current.obj)[, name]))
-      l2 <- length(rv$AllPairwiseComp$logFC)
-      req(l2 + l1 > 0)
-      
+      # name <- rv.custom$AllPairwiseComp$logFC
+      # 
+      # 
+      # l1 <- length(rv.custom$AllPairwiseComp$logFC)
+      # l2 <- length(rv$AllPairwiseComp$logFC)
+      # req(l2 + l1 > 0)
+      # 
       withProgress(message = "Computing plot...", detail = "", value = 0.5, {
-        if (l1 > 0) {
-          tmp.df <- as.data.frame(Biobase::fData(rv$current.obj)[, name])
-          
-          th <- .params$HypothesisTest$th_logFC
-          rv$tempplot$logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
-        } else if (l2 > 0) {
-          tmp.df <- rv$AllPairwiseComp$logFC
-          th <- as.numeric(rv$widgets$hypothesisTest$th_logFC)
-          rv$tempplot$logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
-        }
-        rv$tempplot$logFCDistr
+        #if (l1 > 0) {
+          tmp.df <- as.data.frame(rv.custom$AllPairwiseComp$logFC)
+          th <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
+          hc_logFC_DensityPlot(tmp.df, th)
+        # } else if (l2 > 0) {
+        #   tmp.df <- rv$AllPairwiseComp$logFC
+        #   th <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
+        #   logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
+        # }
+       # logFCDistr
       })
     })
     
@@ -403,8 +403,8 @@ PipelineProtein_HypothesisTest_server <- function(id,
             colnames(rv.custom$AllPairwiseComp$P_Value)[i] <- tmp.pval
             
             # Swap logFC values
-            .logFC <- rv$AllPairwiseComp$logFC
-            rv$AllPairwiseComp$logFC[, i] <- -.logFC[, i]
+            .logFC <- rv.custom$AllPairwiseComp$logFC
+            rv.custom$AllPairwiseComp$logFC[, i] <- -.logFC[, i]
           }
         }
       })
@@ -431,8 +431,8 @@ PipelineProtein_HypothesisTest_server <- function(id,
       
       req(length(which(m)) == 0)
       
-      df <- NULL
-      df <- switch(rv.widgets$HypothesisTest_method,
+      rv.custom$AllPairwiseComp <- NULL
+      rv.custom$AllPairwiseComp <- switch(rv.widgets$HypothesisTest_method,
         Limma = {
           DaparToolshed::limmaCompleteTest(
             qData = SummarizedExperiment::assay(rv$dataIn, length(rv$dataIn)),
@@ -450,9 +450,9 @@ PipelineProtein_HypothesisTest_server <- function(id,
         }
       )
       
-      rv.custom$h_test$listNomsComparaison <- colnames(df$logFC)
+      rv.custom$listNomsComparaison <- colnames(rv.custom$AllPairwiseComp$logFC)
 
-      df
+      rv.custom$AllPairwiseComp
     }) %>% bindCache(
       rv$dataIn,
       rv.widgets$HypothesisTest_method,

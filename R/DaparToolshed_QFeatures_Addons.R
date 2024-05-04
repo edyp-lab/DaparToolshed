@@ -653,8 +653,7 @@ setMethod(
 #' 
 NAIsZero <- function(obj, i){
   
-  .ind <- which(is.na(assay(obj[[1]])))
-  assay(obj[[i]])[.ind] <- 0
+  assay(obj[[i]])[which(is.na(assay(obj[[i]])))] <- 0
   
   m <- match.metacell(
     omXplore::get_metacell(obj[[i]]),
