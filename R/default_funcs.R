@@ -60,7 +60,7 @@ addDatasets <- function(object, dataset, name) {
     stopifnot(inherits(object, "QFeatures"))
     stopifnot(inherits(dataset, "SummarizedExperiment"))
   
-    object <- addAssay(object, dataset, name)
+    object <- QFeatures::addAssay(object, dataset, name)
     
     object
 }

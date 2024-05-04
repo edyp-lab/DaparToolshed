@@ -333,29 +333,6 @@ PipelineProtein_HypothesisTest_server <- function(id,
       req(rv.custom$AllPairwiseComp)
       .style <- "align: center; display:inline-block; vertical-align: middle;
       padding-right: 50px; padding-bottom: 50px;"
-      #browser()
-      #widget <- list()
-      # input_list <- lapply(seq(rv.custom$n), function(i) {
-      #   ll.conds <- unlist(
-      #     strsplit(
-      #       colnames(rv.custom$AllPairwiseComp$logFC)[i],
-      #       split = "_")
-      #   )
-      #   
-      #   div(
-      #     div(style = .style, p(gsub("[()]", "", ll.conds[1]))),
-      #     div(style = .style, p(gsub("[()]", "", ll.conds[3]))),
-      #     div(style = .style,
-      #       widget[[i]] <- actionButton(ns(paste0("compswap", i)), "",
-      #         icon("sync", lib = "font-awesome"),
-      #         style = "border-width: 0px; padding: 0px",
-      #         width = "30px", height = "30px",
-      #         class = actionBtnClass
-      #       )
-      #     )
-      #   )
-      # })
-      
       
       
       widget <- lapply(seq_len(rv.custom$n), function(i) {
@@ -373,16 +350,12 @@ PipelineProtein_HypothesisTest_server <- function(id,
             actionButton(ns(paste0("compswap", i)), "",
               icon("sync", lib = "font-awesome"),
               style = "border-width: 0px; padding: 0px",
-              width = "30px",
-              height = "30px",
+              width = "30px", height = "30px",
               class = actionBtnClass
             )
           )
         )
       })
-      
-      
-      
       
       do.call(tagList, widget)
       MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
@@ -420,6 +393,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     GetSwapShinyValue <- reactive({
       req(rv.custom$n)
+
       unlist(lapply(seq(rv.custom$n), function(x) 
         input[[paste0("compswap", x)]]
       ))
@@ -475,13 +449,21 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     
     output$HypothesisTest_btn_validate_ui <- renderUI({
-      widget <-  actionButton(ns("HypothesisTest_btn_validate"),
+      widget <- actionButton(ns("HypothesisTest_btn_validate"),
         "Run HypothesisTest",
         class = "btn-success")
       toggleWidget(widget, rv$steps.enabled['HypothesisTest'] )
       
     })
     
+    observeEvent(input$HypothesisTest_btn_validate, {
+      # Do some stuff
+      
+      # DO NOT MODIFY THE THREE FOLLOWINF LINES
+      dataOut$trigger <- Timestamp()
+      dataOut$value <- NULL
+      rv$steps.status['HypothesisTest'] <- stepStatus$VALIDATED
+    })
     
     enable_Limma <- reactive({
       req(rv$dataIn)
@@ -516,11 +498,6 @@ PipelineProtein_HypothesisTest_server <- function(id,
       tagList(
         h3("Swap conditions"),
           uiOutput(ns("showConds")),
-          # fluidRow(
-          #   column(width = 2, uiOutput(ns("cond1_ui"))),
-          #   column(width = 2, uiOutput(ns("cond2_ui"))),
-          #   column(width = 2, uiOutput(ns("btns_ui")))
-          # )
       )
     })
     
@@ -584,15 +561,16 @@ PipelineProtein_HypothesisTest_server <- function(id,
     })
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
+
       new.dataset <- rv$dataIn[[length(rv$dataIn)]]
-      assay(new.dataset) <- rv.norm$tmp.dataset
-      rv$dataIn <- addDatasets(rv$dataIn, new.dataset, id)
+      metadata(new.dataset)[['HypothesisTest']] <- rv.custom$AllPairwiseComp
+      rv$dataIn <- DaparToolshed::addDatasets(rv$dataIn, new.dataset, id)
       
-      # DO NOT MODIFY THE THREE FOLLOWINF LINES
+      # DO NOT MODIFY THE THREE FOLLOWING LINES
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      download_dataset_ui('createQuickLink', data = reactive({rv$dataIn}))
+      download_dataset_ui('createQuickLink', dataIn = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------
