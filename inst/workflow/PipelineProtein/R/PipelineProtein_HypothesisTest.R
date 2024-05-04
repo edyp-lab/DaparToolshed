@@ -244,7 +244,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     output$HypothesisTest_warning_conditions_ui <- renderUI({
       req(length(unique(omXplore::get_group(rv$dataIn))) > 26)
-      req(getDesignLevel(QFeatures::colData(rv$dataIn)) > 1)
+      req(getDesignLevel(MultiAssayExperiment::colData(rv$dataIn)) > 1)
       h3('Limma with this version of Prostar does not handle datasets with 
       more than 26 conditions. Such, the Limma option is desactivated for the 
         current dataset')
@@ -424,7 +424,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       req(rv.widgets$HypothesisTest_method != "None")
       req(rv.widgets$HypothesisTest_design != "None")
       
-      browser()
+      #browser()
       m <- match.metacell(omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
         pattern = "Missing",
         level = omXplore::get_type(rv$dataIn[[length(rv$dataIn)]]))
@@ -436,7 +436,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
         Limma = {
           DaparToolshed::limmaCompleteTest(
             qData = SummarizedExperiment::assay(rv$dataIn, length(rv$dataIn)),
-            sTab = QFeatures::colData(rv$dataIn),
+            sTab = MultiAssayExperiment::colData(rv$dataIn),
             comp.type = rv.widgets$HypothesisTest_design
           )
         },
@@ -530,7 +530,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
 
       rv.widgets$HypothesisTest_thlogFC <- as.numeric(
         rv.widgets$HypothesisTest_thlogFC)
-      browser()
+      #browser()
       rv.custom$AllPairwiseComp <- ComputeComparisons()
       
       if(is.null(rv.custom$AllPairwiseComp)){} 
