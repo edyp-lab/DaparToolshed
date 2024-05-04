@@ -210,11 +210,11 @@ PipelineProtein_HypothesisTest_server <- function(id,
             ),
             
             tags$div(style = .style,
-              uiOutput("HypothesisTest_correspondingRatio_ui")
+              uiOutput(ns("HypothesisTest_correspondingRatio_ui"))
             ),
             
             div(style = .style,
-              uiOutput('HypothesisTest_info_Limma_disabled_ui'),
+              uiOutput(ns('HypothesisTest_info_Limma_disabled_ui')),
             ),
             tags$hr(),
             div(style = .style,
@@ -320,28 +320,11 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     output$FoldChangePlot <- renderHighchart({
       req(rv.custom$AllPairwiseComp)
-      
-      #browser()
-      
-      # name <- rv.custom$AllPairwiseComp$logFC
-      # 
-      # 
-      # l1 <- length(rv.custom$AllPairwiseComp$logFC)
-      # l2 <- length(rv$AllPairwiseComp$logFC)
-      # req(l2 + l1 > 0)
-      # 
       withProgress(message = "Computing plot...", detail = "", value = 0.5, {
-        #if (l1 > 0) {
           tmp.df <- as.data.frame(rv.custom$AllPairwiseComp$logFC)
           th <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
           hc_logFC_DensityPlot(tmp.df, th)
-        # } else if (l2 > 0) {
-        #   tmp.df <- rv$AllPairwiseComp$logFC
-        #   th <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
-        #   logFCDistr <- hc_logFC_DensityPlot(tmp.df, th)
-        # }
-       # logFCDistr
-      })
+       })
     })
     
 
@@ -350,23 +333,48 @@ PipelineProtein_HypothesisTest_server <- function(id,
       req(rv.custom$AllPairwiseComp)
       .style <- "align: center; display:inline-block; vertical-align: middle;
       padding-right: 50px; padding-bottom: 50px;"
+      #browser()
+      #widget <- list()
+      # input_list <- lapply(seq(rv.custom$n), function(i) {
+      #   ll.conds <- unlist(
+      #     strsplit(
+      #       colnames(rv.custom$AllPairwiseComp$logFC)[i],
+      #       split = "_")
+      #   )
+      #   
+      #   div(
+      #     div(style = .style, p(gsub("[()]", "", ll.conds[1]))),
+      #     div(style = .style, p(gsub("[()]", "", ll.conds[3]))),
+      #     div(style = .style,
+      #       widget[[i]] <- actionButton(ns(paste0("compswap", i)), "",
+      #         icon("sync", lib = "font-awesome"),
+      #         style = "border-width: 0px; padding: 0px",
+      #         width = "30px", height = "30px",
+      #         class = actionBtnClass
+      #       )
+      #     )
+      #   )
+      # })
       
-      widget <- list()
-      input_list <- lapply(seq(rv.custom$n), function(i) {
+      
+      
+      widget <- lapply(seq_len(rv.custom$n), function(i) {
         ll.conds <- unlist(
           strsplit(
             colnames(rv.custom$AllPairwiseComp$logFC)[i],
-            split = "_")
+            split = "_"
+          )
         )
         
         div(
           div(style = .style, p(gsub("[()]", "", ll.conds[1]))),
           div(style = .style, p(gsub("[()]", "", ll.conds[3]))),
           div(style = .style,
-            widget[[i]] <- actionButton(paste0("compswap", i), "",
+            actionButton(ns(paste0("compswap", i)), "",
               icon("sync", lib = "font-awesome"),
               style = "border-width: 0px; padding: 0px",
-              width = "30px", height = "30px",
+              width = "30px",
+              height = "30px",
               class = actionBtnClass
             )
           )
@@ -374,10 +382,10 @@ PipelineProtein_HypothesisTest_server <- function(id,
       })
       
       
-      do.call(tagList, input_list)
-      for (i in seq(rv.custom$n))
-        MagellanNTK::toggleWidget(widget[[i]], 
-          rv$steps.enabled['HypothesisTest'])
+      
+      
+      do.call(tagList, widget)
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled['HypothesisTest'])
       
     })
     
@@ -504,19 +512,15 @@ PipelineProtein_HypothesisTest_server <- function(id,
     
     
     output$HypothesisTest_swapConds_ui <- renderUI({
-      shinyBS::bsCollapse(
-        id = "collapseExample",
-        open = "",
-        shinyBS::bsCollapsePanel(
-          title = "Swap conditions",
-          uiOutput("headerInputGroup"),
-          fluidRow(
-            column(width = 2, uiOutput("cond1_ui")),
-            column(width = 2, uiOutput("cond2_ui")),
-            column(width = 2, uiOutput("btns_ui"))
-          ),
-          style = "info"
-        )
+      req(rv.custom$AllPairwiseComp)
+      tagList(
+        h3("Swap conditions"),
+          uiOutput(ns("showConds")),
+          # fluidRow(
+          #   column(width = 2, uiOutput(ns("cond1_ui"))),
+          #   column(width = 2, uiOutput(ns("cond2_ui"))),
+          #   column(width = 2, uiOutput(ns("btns_ui")))
+          # )
       )
     })
     
