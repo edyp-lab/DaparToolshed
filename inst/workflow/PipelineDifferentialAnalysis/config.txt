@@ -1,0 +1,15 @@
+# Configuration file to be used with MagellanNTK
+
+
+# Customizable functions
+
+convert_dataset: DaparToolshed
+open_dataset: MagellanNTK
+open_demoDataset: MagellanNTK
+view_dataset: omXplore
+infos_dataset: MagellanNTK
+addDatasets: DaparToolshed
+keepDatasets: DaparToolshed
+
+# Other
+

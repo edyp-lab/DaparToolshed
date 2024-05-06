@@ -563,7 +563,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       # Do some stuff
 
       new.dataset <- rv$dataIn[[length(rv$dataIn)]]
-      metadata(new.dataset)[['HypothesisTest']] <- rv.custom$AllPairwiseComp
+      HypothesisTest(new.dataset) <- rv.custom$AllPairwiseComp
       rv$dataIn <- DaparToolshed::addDatasets(rv$dataIn, new.dataset, id)
       
       # DO NOT MODIFY THE THREE FOLLOWING LINES

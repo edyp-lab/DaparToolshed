@@ -516,6 +516,10 @@ setMethod(
 }
 
 
+
+
+
+
 #' @exportMethod design.qf
 #' @rdname QFeatures-accessors
 setMethod(
@@ -540,6 +544,57 @@ setMethod(
 mainAssay <- function(object) {
     object[[length(object)]]
 }
+
+
+
+
+#' @export
+#' @exportMethod params
+#' @rdname QFeatures-accessors
+setMethod(
+  "HypothesisTest", "QFeatures",
+  function(object, i, slotName = "HypothesisTest") {
+    SummarizedExperiment::rowData(object[[i]])[[slotName]]
+  }
+)
+
+#' @export
+#' @exportMethod params
+#' @rdname QFeatures-accessors
+setMethod(
+  "HypothesisTest", "SummarizedExperiment",
+  function(object, slotName = "HypothesisTest") {
+    SummarizedExperiment::rowData(object)[[slotName]]
+  }
+)
+
+
+#' @export
+#' @exportMethod params
+#' @rdname QFeatures-accessors
+"HypothesisTest<-" <- function(object, i, slotName = "HypothesisTest", value) {
+  if (inherits(object, "SummarizedExperiment")) {
+    SummarizedExperiment::rowData(object)[[slotName]] <- value
+    return(object)
+  } else {
+    if (inherits(object, "QFeatures")){
+      if (length(i) != 1) {
+        stop("'i' must be of length one. Repeat the call to add a matrix to 
+            multiple assays.")
+      }
+      if (is.numeric(i) && i > length(object)) {
+        stop("Subscript is out of bounds.")
+      }
+      if (is.character(i) && !(i %in% names(object))) {
+        stop("Assay '", i, "' not found.")
+      }
+      # se <- object[[i]]
+      SummarizedExperiment::rowData(object[[i]])[slotName] <- value
+    }
+  }
+  return(object)
+}
+
 
 
 

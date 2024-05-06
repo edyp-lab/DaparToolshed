@@ -44,37 +44,50 @@ setGeneric("qMetacell",
     function(object, ...) standardGeneric("qMetacell"))
 setGeneric("qMetacell<-", 
     function(object, ..., value) standardGeneric("qMetacell<-"))
+
 setGeneric("typeDataset", 
     function(object, ...) standardGeneric("typeDataset"))
 setGeneric("typeDataset<-", 
     function(object, ..., value) standardGeneric("typeDataset<-"))
+
 setGeneric("idcol", 
     function(object, ...) standardGeneric("idcol"))
 setGeneric("idcol<-", 
     function(object, ..., value) standardGeneric("idcol<-"))
+
 setGeneric("parentProtId", 
     function(object, ...) standardGeneric("parentProtId"))
 setGeneric("parentProtId<-", 
     function(object, ..., value) standardGeneric("parentProtId<-"))
+
 setGeneric("analysis", 
     function(object, ...) standardGeneric("analysis"))
 setGeneric("analysis<-", 
     function(object, ..., value) standardGeneric("analysis<-"))
+
 setGeneric("version", 
     function(object, ...) standardGeneric("version"))
 setGeneric("version<-", 
     function(object, ..., value) standardGeneric("version<-"))
+
 setGeneric("design.qf", 
     function(object, ...) standardGeneric("design.qf"))
 setGeneric("design.qf<-", 
     function(object, ..., value) standardGeneric("design.qf<-"))
+
 setGeneric("params", 
     function(object, ...) standardGeneric("params"))
 setGeneric("params<-", 
     function(object, ..., value) standardGeneric("params<-"))
 
+setGeneric("HypothesisTest", 
+  function(object, ...) standardGeneric("HypothesisTest"))
+setGeneric("HypothesisTest<-", 
+  function(object, ..., value) standardGeneric("HypothesisTest<-"))
+
+
 setGeneric("GetUniqueTags", 
-           function(object, ...) standardGeneric("GetUniqueTags"))
+  function(object, ...) standardGeneric("GetUniqueTags"))
 
 
 setGeneric("names_metacell", 

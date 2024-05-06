@@ -382,6 +382,19 @@ BuildAdjacencyMatrix <- function(obj.pep, protID, unique = TRUE) {
 }
 
 
+#' @export
+#' @examples
+#' 
+ExtractUniquePeptides <- function(X){
+
+  
+  ll <- which(rowSums(X) > 1)
+  if (length(ll) > 0) {
+    X[ll, ] <- 0
+  }
+
+  return(X)
+}
 
 
 #' @title Compute the intensity of proteins with the sum of the intensities

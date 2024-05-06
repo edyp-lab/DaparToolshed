@@ -101,6 +101,8 @@ Collate:
     mod_Prot_Imputation_MEC.R
     utils_DAPAR.R
     hypothesisTest_plot.R
+    mod_volcanoplot.R
+    volcano_plot.R
     anova_analysis.R
     compute.t.tests.R
     limmaAnalysis.R
