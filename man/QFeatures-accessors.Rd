@@ -31,6 +31,9 @@
 \alias{design.qf,QFeatures-method}
 \alias{design.qf<-}
 \alias{mainAssay}
+\alias{HypothesisTest,QFeatures-method}
+\alias{HypothesisTest,SummarizedExperiment-method}
+\alias{HypothesisTest<-}
 \alias{params,QFeatures-method}
 \alias{params,SummarizedExperiment-method}
 \alias{params<-}
@@ -96,6 +99,12 @@ version(object, slotName = "version") <- value
 design.qf(object, slotName = "design") <- value
 
 mainAssay(object)
+
+\S4method{HypothesisTest}{QFeatures}(object, i, slotName = "HypothesisTest")
+
+\S4method{HypothesisTest}{SummarizedExperiment}(object, slotName = "HypothesisTest")
+
+HypothesisTest(object, i, slotName = "HypothesisTest") <- value
 
 \S4method{params}{QFeatures}(object, i, slotName = "params")
 

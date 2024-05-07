@@ -494,7 +494,8 @@ volcanoplot <- function(
     comparison,
   group, 
     thlogfc, 
-    thpval){
+    thpval,
+  tooltip){
   
   ui <- fluidPage(
   mod_volcanoplot_ui("volcano"))
@@ -506,7 +507,8 @@ volcanoplot <- function(
       comparison = reactive({comparison}),
       group = reactive({group}),
       thlogfc = reactive({thlogfc}),
-      thpval = reactive({thpval})
+      thpval = reactive({thpval}),
+      tooltip = reactive({tooltip})
      # fdr = reactive({3.8})
       )
   

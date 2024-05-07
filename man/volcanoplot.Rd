@@ -10,11 +10,20 @@ mod_volcanoplot_ui(id)
 
 mod_volcanoplot_server(
   id,
-  data = reactive({
+  dataIn = reactive({
      NULL
  }),
-  comp = reactive({
+  comparison = reactive({
      NULL
+ }),
+  group = reactive({
+     NULL
+ }),
+  thlogfc = reactive({
+     0
+ }),
+  thpval = reactive({
+     0
  }),
   tooltip = reactive({
      NULL
@@ -27,14 +36,17 @@ mod_volcanoplot_server(
  })
 )
 
-volcanoplot(xxx)
+volcanoplot(dataIn, comparison, group, thlogfc, thpval)
 }
 \arguments{
 \item{id}{xxx}
 
-\item{data}{xxx}
+\item{dataIn}{An instance of the class \code{SummarizedExperiment} containing
+results of hypothesis testing stored as a data.frame in its metadata}
 
-\item{comp}{xxx}
+\item{thlogfc}{xxxx}
+
+\item{thpval}{xxx}
 
 \item{tooltip}{xxx}
 
@@ -47,7 +59,39 @@ A shiny Module.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(highcharter)
+data(Exp1_R25_prot, package="DaparToolshedData")
+obj <- Exp1_R25_prot
+# Simulate imputation of missing values
+obj <- NAIsZero(obj, 1)
+obj <- NAIsZero(obj, 2)
+qData <- as.matrix(assay(obj[[2]]))
+sTab <- MultiAssayExperiment::colData(obj)
+limma <- limmaCompleteTest(qData, sTab)
 
+df <- data.frame(
+    x = limma$logFC[['25fmol_vs_10fmol_logFC']], 
+    y = -log10(limma$P_Value[['25fmol_vs_10fmol_pval']]),
+    index = as.character(rownames(obj[[2]])))
+colnames(df) <- c("x", "y", "index")
+tooltipSlot <- c("Fasta_headers", "Sequence_length")
+df <- cbind(df, Biobase::fData(obj)[, tooltipSlot])
+colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+if (ncol(df) > 3) {
+    colnames(df)[seq.int(from = 4, to = ncol(df))] <-
+        paste("tooltip_", colnames(df)[seq.int(from = 4, to = ncol(df))],
+         sep = "")
+}
+hc_clickFunction <- JS("function(event) {
+Shiny.onInputChange('eventPointClicked',
+[this.index]+'_'+ [this.series.name]);}")
+cond <- c("25fmol", "10fmol")
+diffAnaVolcanoplot_rCharts(
+df, 
+th_pval = 2.5, 
+th_logfc = 1, 
+conditions = cond, 
+clickFunction = hc_clickFunction)
 shiny::runApp(volcanoplot(xxxx))
 \dontshow{\}) # examplesIf}
 }
