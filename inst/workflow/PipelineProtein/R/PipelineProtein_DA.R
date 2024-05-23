@@ -48,7 +48,7 @@
 #' 
 #' 
 #' path <- system.file('workflow/PipelineProtein', package = 'DaparToolshed')
-#' shiny::runApp(workflowApp("PipelineProtein_Filtering", path, dataIn = obj))
+#' shiny::runApp(workflowApp("PipelineProtein_DA", path, dataIn = obj))
 #' 
 #' 
 #' 
@@ -64,7 +64,7 @@ PipelineProtein_DA_conf <- function(){
   Config(
     fullname = 'PipelineProtein_DA',
     mode = 'process',
-    steps = c("Step1", "Step2", "Step3"),
+    steps = c("Pairwise comparison", "P-value calibration", "FDR"),
     mandatory = c(FALSE, FALSE, FALSE)
   )
 }
@@ -74,7 +74,7 @@ PipelineProtein_DA_conf <- function(){
 #' 
 #' @export
 #'
-PipelineProtein_DA_UI <- function(id){
+PipelineProtein_DA_ui <- function(id){
   ns <- NS(id)
 }
 
@@ -100,7 +100,8 @@ PipelineProtein_DA_server <- function(id,
   # Define default selected values for widgets
   # This is only for simple workflows
   widgets.default.values <- list(
-    Step1_Comparison = "None",
+    Pairwisecomparison_Comparison = "None",
+    Pairwisecomparison_tooltipInfo = NULL,
     DA_Condition1 = "",
     DA_Condition2 = "",
     DA_val_vs_percent = "Value",
@@ -108,30 +109,32 @@ PipelineProtein_DA_server <- function(id,
     DA_seuilNA_percent = 0,
     DA_seuilNA = 0,
     DA_filter_th_NA = 0,
-    Step2_numericValCalibration = "None",
-    Step2_calibrationMethod = NULL,
+    Pvaluecalibration_numericValCalibration = "None",
+    Pvaluecalibration_calibrationMethod = NULL,
     DA_numValCalibMethod = 0,
     DA_th_pval = 0,
     DA_type_pval = '-log10()',
     DA_FDR = 0,
     DA_NbSelected = 0,
     DA_nBinsHistpval = 80,
-    Step3_viewAdjPval = FALSE
+    FDR_viewAdjPval = FALSE
   )
   
   
   rv.custom.default.values <- list(
+    Pairwisecomparison_tooltipInfo = NULL,
     comps = NULL,
     nbTotalAnaDiff = NULL,
     nbSelectedAnaDiff = NULL,
-    nbSelectedTotal_Step3 = NULL,
-    nbSelected_Step3 = NULL,
+    nbSelectedTotal_FDR = NULL,
+    nbSelected_FDR = NULL,
     conditions = list(cond1 = NULL, cond2 = NULL),
     calibrationRes = NULL,
     errMsgcalibrationPlot = NULL,
     errMsgcalibrationPlotALL = NULL,
     pi0 = NULL,
-    filename = NULL
+    filename = NULL,
+    AnaDiff_indices = reactive({NULL})
   )
   
   ###-------------------------------------------------------------###
@@ -211,6 +214,10 @@ PipelineProtein_DA_server <- function(id,
       
       
       rv$dataIn <- dataIn()[[length(dataIn())]]
+      rv.custom$conds <- omXplore::get_group(dataIn())
+     
+      rv.custom$res_AllPairwiseComparisons <- HypothesisTest(rv$dataIn)
+      rv.custom$Pairwisecomparison_tooltipInfo <- idcol(rv$dataIn)
       
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
@@ -224,7 +231,7 @@ PipelineProtein_DA_server <- function(id,
     # >>> 
     
     # >>>> -------------------- STEP 1 : Global UI ------------------------------------
-    output$Step1 <- renderUI({
+    output$Pairwisecomparison <- renderUI({
       .style <- "display:inline-block; vertical-align: top; padding-right: 60px"
       wellPanel(
         # uiOutput for all widgets in this UI
@@ -236,132 +243,139 @@ PipelineProtein_DA_server <- function(id,
         # For more details, please refer to the dev document.
         tagList(
             tags$div(
-              tags$div(style = .style, uiOutput(ns('Step1_Comparison_UI')))
+              tags$div(style = .style, 
+                uiOutput(ns('Pairwisecomparison_Comparison_UI')))
             ),
             #uiOutput(ns("pushpval_UI")),
             tags$hr(),
             tags$div(
-              tags$div(style = .style, uiOutput(ns("Step1_volcano_UI"))),
-              tags$div(style = .style, uiOutput(ns("Step1_tooltipInfo_UI")))
+              tags$div(style = .style, uiOutput(ns("Pairwisecomparison_volcano_UI"))),
+              tags$div(style = .style, uiOutput(ns("Pairwisecomparison_tooltipInfo_UI")))
               )
           ),
         # Insert validation button
-        uiOutput(ns("Step1_btn_validate_UI"))
+        uiOutput(ns("Pairwisecomparison_btn_validate_UI"))
       )
     })
     
-    output$Step1_Comparison_UI <- renderUI({
-      req(rv.custom$res_AllPairwiseComparisons$logFC)
-      ll <- unlist(strsplit(
-        colnames(rv.custom$res_AllPairwiseComparisons$logFC), "_logFC"))
-
+    
+    Get_Pairwisecomparison_Names <- reactive({
+      req(rv.custom$res_AllPairwiseComparisons)
       
-    widget <- selectInput(ns("Step1_Comparison"), "Select a comparison",
-      choices = ll,
-      selected = rv.widgets$Step1_Comparison,
-      width = "300px"
-    )
-    MagellanNTK::toggleWidget(widget, 
-      rv$steps.status['Step1'] == stepStatus$VALIDATED)
+      .names <- colnames(rv.custom$res_AllPairwiseComparisons)
+      .names <- gsub('_logFC', '', .names, fixed = TRUE)
+      .names <- gsub('_pval', '', .names, fixed = TRUE)
+      
+      .names <- unique(.names)
+      .names
     })
     
     
+    output$Pairwisecomparison_Comparison_UI <- renderUI({
+      req(rv.custom$res_AllPairwiseComparisons)
+
+    widget <- selectInput(ns("Pairwisecomparison_Comparison"), "Select a comparison",
+      choices = Get_Pairwisecomparison_Names(),
+      selected = rv.widgets$Pairwisecomparison_Comparison,
+      width = "300px")
+    MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
+    })
+    
+
+    # Fill the variable 'rv.custom$resAnaDiff' with informations relatives to
+    # the comparison choosen by the user.
+    # Concertely, it extracts data from the variable rv.custom$res_AllPairwiseComparisons
+    # which contains all info (logFC and pValue) for all comparisons.
+    UpdateCompList <- reactive({
+      req(rv.widgets$Pairwisecomparison_Comparison)
+      
+      # Update of the list rv.custom$resAnaDiff
+      GetComparisons()
+      
+      .logfc <- paste0(rv.widgets$Pairwisecomparison_Comparison, '_logFC')
+      .pval <- paste0(rv.widgets$Pairwisecomparison_Comparison, '_pval')
+      
+      rv.custom$resAnaDiff <- list(
+        logFC = (rv.custom$res_AllPairwiseComparisons)[, .logfc],
+        P_Value = (rv.custom$res_AllPairwiseComparisons)[, .pval],
+        condition1 = rv.custom$Condition1,
+        condition2 = rv.custom$Condition2,
+        pushed = NULL
+      )
+    }
+    )
     
     
     mod_volcanoplot_server(
-      id = ns("Step1_volcano"),
+      id = "Pairwisecomparison_volcano",
       dataIn = reactive({rv$dataIn}),
-      data = reactive({xxx}),
-      comp = reactive({omXplore::get_group(rv^dataIn)}),
+      comparison = reactive({GetComparisons()}),
+      group = reactive({omXplore::get_group(dataIn())}),
       thlogfc = reactive({0}),
       thpval = reactive({0}),
-      tooltip = reactive({NULL}),
+      tooltip = reactive({rv.custom$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
-      is.enabled = reactive({rv$steps.enabled["Step1"]})
+      is.enabled = reactive({rv$steps.enabled["Pairwisecomparison"]})
     )
     
-    output$Step1_volcano_UI <- renderUI({
-      widget <- mod_volcanoplot_ui(ns("Step1_volcano"))
-      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Step1"])
+    output$Pairwisecomparison_volcano_UI <- renderUI({
+      widget <- mod_volcanoplot_ui(ns("Pairwisecomparison_volcano"))
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
     })
     
     
-    output$Step1_tooltipInfo_UI <- renderUI({
-      # req(rv.widgets$Step1_Comparison != "None")
+    output$Pairwisecomparison_tooltipInfo_UI <- renderUI({
+      # req(rv.widgets$Pairwisecomparison_Comparison != "None")
       
+      # if (is.null(rv.widgets$Pairwisecomparison_tooltipInfo)) {
+      #   rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
+      # }
+      
+
       widget <- tagList(
         MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_volcanoTooltip")),
-        selectInput(ns("Step1_tooltipInfo"),
+        selectInput(ns("Pairwisecomparison_tooltipInfo"),
           label = NULL,
           choices = colnames(SummarizedExperiment::rowData(rv$dataIn)),
-          selected = rv.widgets$Step1_tooltipInfo,
+          selected = parentProtId(rv$dataIn),
           multiple = TRUE,
           selectize = FALSE,
           width = "300px", size = 5
         ),
-        actionButton(ns("Step1_validTooltipInfo"),  "Validate tooltip choice", 
+        actionButton(ns("Pairwisecomparison_validTooltipInfo"),  "Validate tooltip choice", 
           class = actionBtnClass)
       )
       
-      MagellanNTK::toggleWidget(widget, 
-        rv$steps.status['Step1'] == stepStatus$VALIDATED)
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
     })
     
     
+    observeEvent(rv.widgets$Pairwisecomparison_tooltipInfo, {
+      rv.custom$Pairwisecomparison_tooltipInfo <- rv.widgets$Pairwisecomparison_tooltipInfo
+    })
     
     MagellanNTK::mod_popover_for_help_server("modulePopover_volcanoTooltip",
       title = "Tooltip",
       content = "Infos to be displayed in the tooltip of volcanoplot"
     )
     
-    
-    # Fill the variable 'rv.custom$resAnaDiff' with informations relatives to
-    # the comparison choosen by the user.
-    # Concertely, it extracts data from the variable rv.custom$res_AllPairwiseComparisons
-    # which contains all info (logFC and pValue) for all comparisons.
-    UpdateCompList <- reactive({
-      req(rv.widgets$Step1_Comparison)
-      
-          index <- which(
-            paste(
-              as.character(rv.widgets$Step1_Comparison),
-              "_logFC",
-              sep = ""
-            ) == colnames(rv.custom$res_AllPairwiseComparisons$logFC)
-          )
-          
-          # Update of the list rv.custom$resAnaDiff
-          rv.custom$Condition1 <- strsplit(as.character(rv.widgets$Step1_Comparison), "_vs_")[[1]][1]
-          rv.custom$Condition2 <- strsplit(as.character(rv.widgets$Step1_Comparison), "_vs_")[[1]][2]
-          
-          rv.custom$resAnaDiff <- list(
-            logFC = (rv.custom$res_AllPairwiseComparisons$logFC)[, index],
-            P_Value = (rv.custom$res_AllPairwiseComparisons$P_Value)[, index],
-            condition1 = rv.custom$Condition1,
-            condition2 = rv.custom$Condition2
-          )
-        }
-      )
+
     
     
-    # By default, the tooltip for volcanoplot is set to the proteinId
-    observe({
-      req(rv$dataIn)
-      if (is.null(rv.widgets$Step1_tooltipInfo)) {
-        rv.widgets$Step1_tooltipInfo <- omXplore::get_proteinID(rv$dataIn)
-      }
+    GetComparisons <- reactive({
+      rv.widgets$Pairwisecomparison_Comparison
+      .comp <- as.character(rv.widgets$Pairwisecomparison_Comparison)
+      rv.custom$Condition1 <- strsplit(.comp, "_vs_")[[1]][1]
+      rv.custom$Condition2 <- strsplit(.comp, "_vs_")[[1]][2]
+      c(rv.custom$Condition1, rv.custom$Condition2)
     })
     
     
     
     
     
-    
-    
-    
-    
     output$pushpval_UI <- renderUI({
-      req(rv.widgets$Step1_Comparison != "None")
+      req(rv.widgets$Pairwisecomparison_Comparison != "None")
       
       MagellanNTK::mod_popover_for_help_server("modulePopover_pushPVal",
         title = h3("Push p-value"),
@@ -387,7 +401,7 @@ PipelineProtein_DA_server <- function(id,
       
       wellPanel(
         MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_pushPVal")),
-        mod_query_metacell_UI("AnaDiff_query"))
+        mod_Metacell_Filtering_ui(ns("AnaDiff_query")))
     })
     
     #---------------------------
@@ -398,18 +412,18 @@ PipelineProtein_DA_server <- function(id,
     Get_Dataset_to_Analyze <- reactive({
       
       datasetToAnalyze <- NULL
-      if (rv.widgets$Step1_Comparison == "None" || is.null(rv$dataIn))
+      if (rv.widgets$Pairwisecomparison_Comparison == "None" || is.null(rv$dataIn))
         return(NULL)
       
-      if (length(grep("all-", rv.widgets$Step1_Comparison)) == 1) {
-        .conds <- omXplore::get_group(rv$dataIn)$Condition
-        condition1 <- strsplit(as.character(rv.widgets$Step1_Comparison), "_vs_")[[1]][1]
+      if (length(grep("all-", rv.widgets$Pairwisecomparison_Comparison)) == 1) {
+        .conds <- rv.custom$conds
+        condition1 <- strsplit(as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_")[[1]][1]
         ind_virtual_cond2 <- which(.conds != condition1)
-        datasetToAnalyze <- rv$dataIn[[length(rv^dataIn)]]
+        datasetToAnalyze <- rv$dataIn
         Biobase::pData(datasetToAnalyze)$Condition[ind_virtual_cond2] <- "virtual_cond_2"
       } else {
-        condition1 <- strsplit(as.character(rv.widgets$Step1_Comparison), "_vs_")[[1]][1]
-        condition2 <- strsplit(as.character(rv.widgets$Step1_Comparison), "_vs_")[[1]][2]
+        condition1 <- strsplit(as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_")[[1]][1]
+        condition2 <- strsplit(as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_")[[1]][2]
         
         if (substr(condition1, 1, 1) == "(" &&
             substr(condition1, nchar(condition1), nchar(condition1)) == ")") {
@@ -424,17 +438,17 @@ PipelineProtein_DA_server <- function(id,
         
         
         ind <- c(
-          which(omXplore::get_group(rv$dataIn) == condition1),
-          which(omXplore::get_group(rv$dataIn) == condition2)
+          which(rv.custom$conds == condition1),
+          which(rv.custom$conds == condition2)
         )
         
-        datasetToAnalyze <- rv$dataIn[[length(rv$dataIn)]][, ind]
-        datasetToAnalyze@experimentData@other$names_metacell <-
-          rv$dataIn@experimentData@other$names_metacell[ind]
+        datasetToAnalyze <- rv$dataIn[, ind]
+        #datasetToAnalyze@experimentData@other$names_metacell <-
+        #  rv$dataIn@experimentData@other$names_metacell[ind]
       }
-      
+
       datasetToAnalyze
-    }) %>% bindCache(rv$dataIn, rv.widgets$Step1_Comparison)
+    }) %>% bindCache(rv$dataIn, rv.widgets$Pairwisecomparison_Comparison)
     
     
     
@@ -455,25 +469,30 @@ PipelineProtein_DA_server <- function(id,
     
     
     observe({
-      rv.custom$AnaDiff_indices <- mod_query_metacell_server(id = "AnaDiff_query",
-        obj = reactive({req(Get_Dataset_to_Analyze())}),
-        reset = reactive({rv_anaDiff$local.reset}),
-        op_names = reactive({c('Push p-value', 'Keep original p-value')})
+      req(rv$dataIn)
+      req(Get_Dataset_to_Analyze())
+      rv.custom$AnaDiff_indices <- mod_qMetacell_FunctionFilter_Generator_server(
+        id = "AnaDiff_query",
+        obj = reactive({Get_Dataset_to_Analyze()}),
+        conds = reactive({rv.custom$conds}),
+        keep_vs_remove = reactive({
+          stats::setNames(c('Push p-value', 'Keep original p-value'), 
+          nm = c("delete", "keep"))}),
+        val_vs_percent = reactive({NULL}),
+        operator = reactive({NULL}),
+        reset = reactive({NULL}),
+        is.enabled = reactive({TRUE})
       )
-      
     })
     
     
     observeEvent(req(rv.custom$AnaDiff_indices()$indices),{
-      # shinyjs::toggleState("AnaDiff_performFilteringMV",
-      #                 condition = length(AnaDiff_indices()$indices > 0))
-      #  
       UpdateCompList()
-      .ind <- rv.custom$AnaDiff_indices()
+      .ind <- rv.custom$AnaDiff_indices()$indices
       params <- rv.custom$AnaDiff_indices()$params
-      .protId <- omXplore::get_proteinID(rv$dataIn)
+      .protId <- parentProtId(rv$dataIn)
 
-      rv.widgets$Step1_tooltipInfo <- .protId
+      rv.widgets$Pairwisecomparison_tooltipInfo <- .protId
       
       #--------------------------------
       
@@ -489,22 +508,26 @@ PipelineProtein_DA_server <- function(id,
         n <- length(rv.custom$resAnaDiff$P_Value)
         rv.custom$resAnaDiff$pushed <- seq(n)[indices_to_push]
         
-        #shinyjs::toggleState("div_AnaDiff_query", condition = FALSE)
       }
-      #shinyjs::toggleState("div_AnaDiff_query", condition = TRUE)
     })
     
     
     
-    observeEvent(rv.widgets$Step1_Comparison, ignoreInit = TRUE, {
-      rv.widgets$Step1_tooltipInfo <- omXplore::get_proteinID(rv$dataIn[[length(rv$dataIn)]])
+    observeEvent(rv.widgets$Pairwisecomparison_Comparison, 
+      ignoreInit = TRUE, ignoreNULL = TRUE, {
+        
+       # browser()
+      rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
       UpdateCompList()
       
-      req(rv.widgets$Step1_Comparison)
-      cond1 <- rv.custom$Condition1
-      cond2 <- rv.custom$Condition2
+      .split <- strsplit(
+        as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
+      )
+      rv.custom$Condition1 <- .split[[1]][1]
+      rv.custom$Condition2 <- .split[[1]][2]
       
-      rv.custom$filename <- paste0("anaDiff_", cond1, "_vs_", cond2, ".xlsx")
+      rv.custom$filename <- paste0("anaDiff_", rv.custom$Condition1,
+        "_vs_", rv.custom$Condition2, ".xlsx")
     })
     
     
@@ -530,7 +553,7 @@ PipelineProtein_DA_server <- function(id,
       
       index <- which(
         paste(
-          as.character(rv.widgets$Step1_Comparison), "_logFC",
+          as.character(rv.widgets$Pairwisecomparison_Comparison), "_logFC",
           sep = ""
         ) ==
           colnames(rv.custom$res_AllPairwiseComparisons$logFC)
@@ -539,10 +562,10 @@ PipelineProtein_DA_server <- function(id,
         logFC = (rv.custom$res_AllPairwiseComparisons$logFC)[, index],
         P_Value = (rv.custom$res_AllPairwiseComparisons$P_Value)[, index],
         condition1 = strsplit(
-          as.character(rv.widgets$Step1_Comparison), "_vs_"
+          as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
         )[[1]][1],
         condition2 = strsplit(
-          as.character(rv.widgets$Step1_Comparison), "_vs_"
+          as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
         )[[1]][2]
       )
       rv.custom$resAnaDiff
@@ -568,22 +591,22 @@ PipelineProtein_DA_server <- function(id,
     
     
     
-    output$Step1_btn_validate_UI <- renderUI({
-      widget <- actionButton(ns("Step1_btn_validate"),
+    output$Pairwisecomparison_btn_validate_UI <- renderUI({
+      widget <- actionButton(ns("Pairwisecomparison_btn_validate"),
         "Validate step",
         class = "btn-success"
       )
-       MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Step1"])
+       MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pairwisecomparison"])
     })
     # >>> END: Definition of the widgets
     
     
     
-    observeEvent(input$Step1_btn_validate, {
+    observeEvent(input$Pairwisecomparison_btn_validate, {
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
-      rv$steps.status["Step1"] <- stepStatus$VALIDATED
+      rv$steps.status["Pairwisecomparison"] <- stepStatus$VALIDATED
     })
     
 
@@ -591,7 +614,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     # >>> START ------------- Code for step 2 UI---------------
-    output$Step2 <- renderUI({
+    output$Pvaluecalibration <- renderUI({
       
       .style <- "display:inline-block; 
         vertical-align: middle; 
@@ -609,10 +632,10 @@ PipelineProtein_DA_server <- function(id,
         tagList(
           tags$div(
             tags$div(style = .style,
-              uiOutput(ns('Step2_calibrationMethod_UI'))
+              uiOutput(ns('Pvaluecalibration_calibrationMethod_UI'))
             ),
             tags$div(style = .style,
-              uiOutput(ns("Step2_numericValCalibration_UI"))
+              uiOutput(ns("Pvaluecalibration_numericValCalibration_UI"))
             ),
             tags$div(style = .style,
               uiOutput(ns("nBins_UI"))
@@ -638,62 +661,62 @@ PipelineProtein_DA_server <- function(id,
         ),
 
         # Insert validation button
-        uiOutput(ns("Step2_btn_validate_UI"))
+        uiOutput(ns("Pvaluecalibration_btn_validate_UI"))
       )
     })
     
     
     
-    output$Step2_calibrationMethod_UI <- renderUI({
-      widget <- selectInput("Step2_calibrationMethod", "Calibration method",
+    output$Pvaluecalibration_calibrationMethod_UI <- renderUI({
+      widget <- selectInput("Pvaluecalibration_calibrationMethod", "Calibration method",
         choices = c("None" = "None", calibMethod_Choices),
-        selected = rv.widgets$Step2_calibrationMethod,
+        selected = rv.widgets$Pvaluecalibration_calibrationMethod,
         width = "200px"
       )
-    MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Step2"])
+    MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
     })
     
     
     
-    output$Step2_numericValCalibration_UI <- renderUI({
-      req(rv.widgets$Step2_calibrationMethod == "numeric value")
+    output$Pvaluecalibration_numericValCalibration_UI <- renderUI({
+      req(rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value")
       widget <- numericInput(ns("numericValCalibration"),
         "Proportion of TRUE null hypohtesis",
-        value = rv.widgets$Step2_numericValCalibration,
+        value = rv.widgets$Pvaluecalibration_numericValCalibration,
         step = 0.05
       )
-      MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Step2"])
+      MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
   })
     
 
     
-    observeEvent(rv.widgets$Step2_calibrationMethod, {
+    observeEvent(rv.widgets$Pvaluecalibration_calibrationMethod, {
       shinyjs::toggle("numericValCalibration",
-        condition = rv.widgets$Step2_calibrationMethod == "numeric value"
+        condition = rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value"
       )
     })
     
 
     
-    output$Step2_nBins_UI <- renderUI({
+    output$Pvaluecalibration_nBins_UI <- renderUI({
       req(rv.custom$resAnaDiff)
       req(rv.custom$pi0)
-      req(rv.widgets$Step2_nBinsHistpval)
+      req(rv.widgets$Pvaluecalibration_nBinsHistpval)
       
       widget <- selectInput(
-        ns("Step2_nBinsHistpval"), 
+        ns("Pvaluecalibration_nBinsHistpval"), 
         "n bins of p-value histogram",
         choices = c(1, seq(from = 0, to = 100, by = 10)[-1]),
-        selected = rv.widgets$Step2_nBinsHistpval, 
+        selected = rv.widgets$Pvaluecalibration_nBinsHistpval, 
         width = "80px")
-      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Step2"])
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pvaluecalibration"])
     })
     
     
     histPValue <- reactive({
       req(rv.custom$resAnaDiff)
       req(rv.cutoms$pi0)
-      req(rv.widgets$Step2_nBinsHistpval)
+      req(rv.widgets$Pvaluecalibration_nBinsHistpval)
       req(data()$logFC)
       req(!is.(data()$logFC))
       req(length(data()$logFC) > 0)
@@ -717,7 +740,7 @@ PipelineProtein_DA_server <- function(id,
         t <- t[-toDelete]
       }
       histPValue_HC(t,
-        bins = as.numeric(rv.widgets$Step2_nBinsHistpval),
+        bins = as.numeric(rv.widgets$Pvaluecalibration_nBinsHistpval),
         pi0 = rv.custom$pi0
       )
       # })
@@ -753,7 +776,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     calibrationPlot <- reactive({
-      req(rv.widgets$Step2_calibrationMethod != "None")
+      req(rv.widgets$Pvaluecalibration_calibrationMethod != "None")
       rv.custom$resAnaDiff
       req(rv$dataIn)
       
@@ -784,23 +807,23 @@ PipelineProtein_DA_server <- function(id,
       ll <- NULL
       result <- tryCatch(
         {
-          if ((rv.widgets$Step2_calibrationMethod == "numeric value") &&
-              !is.null(rv.widgets$Step2_numValCalibMethod)) {
+          if ((rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") &&
+              !is.null(rv.widgets$Pvaluecalibration_numValCalibMethod)) {
             ll <- catchToList(
               wrapperCalibrationPlot(
                 t,
-                rv.widgets$Step2_numValCalibMethod
+                rv.widgets$Pvaluecalibration_numValCalibMethod
               )
             )
             .warns <- ll$warnings[grep("Warning:", ll$warnings)]
             rv.custom$errMsgCalibrationPlot <- .warns
-          } else if (rv.widgets$Step2_calibrationMethod == "Benjamini-Hochberg") {
+          } else if (rv.widgets$Pvaluecalibration_calibrationMethod == "Benjamini-Hochberg") {
             ll <- catchToList(wrapperCalibrationPlot(t, 1))
             .warns <- ll$warnings[grep("Warning:", ll$warnings)]
             rv.custom$errMsgCalibrationPlot <- .warns
           } else {
             ll <- catchToList(
-              wrapperCalibrationPlot(t, rv.widgets$Step2_calibrationMethod)
+              wrapperCalibrationPlot(t, rv.widgets$Pvaluecalibration_calibrationMethod)
             )
             .warns <- ll$warnings[grep("Warning:", ll$warnings)]
             rv.custom$errMsgCalibrationPlot <- .warns
@@ -960,29 +983,29 @@ PipelineProtein_DA_server <- function(id,
     
     
     
-    output$Step2_btn_validate_UI <- renderUI({
-      widget <- actionButton(ns("Step2_btn_validate"),
+    output$Pvaluecalibration_btn_validate_UI <- renderUI({
+      widget <- actionButton(ns("Pvaluecalibration_btn_validate"),
         "Validate step",
         class = "btn-success"
       )
-      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Step2"])
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pvaluecalibration"])
     })
     # >>> END: Definition of the widgets
     
     
     
-    observeEvent(input$Step2_btn_validate, {
+    observeEvent(input$Pvaluecalibration_btn_validate, {
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
-      rv$steps.status["Step2"] <- stepStatus$VALIDATED
+      rv$steps.status["Pvaluecalibration"] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------
     
     
     # >>> START ------------- Code for step 2 UI---------------
-    output$Step3 <- renderUI({
+    output$FDR <- renderUI({
       widget <- wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -1000,31 +1023,31 @@ PipelineProtein_DA_server <- function(id,
             ),
             column(width = 7,
               withProgress(message = "", detail = "", value = 1, {
-                uiOutput(ns('Step3_volcanoplot_UI'))
+                uiOutput(ns('FDR_volcanoplot_UI'))
               })
             )
           ),
           tags$hr(),
           fluidRow(
             column(width = 4,
-              checkboxInput(ns('Step3_viewAdjPval'), 
+              checkboxInput(ns('FDR_viewAdjPval'), 
                 'View adjusted p-value', 
-                value = rv.widgets$Step3_viewAdjPval)
+                value = rv.widgets$FDR_viewAdjPval)
             ),
             column(width = 4,
-              downloadButton(ns("Step3_download_SelectedItems_UI"), 
+              downloadButton(ns("FDR_download_SelectedItems_UI"), 
                 "Download (Excel file)", class = actionBtnClass)
             )
           ),
-          DT::DTOutput(ns("Step3_anaDiff_selectedItems"))
+          DT::DTOutput(ns("FDR_anaDiff_selectedItems"))
         ),
         # Insert validation button
-        uiOutput(ns("Step3_btn_validate_UI"))
+        uiOutput(ns("FDR_btn_validate_UI"))
       )
       
       MagellanNTK::toggleWidget(widget, 
-        rv$steps.enabled["Step3"] && 
-          as.character(rv.widgets$Step1_Comparison) != "None")
+        rv$steps.enabled["FDR"] && 
+          as.character(rv.widgets$Pairwisecomparison_Comparison) != "None")
     })
     
     
@@ -1032,25 +1055,25 @@ PipelineProtein_DA_server <- function(id,
     #-------------------------------------------------------------------
     #
     mod_volcanoplot_server(
-      id = ns("Step3_volcano"),
+      id = ns("FDR_volcano"),
       dataIn = reactive({rv$dataIn}),
-      data = reactive({xxx}),
-      comp = reactive({omXplore::get_group(rv^dataIn)}),
+      comparison = reactive({GetComparisons()}),
+      group = reactive({rv.custom$conds}),
       thlogfc = reactive({0}),
       thpval = reactive({0}),
-      tooltip = reactive({NULL}),
+      tooltip = reactive({rv.widgets$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
-      is.enabled = reactive({rv$steps.enabled["Step3"]})
+      is.enabled = reactive({rv$steps.enabled["FDR"]})
     )
     
-    output$Step3_volcanoplot_UI <- renderUI({
-      widget <- mod_volcanoplot_ui(ns("Step3_volcano"))
-      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Step3"])
+    output$FDR_volcanoplot_UI <- renderUI({
+      widget <- mod_volcanoplot_ui(ns("FDR_volcano"))
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["FDR"])
     })
     
     
     output$nbSelectedItems <- renderUI({
-      rv.widgets$Step1_thpval
+      rv.widgets$Pairwisecomparison_thpval
       rv$dataIn
       req(Build_pval_table())
       
@@ -1068,18 +1091,18 @@ PipelineProtein_DA_server <- function(id,
       
       upItemsLogFC <- which(abs(p$logFC) >= as.numeric(logfc()))
       upItemsPVal <- which(-log10(p$P_Value) >= as.numeric(
-        rv.widgets$Step1_thpval
+        rv.widgets$Pairwisecomparison_thpval
       ))
       
       rv.custom$nbTotalAnaDiff <- nrow(SummarizedExperiment::assay(rv$dataIn))
       rv.custom$nbSelectedAnaDiff <- NULL
       t <- NULL
       
-      if (!is.null(rv.widgets$Step1_thpval) && !is.null(logfc())) {
+      if (!is.null(rv.widgets$Pairwisecomparison_thpval) && !is.null(logfc())) {
         t <- intersect(upItemsPVal, upItemsLogFC)
-      } else if (!is.null(rv.widgets$Step1_thpval) && is.null(logfc())) {
+      } else if (!is.null(rv.widgets$Pairwisecomparison_thpval) && is.null(logfc())) {
         t <- upItemsPVal
-      } else if (is.null(rv.widgets$Step1_thpval) && !is.null(logfc())) {
+      } else if (is.null(rv.widgets$Pairwisecomparison_thpval) && !is.null(logfc())) {
         t <- upItemsLogFC
       }
       rv.custom$nbSelectedAnaDiff <- length(t)
@@ -1117,7 +1140,7 @@ PipelineProtein_DA_server <- function(id,
     ################################################################
     
     logpval <- mod_set_pval_threshold_server(id = "Title",
-      pval_init = reactive({10^(-rv.widgets$Step1_thpval)}),
+      pval_init = reactive({10^(-rv.widgets$Pairwisecomparison_thpval)}),
       fdr = reactive({Get_FDR()}))
     
     
@@ -1125,29 +1148,29 @@ PipelineProtein_DA_server <- function(id,
       req(logpval())
       tmp <- gsub(",", ".", logpval(), fixed = TRUE)
       
-      rv.widgets$Step1_thpval <- as.numeric(tmp)
+      rv.widgets$Pairwisecomparison_thpval <- as.numeric(tmp)
       
     })
     
     
-    observeEvent(input$Step1_validTooltipInfo, {
+    observeEvent(input$Pairwisecomparison_validTooltipInfo, {
       
-      .tmp <- c(omXplore__get_proteinID(proteinId), 
-        rv.widgets$Step1_tooltipInfo)
-      rv.widgets$Step1_tooltipInfo <- unique(.tmp)
+      .tmp <- c(parentProtId(rv$dataIn), 
+        rv.widgets$Pairwisecomparison_tooltipInfo)
+      rv.widgets$Pairwisecomparison_tooltipInfo <- unique(.tmp)
       
     })
     
     
-    output$Step3_selectedItems_UI <- DT::renderDT({
+    output$FDR_selectedItems_UI <- DT::renderDT({
       df <- Build_pval_table()
       
-      if (rv.widgets$Step3_viewAdjPval){
+      if (rv.widgets$FDR_viewAdjPval){
         df <- df[order(df$Adjusted_PValue, decreasing=FALSE), ]
         .coldefs <- list(list(width = "200px", targets = "_all"))
       } else {
         name <- paste0(c('Log_PValue (', 'Adjusted_PValue ('), 
-          as.character(rv.widgets$Step1_Comparison), ")")
+          as.character(rv.widgets$Pairwisecomparison_Comparison), ")")
         .coldefs <- list(
           list(width = "200px", targets = "_all"),
           list(targets = (match(name, colnames(df)) - 1), visible = FALSE))
@@ -1165,12 +1188,12 @@ PipelineProtein_DA_server <- function(id,
           scroller = TRUE,
           server = FALSE,
           columnDefs = .coldefs,
-          ordering = !rv.widgets$Step3_viewAdjPval
+          ordering = !rv.widgets$FDR_viewAdjPval
         )
       ) %>%
         DT::formatStyle(
           paste0("isDifferential (",
-            as.character(rv.widgets$Step1_Comparison), ")"),
+            as.character(rv.widgets$Pairwisecomparison_Comparison), ")"),
           target = "row",
           backgroundColor = DT::styleEqual(c(0, 1), c("white", orangeProstar))
         )
@@ -1178,7 +1201,7 @@ PipelineProtein_DA_server <- function(id,
     })
     
     
-    output$Step3_download_SelectedItems_UI <- downloadHandler(
+    output$FDR_download_SelectedItems_UI <- downloadHandler(
       
       
       filename = function() {rv.custom$filename},
@@ -1193,7 +1216,7 @@ PipelineProtein_DA_server <- function(id,
         openxlsx::addWorksheet(wb, sheetName = "DA result") # create sheet
         openxlsx::writeData(wb,
           sheet = 1,
-          as.character(rv.widgets$Step1_Comparison),
+          as.character(rv.widgets$Pairwisecomparison_Comparison),
           colNames = TRUE,
           headerStyle = hs1
         )
@@ -1204,7 +1227,7 @@ PipelineProtein_DA_server <- function(id,
         )
         
         .txt <- paste0("isDifferential (",
-          as.character(rv.widgets$Step1_Comparison),
+          as.character(rv.widgets$Pairwisecomparison_Comparison),
           ")")
         
         ll.DA.row <- which(Build_pval_table()[, .txt] == 1)
@@ -1225,12 +1248,12 @@ PipelineProtein_DA_server <- function(id,
     
     
     Get_FDR <- reactive({
-      req(rv.widgets$Step1_thpval)
+      req(rv.widgets$Pairwisecomparison_thpval)
       req(Build_pval_table())
       
       adj.pval <- Build_pval_table()$Adjusted_PValue
       logpval <- Build_pval_table()$Log_PValue
-      upitems_logpval <- which(logpval >= rv.widgets$Step1_thpval)
+      upitems_logpval <- which(logpval >= rv.widgets$Pairwisecomparison_thpval)
       
       fdr <- max(adj.pval[upitems_logpval], na.rm = TRUE)
       rv.custom$FDR <- as.numeric(fdr)
@@ -1246,7 +1269,7 @@ PipelineProtein_DA_server <- function(id,
         which(
           Build_pval_table()[paste0(
             "isDifferential (",
-            as.character(rv.widgets$Step1_Comparison), ")"
+            as.character(rv.widgets$Pairwisecomparison_Comparison), ")"
           )] == 1
         )
       )
@@ -1278,15 +1301,15 @@ PipelineProtein_DA_server <- function(id,
     
     
     GetCalibrationMethod <- reactive({
-      req(rv.widgets$Step2_numValCalibMethod)
-      req(rv.widgets$Step2_calibrationMethod != 'None')
+      req(rv.widgets$Pvaluecalibration_numValCalibMethod)
+      req(rv.widgets$Pvaluecalibration_calibrationMethod != 'None')
       .calibMethod <- NULL
-      if (rv.widgets$Step2_calibrationMethod == "Benjamini-Hochberg") {
+      if (rv.widgets$Pvaluecalibration_calibrationMethod == "Benjamini-Hochberg") {
         .calibMethod <- 1
-      } else if (rv.widgets$Step2_calibrationMethod == "numeric value") {
-        .calibMethod <- as.numeric(rv.widgets$Step2_numValCalibMethod)
+      } else if (rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") {
+        .calibMethod <- as.numeric(rv.widgets$Pvaluecalibration_numValCalibMethod)
       } else {
-        .calibMethod <- rv.widgets$Step2_calibrationMethod
+        .calibMethod <- rv.widgets$Pvaluecalibration_calibrationMethod
       }
       .calibMethod
       
@@ -1298,7 +1321,7 @@ PipelineProtein_DA_server <- function(id,
       req(rv.custom$resAnaDiff$P_Value)
       req(rv$dataIn)
       req(GetCalibrationMethod())
-      rv.widgets$Step1_thpval
+      rv.widgets$Pairwisecomparison_thpval
       
       .digits <- 3
       
@@ -1311,7 +1334,7 @@ PipelineProtein_DA_server <- function(id,
         isDifferential = rep(0, length(rv.custom$resAnaDiff$logFC))
       )
       
-      thpval <- rv.widgets$Step1_thpval
+      thpval <- rv.widgets$Pairwisecomparison_thpval
       
       #
       # Determine significant proteins
@@ -1338,12 +1361,12 @@ PipelineProtein_DA_server <- function(id,
       
       
       tmp <- as.data.frame(
-        SummarizedExperiment::rowData(rv$dataIn)[, rv.widgets$Step1_tooltipInfo]
+        SummarizedExperiment::rowData(rv$dataIn)[, rv.widgets$Pairwisecomparison_tooltipInfo]
       )
-      names(tmp) <- rv.widgets$Step1_tooltipInfo
+      names(tmp) <- rv.widgets$Pairwisecomparison_tooltipInfo
       pval_table <- cbind(pval_table, tmp)
       
-      colnames(pval_table)[2:6] <- paste0(colnames(pval_table)[2:6], " (", as.character(rv.widgets$Step1_Comparison), ")")
+      colnames(pval_table)[2:6] <- paste0(colnames(pval_table)[2:6], " (", as.character(rv.widgets$Pairwisecomparison_Comparison), ")")
       
       pval_table
     })
@@ -1356,23 +1379,23 @@ PipelineProtein_DA_server <- function(id,
     
     #-------------------------------------------------------------------
     
-    output$Step3_btn_validate_UI <- renderUI({
-      widget <- actionButton(ns("Step3_btn_validate"),
+    output$FDR_btn_validate_UI <- renderUI({
+      widget <- actionButton(ns("FDR_btn_validate"),
         "Validate step",
         class = "btn-success"
       )
       MagellanNTK::toggleWidget(widget, 
-        rv$steps.enabled["Step3"])
+        rv$steps.enabled["FDR"])
     })
     # >>> END: Definition of the widgets
     
     
     
-    observeEvent(input$Step3_btn_validate, {
+    observeEvent(input$FDR_btn_validate, {
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
-      rv$steps.status["Step3"] <- stepStatus$VALIDATED
+      rv$steps.status["FDR"] <- stepStatus$VALIDATED
     })
     
     # <<< END ------------- Code for step 2 UI---------------

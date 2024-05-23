@@ -170,5 +170,5 @@ diffAnaVolcanoplot_rCharts <- function(
     hc_add_series(data = leftBorder, type = "line", color = "grey") %>%
     hc_add_series(data = rightBorder, type = "line", color = "grey")
   
-  h1
+  return(h1)
 }

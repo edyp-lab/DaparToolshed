@@ -63,10 +63,10 @@ NULL
 #'
 mod_volcanoplot_ui <- function(id) {
   ns <- NS(id)
-  tagList(
-    highcharter::highchartOutput(ns("volcanoPlot"), 
-      width = "600px", height = "600px"),
-    uiOutput(ns("quantiDT"))
+  fluidPage(
+    highcharter::highchartOutput(ns("volcanoPlot_UI"), 
+      width = "600px", height = "600px")
+    #uiOutput(ns("quantiDT"))
   )
 }
 
@@ -119,7 +119,6 @@ mod_volcanoplot_server <- function(
     observeEvent(dataIn(), {
       rv$dataIn <- dataIn()
        rv.custom$data <- HypothesisTest(dataIn())
-       print('toto')
     })
     
     
@@ -423,14 +422,9 @@ mod_volcanoplot_server <- function(
     })
     
     ## ---------------------------------------------------------------------
-    output$volcanoPlot <- highcharter::renderHighchart2({
-      req(rv$dataIn)
-      comparison()
-      thlogfc()
-      thpval()
-      
-      print('IN output$volcanoPlot <- renderHighchart')
-        isolate({
+    output$volcanoPlot_UI <- highcharter::renderHighchart({
+      #req(rv$dataIn)
+
           withProgress(message = "Building plot...", detail = "", value = 0, {
           m <- match.metacell(omXplore::get_metacell(rv$dataIn),
             pattern = c("Missing", "Missing POV", "Missing MEC"),
@@ -440,9 +434,9 @@ mod_volcanoplot_server <- function(
             return(NULL)
           }
           
-
           ht <- HypothesisTest(rv$dataIn)
           prefix <- paste0(comparison()[1], '_vs_', comparison()[2])
+
           df <- data.frame(
             x = ht[, paste0(prefix, '_logFC')],
             y = -log10(ht[, paste0(prefix, '_pval')]),
@@ -461,23 +455,25 @@ mod_volcanoplot_server <- function(
               paste("tooltip_", colnames(df)[.range], sep = "")
           }
           
+          
           clickFun <-
-            JS(paste0(
+            shinyjqui::JS(paste0(
               "function(event) {Shiny.onInputChange('",
               ns("eventPointClicked"),
               "', [this.index]+'_'+ [this.series.name]);}"
             ))
           
+          
+
           widget <- diffAnaVolcanoplot_rCharts(
             df,
             th_logfc = as.numeric(thlogfc()),
             th_pval = as.numeric(thpval()),
-            conditions = group(),
+            conditions = comparison(),
             clickFunction = clickFun,
             pal = rv.custom$colorsVolcanoplot
           )
-})
-        })
+          })
         widget
         #MagellanNTK::toggleWidget(widget, is.enabled())
       })
@@ -495,13 +491,13 @@ volcanoplot <- function(
   group, 
     thlogfc, 
     thpval,
-  tooltip){
+  tooltip = NULL){
   
   ui <- fluidPage(
   mod_volcanoplot_ui("volcano"))
   
   server <- function(input, output) {
-    logpval <- mod_volcanoplot_server(
+    mod_volcanoplot_server(
       id = "volcano",
       dataIn = reactive({dataIn}),
       comparison = reactive({comparison}),
@@ -511,10 +507,7 @@ volcanoplot <- function(
       tooltip = reactive({tooltip})
      # fdr = reactive({3.8})
       )
-  
-    observeEvent(logpval(), {
-      print(logpval())
-    })
+
   }
 
   app <- shiny::shinyApp(ui, server)

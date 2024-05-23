@@ -166,7 +166,7 @@ mod_Metacell_Filtering_server <- function(id,
           req(rv$dataIn[[i()]])
           c("None" = "None", omXplore::metacell.def(omXplore::get_type(rv$dataIn[[i()]]))$node)
         }),
-        keep_vs_remove = reactive({stats::setNames(nm = c("delete", "keep"))}),
+        keep_vs_remove = reactive({stats::setNames(c('Push p-value', 'Keep original p-value'), nm = c("delete", "keep"))}),
         val_vs_percent = reactive({stats::setNames(nm = c("Count", "Percentage"))}),
         operator = reactive({stats::setNames(nm = SymFilteringOperators())})
       )
@@ -207,6 +207,8 @@ mod_Metacell_Filtering_server <- function(id,
         name = "qMetacellFiltered",
         filters = rv.custom$funFilter()$value$ll.fun
       )
+      
+      indices <- GetIndices(rv.custom$funFilter()$value$ll.fun)
       
       # Add infos
       nBefore <- nrow(tmp[[length(tmp) - 1]])

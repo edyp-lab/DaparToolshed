@@ -93,6 +93,7 @@ Collate:
     AllGenerics.R
     mod_ds_metacell.R
     plots_volcano.R
+    mod_set_pval_threshold.R
     plots_compare_assays.R
     missingValuesImputation_ProteinLevel.R
     missingValuesImputation_PeptideLevel.R
@@ -108,11 +109,10 @@ Collate:
     limmaAnalysis.R
     mod_mv_plots.R
     mod_Pirat.R
-    funcs_missingValuesFiltering.R
+    funcs_FunctionFiltering.R
     plot_metacell.R
     run_Convert.R
     funcs_normalize.R
-    funcs_filtering.R
     mod_download_dataset.R
     doc-data.R
     DaparToolshed.R

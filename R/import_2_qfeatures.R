@@ -219,6 +219,7 @@ createQFeatures <- function(data = NULL,
     if (tolower(typeDataset) == "peptide") {
       pkgs.require('PSMatch')
       parentProtId(obj[["original"]]) <- parentProtId
+      
       # Create the adjacency matrix
       #X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
       #rownames(X) <- rownames(rowData(obj[[1]]))

@@ -221,7 +221,7 @@ mod_Prot_Imputation_POV_server <- function(id,
       m <- match.metacell(
         get_metacell(rv$dataIn[[i()]]),
         pattern = "Missing POV",
-        level = get_type(rv$dataIn[[i()]])
+        level = omXplore::get_type(rv$dataIn[[i()]])
       )
       nbPOVBefore <- length(which(m))
       #browser()

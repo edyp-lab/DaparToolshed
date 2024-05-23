@@ -235,7 +235,7 @@ server <- function(input, output) {
   # )
   
   
-  # indices <- GetIndices_MetacellFiltering(
+  # indices <- GetIndices_FunFiltering(
   #   obj = obj,
   #   level = omXplore::get_type(obj),
   #   pattern = filtering.query$MetacellTag,

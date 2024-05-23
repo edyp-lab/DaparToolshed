@@ -12,9 +12,6 @@ mod_qMetacell_FunctionFilter_Generator_server(
   id,
   obj,
   conds,
-  list_tags = reactive({
-     NULL
- }),
   keep_vs_remove = reactive({
      NULL
  }),
@@ -35,7 +32,6 @@ mod_qMetacell_FunctionFilter_Generator_server(
 mod_qMetacell_FunctionFilter_Generator(
   obj,
   conds,
-  list_tags,
   keep_vs_remove,
   val_vs_percent,
   operator
@@ -49,8 +45,6 @@ mod_qMetacell_FunctionFilter_Generator(
 \item{conds}{A \code{character()} which contains the name of the conditions. The
 length of this vector must be equal to the number of samples in the assay
 (i.e. number of columns in assay(obj))}
-
-\item{list_tags}{xxx}
 
 \item{keep_vs_remove}{xxx}
 
@@ -87,13 +81,12 @@ of the class \code{SummarizedExperiment})
 data(ft_na)
 obj <- ft_na[[1]]
 conds <- get_group(ft_na)
-list_tags <- c("None" = "None",metacell.def(typeDataset(ft_na[[1]]))$node)
 operator = setNames(nm = SymFilteringOperators())
 keep_vs_remove <- setNames(nm = c("delete", "keep"))
 val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 
 shiny::runApp(
 mod_qMetacell_FunctionFilter_Generator(
-obj, conds, list_tags, keep_vs_remove, val_vs_percent, operator))
+obj, conds, keep_vs_remove, val_vs_percent, operator))
 \dontshow{\}) # examplesIf}
 }

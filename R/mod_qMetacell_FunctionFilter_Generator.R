@@ -21,14 +21,13 @@
 #' data(ft_na)
 #' obj <- ft_na[[1]]
 #' conds <- get_group(ft_na)
-#' list_tags <- c("None" = "None",metacell.def(typeDataset(ft_na[[1]]))$node)
 #' operator = setNames(nm = SymFilteringOperators())
 #' keep_vs_remove <- setNames(nm = c("delete", "keep"))
 #' val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 #' 
 #' shiny::runApp(
 #' mod_qMetacell_FunctionFilter_Generator(
-#' obj, conds, list_tags, keep_vs_remove, val_vs_percent, operator))
+#' obj, conds, keep_vs_remove, val_vs_percent, operator))
 #' 
 NULL
 
@@ -70,7 +69,6 @@ mod_qMetacell_FunctionFilter_Generator_ui <- function(id) {
 #' @param conds A `character()` which contains the name of the conditions. The
 #' length of this vector must be equal to the number of samples in the assay
 #' (i.e. number of columns in assay(obj))
-#' @param list_tags xxx
 #' @param keep_vs_remove xxx
 #' @param val_vs_percent xxx
 #' @param operator xxx
@@ -85,7 +83,6 @@ mod_qMetacell_FunctionFilter_Generator_ui <- function(id) {
 mod_qMetacell_FunctionFilter_Generator_server <- function(id,
     obj,
     conds,
-    list_tags = reactive({NULL}),
     keep_vs_remove = reactive({NULL}),
     val_vs_percent = reactive({NULL}),
     operator = reactive({NULL}),
@@ -97,7 +94,7 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
     widgets.default.values <- list(
         tag = "None",
         scope = "None",
-      keep_vs_remove = "delete",
+        keep_vs_remove = "delete",
         valueTh = 0,
         percentTh = 0,
         valPercent = "Count",
@@ -406,10 +403,14 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
             )
             ff
         })
+        
+        
+        GuessIndices <- reactive({
+          
+        })
 
 
         observeEvent(input$BuildFilter_btn, {
-
             rv.custom$ll.fun <- append(rv.custom$ll.fun, BuildFunctionFilter())
             rv.custom$ll.query <- append(rv.custom$ll.query, WriteQuery())
             rv.custom$ll.widgets.value <- append(
@@ -423,7 +424,16 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
             dataOut$value <- list(
               ll.fun = rv.custom$ll.fun,
               ll.query = rv.custom$ll.query,
-              ll.widgets.value = rv.custom$ll.widgets.value
+              ll.widgets.value = rv.custom$ll.widgets.value,
+              ll.indices = GetIndices_FunFiltering(
+                obj = obj(),
+                conds = rv.custom$ll.fun[[1]]@params$conds, 
+                level = omXplore::get_type(obj()), 
+                pattern = rv.custom$ll.fun[[1]]@params$pattern,
+                type = rv.custom$ll.fun[[1]]@params$mode,
+                percent = rv.custom$ll.fun[[1]]@params$percent, 
+                op = rv.custom$ll.fun[[1]]@params$operator, 
+                th = rv.custom$ll.fun[[1]]@params$th)
             )
         })
 
@@ -439,7 +449,6 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
 mod_qMetacell_FunctionFilter_Generator <- function(
     obj,
     conds, 
-    list_tags,
     keep_vs_remove,
     val_vs_percent,
     operator){
@@ -452,7 +461,6 @@ mod_qMetacell_FunctionFilter_Generator <- function(
     res <- mod_qMetacell_FunctionFilter_Generator_server('query',
       obj = reactive({obj}),
       conds = reactive({conds}),
-      list_tags = reactive({list_tags}),
       keep_vs_remove = reactive({keep_vs_remove}),
       val_vs_percent = reactive({val_vs_percent}),
       operator = reactive({operator}))

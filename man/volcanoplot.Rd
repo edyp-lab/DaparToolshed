@@ -36,7 +36,7 @@ mod_volcanoplot_server(
  })
 )
 
-volcanoplot(dataIn, comparison, group, thlogfc, thpval)
+volcanoplot(dataIn, comparison, group, thlogfc, thpval, tooltip = NULL)
 }
 \arguments{
 \item{id}{xxx}

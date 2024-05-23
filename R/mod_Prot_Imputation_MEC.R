@@ -246,7 +246,7 @@ mod_Prot_Imputation_MEC_server <- function(id,
       m <- match.metacell(
         get_metacell(rv$dataIn[[i()]]),
         pattern = "Missing MEC",
-        level = get_type(rv$dataIn[[i()]])
+        level = omXplore::get_type(rv$dataIn[[i()]])
       )
       nbMECBefore <- length(which(m))
       incProgress(0.75, detail = "MEC Imputation")

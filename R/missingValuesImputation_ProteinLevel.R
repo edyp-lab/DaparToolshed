@@ -193,7 +193,7 @@ wrapper.impute.fixedValue <- function(obj,
     if (fixVal == 0)
         warning("Be aware that fixVal = 0. No imputation will be realize.")
 
-    level <- get_type(obj)
+    level <- omXplore::get_type(obj)
 
     if (missing(na.type)) {
         stop(paste0("'na.type' is required. Available values are: ", 
@@ -273,7 +273,7 @@ wrapper.impute.detQuant <- function(
         col <- qdata[, iter]
         ind.na.type <- match.metacell(get_metacell(obj)[,iter],
                                       pattern = na.type,
-                                      level = get_type(obj)
+                                      level = omXplore::get_type(obj)
                                       )
 
         col[ind.na.type] <- values$shiftedImpVal[iter]
