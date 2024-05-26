@@ -89,6 +89,16 @@ setGeneric("HypothesisTest<-",
 setGeneric("GetUniqueTags", 
   function(object, ...) standardGeneric("GetUniqueTags"))
 
+setGeneric("parentProtId", 
+  function(object, ...) standardGeneric("parentProtId"))
+setGeneric("parentProtId<-", 
+  function(object, ..., value) standardGeneric("parentProtId<-"))
+
+
+setGeneric("params", 
+  function(object, ...) standardGeneric("params"))
+setGeneric("params<-", 
+  function(object, ..., value) standardGeneric("params<-"))
 
 setGeneric("names_metacell", 
            function(object, ...) standardGeneric("names_metacell"))

@@ -88,12 +88,11 @@ PipelineProtein_DA_ui <- function(id){
 #' 
 PipelineProtein_DA_server <- function(id,
   dataIn = reactive({NULL}),
-  thlogfc = reactive({0}),
   steps.enabled = reactive({NULL}),
   remoteReset = reactive({FALSE}),
   steps.status = reactive({NULL}),
   current.pos = reactive({1})
-  ){
+){
   
   
   
@@ -156,7 +155,7 @@ PipelineProtein_DA_server <- function(id,
     
     eval(str2expression(core.code))
     
-
+    
     
     # >>>
     # >>> START ------------- Code for Description UI---------------
@@ -215,9 +214,16 @@ PipelineProtein_DA_server <- function(id,
       
       rv$dataIn <- dataIn()[[length(dataIn())]]
       rv.custom$conds <- omXplore::get_group(dataIn())
-     
+      if (!is.null(params(rv$dataIn)$thlogfc))
+        rv.custom$thlogfc <- params(rv$dataIn)$thlogfc
+      
       rv.custom$res_AllPairwiseComparisons <- HypothesisTest(rv$dataIn)
       rv.custom$Pairwisecomparison_tooltipInfo <- idcol(rv$dataIn)
+      
+      
+      # Get logfc threshold from Hypothesis test dataset
+      if(!is.null(params(rv$dataIn)$thlogfc))
+        rv.custom$thlogfc <- params(rv$dataIn)$thlogfc
       
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
@@ -242,17 +248,17 @@ PipelineProtein_DA_server <- function(id,
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
         tagList(
-            tags$div(
-              tags$div(style = .style, 
-                uiOutput(ns('Pairwisecomparison_Comparison_UI')))
-            ),
-            #uiOutput(ns("pushpval_UI")),
-            tags$hr(),
-            tags$div(
-              tags$div(style = .style, uiOutput(ns("Pairwisecomparison_volcano_UI"))),
-              tags$div(style = .style, uiOutput(ns("Pairwisecomparison_tooltipInfo_UI")))
-              )
+          tags$div(
+            tags$div(style = .style, 
+              uiOutput(ns('Pairwisecomparison_Comparison_UI')))
           ),
+          uiOutput(ns("pushpval_UI")),
+          tags$hr(),
+          tags$div(
+            tags$div(style = .style, uiOutput(ns("Pairwisecomparison_volcano_UI"))),
+            tags$div(style = .style, uiOutput(ns("Pairwisecomparison_tooltipInfo_UI")))
+          )
+        ),
         # Insert validation button
         uiOutput(ns("Pairwisecomparison_btn_validate_UI"))
       )
@@ -273,15 +279,15 @@ PipelineProtein_DA_server <- function(id,
     
     output$Pairwisecomparison_Comparison_UI <- renderUI({
       req(rv.custom$res_AllPairwiseComparisons)
-
-    widget <- selectInput(ns("Pairwisecomparison_Comparison"), "Select a comparison",
-      choices = Get_Pairwisecomparison_Names(),
-      selected = rv.widgets$Pairwisecomparison_Comparison,
-      width = "300px")
-    MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
+      
+      widget <- selectInput(ns("Pairwisecomparison_Comparison"), "Select a comparison",
+        choices = Get_Pairwisecomparison_Names(),
+        selected = rv.widgets$Pairwisecomparison_Comparison,
+        width = "300px")
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
     })
     
-
+    
     # Fill the variable 'rv.custom$resAnaDiff' with informations relatives to
     # the comparison choosen by the user.
     # Concertely, it extracts data from the variable rv.custom$res_AllPairwiseComparisons
@@ -308,11 +314,10 @@ PipelineProtein_DA_server <- function(id,
     
     mod_volcanoplot_server(
       id = "Pairwisecomparison_volcano",
-      dataIn = reactive({rv$dataIn}),
+      dataIn = reactive({Get_Dataset_to_Analyze()}),
       comparison = reactive({GetComparisons()}),
       group = reactive({omXplore::get_group(dataIn())}),
-      thlogfc = reactive({0}),
-      thpval = reactive({0}),
+      thlogfc = reactive({rv.custom$thlogfc}),
       tooltip = reactive({rv.custom$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
       is.enabled = reactive({rv$steps.enabled["Pairwisecomparison"]})
@@ -331,7 +336,7 @@ PipelineProtein_DA_server <- function(id,
       #   rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
       # }
       
-
+      
       widget <- tagList(
         MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_volcanoTooltip")),
         selectInput(ns("Pairwisecomparison_tooltipInfo"),
@@ -359,7 +364,7 @@ PipelineProtein_DA_server <- function(id,
       content = "Infos to be displayed in the tooltip of volcanoplot"
     )
     
-
+    
     
     
     GetComparisons <- reactive({
@@ -401,7 +406,7 @@ PipelineProtein_DA_server <- function(id,
       
       wellPanel(
         MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_pushPVal")),
-        mod_Metacell_Filtering_ui(ns("AnaDiff_query")))
+        mod_qMetacell_FunctionFilter_Generator_ui(ns("AnaDiff_query")))
     })
     
     #---------------------------
@@ -443,10 +448,12 @@ PipelineProtein_DA_server <- function(id,
         )
         
         datasetToAnalyze <- rv$dataIn[, ind]
+        
+
         #datasetToAnalyze@experimentData@other$names_metacell <-
         #  rv$dataIn@experimentData@other$names_metacell[ind]
       }
-
+      
       datasetToAnalyze
     }) %>% bindCache(rv$dataIn, rv.widgets$Pairwisecomparison_Comparison)
     
@@ -477,37 +484,44 @@ PipelineProtein_DA_server <- function(id,
         conds = reactive({rv.custom$conds}),
         keep_vs_remove = reactive({
           stats::setNames(c('Push p-value', 'Keep original p-value'), 
-          nm = c("delete", "keep"))}),
-        val_vs_percent = reactive({NULL}),
-        operator = reactive({NULL}),
+            nm = c("delete", "keep"))}),
         reset = reactive({NULL}),
         is.enabled = reactive({TRUE})
       )
     })
     
     
-    observeEvent(req(rv.custom$AnaDiff_indices()$indices),{
+    observeEvent(req(rv.custom$AnaDiff_indices()$trigger),{
       UpdateCompList()
-      .ind <- rv.custom$AnaDiff_indices()$indices
-      params <- rv.custom$AnaDiff_indices()$params
-      .protId <- parentProtId(rv$dataIn)
 
+      .ind <- rv.custom$AnaDiff_indices()$value$ll.indices
+      .cmd <- rv.custom$AnaDiff_indices()$value$ll.widgets.value[[1]]$keep_vs_remove
+      .protId <- parentProtId(rv$dataIn)
+      
       rv.widgets$Pairwisecomparison_tooltipInfo <- .protId
       
-      #--------------------------------
-      
-      if (!is.null(rv.custom$AnaDiff_indices()$indices) && 
-          length(.ind$indices) < nrow(Get_Dataset_to_Analyze())) {
+      if (length(.ind) > 1 && length(.ind) < nrow(Get_Dataset_to_Analyze())) {
         
-        if (rv$widgets$anaDiff$KeepRemove == 'delete')
-          indices_to_push <- .ind$indices
-        else if (rv$widgets$anaDiff$KeepRemove == 'keep')
-          indices_to_push <- seq_len(nrow(Get_Dataset_to_Analyze()))[-(.ind$indices)]
+        if (.cmd == 'delete')
+          indices_to_push <- .ind
+        else if (.cmd == 'keep')
+          indices_to_push <- seq_len(nrow(Get_Dataset_to_Analyze()))[-(.ind)]
         
-        rv.custom$resAnaDiff$P_Value[indices_to_push] <- 1
+        
+        browser()
+        
+        
+        .pval <- paste0(rv.widgets$Pairwisecomparison_Comparison, '_pval')
+        
+        HypothesisTest(rv$dataIn)[indices_to_push, .pval] <- 1
         n <- length(rv.custom$resAnaDiff$P_Value)
-        rv.custom$resAnaDiff$pushed <- seq(n)[indices_to_push]
+        rv.custom$pushed <- seq(n)[indices_to_push]
         
+        
+        #rv.custom$resAnaDiff$P_Value[indices_to_push] <- 1
+        #n <- length(rv.custom$resAnaDiff$P_Value)
+        #rv.custom$resAnaDiff$pushed <- seq(n)[indices_to_push]
+
       }
     })
     
@@ -516,19 +530,19 @@ PipelineProtein_DA_server <- function(id,
     observeEvent(rv.widgets$Pairwisecomparison_Comparison, 
       ignoreInit = TRUE, ignoreNULL = TRUE, {
         
-       # browser()
-      rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
-      UpdateCompList()
-      
-      .split <- strsplit(
-        as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
-      )
-      rv.custom$Condition1 <- .split[[1]][1]
-      rv.custom$Condition2 <- .split[[1]][2]
-      
-      rv.custom$filename <- paste0("anaDiff_", rv.custom$Condition1,
-        "_vs_", rv.custom$Condition2, ".xlsx")
-    })
+        # browser()
+        rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
+        UpdateCompList()
+        
+        .split <- strsplit(
+          as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
+        )
+        rv.custom$Condition1 <- .split[[1]][1]
+        rv.custom$Condition2 <- .split[[1]][2]
+        
+        rv.custom$filename <- paste0("anaDiff_", rv.custom$Condition1,
+          "_vs_", rv.custom$Condition2, ".xlsx")
+      })
     
     
     
@@ -596,7 +610,7 @@ PipelineProtein_DA_server <- function(id,
         "Validate step",
         class = "btn-success"
       )
-       MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pairwisecomparison"])
+      MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pairwisecomparison"])
     })
     # >>> END: Definition of the widgets
     
@@ -609,7 +623,7 @@ PipelineProtein_DA_server <- function(id,
       rv$steps.status["Pairwisecomparison"] <- stepStatus$VALIDATED
     })
     
-
+    
     # <<< END ------------- Code for step 1 UI---------------
     
     
@@ -643,7 +657,7 @@ PipelineProtein_DA_server <- function(id,
             tags$div(style = .style,
               p(tags$strong(
                 paste0("value of pi0: ", round(as.numeric(rv.custom$pi0), digits = 2))
-                ))
+              ))
             )
           ),
           tags$hr(),
@@ -652,14 +666,14 @@ PipelineProtein_DA_server <- function(id,
               imageOutput("calibrationPlotAll", height = "800px")
             )),
             column(width = 6, fluidRow(style = "height:400px;",
-                imageOutput("calibrationPlot", height = "400px")
-              ),
+              imageOutput("calibrationPlot", height = "400px")
+            ),
               fluidRow(style = "height:400px;", 
                 highchartOutput("histPValue"))
             )
           )
         ),
-
+        
         # Insert validation button
         uiOutput(ns("Pvaluecalibration_btn_validate_UI"))
       )
@@ -673,7 +687,7 @@ PipelineProtein_DA_server <- function(id,
         selected = rv.widgets$Pvaluecalibration_calibrationMethod,
         width = "200px"
       )
-    MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
+      MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
     })
     
     
@@ -686,9 +700,9 @@ PipelineProtein_DA_server <- function(id,
         step = 0.05
       )
       MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
-  })
+    })
     
-
+    
     
     observeEvent(rv.widgets$Pvaluecalibration_calibrationMethod, {
       shinyjs::toggle("numericValCalibration",
@@ -696,7 +710,7 @@ PipelineProtein_DA_server <- function(id,
       )
     })
     
-
+    
     
     output$Pvaluecalibration_nBins_UI <- renderUI({
       req(rv.custom$resAnaDiff)
@@ -721,7 +735,7 @@ PipelineProtein_DA_server <- function(id,
       req(!is.(data()$logFC))
       req(length(data()$logFC) > 0)
       
-     
+      
       m <- match.metacell(DAPAR::GetMetacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = "peptide"
@@ -734,7 +748,7 @@ PipelineProtein_DA_server <- function(id,
       t <- NULL
       method <- NULL
       t <- data()$P_Value
-      t <- t[which(abs(data()$logFC) >= thlogfc())]
+      t <- t[which(abs(data()$logFC) >= rv.custom$thlogfc)]
       toDelete <- which(t == 1)
       if (length(toDelete) > 0) {
         t <- t[-toDelete]
@@ -1056,10 +1070,10 @@ PipelineProtein_DA_server <- function(id,
     #
     mod_volcanoplot_server(
       id = ns("FDR_volcano"),
-      dataIn = reactive({rv$dataIn}),
+      dataIn = reactive({Get_Dataset_to_Analyze()}),
       comparison = reactive({GetComparisons()}),
       group = reactive({rv.custom$conds}),
-      thlogfc = reactive({0}),
+      thlogfc = reactive({rv.custom$thlogfc}),
       thpval = reactive({0}),
       tooltip = reactive({rv.widgets$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
@@ -1244,7 +1258,7 @@ PipelineProtein_DA_server <- function(id,
         openxlsx::saveWorkbook(wb, file = fname, overwrite = TRUE)
       }
     )
-
+    
     
     
     Get_FDR <- reactive({
@@ -1422,9 +1436,9 @@ PipelineProtein_DA_server <- function(id,
     output$Save_btn_validate_UI <- renderUI({
       toggleWidget(
         actionButton(ns("Save_btn_validate"), "Save",
-                     class = "btn-success"),
+          class = "btn-success"),
         rv$steps.enabled['Save']
-        )
+      )
     })
     
     observeEvent(input$Save_btn_validate, {

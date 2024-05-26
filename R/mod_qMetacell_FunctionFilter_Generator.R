@@ -21,13 +21,8 @@
 #' data(ft_na)
 #' obj <- ft_na[[1]]
 #' conds <- get_group(ft_na)
-#' operator = setNames(nm = SymFilteringOperators())
-#' keep_vs_remove <- setNames(nm = c("delete", "keep"))
-#' val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 #' 
-#' shiny::runApp(
-#' mod_qMetacell_FunctionFilter_Generator(
-#' obj, conds, keep_vs_remove, val_vs_percent, operator))
+#' shiny::runApp(mod_qMetacell_FunctionFilter_Generator(obj, conds))
 #' 
 NULL
 
@@ -83,9 +78,9 @@ mod_qMetacell_FunctionFilter_Generator_ui <- function(id) {
 mod_qMetacell_FunctionFilter_Generator_server <- function(id,
     obj,
     conds,
-    keep_vs_remove = reactive({NULL}),
-    val_vs_percent = reactive({NULL}),
-    operator = reactive({NULL}),
+    keep_vs_remove = reactive({setNames(nm =c("delete", "keep"))}),
+    val_vs_percent = reactive({c("Count", "Percentage")}),
+    operator = reactive({setNames(nm = SymFilteringOperators())}),
     reset = reactive({NULL}),
     is.enabled = reactive({TRUE})) {
 
@@ -418,7 +413,6 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
                 list(reactiveValuesToList(rv.widgets))
             )
 
-
             # Append a new FunctionFilter to the list
             dataOut$trigger <- as.numeric(Sys.time())
             dataOut$value <- list(
@@ -427,10 +421,10 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
               ll.widgets.value = rv.custom$ll.widgets.value,
               ll.indices = GetIndices_FunFiltering(
                 obj = obj(),
-                conds = rv.custom$ll.fun[[1]]@params$conds, 
+                conds = conds(), 
                 level = omXplore::get_type(obj()), 
                 pattern = rv.custom$ll.fun[[1]]@params$pattern,
-                type = rv.custom$ll.fun[[1]]@params$mode,
+                type = rv.widgets$scope,
                 percent = rv.custom$ll.fun[[1]]@params$percent, 
                 op = rv.custom$ll.fun[[1]]@params$operator, 
                 th = rv.custom$ll.fun[[1]]@params$th)
@@ -449,9 +443,9 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
 mod_qMetacell_FunctionFilter_Generator <- function(
     obj,
     conds, 
-    keep_vs_remove,
-    val_vs_percent,
-    operator){
+    keep_vs_remove = c("delete", "keep"),
+    val_vs_percent = c("Count", "Percentage"),
+    operator = setNames(nm = SymFilteringOperators())){
   
   
   ui <- mod_qMetacell_FunctionFilter_Generator_ui('query')

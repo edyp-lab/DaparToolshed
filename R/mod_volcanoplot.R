@@ -116,9 +116,9 @@ mod_volcanoplot_server <- function(
       )
     )
     
-    observeEvent(dataIn(), {
+    observeEvent(dataIn(), ignoreNULL = TRUE, {
       rv$dataIn <- dataIn()
-       rv.custom$data <- HypothesisTest(dataIn())
+      rv.custom$data <- HypothesisTest(dataIn())
     })
     
     
@@ -219,7 +219,7 @@ mod_volcanoplot_server <- function(
     
     GetDataFor_sharedPeptidesInfos <- reactive({
       req(comparison())
-      
+      req(rv$dataIn)
       ind <- GetSortingIndices()
       borders_index <- GetBorderIndices()
       
@@ -244,6 +244,7 @@ mod_volcanoplot_server <- function(
     })
     
     output$sharedPeptidesInfos <- DT::renderDataTable(server = TRUE, {
+      req(rv$dataIn)
       data <- GetDataFor_sharedPeptidesInfos()
       c.tags <- BuildColorStyles(rv$dataIn)$tags
       c.colors <- BuildColorStyles(rv$dataIn)$colors
@@ -284,7 +285,7 @@ mod_volcanoplot_server <- function(
     })
     
     GetDataFor_specificPeptidesInfos <- reactive({
-      
+      req(rv$dataIn)
       ind <- GetSortingIndices()
       borders_index <- GetBorderIndices()
       #.ind <- last(grep(pattern = "peptide", names(rv$dataIn)))
@@ -307,6 +308,7 @@ mod_volcanoplot_server <- function(
     
     
     output$specificPeptidesInfos <- DT::renderDataTable(server = TRUE, {
+      req(rv$dataIn)
       data <- GetDataFor_specificPeptidesInfos()
       c.tags <- BuildColorStyles(rv$dataIn)$tags
       c.colors <- BuildColorStyles(rv$dataIn)$colors
@@ -388,7 +390,7 @@ mod_volcanoplot_server <- function(
     
     ## -------------------------------------------------------------
     output$Infos <- DT::renderDataTable(server = TRUE, {
-      
+      req(rv$dataIn)
       borders_index <- GetBorderIndices()
       data <- GetExprsClickedProtein()
       c.tags <- BuildColorStyles(rv$dataIn)$tags
@@ -423,7 +425,7 @@ mod_volcanoplot_server <- function(
     
     ## ---------------------------------------------------------------------
     output$volcanoPlot_UI <- highcharter::renderHighchart({
-      #req(rv$dataIn)
+      req(rv$dataIn)
 
           withProgress(message = "Building plot...", detail = "", value = 0, {
           m <- match.metacell(omXplore::get_metacell(rv$dataIn),

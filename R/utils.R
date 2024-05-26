@@ -216,24 +216,13 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
     }
 
     data <- as.data.frame(assay(object))
-    switch(type,
-        WholeMatrix = {
-            ll <- unique(ncol(data) - apply(is.na(data), 1, sum))
-        },
-        AllCond = {
-            tmp <- NULL
-            for (cond in unique(conds)) {
-                tmp <- c(tmp, length(which(conds == cond)))
-            }
-            ll <- seq(0, min(tmp))
-        },
-        AtLeastOneCond = {
-            tmp <- NULL
-            for (cond in unique(conds)) {
-                tmp <- c(tmp, length(which(conds == cond)))
-            }
-            ll <- seq(0, max(tmp))
-        }
+    ll <- switch(type,
+      WholeLine = NULL,
+      WholeMatrix = seq(0, ncol(data)),
+      AllCond = seq(0, min(unlist(lapply(unique(conds), 
+        function(x) length(which(conds == x)))))),
+      AtLeastOneCond = seq(0, min(unlist(lapply(unique(conds), 
+        function(x) length(which(conds == x))))))
     )
 
     return(sort(ll))

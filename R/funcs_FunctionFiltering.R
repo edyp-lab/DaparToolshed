@@ -98,7 +98,7 @@ GetIndices_FunFiltering <- function(obj,
         )
     )
 
-    return(indices)
+    return(unname(indices))
 }
 
 

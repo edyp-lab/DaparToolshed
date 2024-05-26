@@ -119,6 +119,7 @@ Collate:
     QFeatures_utils.R
     default_funcs.R
     example-data.R
+    DaparToolshed_Params_Addons.R
     metacell.R
     DaparToolshed_aggregate.R
     DaparToolshed_filter_Adjmat.R
