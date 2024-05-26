@@ -324,7 +324,9 @@ PipelineProtein_DA_server <- function(id,
     )
     
     output$Pairwisecomparison_volcano_UI <- renderUI({
-      widget <- mod_volcanoplot_ui(ns("Pairwisecomparison_volcano"))
+      widget <- div(
+        mod_volcanoplot_ui(ns("Pairwisecomparison_volcano"))
+      )
       MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pairwisecomparison"])
     })
     
@@ -507,21 +509,13 @@ PipelineProtein_DA_server <- function(id,
         else if (.cmd == 'keep')
           indices_to_push <- seq_len(nrow(Get_Dataset_to_Analyze()))[-(.ind)]
         
-        
-        browser()
-        
-        
+
         .pval <- paste0(rv.widgets$Pairwisecomparison_Comparison, '_pval')
         
         HypothesisTest(rv$dataIn)[indices_to_push, .pval] <- 1
         n <- length(rv.custom$resAnaDiff$P_Value)
         rv.custom$pushed <- seq(n)[indices_to_push]
         
-        
-        #rv.custom$resAnaDiff$P_Value[indices_to_push] <- 1
-        #n <- length(rv.custom$resAnaDiff$P_Value)
-        #rv.custom$resAnaDiff$pushed <- seq(n)[indices_to_push]
-
       }
     })
     
