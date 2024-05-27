@@ -128,6 +128,7 @@ PipelineProtein_DA_server <- function(id,
   rv.custom.default.values <- list(
     resAnaDiff = NULL,
     Pairwisecomparison_tooltipInfo = NULL,
+    thpval = 1,
     comps = NULL,
     nbTotalAnaDiff = NULL,
     nbSelectedAnaDiff = NULL,
@@ -629,7 +630,6 @@ PipelineProtein_DA_server <- function(id,
       .style <- "display:inline-block; 
         vertical-align: middle; 
         padding-right: 40px;"
-      print('trtr')
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -1021,7 +1021,7 @@ PipelineProtein_DA_server <- function(id,
         tagList(
           fluidRow(
             column(width = 5,
-              mod_set_pval_threshold_ui("Title"),
+              mod_set_pval_threshold_ui(ns("Title")),
               uiOutput(ns("nbSelectedItems")),
               actionButton(ns('validate_pval'), "Validate threshold", class = actionBtnClass)
             ),
@@ -1059,7 +1059,7 @@ PipelineProtein_DA_server <- function(id,
     #-------------------------------------------------------------------
     #
     mod_volcanoplot_server(
-      id = ns("FDR_volcano"),
+      id = "FDR_volcano",
       dataIn = reactive({Get_Dataset_to_Analyze()}),
       comparison = reactive({GetComparisons()}),
       group = reactive({rv.custom$conds}),
@@ -1077,7 +1077,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     output$nbSelectedItems <- renderUI({
-      rv.widgets$Pairwisecomparison_thpval
+      rv.custom$thpval
       rv$dataIn
       req(Build_pval_table())
       
@@ -1093,20 +1093,20 @@ PipelineProtein_DA_server <- function(id,
       upItemsLogFC <- NULL
       
       
-      upItemsLogFC <- which(abs(p$logFC) >= as.numeric(logfc()))
+      upItemsLogFC <- which(abs(p$logFC) >= as.numeric(rv.custom$thlogfc))
       upItemsPVal <- which(-log10(p$P_Value) >= as.numeric(
-        rv.widgets$Pairwisecomparison_thpval
+        rv.custom$thpval
       ))
       
       rv.custom$nbTotalAnaDiff <- nrow(SummarizedExperiment::assay(rv$dataIn))
       rv.custom$nbSelectedAnaDiff <- NULL
       t <- NULL
       
-      if (!is.null(rv.widgets$Pairwisecomparison_thpval) && !is.null(logfc())) {
+      if (!is.null(rv.custom$thpval) && !is.null(rv.custom$thlogfc)) {
         t <- intersect(upItemsPVal, upItemsLogFC)
-      } else if (!is.null(rv.widgets$Pairwisecomparison_thpval) && is.null(logfc())) {
+      } else if (!is.null(rv.custom$thpval) && is.null(rv.custom$thlogfc)) {
         t <- upItemsPVal
-      } else if (is.null(rv.widgets$Pairwisecomparison_thpval) && !is.null(logfc())) {
+      } else if (is.null(rv.custom$thpval) && !is.null(rv.custom$thlogfc)) {
         t <- upItemsLogFC
       }
       rv.custom$nbSelectedAnaDiff <- length(t)
@@ -1129,10 +1129,10 @@ PipelineProtein_DA_server <- function(id,
       
       div(id="bloc_page",
         style = "background-color: lightgrey; width: 300px",
-        p(paste("Total number of ", omXplore::get_type(rv.dataIn), "(s) = ", A, sep = '' )),
+        p(paste("Total number of ", omXplore::get_type(rv$dataIn), "(s) = ", A, sep = '' )),
         tags$em(p(style = "padding:0 0 0 20px;", paste("Total remaining after push p-values = ", B, sep=''))),
-        p(paste("Number of selected ", omXplore::get_type(rv.dataIn), "(s) = ", C, sep = '')),
-        p(paste("Number of non selected ", omXplore::get_type(rv.dataIn), "(s) = ", D, sep = ''))
+        p(paste("Number of selected ", omXplore::get_type(rv$dataIn), "(s) = ", C, sep = '')),
+        p(paste("Number of non selected ", omXplore::get_type(rv$dataIn), "(s) = ", D, sep = ''))
       )
       #HTML(txt)
     })
@@ -1144,7 +1144,7 @@ PipelineProtein_DA_server <- function(id,
     ################################################################
     
     logpval <- mod_set_pval_threshold_server(id = "Title",
-      pval_init = reactive({10^(-rv.widgets$Pairwisecomparison_thpval)}),
+      pval_init = reactive({10^(-rv.custom$thpval)}),
       fdr = reactive({Get_FDR()}))
     
     
@@ -1152,7 +1152,7 @@ PipelineProtein_DA_server <- function(id,
       req(logpval())
       tmp <- gsub(",", ".", logpval(), fixed = TRUE)
       
-      rv.widgets$Pairwisecomparison_thpval <- as.numeric(tmp)
+      rv.custom$thpval <- as.numeric(tmp)
       
     })
     
@@ -1252,12 +1252,12 @@ PipelineProtein_DA_server <- function(id,
     
     
     Get_FDR <- reactive({
-      req(rv.widgets$Pairwisecomparison_thpval)
+      req(rv.custom$thpval)
       req(Build_pval_table())
       
       adj.pval <- Build_pval_table()$Adjusted_PValue
       logpval <- Build_pval_table()$Log_PValue
-      upitems_logpval <- which(logpval >= rv.widgets$Pairwisecomparison_thpval)
+      upitems_logpval <- which(logpval >= rv.custom$thpval)
       
       fdr <- max(adj.pval[upitems_logpval], na.rm = TRUE)
       rv.custom$FDR <- as.numeric(fdr)
@@ -1325,7 +1325,7 @@ PipelineProtein_DA_server <- function(id,
       req(rv.custom$resAnaDiff$P_Value)
       req(rv$dataIn)
       req(GetCalibrationMethod())
-      rv.widgets$Pairwisecomparison_thpval
+      rv.custom$thpval
       
       .digits <- 3
       
@@ -1338,17 +1338,17 @@ PipelineProtein_DA_server <- function(id,
         isDifferential = rep(0, length(rv.custom$resAnaDiff$logFC))
       )
       
-      thpval <- rv.widgets$Pairwisecomparison_thpval
+      thpval <- rv.custom$thpval
       
       #
       # Determine significant proteins
       signifItems <- intersect(which(pval_table$Log_PValue >= thpval),
-        which(abs(pval_table$logFC) >= thlogfc())
+        which(abs(pval_table$logFC) >= rv.custom$thlogfc)
       )
       pval_table[signifItems,'isDifferential'] <- 1
       
       upItems_pval <- which(-log10(rv.custom$resAnaDiff$P_Value) >= thpval)
-      upItems_logFC <- which(abs(rv.custom$resAnaDiff$logFC) >= thlogfc())
+      upItems_logFC <- which(abs(rv.custom$resAnaDiff$logFC) >= rv.custom$thlogfc)
       rv.custom$adjusted_pvalues <- diffAnaComputeAdjustedPValues(
         rv.custom$resAnaDiff$P_Value[upItems_logFC],
         GetCalibrationMethod())

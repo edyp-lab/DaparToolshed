@@ -144,3 +144,80 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
     )
   return(hc)
 }
+
+
+
+
+
+
+
+#' @title Computes the FDR corresponding to the p-values of the
+#' differential analysis using
+#' 
+#' @description 
+#' This function is a wrapper to the function adjust.p from the `cp4p` package.
+#'  It returns the FDR corresponding to the p-values of the differential 
+#' analysis. The FDR is computed with the function \code{p.adjust}\{stats\}.
+#'
+#' @param adj.pvals xxxx
+#'
+#' @return The computed FDR value (floating number)
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' NULL
+#'
+#' @export
+#'
+diffAnaComputeFDR <- function(adj.pvals) {
+  BH.fdr <- max(adj.pvals)
+  return(BH.fdr)
+}
+
+
+
+
+#' @title Computes the adjusted p-values
+#' 
+#' @description 
+#' This function is a wrapper to the function adjust.p from the `cp4p` package.
+#'  It returns the FDR corresponding to the p-values of the differential 
+#' analysis. The FDR is computed with the function \code{p.adjust}\{stats\}.
+#'
+#' @param pval The result (p-values) of the differential analysis processed
+#' by \code{\link{limmaCompleteTest}}
+#'
+#' @param pi0Method The parameter pi0.method of the method adjust.p in the 
+#' package \code{cp4p}
+#'
+#' @return The computed adjusted p-values
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' data(Exp1_R25_prot, package = "DaparToolshedData")
+#' obj <- Exp1_R25_prot
+#' # Simulate imputation of missing values
+#' obj <- NAIsZero(obj, 1)
+#' obj <- NAIsZero(obj, 2)
+#'  <- as.matrix(assay(obj[[2]]))
+#' sTab <- MultiAssayExperiment::colData(obj)
+#' limma <- limmaCompleteTest(qData, sTab)
+#' df <- data.frame(id = rownames(limma$logFC), logFC = limma$logFC[, 1], pval = limma$P_Value[, 1])
+#' 
+#' diffAnaComputeAdjustedPValues(pval = limma$P_Value[, 1])
+#'
+#' @export
+#' 
+#' @importFrom cp4p adjust.p
+#'
+diffAnaComputeAdjustedPValues <- function(pval, 
+  pi0Method = 1) {
+  pkgs.require('cp4p')
+  
+  padj <- cp4p::adjust.p(pval, pi0Method)
+  return(padj$adjp[, 2])
+}
+
+

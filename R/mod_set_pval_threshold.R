@@ -12,7 +12,8 @@
 #' 
 #' @name mod_set_pval_threshold
 #' 
-#' 
+#' @examplesIf interactive()
+#' shiny::runApp(mod_set_pval_threshold())
 NULL
 
 
@@ -61,8 +62,8 @@ mod_set_pval_threshold_ui <- function(id) {
 #'
 mod_set_pval_threshold_server <- function(id,
   pval_init = reactive({1}),
-  fdr = reactive({NULL}),
-  options = list(threshold = NULL)) {
+  fdr = reactive({0}),
+  threshold.type = reactive({'logpval'})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
@@ -95,10 +96,10 @@ mod_set_pval_threshold_server <- function(id,
     })
     
     output$thresholdType_UI <- renderUI({
+
       radioButtons(ns('thresholdType'), NULL, 
-        choices = c('-log10(p-value)' = 'logpval',
-          'p-value' = 'pval'),
-        selected = if (is.null(options$threshold)) 'logpval' else options$threshold)
+        choices = c('-log10(p-value)' = 'logpval', 'p-value' = 'pval'),
+        selected = threshold.type())
     })
     
     
@@ -168,23 +169,28 @@ mod_set_pval_threshold_server <- function(id,
 #' @rdname mod_set_pval_threshold
 #' @export
 #' 
-mod_set_pval_threshold <- function(xxx){
+mod_set_pval_threshold <- function(
+    pval_init = 1,
+  fdr = 0,
+  threshold.type = 'logpval'){
   
   ui <- fluidPage(
-  uiOutput('test'))
+    mod_set_pval_threshold_ui("Title")
+    )
   
 server <- function(input, output) {
   
   rv <- reactiveValues(
-    logpval = NULL)
+    logpval = reactive({NULL}))
   
-  output$test <- renderUI({
+  #output$test <- renderUI({
     rv$logpval <- mod_set_pval_threshold_server(id = "Title",
-      pval_init = reactive({1}),
-      fdr = reactive({3.8})
+      pval_init = reactive({pval_init}),
+      fdr = reactive({fdr}),
+      threshold.type = reactive({threshold.type})
     )
-    mod_set_pval_threshold_ui("Title")
-  })
+    
+  #})
   
   observeEvent(req(rv$logpval()), {
     print(rv$logpval())
