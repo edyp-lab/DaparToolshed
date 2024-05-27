@@ -101,6 +101,12 @@ PipelineProtein_DA_server <- function(id,
   widgets.default.values <- list(
     Pairwisecomparison_Comparison = "None",
     Pairwisecomparison_tooltipInfo = NULL,
+    
+    Pvaluecalibration_numericValCalibration = "None",
+    Pvaluecalibration_calibrationMethod = "Benjamini-Hochberg",
+    Pvaluecalibration_nBinsHistpval = 0,
+    
+    
     DA_Condition1 = "",
     DA_Condition2 = "",
     DA_val_vs_percent = "Value",
@@ -108,8 +114,7 @@ PipelineProtein_DA_server <- function(id,
     DA_seuilNA_percent = 0,
     DA_seuilNA = 0,
     DA_filter_th_NA = 0,
-    Pvaluecalibration_numericValCalibration = "None",
-    Pvaluecalibration_calibrationMethod = NULL,
+    
     DA_numValCalibMethod = 0,
     DA_th_pval = 0,
     DA_type_pval = '-log10()',
@@ -121,6 +126,7 @@ PipelineProtein_DA_server <- function(id,
   
   
   rv.custom.default.values <- list(
+    resAnaDiff = NULL,
     Pairwisecomparison_tooltipInfo = NULL,
     comps = NULL,
     nbTotalAnaDiff = NULL,
@@ -214,8 +220,6 @@ PipelineProtein_DA_server <- function(id,
       
       rv$dataIn <- dataIn()[[length(dataIn())]]
       rv.custom$conds <- omXplore::get_group(dataIn())
-      if (!is.null(params(rv$dataIn)$thlogfc))
-        rv.custom$thlogfc <- params(rv$dataIn)$thlogfc
       
       rv.custom$res_AllPairwiseComparisons <- HypothesisTest(rv$dataIn)
       rv.custom$Pairwisecomparison_tooltipInfo <- idcol(rv$dataIn)
@@ -442,8 +446,6 @@ PipelineProtein_DA_server <- function(id,
           condition2 <- sub("^.(.*).$", "\\1", condition2)
         }
         
-        
-        
         ind <- c(
           which(rv.custom$conds == condition1),
           which(rv.custom$conds == condition2)
@@ -627,7 +629,7 @@ PipelineProtein_DA_server <- function(id,
       .style <- "display:inline-block; 
         vertical-align: middle; 
         padding-right: 40px;"
-      
+      print('trtr')
       wellPanel(
         # uiOutput for all widgets in this UI
         # This part is mandatory
@@ -657,13 +659,13 @@ PipelineProtein_DA_server <- function(id,
           tags$hr(),
           fluidRow(
             column(width = 6, fluidRow(style = "height:800px;",
-              imageOutput("calibrationPlotAll", height = "800px")
+              imageOutput(ns("calibrationPlotAll"), height = "800px")
             )),
             column(width = 6, fluidRow(style = "height:400px;",
-              imageOutput("calibrationPlot", height = "400px")
+              imageOutput(ns("calibrationPlot"), height = "400px")
             ),
               fluidRow(style = "height:400px;", 
-                highchartOutput("histPValue"))
+                highchartOutput(ns("histPValue")))
             )
           )
         ),
@@ -676,7 +678,16 @@ PipelineProtein_DA_server <- function(id,
     
     
     output$Pvaluecalibration_calibrationMethod_UI <- renderUI({
-      widget <- selectInput("Pvaluecalibration_calibrationMethod", "Calibration method",
+      calibMethod_Choices <- c(
+        "Benjamini-Hochberg",
+        "st.boot", "st.spline",
+        "langaas", "jiang", "histo",
+        "pounds", "abh", "slim",
+        "numeric value"
+      )
+      names(calibMethod_Choices) <- calibMethod_Choices
+      
+      widget <- selectInput(ns("Pvaluecalibration_calibrationMethod"), "Calibration method",
         choices = c("None" = "None", calibMethod_Choices),
         selected = rv.widgets$Pvaluecalibration_calibrationMethod,
         width = "200px"
@@ -688,24 +699,18 @@ PipelineProtein_DA_server <- function(id,
     
     output$Pvaluecalibration_numericValCalibration_UI <- renderUI({
       req(rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value")
-      widget <- numericInput(ns("numericValCalibration"),
-        "Proportion of TRUE null hypohtesis",
+      widget <- numericInput(ns("Pvaluecalibration_numericValCalibration"),
+        "Proportion of TRUE null hypothesis",
         value = rv.widgets$Pvaluecalibration_numericValCalibration,
+        min = 0,
+        max = 1,
         step = 0.05
       )
-      MagellanNTK::toggleWidget(widget,  rv$steps.enabled["Pvaluecalibration"])
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["Pvaluecalibration"] &&
+          rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value")
     })
     
-    
-    
-    observeEvent(rv.widgets$Pvaluecalibration_calibrationMethod, {
-      shinyjs::toggle("numericValCalibration",
-        condition = rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value"
-      )
-    })
-    
-    
-    
+
     output$Pvaluecalibration_nBins_UI <- renderUI({
       req(rv.custom$resAnaDiff)
       req(rv.custom$pi0)
@@ -723,7 +728,7 @@ PipelineProtein_DA_server <- function(id,
     
     histPValue <- reactive({
       req(rv.custom$resAnaDiff)
-      req(rv.cutoms$pi0)
+      req(rv.custom$pi0)
       req(rv.widgets$Pvaluecalibration_nBinsHistpval)
       req(data()$logFC)
       req(!is.(data()$logFC))
@@ -784,43 +789,38 @@ PipelineProtein_DA_server <- function(id,
     
     
     calibrationPlot <- reactive({
-      req(rv.widgets$Pvaluecalibration_calibrationMethod != "None")
-      rv.custom$resAnaDiff
+      #req(rv.widgets$Pvaluecalibration_calibrationMethod != "None")
+
+      req(rv.custom$resAnaDiff)
       req(rv$dataIn)
-      
-      if (length(rv.custom$resAnaDiff$logFC) == 0) {
-        return()
-      }
+      req(length(rv.custom$resAnaDiff$logFC) > 0)
       
       m <- match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = "peptide")
-      if (length(which(m)) > 0) {
-        return()
-      }
-      
-      #cond <- c(rv.custom$resAnaDiff$condition1, rv.custom$resAnaDiff$condition2)
-      
+      req(length(which(m)) == 0)
       
       t <- NULL
       method <- NULL
       t <- rv.custom$resAnaDiff$P_Value
-      t <- t[which(abs(rv.custom$resAnaDiff$logFC) >= logfc())]
+      t <- t[which(abs(rv.custom$resAnaDiff$logFC) >= rv.custom$thlogfc)]
       toDelete <- which(t == 1)
       if (length(toDelete) > 0) {
         t <- t[-toDelete]
       }
       
+
       l <- NULL
       ll <- NULL
       result <- tryCatch(
         {
           if ((rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") &&
-              !is.null(rv.widgets$Pvaluecalibration_numValCalibMethod)) {
+              !is.null(rv.widgets$Pvaluecalibration_numericValCalibration)) {
+
             ll <- catchToList(
               wrapperCalibrationPlot(
                 t,
-                rv.widgets$Pvaluecalibration_numValCalibMethod
+                rv.widgets$Pvaluecalibration_numericValCalibration
               )
             )
             .warns <- ll$warnings[grep("Warning:", ll$warnings)]
@@ -837,8 +837,7 @@ PipelineProtein_DA_server <- function(id,
             rv.custom$errMsgCalibrationPlot <- .warns
           }
           rv.custom$pi0 <- ll$value$pi0
-          
-          rvModProcess$moduleAnaDiffDone[2] <- !is.null(rv.custom$pi0)
+
         },
         warning = function(w) {
           shinyjs::info(paste("Calibration plot", ":",
@@ -899,9 +898,7 @@ PipelineProtein_DA_server <- function(id,
     output$errMsgCalibrationPlotAll <- renderUI({
       rv.custom$errMsgCalibrationPlotAll
       req(rv$dataIn)
-      if (is.null(rv.custom$errMsgCalibrationPlotAll)) {
-        return()
-      }
+      req(!is.null(rv.custom$errMsgCalibrationPlotAll))
       
       txt <- NULL
       for (i in 1:length(rv.custom$errMsgCalibrationPlotAll)) {
@@ -919,8 +916,8 @@ PipelineProtein_DA_server <- function(id,
     calibrationPlotAll <- reactive({
       rv.custom$resAnaDiff
       req(rv$dataIn)
-      req(is.na(logfc()))
-      req((length(rv.custom$resAnaDiff$logFC) == 0)) 
+      req(!is.na(rv.custom$thlogfc))
+      req(length(rv.custom$resAnaDiff$logFC) > 0) 
       
       m <- match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
@@ -932,7 +929,7 @@ PipelineProtein_DA_server <- function(id,
       t <- NULL
       method <- NULL
       t <- rv.custom$resAnaDiff$P_Value
-      t <- t[which(abs(rv.custom$resAnaDiff$logFC) >= thlogfc())]
+      t <- t[which(abs(rv.custom$resAnaDiff$logFC) >= rv.custom$thlogfc)]
       toDelete <- which(t == 1)
       if (length(toDelete) > 0) {
         t <- t[-toDelete]
@@ -944,7 +941,6 @@ PipelineProtein_DA_server <- function(id,
           l <- catchToList(wrapperCalibrationPlot(t, "ALL"))
           .warns <- l$warnings[grep("Warning:", l$warnings)]
           rv.custom$errMsgCalibrationPlotAll <- .warns
-          rvModProcess$moduleAnaDiffDone[2] <- !is.null(rv.custom$pi0)
         },
         warning = function(w) {
           shinyjs::info(paste("Calibration Plot All methods", ":",
@@ -1025,7 +1021,7 @@ PipelineProtein_DA_server <- function(id,
         tagList(
           fluidRow(
             column(width = 5,
-              mod_set_pval_threshold_UI("Title"),
+              mod_set_pval_threshold_ui("Title"),
               uiOutput(ns("nbSelectedItems")),
               actionButton(ns('validate_pval'), "Validate threshold", class = actionBtnClass)
             ),
@@ -1269,7 +1265,7 @@ PipelineProtein_DA_server <- function(id,
     })
     
     observeEvent(input$validate_pval,{
-      rvModProcess$moduleAnaDiffDone[3] <- TRUE
+     
     })
     
     Get_Nb_Significant <- reactive({
@@ -1309,13 +1305,13 @@ PipelineProtein_DA_server <- function(id,
     
     
     GetCalibrationMethod <- reactive({
-      req(rv.widgets$Pvaluecalibration_numValCalibMethod)
+      req(rv.widgets$Pvaluecalibration_numericValCalibration)
       req(rv.widgets$Pvaluecalibration_calibrationMethod != 'None')
       .calibMethod <- NULL
       if (rv.widgets$Pvaluecalibration_calibrationMethod == "Benjamini-Hochberg") {
         .calibMethod <- 1
       } else if (rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") {
-        .calibMethod <- as.numeric(rv.widgets$Pvaluecalibration_numValCalibMethod)
+        .calibMethod <- as.numeric(rv.widgets$Pvaluecalibration_numericValCalibration)
       } else {
         .calibMethod <- rv.widgets$Pvaluecalibration_calibrationMethod
       }
