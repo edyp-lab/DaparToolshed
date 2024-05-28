@@ -1038,8 +1038,8 @@ PipelineProtein_DA_server <- function(id,
           fluidRow(
             column(width = 5,
               mod_set_pval_threshold_ui(ns("Title")),
-              uiOutput(ns("nbSelectedItems")),
-              actionButton(ns('validate_pval'), "Validate threshold", class = actionBtnClass)
+              uiOutput(ns("nbSelectedItems"))
+              #actionButton(ns('validate_pval'), "Validate threshold", class = actionBtnClass)
             ),
             column(width = 7,
               withProgress(message = "", detail = "", value = 1, {
@@ -1085,7 +1085,9 @@ PipelineProtein_DA_server <- function(id,
     )
     
     output$FDR_volcanoplot_UI <- renderUI({
-      widget <- mod_volcanoplot_ui(ns("FDR_volcano"))
+      widget <- div(
+        mod_volcanoplot_ui(ns("FDR_volcano"))
+      )
       MagellanNTK::toggleWidget(widget, rv$steps.enabled["FDR"])
     })
     
@@ -1169,6 +1171,27 @@ PipelineProtein_DA_server <- function(id,
       tmp <- gsub(",", ".", logpval(), fixed = TRUE)
       
       rv.custom$thpval <- as.numeric(tmp)
+      
+      
+      
+     # req(Get_FDR())
+     # req(Get_Nb_Significant())
+      
+      th <- Get_FDR() * Get_Nb_Significant()
+      
+      if (th < 1) {
+        warntxt <- paste0("With such a dataset size (",
+          Get_Nb_Significant(), " selected discoveries), an FDR of ",
+          round(100 * Get_FDR(), digits = 2),
+          "% should be cautiously interpreted as strictly less than one
+        discovery (", round(th, digits = 2), ") is expected to be false"
+        )
+        mod_errorModal_server('warn_FDR',
+          title = 'Warning',
+          text = warntxt)
+      }
+      
+      
       
     })
     
@@ -1280,9 +1303,9 @@ PipelineProtein_DA_server <- function(id,
       as.numeric(fdr)
     })
     
-    observeEvent(input$validate_pval,{
-      
-    })
+    # observeEvent(input$validate_pval,{
+    #   
+    # })
     
     Get_Nb_Significant <- reactive({
       nb <- length(
@@ -1297,25 +1320,25 @@ PipelineProtein_DA_server <- function(id,
       nb
     })
     
-    observe({
-      req(Get_FDR())
-      req(Get_Nb_Significant())
-      
-      th <- Get_FDR() * Get_Nb_Significant()
-      
-      if (th < 1) {
-        warntxt <- paste0("With such a dataset size (",
-          Get_Nb_Significant(), " selected discoveries), an FDR of ",
-          round(100 * Get_FDR(), digits = 2),
-          "% should be cautiously interpreted as strictly less than one
-        discovery (", round(th, digits = 2), ") is expected to be false"
-        )
-        mod_errorModal_server('warn_FDR',
-          title = 'Warning',
-          text = warntxt)
-      }
-      
-    })
+    # observe({
+    #   req(Get_FDR())
+    #   req(Get_Nb_Significant())
+    #   
+    #   th <- Get_FDR() * Get_Nb_Significant()
+    #   
+    #   if (th < 1) {
+    #     warntxt <- paste0("With such a dataset size (",
+    #       Get_Nb_Significant(), " selected discoveries), an FDR of ",
+    #       round(100 * Get_FDR(), digits = 2),
+    #       "% should be cautiously interpreted as strictly less than one
+    #     discovery (", round(th, digits = 2), ") is expected to be false"
+    #     )
+    #     mod_errorModal_server('warn_FDR',
+    #       title = 'Warning',
+    #       text = warntxt)
+    #   }
+    #   
+    # })
     
     
     
@@ -1425,8 +1448,9 @@ PipelineProtein_DA_server <- function(id,
     
     output$dl_UI <- renderUI({
       req(rv$steps.status['Save'] == stepStatus$VALIDATED)
+      req(config@mode == 'process')
       
-      MagellanNTK::mod_download_dataset_UI(ns('createQuickLink'))
+      MagellanNTK::download_dataset_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_UI <- renderUI({
@@ -1447,7 +1471,7 @@ PipelineProtein_DA_server <- function(id,
       rv$steps.status['Save'] <- stepStatus$VALIDATED
       
       
-      MagellanNTK::mod_download_dataset_server('createQuickLink', 
+      MagellanNTK::download_dataset_server('createQuickLink', 
         dataIn = reactive({rv$dataIn}))
       
     })

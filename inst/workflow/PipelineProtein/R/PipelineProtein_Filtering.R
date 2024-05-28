@@ -308,7 +308,7 @@ PipelineProtein_Filtering_server <- function(id,
       req(rv$steps.status['Save'] == stepStatus$VALIDATED)
       req(config@mode == 'process')
       
-      MagellanNTK::mod_download_dataset_ui(ns('createQuickLink'))
+      MagellanNTK::download_dataset_ui(ns('createQuickLink'))
     })
     
     output$Save_btn_validate_ui <- renderUI({
@@ -336,7 +336,7 @@ PipelineProtein_Filtering_server <- function(id,
       rv$steps.status['Save'] <- stepStatus$VALIDATED
       
       
-      MagellanNTK::mod_download_dataset_server('createQuickLink', 
+      MagellanNTK::download_dataset_server('createQuickLink', 
         dataIn = reactive({rv.custom$tmp}))
       
     })

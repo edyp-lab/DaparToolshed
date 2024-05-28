@@ -482,7 +482,7 @@ PipelineProtein_Normalization_server <- function(id,
         ),
         if (config@mode == 'process' && 
             rv$steps.status['Save'] == stepStatus$VALIDATED) {
-          Save_Dataset_ui(ns('createQuickLink'))
+          download_dataset_ui(ns('createQuickLink'))
         }
       )
       
@@ -497,7 +497,7 @@ PipelineProtein_Normalization_server <- function(id,
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      Save_Dataset_server('createQuickLink', data = reactive({rv$dataIn}))
+      download_dataset_server('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------
