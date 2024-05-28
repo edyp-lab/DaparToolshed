@@ -128,7 +128,7 @@ PipelineProtein_DA_server <- function(id,
   rv.custom.default.values <- list(
     resAnaDiff = NULL,
     Pairwisecomparison_tooltipInfo = NULL,
-    thpval = 1,
+    thpval = 0,
     comps = NULL,
     nbTotalAnaDiff = NULL,
     nbSelectedAnaDiff = NULL,
@@ -142,6 +142,9 @@ PipelineProtein_DA_server <- function(id,
     filename = NULL,
     AnaDiff_indices = reactive({NULL})
   )
+  
+  grey <- "#FFFFFF"
+  orangeProstar <- "#E97D5E"
   
   ###-------------------------------------------------------------###
   ###                                                             ###
@@ -454,7 +457,7 @@ PipelineProtein_DA_server <- function(id,
         
         datasetToAnalyze <- rv$dataIn[, ind]
         
-
+        
         #datasetToAnalyze@experimentData@other$names_metacell <-
         #  rv$dataIn@experimentData@other$names_metacell[ind]
       }
@@ -498,7 +501,7 @@ PipelineProtein_DA_server <- function(id,
     
     observeEvent(req(rv.custom$AnaDiff_indices()$trigger),{
       UpdateCompList()
-
+      
       .ind <- rv.custom$AnaDiff_indices()$value$ll.indices
       .cmd <- rv.custom$AnaDiff_indices()$value$ll.widgets.value[[1]]$keep_vs_remove
       .protId <- parentProtId(rv$dataIn)
@@ -512,7 +515,7 @@ PipelineProtein_DA_server <- function(id,
         else if (.cmd == 'keep')
           indices_to_push <- seq_len(nrow(Get_Dataset_to_Analyze()))[-(.ind)]
         
-
+        
         .pval <- paste0(rv.widgets$Pairwisecomparison_Comparison, '_pval')
         
         HypothesisTest(rv$dataIn)[indices_to_push, .pval] <- 1
@@ -710,7 +713,7 @@ PipelineProtein_DA_server <- function(id,
           rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value")
     })
     
-
+    
     output$Pvaluecalibration_nBins_UI <- renderUI({
       req(rv.custom$resAnaDiff)
       req(rv.custom$pi0)
@@ -790,7 +793,7 @@ PipelineProtein_DA_server <- function(id,
     
     calibrationPlot <- reactive({
       #req(rv.widgets$Pvaluecalibration_calibrationMethod != "None")
-
+      
       req(rv.custom$resAnaDiff)
       req(rv$dataIn)
       req(length(rv.custom$resAnaDiff$logFC) > 0)
@@ -809,14 +812,14 @@ PipelineProtein_DA_server <- function(id,
         t <- t[-toDelete]
       }
       
-
+      
       l <- NULL
       ll <- NULL
       result <- tryCatch(
         {
           if ((rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") &&
               !is.null(rv.widgets$Pvaluecalibration_numericValCalibration)) {
-
+            
             ll <- catchToList(
               wrapperCalibrationPlot(
                 t,
@@ -837,7 +840,7 @@ PipelineProtein_DA_server <- function(id,
             rv.custom$errMsgCalibrationPlot <- .warns
           }
           rv.custom$pi0 <- ll$value$pi0
-
+          
         },
         warning = function(w) {
           shinyjs::info(paste("Calibration plot", ":",
@@ -982,7 +985,20 @@ PipelineProtein_DA_server <- function(id,
     )
     
     
-    
+    GetCalibrationMethod <- reactive({
+      req(rv.widgets$Pvaluecalibration_numericValCalibration)
+      req(rv.widgets$Pvaluecalibration_calibrationMethod != 'None')
+      .calibMethod <- NULL
+      if (rv.widgets$Pvaluecalibration_calibrationMethod == "Benjamini-Hochberg") {
+        .calibMethod <- 1
+      } else if (rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") {
+        .calibMethod <- as.numeric(rv.widgets$Pvaluecalibration_numericValCalibration)
+      } else {
+        .calibMethod <- rv.widgets$Pvaluecalibration_calibrationMethod
+      }
+      .calibMethod
+      
+    })
     
     
     
@@ -1043,15 +1059,13 @@ PipelineProtein_DA_server <- function(id,
                 "Download (Excel file)", class = actionBtnClass)
             )
           ),
-          DT::DTOutput(ns("FDR_anaDiff_selectedItems"))
+          DT::DTOutput(ns("FDR_selectedItems_UI"))
         ),
         # Insert validation button
         uiOutput(ns("FDR_btn_validate_UI"))
       )
       
-      MagellanNTK::toggleWidget(widget, 
-        rv$steps.enabled["FDR"] && 
-          as.character(rv.widgets$Pairwisecomparison_Comparison) != "None")
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["FDR"])
     })
     
     
@@ -1064,7 +1078,7 @@ PipelineProtein_DA_server <- function(id,
       comparison = reactive({GetComparisons()}),
       group = reactive({rv.custom$conds}),
       thlogfc = reactive({rv.custom$thlogfc}),
-      thpval = reactive({0}),
+      thpval = reactive({rv.custom$thpval}),
       tooltip = reactive({rv.widgets$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
       is.enabled = reactive({rv$steps.enabled["FDR"]})
@@ -1145,7 +1159,9 @@ PipelineProtein_DA_server <- function(id,
     
     logpval <- mod_set_pval_threshold_server(id = "Title",
       pval_init = reactive({10^(-rv.custom$thpval)}),
-      fdr = reactive({Get_FDR()}))
+      fdr = reactive({Get_FDR()}),
+      reset = reactive({NULL}),
+      is.enabled = reactive({rv$steps.enabled["FDR"]}))
     
     
     observeEvent(logpval(), {
@@ -1167,6 +1183,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     output$FDR_selectedItems_UI <- DT::renderDT({
+      req(rv$steps.status["Pvaluecalibration"] == stepStatus$VALIDATED)
       df <- Build_pval_table()
       
       if (rv.widgets$FDR_viewAdjPval){
@@ -1206,8 +1223,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     output$FDR_download_SelectedItems_UI <- downloadHandler(
-      
-      
+     
       filename = function() {rv.custom$filename},
       content = function(fname) {
         DA_Style <- openxlsx::createStyle(fgFill = orangeProstar)
@@ -1265,7 +1281,7 @@ PipelineProtein_DA_server <- function(id,
     })
     
     observeEvent(input$validate_pval,{
-     
+      
     })
     
     Get_Nb_Significant <- reactive({
@@ -1304,53 +1320,45 @@ PipelineProtein_DA_server <- function(id,
     
     
     
-    GetCalibrationMethod <- reactive({
-      req(rv.widgets$Pvaluecalibration_numericValCalibration)
-      req(rv.widgets$Pvaluecalibration_calibrationMethod != 'None')
-      .calibMethod <- NULL
-      if (rv.widgets$Pvaluecalibration_calibrationMethod == "Benjamini-Hochberg") {
-        .calibMethod <- 1
-      } else if (rv.widgets$Pvaluecalibration_calibrationMethod == "numeric value") {
-        .calibMethod <- as.numeric(rv.widgets$Pvaluecalibration_numericValCalibration)
-      } else {
-        .calibMethod <- rv.widgets$Pvaluecalibration_calibrationMethod
-      }
-      .calibMethod
-      
-    })
+    
     
     
     Build_pval_table <- reactive({
-      req(rv.custom$resAnaDiff$logFC)
-      req(rv.custom$resAnaDiff$P_Value)
+      req(rv$steps.status["Pvaluecalibration"] == stepStatus$VALIDATED)
+      req(rv.custom$thlogfc)
+      req(rv.custom$thpval)
       req(rv$dataIn)
       req(GetCalibrationMethod())
-      rv.custom$thpval
+      req(GetComparisons())
+      
+    
+      rv.widgets$Pairwisecomparison_Comparison
+      ht <- HypothesisTest(rv$dataIn)
+      .logfc <- ht[, paste0(rv.widgets$Pairwisecomparison_Comparison, '_logFC')]
+      .pval <- ht[, paste0(rv.widgets$Pairwisecomparison_Comparison, '_pval')]
       
       .digits <- 3
       
       pval_table <- data.frame(
         id = rownames(SummarizedExperiment::assay(rv$dataIn)),
-        logFC = round(rv.custom$resAnaDiff$logFC, digits = .digits),
-        P_Value = rv.custom$resAnaDiff$P_Value,
-        Log_PValue = -log10(rv.custom$resAnaDiff$P_Value),
-        Adjusted_PValue = rep(NA, length(rv.custom$resAnaDiff$logFC)),
-        isDifferential = rep(0, length(rv.custom$resAnaDiff$logFC))
+        logFC = round(.logfc, digits = .digits),
+        P_Value = .pval,
+        Log_PValue = -log10(.pval),
+        Adjusted_PValue = rep(NA, length(.logfc)),
+        isDifferential = rep(0, length(.logfc))
       )
       
-      thpval <- rv.custom$thpval
       
-      #
       # Determine significant proteins
-      signifItems <- intersect(which(pval_table$Log_PValue >= thpval),
+      signifItems <- intersect(which(pval_table$Log_PValue >= rv.custom$thpval),
         which(abs(pval_table$logFC) >= rv.custom$thlogfc)
       )
       pval_table[signifItems,'isDifferential'] <- 1
       
-      upItems_pval <- which(-log10(rv.custom$resAnaDiff$P_Value) >= thpval)
-      upItems_logFC <- which(abs(rv.custom$resAnaDiff$logFC) >= rv.custom$thlogfc)
+      upItems_pval <- which(-log10(.pval) >= rv.custom$thpval)
+      upItems_logFC <- which(abs(.logfc) >= rv.custom$thlogfc)
       rv.custom$adjusted_pvalues <- diffAnaComputeAdjustedPValues(
-        rv.custom$resAnaDiff$P_Value[upItems_logFC],
+        .pval[upItems_logFC],
         GetCalibrationMethod())
       pval_table[upItems_logFC, 'Adjusted_PValue'] <- rv.custom$adjusted_pvalues
       
@@ -1388,8 +1396,7 @@ PipelineProtein_DA_server <- function(id,
         "Validate step",
         class = "btn-success"
       )
-      MagellanNTK::toggleWidget(widget, 
-        rv$steps.enabled["FDR"])
+      MagellanNTK::toggleWidget(widget, rv$steps.enabled["FDR"])
     })
     # >>> END: Definition of the widgets
     
@@ -1418,7 +1425,6 @@ PipelineProtein_DA_server <- function(id,
     
     output$dl_UI <- renderUI({
       req(rv$steps.status['Save'] == stepStatus$VALIDATED)
-      req(config@mode == 'process')
       
       MagellanNTK::mod_download_dataset_UI(ns('createQuickLink'))
     })
@@ -1433,23 +1439,16 @@ PipelineProtein_DA_server <- function(id,
     
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      # Clean the result
-      nTotal <- length(rv.custom$tmp)
-      nOriginal <- length(rv$dataIn)
-      if (nTotal- nOriginal > 1)
-        rv.custom$tmp <- QFeatures::removeAssay(
-          rv.custom$tmp, 
-          (nOriginal+1):(nTotal-1))
       
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()
-      dataOut$value <- rv.custom$tmp
+      dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
       
       
       MagellanNTK::mod_download_dataset_server('createQuickLink', 
-        dataIn = reactive({rv.custom$tmp}))
+        dataIn = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

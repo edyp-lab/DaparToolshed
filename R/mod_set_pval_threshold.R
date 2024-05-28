@@ -63,7 +63,9 @@ mod_set_pval_threshold_ui <- function(id) {
 mod_set_pval_threshold_server <- function(id,
   pval_init = reactive({1}),
   fdr = reactive({0}),
-  threshold.type = reactive({'logpval'})) {
+  threshold.type = reactive({'logpval'}),
+  reset = reactive({FALSE}),
+  is.enabled = reactive({TRUE})) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
