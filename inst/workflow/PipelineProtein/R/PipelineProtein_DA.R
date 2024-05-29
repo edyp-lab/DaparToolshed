@@ -104,23 +104,8 @@ PipelineProtein_DA_server <- function(id,
     
     Pvaluecalibration_numericValCalibration = "None",
     Pvaluecalibration_calibrationMethod = "Benjamini-Hochberg",
-    Pvaluecalibration_nBinsHistpval = 0,
+    Pvaluecalibration_nBinsHistpval = 80,
     
-    
-    DA_Condition1 = "",
-    DA_Condition2 = "",
-    DA_val_vs_percent = "Value",
-    DA_ChooseFilters = "None",
-    DA_seuilNA_percent = 0,
-    DA_seuilNA = 0,
-    DA_filter_th_NA = 0,
-    
-    DA_numValCalibMethod = 0,
-    DA_th_pval = 0,
-    DA_type_pval = '-log10()',
-    DA_FDR = 0,
-    DA_NbSelected = 0,
-    DA_nBinsHistpval = 80,
     FDR_viewAdjPval = FALSE
   )
   
@@ -365,7 +350,7 @@ PipelineProtein_DA_server <- function(id,
     })
     
     
-    observeEvent(rv.widgets$Pairwisecomparison_tooltipInfo, {
+    observeEvent(input$Pairwisecomparison_validTooltipInfo, {
       rv.custom$Pairwisecomparison_tooltipInfo <- rv.widgets$Pairwisecomparison_tooltipInfo
     })
     
@@ -416,7 +401,9 @@ PipelineProtein_DA_server <- function(id,
       
       wellPanel(
         MagellanNTK::mod_popover_for_help_ui(ns("modulePopover_pushPVal")),
-        mod_qMetacell_FunctionFilter_Generator_ui(ns("AnaDiff_query")))
+        div(
+          mod_qMetacell_FunctionFilter_Generator_ui(ns("AnaDiff_query")))
+      )
     })
     
     #---------------------------
@@ -456,22 +443,12 @@ PipelineProtein_DA_server <- function(id,
         )
         
         datasetToAnalyze <- rv$dataIn[, ind]
-        
-        
-        #datasetToAnalyze@experimentData@other$names_metacell <-
-        #  rv$dataIn@experimentData@other$names_metacell[ind]
       }
       
       datasetToAnalyze
     }) %>% bindCache(rv$dataIn, rv.widgets$Pairwisecomparison_Comparison)
     
-    
-    
-    GetPairwiseCompChoice <- reactive({
-      req(rv.custom$res_AllPairwiseComparisons$logFC)
-      ll <- unlist(strsplit(colnames(rv.custom$res_AllPairwiseComparisons$logFC), "_logFC"))
-      ll
-    })
+
     
     GetFiltersScope <- function()
       c("Whole Line" = "WholeLine",
@@ -485,6 +462,7 @@ PipelineProtein_DA_server <- function(id,
     
     observe({
       req(rv$dataIn)
+      req(is.validated(rv$steps.status["Description"]))
       req(Get_Dataset_to_Analyze())
       rv.custom$AnaDiff_indices <- mod_qMetacell_FunctionFilter_Generator_server(
         id = "AnaDiff_query",
@@ -494,7 +472,7 @@ PipelineProtein_DA_server <- function(id,
           stats::setNames(c('Push p-value', 'Keep original p-value'), 
             nm = c("delete", "keep"))}),
         reset = reactive({NULL}),
-        is.enabled = reactive({TRUE})
+        is.enabled = reactive({rv$steps.enabled["Pairwisecomparison"]})
       )
     })
     
@@ -529,10 +507,9 @@ PipelineProtein_DA_server <- function(id,
     
     observeEvent(rv.widgets$Pairwisecomparison_Comparison, 
       ignoreInit = TRUE, ignoreNULL = TRUE, {
-        
-        # browser()
+
         rv.widgets$Pairwisecomparison_tooltipInfo <- parentProtId(rv$dataIn)
-        UpdateCompList()
+        #UpdateCompList()
         
         .split <- strsplit(
           as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
@@ -544,50 +521,12 @@ PipelineProtein_DA_server <- function(id,
           "_vs_", rv.custom$Condition2, ".xlsx")
       })
     
-    
-    
-    
-    
-    ## --------------------------------------------------------
-    ## ---------------------------------------------------------
-    
-    
-    
-    
+
     
     MagellanNTK::mod_popover_for_help_server("modulePopover_keepLines",
       title = "n values",
       content = "Keep the lines which have at least n intensity values."
     )
-    
-    
-    
-    GetBackToCurrentResAnaDiff <- reactive({
-      req(rv.custom$res_AllPairwiseComparisons)
-      
-      index <- which(
-        paste(
-          as.character(rv.widgets$Pairwisecomparison_Comparison), "_logFC",
-          sep = ""
-        ) ==
-          colnames(rv.custom$res_AllPairwiseComparisons$logFC)
-      )
-      rv.custom$resAnaDiff <- list(
-        logFC = (rv.custom$res_AllPairwiseComparisons$logFC)[, index],
-        P_Value = (rv.custom$res_AllPairwiseComparisons$P_Value)[, index],
-        condition1 = strsplit(
-          as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
-        )[[1]][1],
-        condition2 = strsplit(
-          as.character(rv.widgets$Pairwisecomparison_Comparison), "_vs_"
-        )[[1]][2]
-      )
-      rv.custom$resAnaDiff
-    })
-    
-    
-    
-    
     
     not_a_numeric <- function(input) {
       if (is.na(as.numeric(input))) {
@@ -597,14 +536,7 @@ PipelineProtein_DA_server <- function(id,
       }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     output$Pairwisecomparison_btn_validate_UI <- renderUI({
       widget <- actionButton(ns("Pairwisecomparison_btn_validate"),
         "Validate step",
@@ -617,6 +549,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     observeEvent(input$Pairwisecomparison_btn_validate, {
+      UpdateCompList()
       
       dataOut$trigger <- MagellanNTK::Timestamp()
       dataOut$value <- NULL
@@ -717,7 +650,6 @@ PipelineProtein_DA_server <- function(id,
     output$Pvaluecalibration_nBins_UI <- renderUI({
       req(rv.custom$resAnaDiff)
       req(rv.custom$pi0)
-      req(rv.widgets$Pvaluecalibration_nBinsHistpval)
       
       widget <- selectInput(
         ns("Pvaluecalibration_nBinsHistpval"), 
@@ -730,36 +662,35 @@ PipelineProtein_DA_server <- function(id,
     
     
     histPValue <- reactive({
+      #browser()
       req(rv.custom$resAnaDiff)
       req(rv.custom$pi0)
       req(rv.widgets$Pvaluecalibration_nBinsHistpval)
-      req(data()$logFC)
-      req(!is.(data()$logFC))
-      req(length(data()$logFC) > 0)
+      req(rv.custom$thlogfc)
+      req(!is.na(rv.custom$thlogfc))
+      req(length(rv.custom$resAnaDiff$logFC) > 0)
       
       
-      m <- match.metacell(DAPAR::GetMetacell(rv$dataIn),
+      m <- match.metacell(get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
-        level = "peptide"
+        level = get_type(rv$dataIn)
       )
-      if (length(which(m)) > 0) {
-        return()
-      }
+      req(length(which(m)) == 0)
       
-      # isolate({
       t <- NULL
       method <- NULL
-      t <- data()$P_Value
-      t <- t[which(abs(data()$logFC) >= rv.custom$thlogfc)]
+      t <- rv.custom$resAnaDiff$P_Value
+      t <- t[which(abs(rv.custom$resAnaDiff$logFC) >= rv.custom$thlogfc)]
       toDelete <- which(t == 1)
       if (length(toDelete) > 0) {
         t <- t[-toDelete]
       }
+
       histPValue_HC(t,
         bins = as.numeric(rv.widgets$Pvaluecalibration_nBinsHistpval),
         pi0 = rv.custom$pi0
       )
-      # })
+
     })
     
     output$histPValue <- renderHighchart({
@@ -840,7 +771,7 @@ PipelineProtein_DA_server <- function(id,
             rv.custom$errMsgCalibrationPlot <- .warns
           }
           rv.custom$pi0 <- ll$value$pi0
-          
+
         },
         warning = function(w) {
           shinyjs::info(paste("Calibration plot", ":",
@@ -917,6 +848,7 @@ PipelineProtein_DA_server <- function(id,
     
     
     calibrationPlotAll <- reactive({
+      
       rv.custom$resAnaDiff
       req(rv$dataIn)
       req(!is.na(rv.custom$thlogfc))
@@ -1079,7 +1011,7 @@ PipelineProtein_DA_server <- function(id,
       group = reactive({rv.custom$conds}),
       thlogfc = reactive({rv.custom$thlogfc}),
       thpval = reactive({rv.custom$thpval}),
-      tooltip = reactive({rv.widgets$Pairwisecomparison_tooltipInfo}),
+      tooltip = reactive({rv.custom$Pairwisecomparison_tooltipInfo}),
       reset = reactive({NULL}),
       is.enabled = reactive({rv$steps.enabled["FDR"]})
     )
@@ -1195,15 +1127,7 @@ PipelineProtein_DA_server <- function(id,
       
     })
     
-    
-    observeEvent(input$Pairwisecomparison_validTooltipInfo, {
-      
-      .tmp <- c(parentProtId(rv$dataIn), 
-        rv.widgets$Pairwisecomparison_tooltipInfo)
-      rv.widgets$Pairwisecomparison_tooltipInfo <- unique(.tmp)
-      
-    })
-    
+
     
     output$FDR_selectedItems_UI <- DT::renderDT({
       req(rv$steps.status["Pvaluecalibration"] == stepStatus$VALIDATED)

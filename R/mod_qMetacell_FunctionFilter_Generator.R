@@ -23,6 +23,7 @@
 #' conds <- get_group(ft_na)
 #' 
 #' shiny::runApp(mod_qMetacell_FunctionFilter_Generator(obj, conds))
+#' shiny::runApp(mod_qMetacell_FunctionFilter_Generator(obj, conds, is.enabled = FALSE))
 #' 
 NULL
 
@@ -51,7 +52,7 @@ mod_qMetacell_FunctionFilter_Generator_ui <- function(id) {
                 vertical-align: middle; align: center;",
                 uiOutput(ns("qMetacellScope_request_ui"))
             ),
-            actionButton(ns("BuildFilter_btn"), "Add filter")
+            uiOutput(ns('Add_btn_UI'))
         )
     )
 }
@@ -126,6 +127,12 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
         )
 
 
+        output$Add_btn_UI <- renderUI({
+          widget <- actionButton(ns("BuildFilter_btn"), "Add filter")
+          
+          MagellanNTK::toggleWidget(widget, is.enabled())
+          
+        })
 
         MagellanNTK::mod_popover_for_help_server("tag_help",
             title = "Nature of data to filter",
@@ -158,14 +165,15 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
 
 
         output$tree_UI <- renderUI({
-            widget <- mod_metacell_tree_ui(ns('tree'))
+            widget <- div(mod_metacell_tree_ui(ns('tree')))
             MagellanNTK::toggleWidget(widget, is.enabled())
         })
         
         
         tmp.tags <- mod_metacell_tree_server('tree',
           obj = reactive({obj()}),
-          reset = reactive({rv$reset_tree})
+          reset = reactive({rv$reset_tree}),
+          is.enabled = reactive({is.enabled()})
         )
         
         observeEvent(tmp.tags()$values, 
@@ -445,7 +453,9 @@ mod_qMetacell_FunctionFilter_Generator <- function(
     conds, 
     keep_vs_remove = c("delete", "keep"),
     val_vs_percent = c("Count", "Percentage"),
-    operator = setNames(nm = SymFilteringOperators())){
+    operator = setNames(nm = SymFilteringOperators()),
+  reset = FALSE,
+  is.enabled = TRUE){
   
   
   ui <- mod_qMetacell_FunctionFilter_Generator_ui('query')
@@ -457,7 +467,8 @@ mod_qMetacell_FunctionFilter_Generator <- function(
       conds = reactive({conds}),
       keep_vs_remove = reactive({keep_vs_remove}),
       val_vs_percent = reactive({val_vs_percent}),
-      operator = reactive({operator}))
+      operator = reactive({operator}),
+      is.enabled = reactive({is.enabled}))
     
     observeEvent(res()$trigger, {
       #browser()
