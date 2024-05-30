@@ -1,19 +1,20 @@
 ---
-title: "Worfkflow Protein - Normalization"
+title: "Workflow Protein: Normalization
+abstract: >
+  This page describes the computations done with Normalization.
+
 output:
     BiocStyle::html_document:
         highlight: tango
+        thme: sandstone
         toc: false
-        number_sections: yes
-vignette: >
-    %\VignetteIndexEntry{Worfkflow Protein - Normalization}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+        number_sections: TRUE
+        css: style.css
+date: 30 mai 2024
 link-citations: true
-date: 23 mars 2024
 ---
 
-# Methods available
+### Methods available
 
 **GlobalQuantileAlignment**
 

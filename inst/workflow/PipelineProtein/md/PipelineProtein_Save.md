@@ -1,9 +1,20 @@
 ---
-title: "Untitled"
-author: "Samuel Wieczorek"
-date: '`r Sys.Date()`'
-output: html_document
+title: "Pipeline Protein: Save process"
+abstract: >
+  This page describes the computations done with Imputation.
+
+output:
+    BiocStyle::html_document:
+        highlight: tango
+        thme: sandstone
+        toc: false
+        number_sections: TRUE
+        css: style.css
+date: 30 mai 2024
+link-citations: true
 ---
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

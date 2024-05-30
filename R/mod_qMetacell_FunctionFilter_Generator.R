@@ -308,6 +308,7 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
         ##
         ## -------------------------------------------------------------------
         WriteQuery <- reactive({
+          txt_summary <- NULL
             if (rv.widgets$scope == "None") {
                 txt_summary <- "No filtering is processed."
             } else if (rv.widgets$scope == "WholeLine") {
@@ -414,6 +415,9 @@ mod_qMetacell_FunctionFilter_Generator_server <- function(id,
 
 
         observeEvent(input$BuildFilter_btn, {
+          req(BuildFunctionFilter())
+          req(WriteQuery())
+          
             rv.custom$ll.fun <- append(rv.custom$ll.fun, BuildFunctionFilter())
             rv.custom$ll.query <- append(rv.custom$ll.query, WriteQuery())
             rv.custom$ll.widgets.value <- append(
