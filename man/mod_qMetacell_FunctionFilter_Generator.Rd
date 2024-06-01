@@ -13,13 +13,13 @@ mod_qMetacell_FunctionFilter_Generator_server(
   obj,
   conds,
   keep_vs_remove = reactive({
-     NULL
+     setNames(nm = c("delete", "keep"))
  }),
   val_vs_percent = reactive({
-     NULL
+     c("Count", "Percentage")
  }),
   operator = reactive({
-     NULL
+     setNames(nm = SymFilteringOperators())
  }),
   reset = reactive({
      NULL
@@ -32,9 +32,11 @@ mod_qMetacell_FunctionFilter_Generator_server(
 mod_qMetacell_FunctionFilter_Generator(
   obj,
   conds,
-  keep_vs_remove,
-  val_vs_percent,
-  operator
+  keep_vs_remove = c("delete", "keep"),
+  val_vs_percent = c("Count", "Percentage"),
+  operator = setNames(nm = SymFilteringOperators()),
+  reset = FALSE,
+  is.enabled = TRUE
 )
 }
 \arguments{
@@ -81,12 +83,8 @@ of the class \code{SummarizedExperiment})
 data(ft_na)
 obj <- ft_na[[1]]
 conds <- get_group(ft_na)
-operator = setNames(nm = SymFilteringOperators())
-keep_vs_remove <- setNames(nm = c("delete", "keep"))
-val_vs_percent <- setNames(nm = c("Count", "Percentage"))
 
-shiny::runApp(
-mod_qMetacell_FunctionFilter_Generator(
-obj, conds, keep_vs_remove, val_vs_percent, operator))
+shiny::runApp(mod_qMetacell_FunctionFilter_Generator(obj, conds))
+shiny::runApp(mod_qMetacell_FunctionFilter_Generator(obj, conds, is.enabled = FALSE))
 \dontshow{\}) # examplesIf}
 }

@@ -59,8 +59,8 @@ PipelineProtein_Description_server <- function(id,
     
     ###### ------------------- Code for Description (step 0) -------------------------    #####
     output$Description <- renderUI({
-      md.file <- paste0(id, '.md')
-      file <- file.path('md', md.file)
+      file <- normalizePath(file.path(session$userData$workflow.path, 
+        'md', paste0(id, '.md')))
       tagList(
         if (file.exists(file))
           includeMarkdown(file)

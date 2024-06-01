@@ -190,7 +190,7 @@ PipelineProtein_Imputation_server <- function(id,
     
     
     # >>> START: Definition of the widgets
-    rv.custom$tmp1 <- mod_Prot_Imputation_POV_server(
+    rv.custom$tmp1 <- DaparToolshed::mod_Prot_Imputation_POV_server(
       id = 'pov',
       obj = reactive({rv.custom$dataIn1}),
       i = reactive({length(rv.custom$dataIn1)}),
@@ -198,7 +198,7 @@ PipelineProtein_Imputation_server <- function(id,
       )
     
     output$POVImputation_ui <- renderUI({
-      widget <- mod_Prot_Imputation_POV_ui(ns('pov'))
+      widget <- DaparToolshed::mod_Prot_Imputation_POV_ui(ns('pov'))
       toggleWidget(widget, rv$steps.enabled['POVImputation'] )
     })
     
@@ -256,7 +256,7 @@ PipelineProtein_Imputation_server <- function(id,
       #   dataIn <- DaparToolshed::addDatasets(rv$dataIn, 
       #     rv.custom$tmp1()$value, 'POVImputation')
       
-    rv.custom$tmp2 <- mod_Prot_Imputation_MEC_server(
+    rv.custom$tmp2 <- DaparToolshed::mod_Prot_Imputation_MEC_server(
       id = 'mec',
       obj = reactive({rv.custom$dataIn2}),
       i = reactive({length(rv.custom$dataIn2)}),
@@ -265,7 +265,7 @@ PipelineProtein_Imputation_server <- function(id,
     #})
     
     output$MECImputation_ui <- renderUI({
-      widget <- mod_Prot_Imputation_MEC_ui(ns('mec'))
+      widget <- DaparToolshed::mod_Prot_Imputation_MEC_ui(ns('mec'))
       toggleWidget(widget, rv$steps.enabled['MECImputation'] )
     })
     

@@ -24,7 +24,7 @@ mod_Metacell_Filtering_server(
  })
 )
 
-mod_Metacell_Filtering(obj, i)
+mod_Metacell_Filtering(obj = NULL, i = 1)
 }
 \arguments{
 \item{id}{xxx}

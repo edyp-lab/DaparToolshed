@@ -15,7 +15,8 @@ link-citations: true
 ---
 
 
-This page describes the computations done with Imputation.
+This page describes the computations done with Imputation. 
+By taking into account the very nature of each missing value.
 
 
 ### Imputation of 'Partially Over Conditions'

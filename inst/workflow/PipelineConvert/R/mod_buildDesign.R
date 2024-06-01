@@ -307,15 +307,15 @@ mod_buildDesign_server <- function(id,
              twoLevelsDesign = {
                tagList(
                  h4("Example for a 2-levels design"),
-                 mod_designExample_server("buildDesignExampleTwo", 2),
-                 mod_designExample_ui(ns("buildDesignExampleTwo"))
+                 DaparToolshed::mod_designExample_server("buildDesignExampleTwo", 2),
+                 DaparToolshed::mod_designExample_ui(ns("buildDesignExampleTwo"))
                )
              },
              threeLevelsDesign = {
                tagList(
                  h4("Example for a 3-levels design"),
-                 mod_designExample_server("buildDesignExampleThree", 3),
-                 mod_designExample_ui(ns("buildDesignExampleThree"))
+                 DaparToolshed::mod_designExample_server("buildDesignExampleThree", 3),
+                 DaparToolshed::mod_designExample_ui(ns("buildDesignExampleThree"))
                )
              }
       )

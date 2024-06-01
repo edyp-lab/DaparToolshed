@@ -241,7 +241,7 @@ PipelineProtein_Normalization_server <- function(id,
       widget <- selectInput(
         ns('Normalization_method'),
         "Normalization method",
-        choices = normalizeMethods(),
+        choices = DaparToolshed::normalizeMethods(),
         selected = rv.widgets$Normalization_method,
         width = '150px')
       toggleWidget(widget, rv$steps.enabled['Normalization'] )
@@ -322,7 +322,7 @@ PipelineProtein_Normalization_server <- function(id,
  
       cond <- metadata(rv$dataIn[[length(rv$dataIn)]])[['typeDataset']] == "protein"
       
-      .meths <- normalizeMethods('withTracking')
+      .meths <- DaparToolshed::normalizeMethods('withTracking')
       trackAvailable <- rv.widgets$Normalization_method %in% .meths
       shinyjs::toggle("Normalization_sync_ui",
         condition = cond && trackAvailable)
@@ -333,18 +333,18 @@ PipelineProtein_Normalization_server <- function(id,
     })
     
 
-    omXplore_density_server("density_plot", 
+    omXplore::omXplore_density_server("density_plot", 
       obj = reactive({rv$dataIn}),
       i = reactive({length(rv$dataIn)})
     )
     
     
-    selectProt <- plots_tracking_server("tracker",
+    selectProt <- omXplore::plots_tracking_server("tracker",
       obj = reactive({rv$dataIn}),
       i = reactive({length(rv$dataIn)})
     )
     
-    omXplore_intensity_server("boxPlot_Norm",
+    omXplore::omXplore_intensity_server("boxPlot_Norm",
       obj = reactive({rv$dataIn}),
       i = reactive({length(rv$dataIn)}),
       track.indices = reactive({selectProt()})
@@ -448,7 +448,7 @@ PipelineProtein_Normalization_server <- function(id,
       
       if(inherits(.tmp, "try-error")) {
         
-        mod_SweetAlert_server(id = 'sweetalert_perform_normalization',
+        MagellanNTK::mod_SweetAlert_server(id = 'sweetalert_perform_normalization',
           text = .tmp[[1]],
           type = 'error' )
       } else {
@@ -497,7 +497,7 @@ PipelineProtein_Normalization_server <- function(id,
       dataOut$trigger <- Timestamp()
       dataOut$value <- rv$dataIn
       rv$steps.status['Save'] <- stepStatus$VALIDATED
-      download_dataset_server('createQuickLink', data = reactive({rv$dataIn}))
+      MagellanNTK::download_dataset_server('createQuickLink', data = reactive({rv$dataIn}))
       
     })
     # <<< END ------------- Code for step 3 UI---------------

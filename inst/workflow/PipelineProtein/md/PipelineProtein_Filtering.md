@@ -1,5 +1,5 @@
 ---
-title: "Differential analysis"
+title: "Filtering"
 abstract: >
   This Process contains two steps: a Metacell filtering tool and a variable filtering tool
 
@@ -15,7 +15,7 @@ link-citations: true
 ---
 
 
-
+To prune the protein or peptide list according to various criteria (missing values, string matching).
 
 ### Function filtering
 

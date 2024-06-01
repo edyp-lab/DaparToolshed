@@ -517,7 +517,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       if(is.null(rv.custom$AllPairwiseComp)){} 
       else if(inherits(rv.custom$AllPairwiseComp, "try-error")) {
         
-        mod_SweetAlert_server(id = 'sweetalert_PerformLogFCPlot',
+        MagellanNTK::mod_SweetAlert_server(id = 'sweetalert_PerformLogFCPlot',
           text = rv.custom$AllPairwiseComp[[1]],
           type = 'error' )
       } else {

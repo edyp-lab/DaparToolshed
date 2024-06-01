@@ -14,12 +14,20 @@ mod_set_pval_threshold_server(
      1
  }),
   fdr = reactive({
-     NULL
+     0
  }),
-  options = list(threshold = NULL)
+  threshold.type = reactive({
+     "logpval"
+ }),
+  reset = reactive({
+     FALSE
+ }),
+  is.enabled = reactive({
+     TRUE
+ })
 )
 
-mod_set_pval_threshold(xxx)
+mod_set_pval_threshold(pval_init = 1, fdr = 0, threshold.type = "logpval")
 }
 \arguments{
 \item{id}{xxx}
@@ -32,4 +40,9 @@ mod_set_pval_threshold(xxx)
 }
 \description{
 A shiny Module.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+shiny::runApp(mod_set_pval_threshold())
+\dontshow{\}) # examplesIf}
 }

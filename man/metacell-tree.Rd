@@ -17,6 +17,9 @@ mod_metacell_tree_server(
  }),
   reset = reactive({
      NULL
+ }),
+  is.enabled = reactive({
+     TRUE
  })
 )
 

@@ -1,3 +1,16 @@
-## Overview of 'Process1' from 'PipelineA'
+---
+title: "Description"
+abstract: >
+  This page describes the computations done with Imputation.
 
-This page describes the computations done with Process1.
+output:
+    BiocStyle::html_document:
+        highlight: tango
+        toc: false
+        number_sections: FALSE
+        css: style.css
+date: 30 mai 2024
+link-citations: true
+---
+
+test

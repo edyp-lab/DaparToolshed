@@ -29,7 +29,6 @@ mod_ds_metacell_Histos_ui <- function(id) {
     tagList(
         shinyjs::useShinyjs(),
 
-        p('Select one or several tag(s) to display statistics about'),
         uiOutput(ns('chooseTagUI')),
         fluidRow(
             column(width = 4,
@@ -84,7 +83,10 @@ mod_ds_metacell_Histos_server <- function(id,
             
             output$chooseTagUI <- renderUI({
                 req(obj())
-                mod_metacell_tree_ui(ns('tree'))
+                tagList(
+                  p('Select one or several tag(s) to display statistics about'),
+                  mod_metacell_tree_ui(ns('tree'))
+                )
              })
 
             output$histo <- renderHighchart({

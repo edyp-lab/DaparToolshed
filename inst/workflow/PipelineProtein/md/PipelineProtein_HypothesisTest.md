@@ -1,7 +1,7 @@
 ---
 title: "Hypothesis test"
 abstract: >
-  This page describes the computations done with Imputation.
+    xxxxxxxx
 
 output:
     BiocStyle::html_document:
@@ -14,7 +14,7 @@ date: 30 mai 2024
 link-citations: true
 ---
 
-This page describes the computations done with Hypothesis test.
+To compute the significance of each protein differential abundance.
 
 
 

@@ -13,7 +13,7 @@ date: 30 mai 2024
 link-citations: true
 ---
 
-
+To correct batch or group effects.
 
 ### Methods available
 

@@ -189,7 +189,7 @@ server <- function(input, output, session) {
   file <- system.file('extdata/Exp1_R25_prot.txt', package='DaparToolshedData')
   df <- read.csv(file, header = TRUE, sep = "\t", as.is = T)
   
-  toto <- mod_inputGroup_server("inputGroup", df, colnames(df)[49:54])
+  toto <- DaparToolshed::mod_inputGroup_server("inputGroup", df, colnames(df)[49:54])
     
   observeEvent(toto(), ignoreNULL=FALSE,{
     print(toto())

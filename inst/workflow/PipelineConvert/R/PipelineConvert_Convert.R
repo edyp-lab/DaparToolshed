@@ -596,7 +596,7 @@ PipelineConvert_Convert_server <- function(id,
       req(as.logical(rv.widgets$ExpandFeatData_idMethod))
       rv.widgets$ExpandFeatData_quantCols
       
-      rv.convert$inputGroup <- mod_inputGroup_server('inputGroup',
+      rv.convert$inputGroup <- DaparToolshed::mod_inputGroup_server('inputGroup',
                             df = rv.convert$tab,
                             quantCols = rv.widgets$ExpandFeatData_quantCols)
       mod_inputGroup_ui(ns('inputGroup'))
@@ -664,7 +664,7 @@ PipelineConvert_Convert_server <- function(id,
     ############# STEP 4 ######################
     output$Design <- renderUI({
       
-      rv.convert$design <- mod_buildDesign_server("designEx", 
+      rv.convert$design <- DaparToolshed::mod_buildDesign_server("designEx", 
         rv.widgets$ExpandFeatData_quantCols)
       
       wellPanel(

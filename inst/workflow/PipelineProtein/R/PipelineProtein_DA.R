@@ -94,7 +94,7 @@ PipelineProtein_DA_server <- function(id,
   current.pos = reactive({1})
 ){
   
-  
+  requireNamespace('DaparToolshed')
   
   # Define default selected values for widgets
   # This is only for simple workflows
@@ -305,7 +305,7 @@ PipelineProtein_DA_server <- function(id,
     )
     
     
-    mod_volcanoplot_server(
+    DaparToolshed::mod_volcanoplot_server(
       id = "Pairwisecomparison_volcano",
       dataIn = reactive({Get_Dataset_to_Analyze()}),
       comparison = reactive({GetComparisons()}),
@@ -464,7 +464,7 @@ PipelineProtein_DA_server <- function(id,
       req(rv$dataIn)
       req(is.validated(rv$steps.status["Description"]))
       req(Get_Dataset_to_Analyze())
-      rv.custom$AnaDiff_indices <- mod_qMetacell_FunctionFilter_Generator_server(
+      rv.custom$AnaDiff_indices <- DaparToolshed::mod_qMetacell_FunctionFilter_Generator_server(
         id = "AnaDiff_query",
         obj = reactive({Get_Dataset_to_Analyze()}),
         conds = reactive({rv.custom$conds}),
@@ -1004,7 +1004,7 @@ PipelineProtein_DA_server <- function(id,
     
     #-------------------------------------------------------------------
     #
-    mod_volcanoplot_server(
+    DaparToolshed::mod_volcanoplot_server(
       id = "FDR_volcano",
       dataIn = reactive({Get_Dataset_to_Analyze()}),
       comparison = reactive({GetComparisons()}),
@@ -1091,7 +1091,7 @@ PipelineProtein_DA_server <- function(id,
     ###### Set code for widgets managment
     ################################################################
     
-    logpval <- mod_set_pval_threshold_server(id = "Title",
+    logpval <- DaparToolshed::mod_set_pval_threshold_server(id = "Title",
       pval_init = reactive({10^(-rv.custom$thpval)}),
       fdr = reactive({Get_FDR()}),
       reset = reactive({NULL}),
@@ -1118,7 +1118,7 @@ PipelineProtein_DA_server <- function(id,
           "% should be cautiously interpreted as strictly less than one
         discovery (", round(th, digits = 2), ") is expected to be false"
         )
-        mod_errorModal_server('warn_FDR',
+        MagellanNTK::mod_errorModal_server('warn_FDR',
           title = 'Warning',
           text = warntxt)
       }

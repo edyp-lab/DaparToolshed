@@ -164,6 +164,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     observeEvent(input$Description_btn_validate, {
+      req(dataIn())
       rv$dataIn <- rv.custom$tmp <- dataIn()
       
       dataOut$trigger <- Timestamp()
@@ -194,17 +195,20 @@ PipelineProtein_Filtering_server <- function(id,
     })
     
     
-    rv.custom$tmp1 <- mod_Metacell_Filtering_server(
+    observe({
+     # req(rv$dataIn)
+    rv.custom$tmp1 <- DaparToolshed::mod_Metacell_Filtering_server(
       id = "metaFiltering",
       obj = reactive({rv$dataIn}),
       i = reactive({length(rv$dataIn)}),
       is.enabled = reactive({rv$steps.enabled["Cellmetadatafiltering"]})
     )
+    })
     
     # >>> START: Definition of the widgets
     output$mod_metacell_filtering_ui <- renderUI({
 
-      widget <- mod_Metacell_Filtering_ui(ns("metaFiltering"))
+      widget <- DaparToolshed::mod_Metacell_Filtering_ui(ns("metaFiltering"))
       MagellanNTK::toggleWidget(widget, 
         rv$steps.enabled["Cellmetadatafiltering"])
     })
@@ -255,7 +259,7 @@ PipelineProtein_Filtering_server <- function(id,
       if (!is.null(rv.custom$tmp1()$value))
         dataIn <- rv.custom$tmp1()$value
       
-      rv.custom$tmp2 <- mod_Variable_Filtering_server(
+      rv.custom$tmp2 <- DaparToolshed::mod_Variable_Filtering_server(
         id = "varFiltering",
         obj = reactive({dataIn}),
         i = reactive({length(dataIn)}),
@@ -266,7 +270,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     
     output$mod_variable_filtering_ui <- renderUI({
-    widget <- mod_Variable_Filtering_ui(ns("varFiltering"))
+    widget <- DaparToolshed::mod_Variable_Filtering_ui(ns("varFiltering"))
     MagellanNTK::toggleWidget(widget, 
       rv$steps.enabled["Variablefiltering"])
   })
