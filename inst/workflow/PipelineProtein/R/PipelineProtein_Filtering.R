@@ -188,7 +188,7 @@ PipelineProtein_Filtering_server <- function(id,
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
-        box(uiOutput(ns("mod_metacell_filtering_ui"))),
+        uiOutput(ns("mod_metacell_filtering_ui")),
         # Insert validation button
         uiOutput(ns("Cellmetadatafiltering_btn_validate_ui"))
       )
@@ -243,7 +243,7 @@ PipelineProtein_Filtering_server <- function(id,
     
     output$Variablefiltering <- renderUI({
       wellPanel(
-        box(uiOutput(ns("mod_variable_filtering_ui"))),
+        uiOutput(ns("mod_variable_filtering_ui")),
         # Process the queries
         uiOutput(ns("Variablefiltering_btn_validate_ui"))
       )

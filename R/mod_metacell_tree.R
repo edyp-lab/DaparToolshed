@@ -34,6 +34,8 @@ NULL
 mod_metacell_tree_ui <- function(id) {
     ns <- NS(id)
    require(shinyBS)
+    
+    addResourcePath('images', system.file('images', package = 'DaparToolshed'))
     fluidPage(
         shinyjs::useShinyjs(),
         fluidRow(
@@ -41,7 +43,7 @@ mod_metacell_tree_ui <- function(id) {
                    actionButton(ns("openModalBtn"),
                    tagList(
                        #p('Select tags'),
-                       tags$img(src = "images/metacelltree.png", height = "50px"))
+                       tags$img(src = "images/ds_metacell.png", height = "50px"))
                    ),
               shinyBS::bsTooltip(ns("openModalBtn"), "Click to open tags selection tool",
                              "right", options = list(container = "body"))),

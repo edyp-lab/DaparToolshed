@@ -17,24 +17,22 @@ open_demoDataset_ui <- function(id){
   ns <- NS(id)
   tagList(
     useShinyjs(),
-    box(
+    tags$div(
       title = "Open file", status = "primary", solidHeader = TRUE,
       collapsible = TRUE,
       fileInput(ns('file'), "Select file", multiple = FALSE)
     ),
     
-    box(
+    tags$div(
       title = "Dataset infos", status = "primary", solidHeader = TRUE,
       uiOutput(ns('dataInfosUI'))
     ),
     
     shinyjs::hidden(
       div(id = 'datasetInfosPanel',
-          box(
-            title = "Dataset infos", status = "primary", solidHeader = TRUE,
+          title = "Dataset infos", status = "primary", solidHeader = TRUE,
             'Work in progress...'
           )
-      )
     )
   )
 }

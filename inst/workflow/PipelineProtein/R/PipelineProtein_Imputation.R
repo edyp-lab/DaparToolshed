@@ -182,7 +182,7 @@ PipelineProtein_Imputation_server <- function(id,
         # widget he want to insert
         # Be aware of the naming convention for ids in uiOutput()
         # For more details, please refer to the dev document.
-        box(uiOutput(ns("POVImputation_ui"))),
+        uiOutput(ns("POVImputation_ui")),
         # Insert validation button
         uiOutput(ns("POVImputation_btn_validate_ui"))
       )

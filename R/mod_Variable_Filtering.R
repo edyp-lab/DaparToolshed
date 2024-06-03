@@ -56,10 +56,8 @@ mod_Variable_Filtering_ui <- function(id) {
     uiOutput(ns("variable_buildQuery_ui")),
     # Insert validation button
     uiOutput(ns("variable_btn_validate_ui")),
-    shinydashboardPlus::box(
       DT::dataTableOutput(ns("variable_Filter_DT"))
       ,uiOutput(ns('plots_ui'))
-    )
     
   )
 }

@@ -44,10 +44,9 @@ mod_Metacell_Filtering_ui <- function(id) {
     # For more details, please refer to the dev document.
     
     uiOutput(ns("Quantimetadatafiltering_buildQuery_ui")),
-  shinydashboardPlus::box(
+
     DT::dataTableOutput(ns("qMetacell_Filter_DT"))
-    ,uiOutput(ns('plots_ui'))
-    ),
+    ,uiOutput(ns('plots_ui')),
     # Insert validation button
     uiOutput(ns("Quantimetadatafiltering_btn_validate_ui"))
   )
