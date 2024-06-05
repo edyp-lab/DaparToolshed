@@ -200,8 +200,8 @@ mod_Metacell_Filtering_server <- function(id,
         name = "qMetacellFiltered",
         filters = rv.custom$funFilter()$value$ll.fun
       )
+      indices <- rv.custom$funFilter()$value$ll.indices
       
-      indices <- GetIndices(rv.custom$funFilter()$value$ll.fun)
       
       # Add infos
       nBefore <- nrow(tmp[[length(tmp) - 1]])

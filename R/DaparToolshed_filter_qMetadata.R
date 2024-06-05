@@ -105,7 +105,7 @@ qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
     if (missing(object)) {
         return(NULL)
     } else
-      stopifnot(inherits(object), 'SummarizedExperiment')
+      stopifnot(inherits(object, 'SummarizedExperiment'))
   
     if (missing(cmd) || missing(pattern) || 
         missing(percent) || missing(th) ||
