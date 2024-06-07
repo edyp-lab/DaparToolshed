@@ -203,7 +203,7 @@ wrapper.impute.fixedValue <- function(obj,
             paste0(metacell.def(level)$node, collapse = " ")))
     }
 
-    ind.na.type <- match.metacell(
+    ind.na.type <- DaparToolshed::match.metacell(
       get_metacell(obj),
       na.type,
       level = level
@@ -271,7 +271,7 @@ wrapper.impute.detQuant <- function(
     values <- getQuantile4Imp(qdata, qval, factor)
     for (iter in seq_len(ncol(qdata))) {
         col <- qdata[, iter]
-        ind.na.type <- match.metacell(get_metacell(obj)[,iter],
+        ind.na.type <- DaparToolshed::match.metacell(get_metacell(obj)[,iter],
                                       pattern = na.type,
                                       level = omXplore::get_type(obj)
                                       )

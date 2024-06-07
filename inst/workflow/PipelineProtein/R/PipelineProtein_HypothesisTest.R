@@ -97,6 +97,8 @@ PipelineProtein_HypothesisTest_server <- function(id,
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
+    requireNamespace('DaparToolshed')
+    
     core.code <- Get_Workflow_Core_Code(
       mode = 'process',
       name = id,
@@ -168,7 +170,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
 
       .style <- "display:inline-block; vertical-align: middle; 
       padding-right: 20px;"
-      m <- match.metacell(
+      m <- DaparToolshed::match.metacell(
         omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = omXplore::get_type(rv$dataIn[[length(rv$dataIn)]])
@@ -323,7 +325,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       withProgress(message = "Computing plot...", detail = "", value = 0.5, {
           tmp.df <- as.data.frame(rv.custom$AllPairwiseComp$logFC)
           th <- as.numeric(rv.widgets$HypothesisTest_thlogFC)
-          hc_logFC_DensityPlot(tmp.df, th)
+          DaparToolshed::hc_logFC_DensityPlot(tmp.df, th)
        })
     })
     
@@ -407,7 +409,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       req(rv.widgets$HypothesisTest_design != "None")
       
       #browser()
-      m <- match.metacell(omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
+      m <- DaparToolshed::match.metacell(omXplore::get_metacell(rv$dataIn[[length(rv$dataIn)]]),
         pattern = "Missing",
         level = omXplore::get_type(rv$dataIn[[length(rv$dataIn)]]))
       
@@ -472,7 +474,7 @@ PipelineProtein_HypothesisTest_server <- function(id,
       
       nConds <-length(unique(omXplore::get_group(rv$dataIn)))
       design <- MultiAssayExperiment::colData(rv$dataIn)
-      nLevel <- getDesignLevel(design)   
+      nLevel <- DaparToolshed::getDesignLevel(design)   
       enable <- (nConds <= 26 && nLevel == 1) ||
         (nConds < 10 && (nLevel%in% c(2,3)))
       
@@ -563,8 +565,10 @@ PipelineProtein_HypothesisTest_server <- function(id,
       # Do some stuff
 
       new.dataset <- rv$dataIn[[length(rv$dataIn)]]
-      HypothesisTest(new.dataset) <- rv.custom$AllPairwiseComp
-      rv$dataIn <- DaparToolshed::addDatasets(rv$dataIn, new.dataset, id)
+      df <- cbind(rv.custom$AllPairwiseComp$logFC, 
+        rv.custom$AllPairwiseComp$P_Value)
+      DaparToolshed::HypothesisTest(new.dataset) <- DataFrame(df)
+      rv$dataIn <- QFeatures::addAssay(rv$dataIn, new.dataset, 'HypothesisTest')
       
       # DO NOT MODIFY THE THREE FOLLOWING LINES
       dataOut$trigger <- Timestamp()

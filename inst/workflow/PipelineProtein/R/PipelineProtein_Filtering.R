@@ -333,6 +333,9 @@ PipelineProtein_Filtering_server <- function(id,
           rv.custom$tmp, 
           (nOriginal+1):(nTotal-1))
       
+      # Rename the new dataset with the name of the process
+      names(rv.custom$tmp)[length(rv.custom$tmp)] <- 'Filtering'
+      
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()

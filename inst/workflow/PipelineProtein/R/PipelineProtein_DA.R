@@ -671,7 +671,7 @@ PipelineProtein_DA_server <- function(id,
       req(length(rv.custom$resAnaDiff$logFC) > 0)
       
       
-      m <- match.metacell(get_metacell(rv$dataIn),
+      m <- DaparToolshed::match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = get_type(rv$dataIn)
       )
@@ -729,7 +729,7 @@ PipelineProtein_DA_server <- function(id,
       req(rv$dataIn)
       req(length(rv.custom$resAnaDiff$logFC) > 0)
       
-      m <- match.metacell(omXplore::get_metacell(rv$dataIn),
+      m <- DaparToolshed::match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = "peptide")
       req(length(which(m)) == 0)
@@ -854,7 +854,7 @@ PipelineProtein_DA_server <- function(id,
       req(!is.na(rv.custom$thlogfc))
       req(length(rv.custom$resAnaDiff$logFC) > 0) 
       
-      m <- match.metacell(omXplore::get_metacell(rv$dataIn),
+      m <- DaparToolshed::match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = "peptide")
       req(length(which(m)) == 0)
@@ -1030,7 +1030,7 @@ PipelineProtein_DA_server <- function(id,
       req(Build_pval_table())
       
       
-      m <- match.metacell(omXplore::get_metacell(rv$dataIn),
+      m <- DaparToolshed::match.metacell(omXplore::get_metacell(rv$dataIn),
         pattern = c("Missing", "Missing POV", "Missing MEC"),
         level = "peptide"
       )

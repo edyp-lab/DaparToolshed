@@ -53,7 +53,7 @@ NULL
 #' @param dataset An instance of class `SummarizedExperiment`
 #' @param name the name to associate to the dataset in the final object
 #' 
-#' @rdname dataset-processing
+#' @rdname addDatasets
 #' 
 #' @export
 addDatasets <- function(object, dataset, name) {
@@ -74,7 +74,7 @@ addDatasets <- function(object, dataset, name) {
 #' @param object An instance of type list. Must get TRUE to inherits(object, 'list')
 #' @param range xxx
 #' 
-#' @rdname dataset-processing
+#' @rdname keepDatasets
 #' 
 #' @export
 #'
@@ -89,7 +89,6 @@ keepDatasets <- function(object, range = seq(length(object))) {
   if (is.null(object)) {
     return()
   }
-    range <- names(object)[range]
   
   object[range]
 }

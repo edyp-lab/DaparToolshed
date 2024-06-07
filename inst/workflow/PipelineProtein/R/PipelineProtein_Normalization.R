@@ -392,7 +392,7 @@ PipelineProtein_Normalization_server <- function(id,
           G_noneStr = rv$dataIn[[length(rv$dataIn)]],
           
           GlobalQuantileAlignment = {
-            GlobalQuantileAlignment(qdata)
+            DaparToolshed::GlobalQuantileAlignment(qdata)
           },
           
           QuantileCentering = {
@@ -401,7 +401,7 @@ PipelineProtein_Normalization_server <- function(id,
               quant <- as.numeric(rv.widgets$Normalization_quantile)
             }
             
-            QuantileCentering(
+            DaparToolshed::QuantileCentering(
               qData = qdata, 
               conds = .conds, 
               type = type, 
@@ -410,7 +410,7 @@ PipelineProtein_Normalization_server <- function(id,
           },
           
           MeanCentering = {
-            MeanCentering(
+            DaparToolshed::MeanCentering(
               qData = qdata, 
               conds = .conds,
               type = rv.widgets$Normalization_type,
@@ -419,7 +419,7 @@ PipelineProtein_Normalization_server <- function(id,
             )
           },
           SumByColumns = {
-            SumByColumns(
+            DaparToolshed::SumByColumns(
               qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type,
@@ -427,7 +427,7 @@ PipelineProtein_Normalization_server <- function(id,
             )
           },
           LOESS = {
-            LOESS(
+            DaparToolshed::LOESS(
               qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type,
@@ -435,7 +435,7 @@ PipelineProtein_Normalization_server <- function(id,
             )
           },
           vsn = {
-            wrapper.normalizeD(
+            DaparToolshed::wrapper.normalizeD(
               qData = qdata,
               conds = .conds,
               type = rv.widgets$Normalization_type
@@ -491,7 +491,10 @@ PipelineProtein_Normalization_server <- function(id,
       # Do some stuff
       new.dataset <- rv$dataIn[[length(rv$dataIn)]]
       assay(new.dataset) <- rv.norm$tmp.dataset
-      rv$dataIn <- addDatasets(rv$dataIn, new.dataset, id)
+      rv$dataIn <- QFeatures::addAssay(rv$dataIn, new.dataset, 'Normalization')
+      
+      # rename last SE
+      #names(rv$dataIn)[length(rv$dataIn)] <- 'Normalization'
       
       # DO NOT MODIFY THE THREE FOLLOWINF LINES
       dataOut$trigger <- Timestamp()

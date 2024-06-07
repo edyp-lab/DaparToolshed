@@ -321,7 +321,7 @@ PipelineProtein_Imputation_server <- function(id,
     
     observeEvent(input$Save_btn_validate, {
       # Do some stuff
-      browser()
+      #browser()
       
       len_start <- length(dataIn())
       len_end <- length(rv$dataIn)
