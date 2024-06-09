@@ -10,7 +10,11 @@ custom_EDA_ui <- function(id){
 }
 
 #' @export
-custom_EDA_server <- function(id, object = reactive({NULL})){
+custom_EDA_server <- function(id,
+  object = reactive({NULL}),
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ){
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     

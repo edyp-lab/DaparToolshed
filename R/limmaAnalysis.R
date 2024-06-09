@@ -683,7 +683,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' obj <- Exp1_R25_prot[seq(100)]
 #' level <- 'protein'
-#' metacell.mask <- match.metacell(get_metacell(obj[[1]]), 
+#' metacell.mask <- match.metacell(omXplore::get_metacell(obj[[1]]), 
 #' c("Missing POV", "Missing MEC"), level)
 #' # Simulate imputation
 #' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0

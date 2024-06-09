@@ -48,7 +48,11 @@ div(
 }
 
 #' @export
-custom_openfile_server <- function(id, path = reactive({NULL})){
+custom_openfile_server <- function(id, 
+  path = reactive({NULL}),
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ){
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
   

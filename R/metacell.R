@@ -958,14 +958,14 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             
             
             ind <- match.metacell(
-              metadata = get_metacell(object), 
+              metadata = omXplore::get_metacell(object), 
               pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
               level = omXplore::get_type(object)) & !is.na(assay(object))
             
             rowData(object)$qMetacell[ind] <- gsub(
               pattern = "Missing", 
               replacement = "Imputed",
-              x = get_metacell(object)[ind],
+              x = omXplore::get_metacell(object)[ind],
               fixed = TRUE)
             object
           })

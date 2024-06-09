@@ -168,7 +168,7 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
     }
 
     SummarizedExperiment::assay(obj)[data == 0] <- NA
-    .metacell <- get_metacell(obj)
+    .metacell <- omXplore::get_metacell(obj)
     SummarizedExperiment::assay(obj)[.metacell == 'Missing MEC'] <- NA
     
     # Transform all previously tagged 'na.type' as 'Imputed'
@@ -204,7 +204,7 @@ wrapper.impute.fixedValue <- function(obj,
     }
 
     ind.na.type <- DaparToolshed::match.metacell(
-      get_metacell(obj),
+      omXplore::get_metacell(obj),
       na.type,
       level = level
       )
@@ -271,7 +271,8 @@ wrapper.impute.detQuant <- function(
     values <- getQuantile4Imp(qdata, qval, factor)
     for (iter in seq_len(ncol(qdata))) {
         col <- qdata[, iter]
-        ind.na.type <- DaparToolshed::match.metacell(get_metacell(obj)[,iter],
+        ind.na.type <- DaparToolshed::match.metacell(
+          omXplore::get_metacell(obj)[,iter],
                                       pattern = na.type,
                                       level = omXplore::get_type(obj)
                                       )

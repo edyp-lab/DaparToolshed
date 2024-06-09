@@ -38,7 +38,11 @@ open_demoDataset_ui <- function(id){
 }
 
 #' @export
-open_demoDataset_server <- function(id, path = reactive({NULL})){
+open_demoDataset_server <- function(id,
+  path = reactive({NULL}),
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ){
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     

@@ -22,7 +22,11 @@ mod_export_ui <- function(id){
 #' @export
 #' @rdname default_export_plugin
 #' 
-mod_export_server <- function(id, object){
+mod_export_server <- function(id, 
+  object,
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})
+  ){
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     

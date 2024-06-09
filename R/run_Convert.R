@@ -26,7 +26,9 @@ convert_dataset_ui <- function(id){
 #' @export
 #' @rdname Convert_wrapper
 #' 
-convert_dataset_server <- function(id){
+convert_dataset_server <- function(id,
+  reset = reactive({NULL}),
+  is.enabled = reactive({TRUE})){
   
   requireNamespace('MagellanNTK')
   

@@ -72,7 +72,7 @@ metacellPerLinesHisto_HC <- function(obj,
     indLegend <- seq.int(from = 2, to = length(group))
   }
   
-  mask <- match.metacell(get_metacell(obj), 
+  mask <- match.metacell(omXplore::get_metacell(obj), 
                          pattern = pattern, 
                          level = omXplore::get_type(obj))
   

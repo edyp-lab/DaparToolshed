@@ -67,7 +67,7 @@ GetIndices_FunFiltering <- function(obj,
         return(NULL)
     }
 
-    mask <- match.metacell(metadata = get_metacell(obj),
+    mask <- match.metacell(metadata = omXplore::get_metacell(obj),
                            pattern = pattern,
                            level = level
                            )
