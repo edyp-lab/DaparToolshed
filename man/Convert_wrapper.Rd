@@ -9,7 +9,15 @@
 \usage{
 convert_dataset_ui(id)
 
-convert_dataset_server(id)
+convert_dataset_server(
+  id,
+  reset = reactive({
+     NULL
+ }),
+  is.enabled = reactive({
+     TRUE
+ })
+)
 
 convert_dataset()
 }

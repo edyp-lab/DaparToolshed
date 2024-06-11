@@ -91,33 +91,22 @@ Suggests:
 NeedsCompilation: no
 Collate:
     AllGenerics.R
-    mod_ds_metacell.R
     plots_volcano.R
-    mod_set_pval_threshold.R
     plots_compare_assays.R
     missingValuesImputation_ProteinLevel.R
     missingValuesImputation_PeptideLevel.R
-    mod_DetQuantImpValues.R
-    mod_Prot_Imputation_POV.R
-    mod_Prot_Imputation_MEC.R
     utils_DAPAR.R
     hypothesisTest_plot.R
-    mod_volcanoplot.R
-    volcano_plot.R
     anova_analysis.R
     compute.t.tests.R
     limmaAnalysis.R
-    mod_mv_plots.R
-    mod_Pirat.R
     funcs_FunctionFiltering.R
     plot_metacell.R
     run_Convert.R
     funcs_normalize.R
-    mod_download_dataset.R
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R
-    default_funcs.R
     example-data.R
     DaparToolshed_Params_Addons.R
     metacell.R
@@ -127,28 +116,15 @@ Collate:
     DaparToolshed_filter_qMetadata.R
     DaparToolshed-filterFeaturesOneSE.R
     iterative_agregation.R
-    mod_Metacell_Filtering.R
-    mod_Variable_Filtering.R
-    mod_Agregation.R
-    mod_qMetacell_FunctionFilter_Generator.R
     export_qfeatures.R
     import_2_qfeatures.R
     utils.R
     pepa.R
-    mod_filtering_example.R
     global.R
-    mod_format_DT.R
-    mod_settings.R
     zzz.R
-    mod_tracker.R
-    mod_metacell_tree.R
-    mod_infos_dataset.R
     design_utils.R
     palette.R
     shinyValue.R
-    mod_open_dataset.R
-    mod_open_demoDataset.R
-    mod_VariableFilter_Generator.R
     get_pep_prot_cc.R
     agregation.R
 RoxygenNote: 7.3.1
