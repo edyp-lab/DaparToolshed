@@ -101,7 +101,12 @@ SymFilteringOperators <- function() {
 #' data(ft_na)
 #' obj <- ft_na[[1]]
 #'
-qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
+qMetacellWholeMatrix <- function(object, 
+  cmd, 
+  pattern, 
+  percent = "Percentage", 
+  th, 
+  operator) {
     if (missing(object)) {
         return(NULL)
     } else
@@ -129,7 +134,7 @@ qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
         pattern = pattern,
         level = level
     )
-    if (isTRUE(percent)) {
+    if (percent == "Percentage") {
         if (th < 0 || th > 1) {
             stop("With percent=TRUE, the threshold 'th' must be in the 
                 interval [0, 1].")
@@ -154,7 +159,7 @@ qMetacellWholeMatrix <- function(object, cmd, pattern, percent, th, operator) {
 
 
     indices <- NULL
-    if (isTRUE(percent)) {
+    if (percent == "Percentage") {
         inter <- rowSums(mask) / ncol(mask)
     } else {
         inter <- apply(mask, 1, sum)
@@ -251,7 +256,7 @@ qMetacellOnConditions <- function(object,
     mode,
     pattern,
     conds,
-    percent,
+    percent = "Percentage",
     operator,
     th) {
 
@@ -270,10 +275,9 @@ qMetacellOnConditions <- function(object,
     if (missing(percent)) {
         stop("'percent' is missing.")
     }
-
     if (missing(th)) {
         stop("'th' is missing.")
-    } else {
+    } else if (percent == "Percentage"){
         stopifnot(th >= 0 && th <= 1)
     }
 
@@ -288,7 +292,7 @@ qMetacellOnConditions <- function(object,
     u_conds <- unique(conds)
     nbCond <- length(u_conds)
 
-    if (!isTRUE(percent)) {
+    if (percent == "Count") {
         th.upbound <- min(unlist(lapply(
             u_conds,
             function(x) length(which(conds == x))
@@ -318,7 +322,7 @@ qMetacellOnConditions <- function(object,
     for (c in seq_len(nbCond)) {
         ind.cond <- which(conds == u_conds[c])
         inter <- rowSums(mask[, ind.cond])
-        if (isTRUE(percent)) {
+        if (percent == "Percentage") {
             inter <- inter / length(ind.cond)
         }
         temp[, c] <- eval(parse(text = paste0("inter", operator, th)))
