@@ -13,11 +13,27 @@ qMetacellFilteringScope()
 
 SymFilteringOperators()
 
-qMetacellWholeMatrix(object, cmd, pattern, percent, th, operator)
+qMetacellWholeMatrix(
+  object,
+  cmd,
+  pattern,
+  percent = "Percentage",
+  th,
+  operator
+)
 
 qMetacellWholeLine(object, cmd, pattern)
 
-qMetacellOnConditions(object, cmd, mode, pattern, conds, percent, operator, th)
+qMetacellOnConditions(
+  object,
+  cmd,
+  mode,
+  pattern,
+  conds,
+  percent = "Percentage",
+  operator,
+  th
+)
 }
 \arguments{
 \item{object}{xxx}

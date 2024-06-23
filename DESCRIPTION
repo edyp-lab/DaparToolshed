@@ -102,11 +102,11 @@ Collate:
     limmaAnalysis.R
     funcs_FunctionFiltering.R
     plot_metacell.R
-    run_Convert.R
     funcs_normalize.R
     doc-data.R
     DaparToolshed.R
     QFeatures_utils.R
+    output2Excel.R
     example-data.R
     DaparToolshed_Params_Addons.R
     metacell.R
