@@ -1,16 +1,17 @@
 
+
+#' @export
 #' @exportMethod paramshistory
 #' @rdname QFeatures-accessors
 setMethod(
   "paramshistory", "QFeatures",
-  function(object, i, slotName = "paramshistory") {
-    lapply(object[[i]],
-      paramshistory,
-      slotName = slotName
-    )
+  function(object, i, slotName = 'paramshistory') {
+    lapply(object[[i]], paramshistory, slotName )
   }
 )
 
+
+#' @export
 #' @exportMethod paramshistory
 #' @rdname QFeatures-accessors
 setMethod(
@@ -21,11 +22,13 @@ setMethod(
 )
 
 
+
+
 #' @export
 #' @rdname QFeatures-accessors
-"paramshistory<-" <- function(object, i, value) {
+"paramshistory<-" <- function(object, i, slotName = "paramshistory", value) {
   if (inherits(object, "SummarizedExperiment")) {
-    S4Vectors::metadata(object)[["paramshistory"]] <- value
+    S4Vectors::metadata(object)[[slotName]] <- value
     return(object)
   } else {
     if(inherits(object, "QFeatures")){
@@ -39,8 +42,7 @@ setMethod(
       if (is.character(i) && !(i %in% names(object))) {
         stop("Assay '", i, "' not found.")
       }
-      se <- object[[i]]
-      S4Vectors::metadata(object[[i]])[["paramshistory"]] <- value
+      S4Vectors::metadata(object[[i]])[[slotName]] <- value
     }
   }
   return(object)

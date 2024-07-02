@@ -47,7 +47,7 @@
 
 \S4method{paramshistory}{SummarizedExperiment}(object, slotName = "paramshistory")
 
-paramshistory(object, i) <- value
+paramshistory(object, i, slotName = "paramshistory") <- value
 
 \S4method{GetMetacellTags}{QFeatures}(object, i, ...)
 

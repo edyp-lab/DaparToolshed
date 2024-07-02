@@ -95,11 +95,6 @@ setGeneric("parentProtId<-",
   function(object, ..., value) standardGeneric("parentProtId<-"))
 
 
-setGeneric("paramshistory", 
-  function(object, ...) standardGeneric("paramshistory"))
-setGeneric("paramshistory<-", 
-  function(object, ..., value) standardGeneric("paramshistory<-"))
-
 setGeneric("names_metacell", 
            function(object, ...) standardGeneric("names_metacell"))
 

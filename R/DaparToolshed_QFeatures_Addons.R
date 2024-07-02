@@ -230,6 +230,7 @@ setMethod(
 #' @importFrom S4Vectors metadata
 #' @return NA
 #' @rdname QFeatures-accessors
+#' @export
 .GetMetadataSlot <- function(object, slotName = NULL) {
     S4Vectors::metadata(object)[[slotName]]
 }
@@ -394,10 +395,7 @@ setMethod(
 setMethod(
     "parentProtId", "QFeatures",
     function(object, i, slotName = "parentProtId") {
-        lapply(object[[i]],
-            parentProtId,
-            slotName = slotName
-        )
+        lapply(object[[i]], parentProtId, slotName)
     }
 )
 
