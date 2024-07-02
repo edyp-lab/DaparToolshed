@@ -549,7 +549,7 @@ mainAssay <- function(object) {
 
 
 #' @export
-#' @exportMethod params
+#' @exportMethod HypothesisTest
 #' @rdname QFeatures-accessors
 setMethod(
   "HypothesisTest", "QFeatures",
@@ -559,7 +559,7 @@ setMethod(
 )
 
 #' @export
-#' @exportMethod params
+#' @exportMethod HypothesisTest
 #' @rdname QFeatures-accessors
 setMethod(
   "HypothesisTest", "SummarizedExperiment",
@@ -570,7 +570,7 @@ setMethod(
 
 
 #' @export
-#' @exportMethod params
+#' @exportMethod HypothesisTest
 #' @rdname QFeatures-accessors
 "HypothesisTest<-" <- function(object, i, value) {
   if (inherits(object, "SummarizedExperiment")) {

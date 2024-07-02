@@ -75,10 +75,10 @@ setGeneric("design.qf",
 setGeneric("design.qf<-", 
     function(object, ..., value) standardGeneric("design.qf<-"))
 
-setGeneric("params", 
-    function(object, ...) standardGeneric("params"))
-setGeneric("params<-", 
-    function(object, ..., value) standardGeneric("params<-"))
+setGeneric("paramshistory", 
+    function(object, ...) standardGeneric("paramshistory"))
+setGeneric("paramshistory<-", 
+    function(object, ..., value) standardGeneric("paramshistory<-"))
 
 setGeneric("HypothesisTest", 
   function(object, ...) standardGeneric("HypothesisTest"))
@@ -95,10 +95,10 @@ setGeneric("parentProtId<-",
   function(object, ..., value) standardGeneric("parentProtId<-"))
 
 
-setGeneric("params", 
-  function(object, ...) standardGeneric("params"))
-setGeneric("params<-", 
-  function(object, ..., value) standardGeneric("params<-"))
+setGeneric("paramshistory", 
+  function(object, ...) standardGeneric("paramshistory"))
+setGeneric("paramshistory<-", 
+  function(object, ..., value) standardGeneric("paramshistory<-"))
 
 setGeneric("names_metacell", 
            function(object, ...) standardGeneric("names_metacell"))
