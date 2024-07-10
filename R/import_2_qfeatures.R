@@ -136,7 +136,9 @@ createQFeatures <- function(data = NULL,
 
     if (is.numeric(indQData))
         indQData <- colnames(data)[indQData]
-
+    
+    indQData <- ReplaceSpecialChars(indQData)
+    
     if (is.numeric(indexForMetacell))
       indexForMetacell <- colnames(data)[indexForMetacell]
 
@@ -161,7 +163,7 @@ createQFeatures <- function(data = NULL,
         rownames(data) <- data[, keyId]
     }
     
-    
+
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
       data,

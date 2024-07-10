@@ -64,7 +64,7 @@ compareNormalizationD_HC <- function(
     conds = NULL,
     pal = NULL,
     subset.view = NULL,
-    n = 1,
+    n = 100,
     type = "scatter") {
   
   pkgs.require('RColorBrewer')
@@ -73,9 +73,10 @@ compareNormalizationD_HC <- function(
     warning("'conds' is null.")
     return(NULL)
   }
-  if (n < 0 || n >1){
-    warning("'n' must be in the range [0, 1]. Set to default value: 0.2")
-    n <- 0.2
+  if (n < 0 || n > nrow(qDataBefore)){
+    warning("'n' must be a positive integer not null and less than the total number
+      of entities. Set to default value: 0.2")
+    n <- 100
   }
   
   if (is.null(keyId)) {
@@ -92,7 +93,7 @@ compareNormalizationD_HC <- function(
         qDataBefore <- qDataBefore[subset.view, ]
         qDataAfter <- qDataAfter[subset.view, ]
       }
-      n <- 1
+      n <- 100
     }
   }
   
@@ -110,7 +111,7 @@ compareNormalizationD_HC <- function(
   #     n <- nrow(qDataBefore)
   # }
   # Truncate dataset
-  ind <- sample(seq_len(nrow(qDataBefore)), n*nrow(qDataBefore))
+  ind <- sample(seq_len(nrow(qDataBefore)), n)
   keyId <- keyId[ind]
   if (nrow(qDataBefore) > 1) {
     if (length(ind) == 1) {

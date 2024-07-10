@@ -1,5 +1,64 @@
 
 
+#' @title This function reads a sheet of an Excel file and put the data
+#' into a data.frame.
+#'
+#' @param file The name of the Excel file.
+#'
+#' @param sheet The name of the sheet
+#'
+#' @return A data.frame
+#'
+#' @author Samuel Wieczorek
+#'
+#' @export
+#' 
+#' @examples 
+#' NULL
+#'
+#'
+readExcel <- function(file, sheet=NULL) {
+  pkgs.require('readxl')
+  
+  if(is.null(sheet))
+    return(NULL)
+  
+  data <- NULL
+  data <- readxl::read_excel(file, 
+    sheet,
+    col_types = 'guess')
+  
+  return(
+    as.data.frame(
+      data, 
+      asIs = TRUE, 
+      stringsAsFactors = FALSE
+    )
+  )
+}
+
+
+
+#' @title This function returns the list of the sheets names in a Excel file.
+#'
+#' @param file The name of the Excel file.
+#'
+#' @return A vector
+#'
+#' @author Samuel Wieczorek
+#'
+#' @export
+#' 
+#' @examples 
+#' NULL
+#'
+#'
+listSheets <- function(file) {
+  pkgs.require('openxlsx')
+  return(openxlsx::getSheetNames(file))
+}
+
+
 
 #' @title This function exports a data.frame to a Excel file.
 #'

@@ -751,7 +751,7 @@ formatLimmaResult <- function(fit, conds, contrast, design.level) {
     logFC = as.data.frame(res[, seq_len(Compa.Nb)]),
     P_Value = as.data.frame(res[, -(seq_len(Compa.Nb))])
   )
-  
+ 
   colnames(res.l$logFC) <- gsub("[ ]", "", paste(cn, "logFC", sep = "_"))
   colnames(res.l$P_Value) <- gsub("[ ]", "", paste(cn, "pval", sep = "_"))
   
