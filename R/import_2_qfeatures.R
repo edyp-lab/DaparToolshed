@@ -133,7 +133,9 @@ createQFeatures <- function(data = NULL,
 
     # Standardize all colnames
     colnames(data) <- ReplaceSpecialChars(colnames(data))
-
+    indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
+    
+    
     if (is.numeric(indQData))
         indQData <- colnames(data)[indQData]
     
@@ -151,7 +153,8 @@ createQFeatures <- function(data = NULL,
     #processes <- ReplaceSpecialChars(processes)
     typePipeline <- ReplaceSpecialChars(typePipeline)
     software <- ReplaceSpecialChars(software)
-
+    indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
+    
 
 
 
@@ -176,7 +179,7 @@ createQFeatures <- function(data = NULL,
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
     design.qf(obj) <- sample
 
-    
+  
     # Get the metacell info
     tmp.qMetacell <- NULL
     if (!is.null(indexForMetacell)) {

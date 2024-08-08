@@ -111,7 +111,7 @@ compareNormalizationD_HC <- function(
   #     n <- nrow(qDataBefore)
   # }
   # Truncate dataset
-  ind <- sample(seq_len(nrow(qDataBefore)), n)
+  ind <- sample(seq_len(nrow(qDataBefore)), min(n, length(subset.view)))
   keyId <- keyId[ind]
   if (nrow(qDataBefore) > 1) {
     if (length(ind) == 1) {
