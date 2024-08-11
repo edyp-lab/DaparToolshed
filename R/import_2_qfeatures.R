@@ -169,8 +169,9 @@ createQFeatures <- function(data = NULL,
 
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
-      data,
+      table = data,
       quantCols = indQData,
+      ecol = indQData,
       name = "original",
       fnames = keyId
       )
