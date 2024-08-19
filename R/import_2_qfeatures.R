@@ -79,28 +79,28 @@ createQFeatures <- function(data = NULL,
     # Check parameters validity
     if (missing(data) && missing(file)) {
         stop("Either 'data' or 'file' is required")
-    } else if (!missing(data) && !missing(file)) {
-        stop("Only 'data' or 'file' is required at a time. Please choose 
-            one of them.")
-    }
+    } 
+  
+  # else if (!missing(data) && !missing(file)) {
+  #       stop("Only 'data' or 'file' is required at a time. Please choose 
+  #           one of them.")
+  #   }
 
     if (!missing(data) && !is(data, "data.frame")) {
         stop("'data' must be a data.frame")
     }
 
-    if (!missing(file)) {
-        if (!is(file, "xxx")) {
-            stop("'file' must be a connection")
-        } else {
-            data <- read.table(file,
-                header = TRUE,
-                sep = "\t",
-                stringsAsFactors = FALSE
-            )
-        }
-    }
-
-
+    if (missing(file)){
+      stop("'file' is required")
+      } 
+  # else {
+  #       
+  #           data <- read.table(file,
+  #               header = TRUE,
+  #               sep = "\t",
+  #               stringsAsFactors = FALSE
+  #           )
+  #       }
 
     if (missing(sample)) {
         stop("'sample' is required")
@@ -133,7 +133,6 @@ createQFeatures <- function(data = NULL,
 
     # Standardize all colnames
     colnames(data) <- ReplaceSpecialChars(colnames(data))
-    indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
     
     
     if (is.numeric(indQData))
@@ -141,8 +140,12 @@ createQFeatures <- function(data = NULL,
     
     indQData <- ReplaceSpecialChars(indQData)
     
+    
     if (is.numeric(indexForMetacell))
       indexForMetacell <- colnames(data)[indexForMetacell]
+    else
+      indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
+    
 
 
     # Standardizes names
@@ -176,6 +179,7 @@ createQFeatures <- function(data = NULL,
       fnames = keyId
       )
 
+
     ## Encoding the sample data
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
     design.qf(obj) <- sample
@@ -189,6 +193,7 @@ createQFeatures <- function(data = NULL,
       #tmp.qMetacell <- apply(tmp.qMetacell, 2, function(x) gsub("\\s", "", x))
       tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
       colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
+      
       
       qMetacell <- BuildMetacell(
         from = software,
@@ -212,6 +217,7 @@ createQFeatures <- function(data = NULL,
     
     # Enrich the metadata for whole QFeatures object
     S4Vectors::metadata(obj)$versions <- ProstarVersions()
+    S4Vectors::metadata(obj)$file <- file
     S4Vectors::metadata(obj)$analysis <- list(
         analysis = analysis
         #typePipeline = typePipeline
