@@ -51,7 +51,7 @@ ReplaceSpecialChars <- function(x) {
         return(x)
     }
 
-    for (char in c(".", " ", "-")) {
+    for (char in c(".", " ")) {
         x <- gsub(char, "_", x, fixed = TRUE)
     }
 

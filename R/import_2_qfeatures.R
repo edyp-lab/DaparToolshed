@@ -179,6 +179,10 @@ createQFeatures <- function(data = NULL,
       fnames = keyId
       )
 
+  
+    # The function readQFeatures changes non alphanumeric characters, like '+' converted to '.'
+    # Force the use of original colnames
+    colnames(rowData(obj)$original) <- colnames(data)[-match(indQData, colnames(data))]
 
     ## Encoding the sample data
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
