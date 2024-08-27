@@ -28,6 +28,23 @@ ft <- createQFeatures(file = data.file,
   software = "maxquant"
   )
 
+
+ft <- createQFeatures(file = data.file,
+  data = data, 
+  sample = sample,
+  indQData = 56:61,
+  keyId = "Sequence",
+  analysis = "test",
+  logData = TRUE,
+  typeDataset = "peptide",
+  parentProtId = "Protein_group_IDs",
+  force.na = TRUE,
+  software = "maxquant"
+)
+
+
+
+
 ft <- createQFeatures(file = data.file,
   data = data, 
   sample = sample,

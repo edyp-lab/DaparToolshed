@@ -31,6 +31,8 @@
 #' and is used to generate adjacency matrix and process to aggregation.
 #'
 #' @param analysis A `character(1)` which is the name of the MS study.
+#' 
+#' @param description A text which describes the study.
 #'
 #' @param processes A vector of A `character()` which contains the name of 
 #' processes which has already been run on the data. Default is 'original'.
@@ -68,6 +70,7 @@ createQFeatures <- function(data = NULL,
   typeDataset,
   parentProtId = NULL,
   analysis = "foo",
+  description = NULL,
   processes = NULL,
   typePipeline = NULL,
   software = NULL,
@@ -116,9 +119,9 @@ createQFeatures <- function(data = NULL,
   #       stop("'indQData' must be a vector of integer")
   #   }
 
-    if (missing(indexForMetacell)) {
-        stop("'indexForMetacell' is required")
-    }
+    # if (missing(indexForMetacell)) {
+    #     stop("'indexForMetacell' is required")
+    # }
   # else if (!is.numeric(indexForMetacell)) {
   #       stop("'indexForMetacell' must be a vector of integer")
   #   }
@@ -170,11 +173,12 @@ createQFeatures <- function(data = NULL,
     }
     
 
+
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
-      table = data,
+      assayData = data,
       quantCols = indQData,
-      ecol = indQData,
+      #ecol = indQData,
       name = "original",
       fnames = keyId
       )
@@ -188,7 +192,7 @@ createQFeatures <- function(data = NULL,
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
     design.qf(obj) <- sample
 
-  
+ 
     # Get the metacell info
     tmp.qMetacell <- NULL
     if (!is.null(indexForMetacell)) {
@@ -197,7 +201,7 @@ createQFeatures <- function(data = NULL,
       #tmp.qMetacell <- apply(tmp.qMetacell, 2, function(x) gsub("\\s", "", x))
       tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
       colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
-      
+    }
       
       qMetacell <- BuildMetacell(
         from = software,
@@ -208,22 +212,26 @@ createQFeatures <- function(data = NULL,
         )
     
       colnames(qMetacell) <- gsub(".", "_", colnames(qMetacell), fixed = TRUE)
-    
+      rownames(qMetacell) <- rownames(data)
+      
+      
+      #browser()
       # Add the quantitative cell metadata info
       qMetacell(obj[["original"]]) <- qMetacell
     
+      if (!is.null(indexForMetacell)) {
       # Remove the identification columns which became useless
       .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
       rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
       }
-
-    
+      
     
     # Enrich the metadata for whole QFeatures object
     S4Vectors::metadata(obj)$versions <- ProstarVersions()
     S4Vectors::metadata(obj)$file <- file
     S4Vectors::metadata(obj)$analysis <- list(
-        analysis = analysis
+        analysis = analysis,
+        description = description
         #typePipeline = typePipeline
         #processes = c("original", processes)
     )
