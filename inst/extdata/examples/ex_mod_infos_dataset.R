@@ -1,10 +1,10 @@
 
 library(QFeatures)
-library(DaparViz)
+library(omXplore)
 library(shinyjs)
 library(shiny)
 
-data(ft_na, package='DaparViz')
+data(ft_na, package='omXplore')
 
 ui <- fluidPage(infos_dataset_ui("mod_info"))
 

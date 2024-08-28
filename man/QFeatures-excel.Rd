@@ -8,11 +8,11 @@
 \alias{addColors}
 \title{Exports a \code{QFeatures} object to a Excel file.}
 \usage{
-\S4method{write2excel}{QFeatures}(object, i = NULL, filename = "newFile", ...)
+\S4method{write2excel}{QFeatures}(object, i = NULL, filename = "newFile", writeColdData = TRUE, ...)
 
-\S4method{write2excel}{SummarizedExperiment}(object, filename, exp.design, ...)
+\S4method{write2excel}{SummarizedExperiment}(object, filename, exp.design, writeColData = TRUE, ...)
 
-.write2excel(object, filename, exp.design)
+.write2excel(object, filename, exp.design, writeColData = TRUE)
 
 addColors(wb, n, tags, colors)
 }

@@ -12,7 +12,7 @@ compareNormalizationD_HC(
   conds = NULL,
   pal = NULL,
   subset.view = NULL,
-  n = 1,
+  n = 100,
   type = "scatter"
 )
 }

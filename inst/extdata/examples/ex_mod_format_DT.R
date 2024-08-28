@@ -1,4 +1,4 @@
-library(DaparViz)
+library(omXplore)
 library(DT)
 
 ui <- format_DT_ui("dt")

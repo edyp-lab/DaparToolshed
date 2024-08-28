@@ -1,4 +1,4 @@
-#' data(ft_na, package='DaparViz')
+#' data(ft_na, package='omXplore')
 #' data <- assay(ft_na, 1)
 #' conds <- colData(ft_na)$Condition
 #'
@@ -15,7 +15,7 @@
 #' #-----------------------------
 #'
 #' if (interactive()) {
-#'     data(ft_na, package='DaparViz')
+#'     data(ft_na, package='omXplore')
 #'
 #'     ui <- mod_mv_imputation_ui("plot")
 #'

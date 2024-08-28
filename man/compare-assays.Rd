@@ -17,7 +17,7 @@ plotCompareAssays(
 )
 }
 \arguments{
-\item{obj}{An instance of the class \code{DaparViz}.}
+\item{obj}{An instance of the class \code{omXplore}.}
 
 \item{i}{A numeric matrix containing quantitative data after
 normalization.}

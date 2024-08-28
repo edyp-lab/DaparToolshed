@@ -16,6 +16,7 @@ createQFeatures(
   typeDataset,
   parentProtId = NULL,
   analysis = "foo",
+  description = NULL,
   processes = NULL,
   typePipeline = NULL,
   software = NULL,
@@ -48,6 +49,8 @@ is the name of a column in rowData. It contains the id of parent proteins
 and is used to generate adjacency matrix and process to aggregation.}
 
 \item{analysis}{A \code{character(1)} which is the name of the MS study.}
+
+\item{description}{A text which describes the study.}
 
 \item{processes}{A vector of A \code{character()} which contains the name of
 processes which has already been run on the data. Default is 'original'.}

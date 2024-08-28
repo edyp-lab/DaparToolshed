@@ -99,7 +99,9 @@ NULL
 #' 
 #' 
 write_Assay_To_Excel <- function(wb, obj, i, n){
-  openxlsx::addWorksheet(wb, names(obj)[i])
+  .name <- paste0(names(obj)[i], '_quantdata')
+  
+  openxlsx::addWorksheet(wb, .name)
   
   data <- assay(obj[[i]])
   openxlsx::writeData(wb, 
@@ -149,6 +151,7 @@ write_Assay_To_Excel <- function(wb, obj, i, n){
 #' 
 #' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
+  
   openxlsx::addWorksheet(wb, "Samples Meta Data")
   openxlsx::writeData(wb, 
     sheet = n, 
@@ -192,54 +195,52 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
 }
 
 
-Write_Feature_Data <- function(obj, i, n){
-if (dim(Biobase::fData(obj))[2] != 0) {
-  openxlsx::addWorksheet(wb, "Feature Meta Data")
-  openxlsx::writeData(wb,
-    sheet = n,
-    cbind(
-      ID = rownames(Biobase::fData(obj)),
-      Biobase::fData(obj)
-    ), rowNames = FALSE
-  )
-}
 
-colors <- as.list(stats::setNames(mc$color, mc$node))
-tags <- cbind(
-  keyId = rep("Quant. by direct id", nrow(obj)),
-  Biobase::fData(obj)
-)
+#' @export
+#' 
+#' 
+Write_RowData <- function(wb, obj, i, n){
+  .name <- paste0(names(obj)[i], '_coldata')
+  openxlsx::addWorksheet(wb, .name)
 
-.ind <- colnames(Biobase::fData(obj))
-.ind <- which(.ind %in% obj@experimentData@other$names_metacell)
-tags[, ] <- "Quant. by direct id"
-tags[, 1 + .ind] <- GetMetacell(obj)
-
-unique.tags <- NULL
-if (!is.null(tags) && !is.null(colors)) {
-  unique.tags <- unique(as.vector(as.matrix(tags)))
-  if (!isTRUE(
-    sum(unique.tags %in% names(colors)) == length(unique.tags))) {
-    warning("The length of colors vector must be equal to the number
-          of different tags. As is it not the case, colors are ignored")
-  }
-  if (isTRUE(
-    sum(unique.tags %in% names(colors)) == length(unique.tags))) {
-    lapply(seq_len(length(colors)), function(x) {
-      list.tags <- which(names(colors)[x] == tags, arr.ind = TRUE)
-      openxlsx::addStyle(wb,
-        sheet = n,
-        cols = list.tags[, "col"],
-        rows = list.tags[, "row"] + 1,
-        style = openxlsx::createStyle(fgFill = colors[x])
-      )
-    })
-  }
-
-}
-
-
-return(wb)
+  openxlsx::writeData(wb, 
+    sheet = n, 
+    rowData(obj[[i]]), 
+    rowNames = FALSE)
+  
+  
+  # Add colors to quantitative table
+  # mc <- metacell.def(omXplore::get_type(obj[[i]]))
+  # colors <- as.list(stats::setNames(mc$color, mc$node))
+  # tags <- cbind(
+  #   keyId = rep("Quant. by direct id", nrow(obj[[i]])),
+  #   omXplore::get_metacell(obj[[i]])
+  # )
+  # 
+  # 
+  # unique.tags <- NULL
+  # if (!is.null(tags) && !is.null(colors)) {
+  #   unique.tags <- unique(as.vector(as.matrix(tags)))
+  #   if (!isTRUE(
+  #     sum(unique.tags %in% names(colors)) == length(unique.tags))) {
+  #     warning("The length of colors vector must be equal to the number 
+  #           of different tags. As is it not the case, colors are ignored")
+  #   }
+  #   if (isTRUE(
+  #     sum(unique.tags %in% names(colors)) == length(unique.tags))) {
+  #     lapply(seq_len(length(colors)), function(x) {
+  #       list.tags <- which(names(colors)[x] == tags, arr.ind = TRUE)
+  #       openxlsx::addStyle(wb,
+  #         sheet = n,
+  #         cols = list.tags[, "col"],
+  #         rows = list.tags[, "row"] + 1,
+  #         style = openxlsx::createStyle(fgFill = colors[x])
+  #       )
+  #     })
+  #   }
+  # }
+  
+  return(wb)
 }
 
 #'
@@ -265,7 +266,7 @@ return(wb)
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
-#' write_QF_To_Excel(obj, "foo.xlsx")
+#' write.excel(obj, "foo.xlsx")
 #' 
 #'
 #' @export
@@ -285,17 +286,14 @@ write.excel <- function(obj, filename) {
   wb <- Write_SamplesData_to_Excel(wb, obj, n)
  
   for (i in seq(length(obj))){
-    print(i)
-    print(n)
-    wb <- write_Assay_To_Excel(wb, obj, i, n = n + i)
+    n <- n + 1
+    wb <- write_Assay_To_Excel(wb, obj, i, n)
+    n <- n + 1
+    wb <- Write_RowData(wb, obj, i, n)
   }
 
   ## Add feature Data sheet
-  
-   n <- n + length(obj) + 1
-  #wb <- Write_Feature_Data(obj, i, n)
 
-  
   openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
   return(filename)
 }

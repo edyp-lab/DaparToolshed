@@ -26,7 +26,7 @@ missing values which have been imputed.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-write_QF_To_Excel(obj, "foo.xlsx")
+write.excel(obj, "foo.xlsx")
 
 
 }

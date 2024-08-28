@@ -61,7 +61,9 @@ setMethod(
     #' @param ... xxx
     function(object,
              i = NULL,
-             filename = "newFile", ...) {
+             filename = "newFile", 
+      writeColdData = TRUE,
+      ...) {
         if (length(object) == 0) {
             return(NULL)
         }
@@ -75,6 +77,7 @@ setMethod(
                 object[[i]],
                 filename,
                 design.qf(object),
+              writeColData = writeColdData,
                 ...
             )
         }
@@ -91,8 +94,16 @@ setMethod(
     #' @param filename xxx
     #' @param exp.design xxx
     #' @param ... xxx
-    function(object, filename, exp.design, ...) {
-        .write2excel(object, filename, exp.design, ...)
+    function(object, 
+      filename, 
+      exp.design, 
+      writeColData = TRUE,
+      ...) {
+        .write2excel(object, 
+          filename, 
+          exp.design, 
+          writeColData = writeColData, 
+          ...)
     }
 )
 
@@ -110,9 +121,12 @@ setMethod(
 #'
 #' @rdname QFeatures-excel
 #' 
-.write2excel <- function(object, filename, exp.design) {
+.write2excel <- function(object, 
+  filename, 
+  exp.design,
+  writeColData = TRUE) {
     
-  pkgs.require(c("DaparViz", "openxlsx"))
+  pkgs.require(c("omXplore", "openxlsx"))
   
     name <- paste0(filename, ".xlsx", sep = "")
     wb <- openxlsx::createWorkbook(name)
@@ -154,7 +168,7 @@ setMethod(
 
     # Add colors for sample data sheet
     u_conds <- unique(exp.design$Condition)
-    colors <- stats::setNames(DaparViz::ExtendPalette(length(u_conds)), u_conds)
+    colors <- stats::setNames(omXplore::ExtendPalette(length(u_conds)), u_conds)
     colors[["blank"]] <- "white"
 
     tags <- as.data.frame(exp.design)
@@ -205,8 +219,33 @@ setMethod(
     tags[, 1 + seq_len(ncol(new.rowData))] <- new.rowData
 
     addColors(wb, n, tags, colors)
+    
+    
+    
+    # Add the row data for the last SE only (which is supposed to collect
+    # all the rowDatas of the previous SE
+    if (writeColData) {
+      n <- 5
+    openxlsx::addWorksheet(wb, "colData")
+    openxlsx::writeData(wb,
+      sheet = n,
+      colData(object),
+      rowNames = TRUE
+    )
+    
+    # 
+    # colors <- as.list(stats::setNames(mc$color, mc$node))
+    # tags <- cbind(
+    #   keyId = rep("identified", nrow(new.rowData)),
+    #   new.rowData
+    # )
+    # 
+    # tags[, ] <- "identified"
+    # tags[, 1 + seq_len(ncol(new.rowData))] <- new.rowData
+    # 
+    # addColors(wb, n, tags, colors)
 
-
+}
 
 
     openxlsx::saveWorkbook(wb, name, overwrite = TRUE)

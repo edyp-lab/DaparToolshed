@@ -8,7 +8,7 @@
 #'
 #' The comparison is made with the division operator.
 #'
-#' @param obj An instance of the class `DaparViz`.
+#' @param obj An instance of the class `omXplore`.
 #' @param i A numeric matrix containing quantitative data after 
 #' normalization.
 #' @param j A numeric matrix containing quantitative data after 
