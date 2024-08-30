@@ -150,6 +150,50 @@ write_Assay_To_Excel <- function(wb, obj, i, n){
 #' @export
 #' 
 #' 
+WriteHistory <- function(wb, obj, n){
+  
+  openxlsx::addWorksheet(wb, 'history')
+  
+  dfHistory <- data.frame(process = c(), parameter = c(), value = c())
+
+  for (i in seq(length(obj))){
+
+    paramName <- names(paramshistory(obj[[i]]))
+    if(is.null(paramName)){
+      paramName <- '-'
+      paramValue <- '-'
+      dfHistory <- rbind(dfHistory, 
+        data.frame(process = names(obj)[i], 
+          parameter = paramName, 
+          value = paramValue)
+      )
+    } else {
+    
+      for (x in paramName){
+        dfHistory <- rbind(dfHistory, 
+          data.frame(process = names(obj)[i], 
+            parameter = x, 
+            value = unname(unlist(paramshistory(obj[[i]])[[x]]))
+            )
+        )
+      }
+    
+  }
+  
+  }
+
+  openxlsx::writeData(wb, 
+    sheet = n, 
+    dfHistory, 
+    rowNames = FALSE)
+  
+  return(wb)
+}
+
+
+#' @export
+#' 
+#' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
   
   openxlsx::addWorksheet(wb, "Samples Meta Data")
@@ -283,6 +327,9 @@ write.excel <- function(obj, filename) {
   
   
   n <- 1
+  
+  wb <- WriteHistory(wb, obj, n)
+  n <- n + 1
   wb <- Write_SamplesData_to_Excel(wb, obj, n)
  
   for (i in seq(length(obj))){
