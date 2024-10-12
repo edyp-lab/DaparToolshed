@@ -88,6 +88,9 @@ Suggests:
     stringr, 
     gplots, 
     tidyr
+Remotes:
+    git::edyp-lab/DaparToolshedData,
+    git::prostarproteomics/omXplore
 NeedsCompilation: no
 Collate:
     AllGenerics.R
@@ -136,3 +139,4 @@ URL: https://github.com/edyp-lab/DaparToolshed
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+
