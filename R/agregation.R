@@ -382,8 +382,10 @@ BuildAdjacencyMatrix <- function(obj.pep, protID, unique = TRUE) {
 }
 
 
+#' @title Test
 #' @export
 #' @examples
+#' NULL
 #' 
 ExtractUniquePeptides <- function(X){
 

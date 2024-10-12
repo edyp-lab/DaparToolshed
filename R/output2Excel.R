@@ -1,21 +1,58 @@
-
-
-#' @title This function reads a sheet of an Excel file and put the data
-#' into a data.frame.
+#' @title This function exports a data.frame to a Excel file.
+#' 
+#' @description 
+#' This function exports a \code{MSnSet} data object to a Excel file.
+#' Each of the three data.frames in the \code{MSnSet} object (ie experimental
+#' data, phenoData and metaData are respectively integrated into separate sheets
+#' in the Excel file). 
+#' 
+#' The colored cells in the experimental data correspond to the original
+#' missing values which have been imputed.
 #'
+#' @param df An data.frame
+#'
+#' @param tags xxx
+#'
+#' @param colors xxx
+#'
+#' @param tabname xxx
+#'
+#' @param filename A character string for the name of the Excel file.
 #' @param file The name of the Excel file.
 #'
 #' @param sheet The name of the sheet
-#'
-#' @return A data.frame
+#' 
+#' @return A Excel file (.xlsx)
 #'
 #' @author Samuel Wieczorek
+#' @name output_2_Excel
+#' @examples
+#' data(Exp1_R25_pept, package="DAPARdata")
+#' df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
+#' tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
+#' colors <- list(
+#'     "Missing POV" = "lightblue",
+#'     "Missing MEC" = "orange",
+#'     "Quant. by recovery" = "lightgrey",
+#'     "Quant. by direct id" = "white",
+#'     "Combined tags" = "red"
+#' )
+#' write.excel(df, tags, colors, filename = "toto")
+#' 
+#' 
+#' data(Exp1_R25_pept, package="DaparToolshedData")
+#' obj <- Exp1_R25_pept[seq_len(10)]
+#' write.excel(obj, "foo.xlsx")
+#' 
+#'
+#' 
+NULL
+
+
+
+#' @rdname output_2_Excel
 #'
 #' @export
-#' 
-#' @examples 
-#' NULL
-#'
 #'
 readExcel <- function(file, sheet=NULL) {
   pkgs.require('readxl')
@@ -39,18 +76,8 @@ readExcel <- function(file, sheet=NULL) {
 
 
 
-#' @title This function returns the list of the sheets names in a Excel file.
-#'
-#' @param file The name of the Excel file.
-#'
-#' @return A vector
-#'
-#' @author Samuel Wieczorek
-#'
+#' @rdname output_2_Excel
 #' @export
-#' 
-#' @examples 
-#' NULL
 #'
 #'
 listSheets <- function(file) {
@@ -60,43 +87,10 @@ listSheets <- function(file) {
 
 
 
-#' @title This function exports a data.frame to a Excel file.
-#'
-#' @param df An data.frame
-#'
-#' @param tags xxx
-#'
-#' @param colors xxx
-#'
-#' @param tabname xxx
-#'
-#' @param filename A character string for the name of the Excel file.
-#'
-#' @return A Excel file (.xlsx)
-#'
-#' @author Samuel Wieczorek
-#'
-#' @export
-#'
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
-#' df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
-#' tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
-#' colors <- list(
-#'     "Missing POV" = "lightblue",
-#'     "Missing MEC" = "orange",
-#'     "Quant. by recovery" = "lightgrey",
-#'     "Quant. by direct id" = "white",
-#'     "Combined tags" = "red"
-#' )
-#' write.excel(df, tags, colors, filename = "toto")
-#' 
-NULL
 
 
 #' @export
-#' 
+#' @rdname output_2_Excel
 #' 
 write_Assay_To_Excel <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_quantdata')
@@ -148,7 +142,7 @@ write_Assay_To_Excel <- function(wb, obj, i, n){
 
 
 #' @export
-#' 
+#' @rdname output_2_Excel
 #' 
 WriteHistory <- function(wb, obj, n){
   
@@ -192,7 +186,7 @@ WriteHistory <- function(wb, obj, n){
 
 
 #' @export
-#' 
+#' @rdname output_2_Excel
 #' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
   
@@ -241,7 +235,7 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
 
 
 #' @export
-#' 
+#' @rdname output_2_Excel
 #' 
 Write_RowData <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_coldata')
@@ -287,34 +281,10 @@ Write_RowData <- function(wb, obj, i, n){
   return(wb)
 }
 
-#'
-#' @title This function exports a \code{MSnSet} object to a Excel file.
-#' 
-#' @description 
-#' This function exports a \code{MSnSet} data object to a Excel file.
-#' Each of the three data.frames in the \code{MSnSet} object (ie experimental
-#' data, phenoData and metaData are respectively integrated into separate sheets
-#' in the Excel file). 
-#' 
-#' The colored cells in the experimental data correspond to the original
-#' missing values which have been imputed.
-#'
-#' @param obj An object of class \code{MSnSet}.
-#'
-#' @param filename A character string for the name of the Excel file.
-#'
-#' @return A Excel file (.xlsx)
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' write.excel(obj, "foo.xlsx")
-#' 
-#'
+
+
 #' @export
-#'
+#' @rdname output_2_Excel
 #'
 write.excel <- function(obj, filename) {
   pkgs.require(c('stats', 'openxlsx'))
