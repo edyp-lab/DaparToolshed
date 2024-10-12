@@ -21,8 +21,6 @@ License: Artistic-2.0
 Depends: R (>= 4.3.0)
 Imports:
     Biobase,
-    DaparToolshedData,
-    MagellanNTK,
     S4Vectors,
     BiocGenerics,
     QFeatures,
@@ -58,7 +56,6 @@ Suggests:
     PSMatch,
     lme4,
     DT,
-    DaparViz,
     shinyWidgets,
     Matrix,
     vsn, 
@@ -90,6 +87,7 @@ Suggests:
     tidyr
 Remotes:
     git::edyp-lab/DaparToolshedData,
+    git::edyp/MagellanNTK
     git::prostarproteomics/omXplore
 NeedsCompilation: no
 Collate:
