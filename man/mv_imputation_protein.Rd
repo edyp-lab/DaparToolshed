@@ -48,6 +48,10 @@ Available values are: \code{NA} (for both POV and MEC), \code{POV}, \code{MEC}.}
 replicates}
 
 \item{factor}{A scaling factor to multiply the imputation value with}
+
+\item{qdata}{xxx}
+
+\item{coldata}{xxx}
 }
 \value{
 A data.frame containing the indexes of LAPALA
@@ -108,7 +112,7 @@ obj.imp.pov <- wrapper.impute.pa(obj, grp)
 qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)
 
-coldata <- MultiAssayExperiment::colData(Exp1_R25_pept)
+coldata <- colData(Exp1_R25_pept)
 obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 
 

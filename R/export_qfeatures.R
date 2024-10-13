@@ -29,6 +29,7 @@
 #' @param tags xxx
 #' @param colors A `character()` which contains the HEX code for colors. 
 #' The size of this vector must be the same as the number of tags.
+#' @param writeColdData xxx
 #'
 #' @return A Excel file.
 #'
@@ -121,12 +122,13 @@ setMethod(
 #'
 #' @rdname QFeatures-excel
 #' 
+#' @import omXplore
+#' @import openxlsx
+#' 
 .write2excel <- function(object, 
   filename, 
   exp.design,
   writeColData = TRUE) {
-    
-  pkgs.require(c("omXplore", "openxlsx"))
   
     name <- paste0(filename, ".xlsx", sep = "")
     wb <- openxlsx::createWorkbook(name)

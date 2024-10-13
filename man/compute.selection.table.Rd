@@ -18,7 +18,7 @@ a summary of the number of significantly differentially abundant proteins, overa
 Applies an FDR threshold on a table of adjusted p-values and summarizes the results
 }
 \examples{
-data(Exp1_R25_prot, package='DAPARdata')
+data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
 adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
 seltab <- compute.selection.table(adjpvaltab, 0.2)

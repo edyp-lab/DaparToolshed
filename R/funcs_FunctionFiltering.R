@@ -28,6 +28,8 @@
 #' NA
 #'
 #' @export
+#' 
+#' @import omXplore
 #'
 GetIndices_FunFiltering <- function(obj,
   conds, 
@@ -143,13 +145,13 @@ SymFilteringOperators <- function() {
 #' @param metacell.mask xxx
 #'
 #' @param op  String for operator to use. List of operators is available with 
-#' SymFilteringOperators().
+#' `SymFilteringOperators()`.
 #'
 #' @param percent A boolean to indicate whether the threshold represent an 
 #' absolute value (percent = FALSE) or
 #' a percentage (percent=TRUE).
 #'
-#' @param th A floating number which is in the interval [0, 1]
+#' @param th A floating number which is in the interval `[0, 1]`
 #'
 #'
 #' @examples
@@ -270,7 +272,7 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' @param percent xxx
 #'
 #' @param op  String for operator to use. List of operators is available 
-#' with SymFilteringOperators().
+#' with the function `SymFilteringOperators()`.
 #'
 #' @param th The theshold to apply
 #'

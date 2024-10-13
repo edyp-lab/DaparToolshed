@@ -18,7 +18,7 @@ Builds the design matrix for designs of level 3
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-sTab <- cbind(MultiAssayExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
+sTab <- cbind(colData(Exp1_R25_pept), Tech.Rep = 1:6)
 make.design.3(sTab)
 
 

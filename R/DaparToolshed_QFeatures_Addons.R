@@ -649,7 +649,9 @@ setMethod(
 #' @param obj xxx
 #' @param i xxx
 #' @export
-#' @return xxx
+#' @return NULL
+#' 
+#' @import omXplore
 #' 
 NAIsZero <- function(obj, i){
   

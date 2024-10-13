@@ -49,7 +49,10 @@
 #'
 #' @param na.type A string which indicates the type of missing values to impute.
 #' Available values are: `NA` (for both POV and MEC), `POV`, `MEC`.
-#'
+#' @param qdata xxx
+#' @param coldata xxx
+#' 
+#' 
 #' @return A data.frame containing the indexes of LAPALA
 #'
 #' @author Samuel Wieczorek
@@ -74,7 +77,7 @@
 #' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
 #' 
-#' coldata <- MultiAssayExperiment::colData(Exp1_R25_pept)
+#' coldata <- colData(Exp1_R25_pept)
 #' obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 #'
 #'
@@ -137,6 +140,7 @@ reIntroduceMEC <- function(obj, grp, MECIndex) {
 #'
 #' @export
 #' @rdname mv_imputation_protein
+#' @import omXplore
 #'
 wrapper.impute.KNN <- function(obj = NULL, grp, K) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
@@ -182,6 +186,7 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
 
 #' @rdname mv_imputation_protein
 #' @export
+#' @import omXplore
 #'
 wrapper.impute.fixedValue <- function(obj, 
   grp,
@@ -249,6 +254,7 @@ wrapper.impute.pa <- function(
 
 #' @export
 #' @rdname mv_imputation_protein
+#' @import omXplore
 #'
 wrapper.impute.detQuant <- function(
     obj, 

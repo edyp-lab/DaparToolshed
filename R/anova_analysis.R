@@ -29,7 +29,7 @@ OWAnova <- function(current_protein, conditions){
 #' @return a list of linear models
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DAPARdata')
+#' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
 #' applyAnovasOnProteins(exdata)
 #'
@@ -59,7 +59,7 @@ applyAnovasOnProteins <- function(obj){
 #' @return a list of 2 tables (p-values and fold-changes, respecively)
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DAPARdata')
+#' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
 #' testAnovaModels(applyAnovasOnProteins(exdata))
 #'
@@ -227,7 +227,7 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #' @return a proteins x contrasts table of adjusted p-values
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DAPARdata')
+#' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
 #' separateAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
 #'
@@ -260,7 +260,7 @@ separateAdjPval <- function(x,
 #' @return a proteins x contrasts table of adjusted p-values
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DAPARdata')
+#' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
 #' globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
 #'
@@ -289,7 +289,7 @@ globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
 #' @return a summary of the number of significantly differentially abundant proteins, overall and per contrast
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DAPARdata')
+#' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
 #' adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
 #' seltab <- compute.selection.table(adjpvaltab, 0.2)

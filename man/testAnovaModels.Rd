@@ -24,7 +24,7 @@ a list of 2 tables (p-values and fold-changes, respecively)
 Applies a statistical test on each element of a list of linear models
 }
 \examples{
-data(Exp1_R25_prot, package='DAPARdata')
+data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
 testAnovaModels(applyAnovasOnProteins(exdata))
 

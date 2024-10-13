@@ -38,6 +38,8 @@ vsn(qData, conds, type = NULL)
 LOESS(qData, conds, type = "overall", span = 0.7)
 }
 \arguments{
+\item{target}{xxx}
+
 \item{qData}{xxx}
 
 \item{conds}{xxx}
@@ -56,18 +58,6 @@ align the data.}
 be forced to unit (variance reduction) or not.}
 
 \item{span}{xxx}
-
-\item{obj}{An object of class \code{QFeatures}.}
-
-\item{i}{An integer which designs the assay in the obj}
-
-\item{method}{One of the following : "GlobalQuantileAlignment" (for
-normalizations of important magnitude), "SumByColumns", "QuantileCentering",
-"Mean Centering", "LOESS" and "vsn".}
-
-\item{withTracking}{xxx}
-
-\item{...}{Additional parameters}
 }
 \value{
 xxx
@@ -103,7 +93,7 @@ by condition.
 normalizeMethods()
 
 
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 
 conds <- Biobase::pData(Exp1_R25_pept)$Condition
 obj <- wrapper.normalizeD(
@@ -111,7 +101,7 @@ obj <- wrapper.normalizeD(
     conds = conds, type = "within conditions"
 )
 
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 qData <- Biobase::exprs(Exp1_R25_pept)
 
 normalized <- GlobalQuantileAlignment(qData)

@@ -14,6 +14,8 @@ compute_t_tests(
 \arguments{
 \item{obj}{A matrix of quantitative data, without any missing values.}
 
+\item{i}{xxx}
+
 \item{contrast}{Indicates if the test consists of the comparison of each
 biological condition versus
 each of the other ones (contrast=1;
@@ -45,7 +47,6 @@ obj <- NAIsZero(obj, 2)
 ttest <- compute_t_tests(obj, 2)
 
 ttest <- compute_t_tests(obj, 1)
-
 
 }
 \author{

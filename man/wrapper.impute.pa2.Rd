@@ -34,7 +34,7 @@ This method is a wrapper to the function \code{impute.pa2()} adapted to
 objects of class \code{MSnSet}.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DAPARdata")
+utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj.imp.pa2 <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
 distribution = "beta")
 

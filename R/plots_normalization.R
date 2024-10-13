@@ -34,7 +34,7 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_prot, package="DAPARdata")
+#' data(Exp1_R25_prot, package="DaparToolshedData")
 #' obj <- Exp1_R25_prot
 #' qDataBefore <- SummarizedExperiment::assay(obj[[length(obj)]])
 #' conds <- omXplore::get_group(obj)

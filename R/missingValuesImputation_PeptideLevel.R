@@ -18,7 +18,7 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DAPARdata")
+#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10), ]
 #' level <- 'peptide'
 #' metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)
@@ -111,7 +111,7 @@ wrapper.impute.mle <- function(obj) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DAPARdata")
+#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
 #' level <- 'peptide'
 #' metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)
@@ -290,7 +290,7 @@ translatedRandomBeta <- function(n, min, max, param1 = 3, param2 = 1) {
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DAPARdata")
+#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj.imp.pa2 <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
 #' distribution = "beta")
 #'
@@ -371,7 +371,7 @@ wrapper.impute.pa2 <- function(obj,
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DAPARdata")
+#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj.imp <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
 #' distribution = "beta")
 #'

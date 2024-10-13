@@ -211,6 +211,7 @@ custom_metacell_colors <- function()
 #' GetNbTags(Exp1_R25_prot[[1]])
 #' 
 #' @export
+#' @import omXplore
 #' 
 GetNbTags <- function(obj){
   df <- omXplore::get_metacell(obj)
@@ -941,6 +942,8 @@ GetMetacell <- function(obj) {
 #' @exportMethod UpdateMetacellAfterImputation
 #' @export
 #' 
+#' @import omXplore
+#' 
 setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
           function(object,
                    from,
@@ -1214,10 +1217,11 @@ metacombine <- function(met, level) {
 #' }
 #'
 #' @export
+#' 
+#' @import omXplore
+#' @import stats
 #'
 AggregateMetacell <- function(X, obj.pep) {
-  
-  pkgs.require('stats')
   
   issues <- NULL
   meta <- GetMetacell(obj.pep)

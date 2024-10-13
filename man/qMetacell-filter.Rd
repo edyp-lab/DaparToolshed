@@ -44,10 +44,10 @@ qMetacellOnConditions(
 
 \item{percent}{xxx}
 
-\item{th}{The theshold to apply}
+\item{th}{The threshold to apply}
 
 \item{operator}{String for operator to use. List of operators is available
-with SymFilteringOperators().}
+with \code{SymFilteringOperators()}.}
 
 \item{mode}{xxx}
 

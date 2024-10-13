@@ -26,7 +26,7 @@ analysis.
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept
 qData <- as.matrix(assay(obj[[2]]))
-sTab <- MultiAssayExperiment::colData(obj)
+sTab <- colData(obj)
 limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 pal <- ExtendPalette(2, "Dark2")
 hc_logFC_DensityPlot(res$logFC, th_logFC = 1, pal = pal)

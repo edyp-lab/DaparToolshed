@@ -11,9 +11,6 @@ NAIsZero(obj, i)
 
 \item{i}{xxx}
 }
-\value{
-xxx
-}
 \description{
 xxx
 }

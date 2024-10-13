@@ -154,6 +154,7 @@ FunctionFilter <- function(name, ...) {
 ##'
 ##' @exportMethod filterFeaturesOneSE
 ##' @importFrom S4Vectors metadata
+##' @import AnnotationFilter
 ##' @rdname QFeatures-filtering-oneSE
 setMethod(
     "filterFeaturesOneSE", "QFeatures",

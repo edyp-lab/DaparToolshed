@@ -20,7 +20,7 @@ package \code{imp4p} adapted to an object of class \code{MSnSet}.
 It does not impute MEC missing values.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DAPARdata")
+utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10), ]
 level <- 'peptide'
 metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)

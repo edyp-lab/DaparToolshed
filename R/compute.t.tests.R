@@ -2,7 +2,7 @@
 #' @title xxxxxx
 #'
 #' @param obj A matrix of quantitative data, without any missing values.
-#'
+#' @param i xxx
 #' @param contrast Indicates if the test consists of the comparison of each
 #' biological condition versus
 #' each of the other ones (contrast=1;
@@ -33,6 +33,7 @@
 #' 
 #' ttest <- compute_t_tests(obj, 1)
 #'
+#' @import omXplore
 #'
 #' @export
 #'

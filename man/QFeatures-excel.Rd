@@ -23,6 +23,8 @@ addColors(wb, n, tags, colors)
 
 \item{filename}{xxx}
 
+\item{writeColdData}{xxx}
+
 \item{...}{xxx}
 
 \item{exp.design}{xxx}

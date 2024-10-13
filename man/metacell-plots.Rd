@@ -46,6 +46,8 @@ hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 \arguments{
 \item{obj}{xxx}
 
+\item{group}{xxx}
+
 \item{pattern}{xxx}
 
 \item{detailed}{'value' or 'percent'}

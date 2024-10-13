@@ -10,13 +10,13 @@ GetIndices_WholeMatrix(metacell.mask, op = "==", percent = FALSE, th = 0)
 \item{metacell.mask}{xxx}
 
 \item{op}{String for operator to use. List of operators is available with
-SymFilteringOperators().}
+\code{SymFilteringOperators()}.}
 
 \item{percent}{A boolean to indicate whether the threshold represent an
 absolute value (percent = FALSE) or
 a percentage (percent=TRUE).}
 
-\item{th}{A floating number which is in the interval \link{0, 1}}
+\item{th}{A floating number which is in the interval \verb{[0, 1]}}
 }
 \value{
 xxx

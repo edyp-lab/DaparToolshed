@@ -18,7 +18,7 @@ Builds the design matrix for designs of level 1
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-make.design.1(MultiAssayExperiment::colData(Exp1_R25_pept))
+make.design.1(colData(Exp1_R25_pept))
 
 }
 \author{

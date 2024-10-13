@@ -88,7 +88,7 @@ SymFilteringOperators <- function() {
 #' absolute value (percent = FALSE) or a percentage (percent=TRUE).
 #' @param th A floating number which is in the interval [0, 1]
 #' @param operator String for operator to use. List of operators is available 
-#' with SymFilteringOperators().
+#' with `SymFilteringOperators()`.
 #'
 #'
 #' @return NA
@@ -186,6 +186,8 @@ qMetacellWholeMatrix <- function(object,
 #' @export
 #'
 #' @rdname qMetacell-filter
+#' 
+#' @import omXplore
 #'
 qMetacellWholeLine <- function(object, cmd, pattern) {
     if (missing(object)) {
@@ -242,9 +244,9 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
 #' @param percent xxx
 #'
 #' @param operator  String for operator to use. List of operators is available 
-#' with SymFilteringOperators().
+#' with `SymFilteringOperators()`.
 #'
-#' @param th The theshold to apply
+#' @param th The threshold to apply
 #'
 #' @return NA
 #' @export

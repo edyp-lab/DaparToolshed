@@ -35,7 +35,7 @@ c("Missing POV", "Missing MEC"), level)
 assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
 assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
 qData <- as.matrix(assay(obj[[2]]))
-sTab <- MultiAssayExperiment::colData(obj)
+sTab <- colData(obj)
 limma <- limmaCompleteTest(qData, sTab)
 
 }

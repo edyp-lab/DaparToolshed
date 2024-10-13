@@ -6,6 +6,9 @@
 \usage{
 ExtractUniquePeptides(X)
 }
+\arguments{
+\item{X}{xxx}
+}
 \description{
 Test
 }

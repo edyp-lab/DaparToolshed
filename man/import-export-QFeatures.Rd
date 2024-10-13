@@ -39,6 +39,8 @@ column containing the ID of entities (peptides or proteins)}
 
 \item{indexForMetacell}{xxxxxxxxxxx}
 
+\item{logData}{xxx}
+
 \item{force.na}{A \code{boolean} that indicates if the '0' and 'NaN' values of
 quantitative values  must be replaced by 'NA' (Default is FALSE)}
 

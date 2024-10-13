@@ -383,6 +383,7 @@ BuildAdjacencyMatrix <- function(obj.pep, protID, unique = TRUE) {
 
 
 #' @title Test
+#' @param X xxx
 #' @export
 #' @examples
 #' NULL

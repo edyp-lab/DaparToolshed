@@ -20,6 +20,7 @@
 #' column containing the ID of entities (peptides or proteins)
 #'
 #' @param indexForMetacell xxxxxxxxxxx
+#' @param logData xxx
 #'
 #' @param force.na A `boolean` that indicates if the '0' and 'NaN' values of
 #' quantitative values  must be replaced by 'NA' (Default is FALSE)

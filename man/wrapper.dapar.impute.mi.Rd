@@ -87,7 +87,7 @@ This method is a wrapper to the function \code{impute.mi()} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DAPARdata")
+utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(100)]
 level <- 'peptide'
 metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)

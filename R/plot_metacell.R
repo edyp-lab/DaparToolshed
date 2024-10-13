@@ -7,6 +7,7 @@
 #' number of missing values (NA) per lines (ie proteins).
 #'
 #' @param obj An instance of the class `obj`
+#' @param group xxx
 #' @param pattern xxx
 #' @param detailed 'value' or 'percent'
 #' @param indLegend xxx
@@ -55,6 +56,7 @@ NULL
 #' @rdname metacell-plots
 #' @export
 #' @import highcharter
+#' @import omXplore
 #'
 metacellPerLinesHisto_HC <- function(obj,
   group,
@@ -132,6 +134,7 @@ metacellPerLinesHisto_HC <- function(obj,
 
 #' @rdname metacell-plots
 #' @export
+#' @import omXplore
 #'
 metacellPerLinesHistoPerCondition_HC <- function(obj,
   group,
@@ -236,6 +239,7 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
 
 #' @rdname metacell-plots
 #' @import highcharter
+#' @import omXplore
 #'
 #' @examples
 #' data(Exp1_R25_pept, package = 'DaparToolshedData')
@@ -333,7 +337,7 @@ metacellHisto_HC <- function(obj,
 #'
 #' @rdname metacell-plots
 #' @export
-#'
+#' @import omXplore
 #'
 wrapper.mvImage <- function(obj, 
   group,
@@ -466,6 +470,7 @@ mvImage <- function(obj, group) {
 #' @rdname metacell-plots
 #'
 #' @export
+#' @import omXplore
 #'
 hc_mvTypePlot2 <- function(obj,
   group,

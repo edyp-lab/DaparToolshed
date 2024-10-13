@@ -14,16 +14,7 @@
 #' (ie line in the \code{Biobase::exprs()} data tab) is computed condition
 #' by condition.
 #'
-#'
-#' @param obj An object of class `QFeatures`.
-#' @param i An integer which designs the assay in the obj
-#' @param method One of the following : "GlobalQuantileAlignment" (for
-#' normalizations of important magnitude), "SumByColumns", "QuantileCentering",
-#' "Mean Centering", "LOESS" and "vsn".
-#' @param withTracking xxx
-#' @param ... Additional parameters
-#' 
-#' @title Normalisation QuantileCentering
+#' @param target xxx
 #'
 #' @param qData xxx
 #'
@@ -53,7 +44,7 @@
 #' normalizeMethods()
 #' 
 #' 
-#' data(Exp1_R25_pept, package="DAPARdata")
+#' data(Exp1_R25_pept, package="DaparToolshedData")
 #' 
 #' conds <- Biobase::pData(Exp1_R25_pept)$Condition
 #' obj <- wrapper.normalizeD(
@@ -61,7 +52,7 @@
 #'     conds = conds, type = "within conditions"
 #' )
 #' 
-#' data(Exp1_R25_pept, package="DAPARdata")
+#' data(Exp1_R25_pept, package="DaparToolshedData")
 #' qData <- Biobase::exprs(Exp1_R25_pept)
 #' 
 #' normalized <- GlobalQuantileAlignment(qData)

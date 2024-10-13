@@ -28,7 +28,7 @@ Builds the contrast matrix
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-design <- make.design(MultiAssayExperiment::colData(Exp1_R25_pept))
+design <- make.design(colData(Exp1_R25_pept))
 conds <- get_group(Exp1_R25_pept)
 make.contrast(design, conds)
 

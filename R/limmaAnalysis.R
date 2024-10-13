@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' test.design(MultiAssayExperiment::colData(Exp1_R25_pept)[, seq(3)])
+#' test.design(colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -153,7 +153,7 @@ check.conditions <- function(conds) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' check.design(MultiAssayExperiment::colData(Exp1_R25_pept)[, seq(3)])
+#' check.design(colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -232,7 +232,7 @@ check.design <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design(MultiAssayExperiment::colData(Exp1_R25_pept))
+#' make.design(colData(Exp1_R25_pept))
 #'
 #' @export
 #' 
@@ -268,7 +268,7 @@ make.design <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.1(MultiAssayExperiment::colData(Exp1_R25_pept))
+#' make.design.1(colData(Exp1_R25_pept))
 #'
 #' @export
 make.design.1 <- function(sTab) {
@@ -319,7 +319,7 @@ make.design.1 <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.2(MultiAssayExperiment::colData(Exp1_R25_pept))
+#' make.design.2(colData(Exp1_R25_pept))
 #'
 #'
 #' @export
@@ -376,7 +376,7 @@ make.design.2 <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- cbind(MultiAssayExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
+#' sTab <- cbind(colData(Exp1_R25_pept), Tech.Rep = 1:6)
 #' make.design.3(sTab)
 #'
 #'
@@ -431,7 +431,7 @@ make.design.3 <- function(sTab) {
 #' 
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- MultiAssayExperiment::colData(Exp1_R25_pept)
+#' sTab <- colData(Exp1_R25_pept)
 #' getDesignLevel(sTab)
 #'
 #' @export
@@ -466,7 +466,7 @@ getDesignLevel <- function(sTab){
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' design <- make.design(MultiAssayExperiment::colData(Exp1_R25_pept))
+#' design <- make.design(colData(Exp1_R25_pept))
 #' conds <- get_group(Exp1_R25_pept)
 #' make.contrast(design, conds)
 #'
@@ -568,7 +568,7 @@ make.contrast <- function(design,
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept
 #' qData <- as.matrix(assay(obj[[2]]))
-#' sTab <- MultiAssayExperiment::colData(obj)
+#' sTab <- colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'
 #' @export
@@ -689,7 +689,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
 #' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
 #' qData <- as.matrix(assay(obj[[2]]))
-#' sTab <- MultiAssayExperiment::colData(obj)
+#' sTab <- colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab)
 #'
 formatLimmaResult <- function(fit, conds, contrast, design.level) {

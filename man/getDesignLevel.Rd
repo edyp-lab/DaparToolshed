@@ -14,7 +14,7 @@ xxx
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-sTab <- MultiAssayExperiment::colData(Exp1_R25_pept)
+sTab <- colData(Exp1_R25_pept)
 getDesignLevel(sTab)
 
 }

@@ -22,22 +22,17 @@ Depends: R (>= 4.3.0)
 Imports:
     Biobase,
     S4Vectors,
-    BiocGenerics,
+    omXplore,
+    openxlsx,
     QFeatures,
     methods,
     MsCoreUtils,
     AnnotationFilter,
     RColorBrewer,
     highcharter,
-    htmlwidgets,
     shiny,
-    shinyalert,
-    shinyjs,
-    sos,
     stats,
     utils,
-    rhandsontable,
-    shinyBS,
     foreach,
     tibble
 biocViews: 
@@ -51,7 +46,14 @@ biocViews:
 Suggests: 
     BiocManager,
     visNetwork,
+    htmlwidgets,
+    rhandsontable,
+    shinyalert,
+    shinyjs,
+    sos,
+    shinyBS,
     igraph,
+    MultiAssayExperiment,
     knitr,
     PSMatch,
     lme4,
@@ -96,7 +98,6 @@ Collate:
     plots_compare_assays.R
     missingValuesImputation_ProteinLevel.R
     missingValuesImputation_PeptideLevel.R
-    utils_DAPAR.R
     hypothesisTest_plot.R
     anova_analysis.R
     compute.t.tests.R

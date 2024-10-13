@@ -8,7 +8,11 @@
 #' 
 #' The colored cells in the experimental data correspond to the original
 #' missing values which have been imputed.
-#'
+#' 
+#' @param wb xxxx
+#' @param obj xxx
+#' @param i xxx
+#' @param n xxx
 #' @param df An data.frame
 #'
 #' @param tags xxx
@@ -27,7 +31,7 @@
 #' @author Samuel Wieczorek
 #' @name output_2_Excel
 #' @examples
-#' data(Exp1_R25_pept, package="DAPARdata")
+#' data(Exp1_R25_pept, package="DaparToolshedData")
 #' df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
 #' tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
 #' colors <- list(
@@ -91,6 +95,7 @@ listSheets <- function(file) {
 
 #' @export
 #' @rdname output_2_Excel
+#' @import omXplore
 #' 
 write_Assay_To_Excel <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_quantdata')
@@ -187,6 +192,7 @@ WriteHistory <- function(wb, obj, n){
 
 #' @export
 #' @rdname output_2_Excel
+#' @import omXplore
 #' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
   

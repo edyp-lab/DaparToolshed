@@ -42,7 +42,7 @@ This method is a variation to the function \code{impute.pa()} from the
 package \code{imp4p}.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DAPARdata")
+utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj.imp <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
 distribution = "beta")
 

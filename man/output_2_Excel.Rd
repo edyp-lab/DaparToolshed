@@ -30,6 +30,14 @@ write.excel(obj, filename)
 
 \item{sheet}{The name of the sheet}
 
+\item{wb}{xxxx}
+
+\item{obj}{xxx}
+
+\item{i}{xxx}
+
+\item{n}{xxx}
+
 \item{filename}{A character string for the name of the Excel file.}
 
 \item{df}{An data.frame}
@@ -53,7 +61,7 @@ The colored cells in the experimental data correspond to the original
 missing values which have been imputed.
 }
 \examples{
-data(Exp1_R25_pept, package="DAPARdata")
+data(Exp1_R25_pept, package="DaparToolshedData")
 df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
 tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
 colors <- list(
