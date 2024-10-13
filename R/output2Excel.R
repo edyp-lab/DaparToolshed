@@ -193,6 +193,7 @@ WriteHistory <- function(wb, obj, n){
 #' @export
 #' @rdname output_2_Excel
 #' @import omXplore
+#' @import SummarizedExperiment
 #' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
   

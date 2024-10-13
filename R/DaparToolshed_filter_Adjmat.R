@@ -116,6 +116,8 @@ AdjMatFilters <- function() {
 
 #' @export
 #' @rdname adjacency-matrix-filter
+#' @import SummarizedExperiment
+#' 
 allPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
     stopifnot("adjacencyMatrix" %in% names(rowData(object)))

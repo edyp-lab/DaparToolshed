@@ -90,7 +90,7 @@ NULL
 
 ##' @exportMethod aggregateFeatures4Prostar
 ##' @rdname DaparToolshed-aggregate
-##' @import MsCoreUtils
+##' @importFrom MsCoreUtils robustSummary
 setMethod(
     "aggregateFeatures4Prostar", "QFeatures",
     function(object, i, fcol, name = "newAssay",
@@ -133,6 +133,7 @@ setMethod(
 
 ##' @exportMethod aggregateFeatures4Prostar
 ##' @rdname DaparToolshed-aggregate
+##' @importFrom MsCoreUtils robustSummary
 setMethod(
     "aggregateFeatures4Prostar", "SummarizedExperiment",
     function(object, fcol, fun = MsCoreUtils::robustSummary, conds, ...) {

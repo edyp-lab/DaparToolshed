@@ -30,6 +30,7 @@ Build_CC_list <- function(matAdj){
 #' ll <- get.pep.prot.cc(X)
 #'
 #' @export
+#' @import Matrix
 #'
 get.pep.prot.cc <- function(X) {
   pkgs.require(c('Matrix', 'igraph', 'graph'))
@@ -214,6 +215,7 @@ plotJitter <- function(list.of.cc = NULL) {
 #' g <- buildGraph(ll[[1]], X)
 #'
 #' @export
+#' @import Matrix
 #'
 buildGraph <- function(The.CC, X) {
   nb.prot <- length(The.CC$proteins)

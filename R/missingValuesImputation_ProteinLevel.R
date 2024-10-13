@@ -91,6 +91,7 @@ NULL
 
 #' @export
 #' @rdname mv_imputation_protein
+#' @import SummarizedExperiment
 #'
 findMECBlock <- function(obj, grp) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
@@ -141,6 +142,7 @@ reIntroduceMEC <- function(obj, grp, MECIndex) {
 #' @export
 #' @rdname mv_imputation_protein
 #' @import omXplore
+#' @import SummarizedExperiment
 #'
 wrapper.impute.KNN <- function(obj = NULL, grp, K) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
@@ -187,6 +189,7 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
 #' @rdname mv_imputation_protein
 #' @export
 #' @import omXplore
+#' @import SummarizedExperiment
 #'
 wrapper.impute.fixedValue <- function(obj, 
   grp,
@@ -224,6 +227,7 @@ wrapper.impute.fixedValue <- function(obj,
 #'
 #' @rdname mv_imputation_protein
 #' @export
+#' @import SummarizedExperiment
 #'
 wrapper.impute.pa <- function(
     obj = NULL, 
@@ -255,6 +259,7 @@ wrapper.impute.pa <- function(
 #' @export
 #' @rdname mv_imputation_protein
 #' @import omXplore
+#' @import SummarizedExperiment
 #'
 wrapper.impute.detQuant <- function(
     obj, 
@@ -321,6 +326,7 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #' @export
 #' 
 #' @rdname mv_imputation_protein
+#' @import SummarizedExperiment
 #'
 wrapper.impute.slsa <- function(
     obj = NULL,

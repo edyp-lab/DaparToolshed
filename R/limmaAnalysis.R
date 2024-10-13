@@ -581,11 +581,11 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
   
   level <- getDesignLevel(sTab)
   if (level == 1 && length(unique(sTab$Condition)) > 26){
-    message('DAPAR with Limma does not handle datasets with more 26 conditions 
+    message('DaparToolshed with Limma does not handle datasets with more 26 conditions 
             in a 1-level design')
     return(NULL)
   } else if ((level == 2 || level == 3) && length(unique(sTab$Condition)) >= 10){
-    message('DAPAR with Limma does not handle datasets with more 9 conditions 
+    message('DaparToolshed with Limma does not handle datasets with more 9 conditions 
             in a 2-level and 3-level designs')
     return(NULL)
   }

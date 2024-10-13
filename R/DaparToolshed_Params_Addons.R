@@ -14,6 +14,8 @@ setMethod(
 #' @export
 #' @exportMethod paramshistory
 #' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
+#' 
 setMethod(
   "paramshistory", "SummarizedExperiment",
   function(object, slotName = "paramshistory") {

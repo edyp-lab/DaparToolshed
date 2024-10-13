@@ -34,6 +34,7 @@
 #' ttest <- compute_t_tests(obj, 1)
 #'
 #' @import omXplore
+#' @import SummarizedExperiment
 #'
 #' @export
 #'

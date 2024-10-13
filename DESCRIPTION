@@ -22,6 +22,7 @@ Depends: R (>= 4.3.0)
 Imports:
     Biobase,
     S4Vectors,
+    SummarizedExperiment,
     omXplore,
     openxlsx,
     QFeatures,
@@ -76,7 +77,6 @@ Suggests:
     doParallel,
     dplyr,
     colourpicker,
-    openxlsx, 
     readxl,
     preprocessCore,
     graph,
@@ -88,8 +88,8 @@ Suggests:
     gplots, 
     tidyr
 Remotes:
+    git::edyp-lab/MagellanNTK,
     git::edyp-lab/DaparToolshedData,
-    git::edyp/MagellanNTK
     git::prostarproteomics/omXplore
 NeedsCompilation: no
 Collate:

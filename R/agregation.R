@@ -347,6 +347,7 @@ GraphPepProt <- function(mat) {
 #' BuildAdjacencyMatrix(obj[seq_len(10)], protId, TRUE)
 #'
 #' @export
+#' @import Matrix
 #'
 
 BuildAdjacencyMatrix <- function(obj.pep, protID, unique = TRUE) {
@@ -522,7 +523,7 @@ aggregateIterParallel <- function(obj.pep,
       .conds <- Biobase::pData(obj.pep)$Condition
       condsIndices <- which(.conds == unique(.conds)[cond])
       qData <- qData.pep[, condsIndices]
-      DAPAR::inner.aggregate.iter(qData, X, init.method, method, n)
+      inner.aggregate.iter(qData, X, init.method, method, n)
     }
     
     protData <- protData[, colnames(assay(obj.pep))]
@@ -686,7 +687,7 @@ aggregateIter <- function(
     for (cond in unique(Biobase::pData(obj.pep)$Condition)) {
       condsIndices <- which(Biobase::pData(obj.pep)$Condition == cond)
       qData <- qData.pep[, condsIndices]
-      protData[, condsIndices] <- DAPAR::inner.aggregate.iter(
+      protData[, condsIndices] <- inner.aggregate.iter(
         qData,
         X,
         init.method,
@@ -1109,22 +1110,22 @@ finalizeAggregation <- function(obj.pep, pepData, protData, protMetacell, X) {
   
   
   obj.prot@experimentData@other$Prostar_Version <- NA
-  obj.prot@experimentData@other$DAPAR_Version <- NA
+  obj.prot@experimentData@other$DaparToolshed_Version <- NA
   
   tryCatch(
     {
       find.package("Prostar")
-      find.package("DAPAR")
+      find.package("DaparToolshed")
       prostar.ver <- Biobase::package.version("Prostar")
-      dapar.ver <- Biobase::package.version("DAPAR")
+      dapar.ver <- Biobase::package.version("DaparToolshed")
       
       
       obj.prot@experimentData@other$Prostar_Version <- prostar.ver
-      obj.prot@experimentData@other$DAPAR_Version <- dapar.ver
+      obj.prot@experimentData@other$DaparToolshed_Version <- dapar.ver
     },
     error = function(e) {
       obj.prot@experimentData@other$Prostar_Version <- NA
-      obj.prot@experimentData@other$DAPAR_Version <- NA
+      obj.prot@experimentData@other$DaparToolshed_Version <- NA
     }
   )
   

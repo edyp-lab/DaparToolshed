@@ -471,6 +471,7 @@ mvImage <- function(obj, group) {
 #'
 #' @export
 #' @import omXplore
+#' @import SummarizedExperiment
 #'
 hc_mvTypePlot2 <- function(obj,
   group,

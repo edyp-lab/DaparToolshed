@@ -65,6 +65,7 @@ setMethod(
 
 #' @export
 #' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
 #' @return NA
 setMethod(
     "qMetacell", "SummarizedExperiment",
@@ -136,6 +137,7 @@ setMethod(
 #' @export
 #' @rdname QFeatures-accessors
 #' @return NA
+#' @import SummarizedExperiment
 setMethod(
   "GetUniqueTags", "SummarizedExperiment",
   function(object) {
@@ -259,6 +261,7 @@ setMethod("ConnectedComp", "QFeatures",
 
 #' @export
 #' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
 setMethod("ConnectedComp", "SummarizedExperiment",
           function(object, slotName = "ConnectedComp") {
             .GetMetadataSlot(object, slotName)
@@ -570,6 +573,8 @@ setMethod(
 #' @export
 #' @exportMethod HypothesisTest
 #' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
+#' 
 "HypothesisTest<-" <- function(object, i, value) {
   if (inherits(object, "SummarizedExperiment")) {
     SummarizedExperiment::rowData(object)[["HypothesisTest"]] <- value
@@ -609,6 +614,8 @@ setMethod(
 
 #' @exportMethod parentProtId
 #' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
+#' 
 setMethod(
   "names_metacell", "SummarizedExperiment",
   function(object, slotName = "names_metacell") {
