@@ -5,7 +5,7 @@
 \title{Compute the intensity of proteins with the sum of the intensities
 of their peptides.}
 \usage{
-aggregateSum(obj.pep, X)
+aggregateSum(obj.pep, X, level)
 }
 \arguments{
 \item{obj.pep}{A matrix of intensities of peptides}
@@ -25,8 +25,9 @@ data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(20)]
 obj.pep.imp <- wrapper.impute.detQuant(obj.pep, na.type = c("Missing POV", "Missing MEC"))
 protID <- "Protein_group_IDs"
+level <- 'peptide'
 X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
-ll.agg <- aggregateSum(obj.pep.imp, X)
+ll.agg <- aggregateSum(obj.pep.imp, X, level)
 
 }
 \author{

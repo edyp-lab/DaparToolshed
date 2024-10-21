@@ -148,7 +148,9 @@ BuildColumnToProteinDataset <- function(peptideData,
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' protID <- "Protein_group_IDs"
-#' M <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)], protID, FALSE)
+#' obj <- Exp1_R25_pept[[2]]
+#' obj <- obj[seq_len(10)]
+#' M <- BuildAdjacencyMatrix(obj, protID, FALSE)
 #' CountPep(M)
 #'
 #' @export
@@ -217,7 +219,9 @@ GetNbPeptidesUsed <- function(X, pepData) {
 #' library(DaparToolshedData)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' protID <- "Protein_group_IDs"
-#' X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)], protID, FALSE)
+#' obj <- Exp1_R25_pept[[2]]
+#' obj <- obj[seq_len(10)]
+#' X <- BuildAdjacencyMatrix(obj, protID, FALSE)
 #' ll.n <- GetDetailedNbPeptidesUsed(X, 
 #' assay(Exp1_R25_pept[seq_len(10)]))
 #'
@@ -344,15 +348,18 @@ GraphPepProt <- function(mat) {
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' protId <- "Protein_group_IDs"
 #' obj <- Exp1_R25_pept[[1]]
-#' BuildAdjacencyMatrix(obj[seq_len(10)], protId, TRUE)
+#' obj.pep <- obj[seq_len(10)]
+#' BuildAdjacencyMatrix(obj.pep, protId, TRUE)
 #'
 #' @export
-#' @import Matrix
+#' @importFrom Matrix Matrix
+#' @importFrom stringr str_trim
+#' @import QFeatures
 #'
 
 BuildAdjacencyMatrix <- function(obj.pep, protID, unique = TRUE) {
   
-  pkgs.require(c("Biobase", "stringr", "Matrix", 'QFeatures'))
+  stopifnot(inherits(obj.pep, 'SummarizedExperiment'))
   
   data <- assay(obj.pep)
   PG <- rowData(obj.pep)[, protID]
@@ -422,19 +429,20 @@ ExtractUniquePeptides <- function(X){
 #' obj.pep <- Exp1_R25_pept[seq_len(20)]
 #' obj.pep.imp <- wrapper.impute.detQuant(obj.pep, na.type = c("Missing POV", "Missing MEC"))
 #' protID <- "Protein_group_IDs"
+#' level <- 'peptide'
 #' X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
-#' ll.agg <- aggregateSum(obj.pep.imp, X)
+#' ll.agg <- aggregateSum(obj.pep.imp, X, level)
 #'
 #' @export
 #'
 #'
-aggregateSum <- function(obj.pep, X) {
+aggregateSum <- function(obj.pep, X, level) {
   pkgs.require(c("QFeatures", "Biobase"))
   
   obj.prot <- NULL
   
   # Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep)
+  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
   if (!is.null(metacell$issues)) {
     return(list(
       obj.prot = NULL,
@@ -481,7 +489,8 @@ aggregateSum <- function(obj.pep, X) {
 #' protID <- "Protein_group_IDs"
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
-#' obj.agg <- aggregateIterParallel(obj.pep, X)
+#' level <- 'protein'
+#' obj.agg <- aggregateIterParallel(obj.pep, X, level)
 #' }
 #' 
 #' @export
@@ -489,10 +498,11 @@ aggregateSum <- function(obj.pep, X) {
 #' @import foreach
 #'
 aggregateIterParallel <- function(obj.pep,
-                                  X,
-                                  init.method = "Sum",
-                                  method = "Mean",
-                                  n = NULL
+  X,
+  init.method = "Sum",
+  method = "Mean",
+  n = NULL,
+  level
 ) {
   
   
@@ -502,7 +512,7 @@ aggregateIterParallel <- function(obj.pep,
   obj.prot <- NULL
   
   # Step 1: Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep)
+  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
   if (!is.null(metacell$issues)) {
     return(list(
       obj.prot = NULL,
@@ -645,8 +655,11 @@ inner.aggregate.iter <- function(
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' protID <- "Protein_group_IDs"
-#' X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)], protID, FALSE)
-#' ll.agg <- aggregateIter(Exp1_R25_pept[seq_len(10)], X = X)
+#' obj <- Exp1_R25_pept[[2]]
+#' obj <- obj[seq_len(10)]
+#' X <- BuildAdjacencyMatrix(obj, protID, FALSE)
+#' level <- 'peptide'
+#' ll.agg <- aggregateIter(obj.pep = obj, X = X)
 #'
 #' @export
 #'
@@ -656,14 +669,14 @@ aggregateIter <- function(
     X,
     init.method = "Sum",
     method = "Mean",
-    n = NULL
+    n = NULL,
+  level
 ) {
-  pkgs.require(c("Biobase", 'QFeatures'))
   
   obj.prot <- NULL
   
   # Step 1 : Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep)
+  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
   
   if (!is.null(metacell$issues)) {
     return(list(
@@ -736,19 +749,20 @@ aggregateIter <- function(
 #' obj.pep.imp <- wrapper.impute.detQuant(obj.pep, na.type = c("Missing POV", "Missing MEC"))
 #' protID <- "Protein_group_IDs"
 #' X <- BuildAdjacencyMatrix(obj.pep.imp, protID, FALSE)
-#' ll.agg <- aggregateMean(obj.pep.imp, X)
+#' level <- 'peptide'
+#' ll.agg <- aggregateMean(obj.pep.imp, X, level)
 #'
 #' @export
 #'
 #'
-aggregateMean <- function(obj.pep, X) {
+aggregateMean <- function(obj.pep, X, level) {
   pkgs.require(c("QFeatures", "Biobase"))
   
   
   obj.prot <- NULL
   # Agregation of metacell data
   #cat("Aggregate metacell data...\n")
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep)
+  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
   if (!is.null(metacell$issues)) {
     return(list(
       obj.prot = NULL,
@@ -966,16 +980,17 @@ inner.aggregate.topn <- function(pepData, X, method = "Mean", n = 10) {
 #'
 #'
 aggregateTopn <- function(obj.pep,
-                          X,
-                          method = "Mean",
-                          n = 10) {
+  X,
+  method = "Mean",
+  n = 10,
+  level) {
   pkgs.require(c("QFeatures", "Biobase"))
   
   
   obj.prot <- NULL
   
   # Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep)
+  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
   
   if (!is.null(metacell$issues)) {
     return(list(

@@ -187,7 +187,7 @@ createQFeatures <- function(data = NULL,
   
     # The function readQFeatures changes non alphanumeric characters, like '+' converted to '.'
     # Force the use of original colnames
-    colnames(rowData(obj)$original) <- colnames(data)[-match(indQData, colnames(data))]
+    colnames(rowData(obj[[1]])) <- colnames(data)[-match(indQData, colnames(data))]
 
     ## Encoding the sample data
     sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
@@ -215,16 +215,15 @@ createQFeatures <- function(data = NULL,
       colnames(qMetacell) <- gsub(".", "_", colnames(qMetacell), fixed = TRUE)
       rownames(qMetacell) <- rownames(data)
       
-      
-      #browser()
+
       # Add the quantitative cell metadata info
       qMetacell(obj[["original"]]) <- qMetacell
     
-      if (!is.null(indexForMetacell)) {
-      # Remove the identification columns which became useless
-      .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
-      rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
-      }
+      # if (!is.null(indexForMetacell)) {
+      # # Remove the identification columns which became useless
+      # .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
+      # rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
+      # }
       
     
     # Enrich the metadata for whole QFeatures object

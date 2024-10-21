@@ -80,7 +80,7 @@
 #' 
 #' server <- function(input, output, session) {
 #'   mod_qMetacellLegend_server('legend',
-#'                                 object = reactive({ft[[1]]}))
+#'   object = reactive({ft[[1]]}))
 #'   }
 #'   
 #'  shinyApp(ui = ui, server = server)
@@ -889,30 +889,30 @@ match.metacell <- function(metadata, pattern = NULL, level) {
   return(res)
 }
 
-#' @title xxxx
-#'
-#' @description
-#' xxxx
-#'
-#' @param obj xxxx
-#'
-#' @export
+#' #' @title xxxx
+#' #'
+#' #' @description
+#' #' xxxx
+#' #'
+#' #' @param obj xxxx
+#' #'
+#' #' @export
+#' #' 
+#' #' @return xxx
+#' #' 
+#' #' @examples 
+#' #' NULL
+#' #'
+#' GetMetacell <- function(obj) {
+#'   value <- Biobase::fData(obj)[, obj@experimentData@other$names_metacell]
+#'   if (is.null(value)) {
+#'     warning(" The metacell dataframe does not exist. Returns NULL.")
+#'     return(NULL)
+#'   } else {
+#'     return(value)
+#'   }
+#' }
 #' 
-#' @return xxx
-#' 
-#' @examples 
-#' NULL
-#'
-GetMetacell <- function(obj) {
-  value <- Biobase::fData(obj)[, obj@experimentData@other$names_metacell]
-  if (is.null(value)) {
-    warning(" The metacell dataframe does not exist. Returns NULL.")
-    return(NULL)
-  } else {
-    return(value)
-  }
-}
-
 
 
 
@@ -929,7 +929,7 @@ GetMetacell <- function(obj) {
 #' @param ... xxx
 #' 
 #' @examples
-#' 
+#' data(Exp1_R25_pept, package = 'DaparToolshedData')
 #' obj <- Exp1_R25_pept[seq_len(10),]
 #' obj[[2]] <- UpdateqMetacell(obj[[2]], 'missing', 'imputed')
 #' 
@@ -1224,7 +1224,7 @@ metacombine <- function(met, level) {
 AggregateMetacell <- function(X, obj.pep) {
   
   issues <- NULL
-  meta <- GetMetacell(obj.pep)
+  meta <- qMetacell(obj.pep)
   level <- omXplore::get_type(obj.pep)
   rowcol <- function(meta.col, X.col) (meta.col)[X.col > 0]
   

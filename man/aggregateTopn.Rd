@@ -5,7 +5,7 @@
 \title{Compute the intensity of proteins as the sum of the
 intensities of their n best peptides.}
 \usage{
-aggregateTopn(obj.pep, X, method = "Mean", n = 10)
+aggregateTopn(obj.pep, X, method = "Mean", n = 10, level)
 }
 \arguments{
 \item{obj.pep}{A matrix of intensities of peptides}

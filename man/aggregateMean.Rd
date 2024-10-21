@@ -5,7 +5,7 @@
 \title{Compute the intensity of proteins as the mean of the intensities
 of their peptides.}
 \usage{
-aggregateMean(obj.pep, X)
+aggregateMean(obj.pep, X, level)
 }
 \arguments{
 \item{obj.pep}{A peptide object of class \code{MSnSet}}
@@ -26,7 +26,8 @@ obj.pep <- Exp1_R25_pept[seq_len(10)]
 obj.pep.imp <- wrapper.impute.detQuant(obj.pep, na.type = c("Missing POV", "Missing MEC"))
 protID <- "Protein_group_IDs"
 X <- BuildAdjacencyMatrix(obj.pep.imp, protID, FALSE)
-ll.agg <- aggregateMean(obj.pep.imp, X)
+level <- 'peptide'
+ll.agg <- aggregateMean(obj.pep.imp, X, level)
 
 }
 \author{

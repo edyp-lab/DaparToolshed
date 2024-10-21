@@ -25,7 +25,8 @@ in lines on a \code{MSnSet} object (peptides)
 data(Exp1_R25_pept, package="DaparToolshedData")
 protId <- "Protein_group_IDs"
 obj <- Exp1_R25_pept[[1]]
-BuildAdjacencyMatrix(obj[seq_len(10)], protId, TRUE)
+obj.pep <- obj[seq_len(10)]
+BuildAdjacencyMatrix(obj.pep, protId, TRUE)
 
 }
 \author{

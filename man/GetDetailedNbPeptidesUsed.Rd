@@ -23,7 +23,9 @@ aggregating each protein
 library(DaparToolshedData)
 data(Exp1_R25_pept, package="DaparToolshedData")
 protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)], protID, FALSE)
+obj <- Exp1_R25_pept[[2]]
+obj <- obj[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj, protID, FALSE)
 ll.n <- GetDetailedNbPeptidesUsed(X, 
 assay(Exp1_R25_pept[seq_len(10)]))
 

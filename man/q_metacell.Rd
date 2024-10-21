@@ -82,6 +82,31 @@ Gives all the tags of the metadata vocabulary containing the pattern
 Agregation rules for the cells quantitative metadata of peptides.
 Please refer to the qMetacell.def vocabulary in \code{qMetacell.def()}
 }
+\details{
+#' @title xxxx
+#'
+#' @description
+#' xxxx
+#'
+#' @param obj xxxx
+#'
+#' @export
+#'
+#' @return xxx
+#'
+#' @examples
+#' NULL
+#'
+GetMetacell <- function(obj) {
+value <- Biobase::fData(obj)\link{, obj@experimentData@other$names_metacell}
+if (is.null(value)) {
+warning(" The metacell dataframe does not exist. Returns NULL.")
+return(NULL)
+} else {
+return(value)
+}
+}
+}
 \section{Glossary}{
 
 
@@ -217,7 +242,7 @@ qdata <- data[seq_len(100), seq(56, 61)]
 df <- data[seq_len(100) , seq(43,48)]
 df <- qMetacell_generic(qdata, conds, 'peptide')
 
-
+data(Exp1_R25_pept, package = 'DaparToolshedData')
 obj <- Exp1_R25_pept[seq_len(10),]
 obj[[2]] <- UpdateqMetacell(obj[[2]], 'missing', 'imputed')
 
