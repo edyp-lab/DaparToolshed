@@ -37,7 +37,7 @@ obj <- Exp1_R25_pept[[2]]
 obj <- obj[seq_len(10)]
 X <- BuildAdjacencyMatrix(obj, protID, FALSE)
 level <- 'peptide'
-ll.agg <- aggregateIter(obj.pep = obj, X = X, level = level)
+ll.agg <- aggregateIter(obj.pep = obj, X = X)
 
 }
 \author{

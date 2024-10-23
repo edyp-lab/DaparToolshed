@@ -219,7 +219,7 @@ ui <- mod_qMetacellLegend_ui("legend")
 
 server <- function(input, output, session) {
   mod_qMetacellLegend_server('legend',
-                                object = reactive({ft[[1]]}))
+  object = reactive({ft[[1]]}))
   }
   
  shinyApp(ui = ui, server = server)
