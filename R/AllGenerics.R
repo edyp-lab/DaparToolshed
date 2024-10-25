@@ -85,6 +85,11 @@ setGeneric("HypothesisTest",
 setGeneric("HypothesisTest<-", 
   function(object, ..., value) standardGeneric("HypothesisTest<-"))
 
+setGeneric("DifferentialAnalysis", 
+  function(object, ...) standardGeneric("DifferentialAnalysis"))
+setGeneric("DifferentialAnalysis<-", 
+  function(object, ..., value) standardGeneric("DifferentialAnalysis<-"))
+
 
 setGeneric("GetUniqueTags", 
   function(object, ...) standardGeneric("GetUniqueTags"))

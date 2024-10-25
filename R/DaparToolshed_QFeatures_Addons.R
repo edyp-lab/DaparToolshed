@@ -603,6 +603,60 @@ setMethod(
 
 
 
+#' @export
+#' @exportMethod DifferentialAnalysis
+#' @rdname QFeatures-accessors
+setMethod(
+  "DifferentialAnalysis", "QFeatures",
+  function(object, i, slotName = "DifferentialAnalysis") {
+    SummarizedExperiment::rowData(object[[i]])[[slotName]]
+  }
+)
+
+#' @export
+#' @exportMethod DifferentialAnalysis
+#' @rdname QFeatures-accessors
+setMethod(
+  "DifferentialAnalysis", "SummarizedExperiment",
+  function(object, slotName = "DifferentialAnalysis") {
+    SummarizedExperiment::rowData(object)[[slotName]]
+  }
+)
+
+
+#' @export
+#' @exportMethod DifferentialAnalysis
+#' @rdname QFeatures-accessors
+#' @import SummarizedExperiment
+#' 
+"DifferentialAnalysis<-" <- function(object, i, value) {
+  if (inherits(object, "SummarizedExperiment")) {
+    SummarizedExperiment::rowData(object)[["DifferentialAnalysis"]] <- value
+    return(object)
+  } else {
+    if (inherits(object, "QFeatures")){
+      if (length(i) != 1) {
+        stop("'i' must be of length one. Repeat the call to add a matrix to 
+            multiple assays.")
+      }
+      if (is.numeric(i) && i > length(object)) {
+        stop("Subscript is out of bounds.")
+      }
+      if (is.character(i) && !(i %in% names(object))) {
+        stop("Assay '", i, "' not found.")
+      }
+      # se <- object[[i]]
+      SummarizedExperiment::rowData(object[[i]])["DifferentialAnalysis"] <- value
+    }
+  }
+  return(object)
+}
+
+
+
+
+
+
 #' @exportMethod parentProtId
 #' @rdname QFeatures-accessors
 setMethod(

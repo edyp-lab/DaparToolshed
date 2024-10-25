@@ -38,6 +38,9 @@
 \alias{HypothesisTest,QFeatures-method}
 \alias{HypothesisTest,SummarizedExperiment-method}
 \alias{HypothesisTest<-}
+\alias{DifferentialAnalysis,QFeatures-method}
+\alias{DifferentialAnalysis,SummarizedExperiment-method}
+\alias{DifferentialAnalysis<-}
 \alias{names_metacell,QFeatures-method}
 \alias{names_metacell,SummarizedExperiment-method}
 \alias{names_metacell<-}
@@ -112,6 +115,12 @@ mainAssay(object)
 \S4method{HypothesisTest}{SummarizedExperiment}(object, slotName = "HypothesisTest")
 
 HypothesisTest(object, i) <- value
+
+\S4method{DifferentialAnalysis}{QFeatures}(object, i, slotName = "DifferentialAnalysis")
+
+\S4method{DifferentialAnalysis}{SummarizedExperiment}(object, slotName = "DifferentialAnalysis")
+
+DifferentialAnalysis(object, i) <- value
 
 \S4method{names_metacell}{QFeatures}(object, i, slotName = "names_metacell")
 

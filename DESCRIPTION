@@ -88,9 +88,9 @@ Suggests:
     gplots, 
     tidyr
 Remotes:
-    git::edyp-lab/MagellanNTK,
-    git::edyp-lab/DaparToolshedData,
-    git::prostarproteomics/omXplore
+    git::https://github.com/edyp-lab/MagellanNTK,
+    git::https://github.com/edyp-lab/DaparToolshedData,
+    git::https://github.com/prostarproteomics/omXplore
 NeedsCompilation: no
 Collate:
     AllGenerics.R
