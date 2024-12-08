@@ -76,8 +76,7 @@
 ##' i = 1,
 ##' name = 'aggregated',
 ##' fcol = 'adjacencyMatrix',
-##' fun = colSumsMat,
-##' fun.qmeta = aggQmeta)
+##' fun = colSumsMat)
 ##' feat1
 ##'
 ##' assay(feat1[[1]])
@@ -147,6 +146,7 @@ setMethod(
 
     # add agregation of qMetacell
     # Aggregate the quantitative metdata
+    #if(is.null(fun.qmeta) || is.missing(fun.qmeta))
     aggQ <- aggQmetacell(
         qMeta = qMetacell(object),
         X = adjacencyMatrix(object),
@@ -218,7 +218,7 @@ aggQmetacell <- function(qMeta, X, level, conds) {
     df <- data.frame(stringsAsFactors = TRUE)
     for (j in seq(ncol(qMeta))) {
         for (i in seq(ncol(X))) {
-            df[i, j] <- qMetacell_combine(
+            df[i, j] <- metacombine(
                 rowcol(qMeta[, j], X[, i]),
                 level
             )
