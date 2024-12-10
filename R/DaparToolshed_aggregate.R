@@ -84,7 +84,7 @@
 ##' aggcounts(feat1[[2]])
 ##' assay(feat1[[3]])
 ##' aggcounts(feat1[[3]])
-##' rowData(ft[[2]])
+##' rowData(feat1[[2]])
 NULL
 
 ##' @exportMethod aggregateFeatures4Prostar
@@ -177,7 +177,7 @@ setMethod(
 
 
     ## Enrich the new assay
-    typeDataset(aggAssay) <- "proteins"
+    typeDataset(aggAssay) <- "protein"
     idcol(aggAssay) <- NULL
 
 
@@ -253,3 +253,57 @@ aggregateMethods <- function() {
             )
         )
 }
+
+
+
+
+
+
+#' This function creates a column for the protein dataset after aggregation
+#' by using the previous peptide dataset.
+#'
+#' @title creates a column for the protein dataset after agregation by
+#'  using the previous peptide dataset.
+#'
+#' @param peptideData A data.frame of meta data of peptides. It is the rowData
+#' of the SummarizedExperiment object.
+#'
+#' @param matAdj The adjacency matrix used to agregate the peptides data.
+#'
+#' @param columnName The name(s) of the column in Biobase::rowData(peptides_MSnset)
+#' that the user wants to keep in the new protein data.frame.
+#'
+#' @param proteinNames The names of the protein in the new dataset
+#' (i.e. rownames)
+#'
+#' @return A vector
+#'
+#' @author Samuel Wieczorek
+#'
+#' @example inst/extdata/examples/ex_BuildColumnToProteinDataset.R
+#' @export
+#'
+BuildColumnToProteinDataset <- function(
+    peptideData,
+    matAdj,
+    columnName,
+    proteinNames) {
+  
+  stopifnot(length(columnName) == 1)
+  nbProt <- ncol(matAdj)
+  newCol <- rep("", nbProt)
+  i <- 1
+  for (p in proteinNames) {
+
+    listeIndicePeptides <- names(which(matAdj[, p] == 1))
+    listeData <- unique(
+      as.character(
+        peptideData[listeIndicePeptides, columnName], ";"
+      )
+    )
+    newCol[i] <- paste0(listeData, collapse = ", ")
+    i <- i + 1
+  }
+  return(newCol)
+}
+
