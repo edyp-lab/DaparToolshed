@@ -95,6 +95,7 @@ NeedsCompilation: no
 Collate:
     AllGenerics.R
     plots_volcano.R
+    adjacencyMatrix.R
     plots_compare_assays.R
     missingValuesImputation_ProteinLevel.R
     missingValuesImputation_PeptideLevel.R

@@ -253,7 +253,7 @@ search.qMetacell.tags('quanti', 'peptide')
 ll <- omXplore::metacell.def('peptide')$node
 for (i in 1:length(ll))
 test <- lapply(combn(ll, i, simplify = FALSE), 
-function(x) tag <- qMetacell_combine(x, 'peptide'))
+function(x) tag <- metacombine(x, 'peptide'))
 }
 
 }

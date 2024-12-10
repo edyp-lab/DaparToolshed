@@ -1,7 +1,14 @@
 data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept
+obj <- Exp1_R25_pept[1:10]
 protID <- parentProtId(obj[[2]])
-adjacencyMatrix(obj[[2]]) <- BuildAdjacencyMatrix(obj[[2]], protID, FALSE)
+X <- BuildAdjacencyMatrix(obj[[2]], protID)
+
+X.split <- DaparToolshed::splitAdjacencyMat(X)
+X.shared <- X.split$Xshared
+X.unique <- X.split$Xspec
+
+
+adjacencyMatrix(obj[[2]]) <- 
 rowdata.pep <- rowData(obj[[2]])
 
 
