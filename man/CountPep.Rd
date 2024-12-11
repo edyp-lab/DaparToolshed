@@ -19,11 +19,9 @@ This function computes the number of peptides used to aggregate proteins.
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-protID <- "Protein_group_IDs"
-obj <- Exp1_R25_pept[[2]]
-obj <- obj[seq_len(10)]
-M <- BuildAdjacencyMatrix(obj, protID, FALSE)
-CountPep(M)
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+CountPep(X)
 
 }
 \author{

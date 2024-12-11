@@ -33,9 +33,8 @@ xxxx
 \examples{
 \dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
-protID <- "Protein_group_IDs"
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
+X <- BuildAdjacencyMatrix(obj.pep)
 level <- 'protein'
 obj.agg <- aggregateIterParallel(obj.pep, X, level)
 }

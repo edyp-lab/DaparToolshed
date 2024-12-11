@@ -4,7 +4,7 @@
 \alias{inner.mean}
 \title{xxxx}
 \usage{
-inner.mean(pepData, X)
+inner.mean(pepData)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}
@@ -20,8 +20,7 @@ xxxx
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(obj, protID, FALSE)
+X <- BuildAdjacencyMatrix(obj)
 inner.mean(assay(obj), X)
 
 }

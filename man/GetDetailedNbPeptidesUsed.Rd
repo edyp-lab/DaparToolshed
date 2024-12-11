@@ -5,7 +5,7 @@
 \title{Computes the detailed number of peptides used for aggregating
 each protein}
 \usage{
-GetDetailedNbPeptidesUsed(X, qdata.pep)
+GetDetailedNbPeptidesUsed(obj.pep)
 }
 \arguments{
 \item{X}{An adjacency matrix}
@@ -22,12 +22,10 @@ aggregating each protein
 \examples{
 library(DaparToolshedData)
 data(Exp1_R25_pept, package="DaparToolshedData")
-protID <- "Protein_group_IDs"
-obj <- Exp1_R25_pept[[2]]
-obj <- obj[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj, protID, FALSE)
-ll.n <- GetDetailedNbPeptidesUsed(X, 
-assay(Exp1_R25_pept[seq_len(10)]))
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
+ll.n <- GetDetailedNbPeptidesUsed(obj.pep[[length(obj.pep)]])
 
 }
 \author{

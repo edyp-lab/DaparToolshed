@@ -1191,80 +1191,82 @@ metacombine <- function(met, level) {
 }
 
 
-
-#' @title
-#' Symbolic product of matrices
-#'
-#' @description
-#' Execute a product two matrices: the first is an adjacency one  while the
-#' second if a simple dataframe
-#'
-#' @param X An adjacency matrix between peptides and proteins
-#'
-#' @param obj.pep A dataframe of the cell metadata for peptides
-#'
-#' @return xxxx
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' protID <- "Protein_group_IDs"
-#' X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
-#' agg.meta <- AggregateMetacell(X, obj.pep)
-#' }
-#'
-#' @export
 #' 
-#' @import omXplore
-#' @import stats
-#'
-AggregateMetacell <- function(X, obj.pep) {
-  
-  issues <- NULL
-  meta <- qMetacell(obj.pep)
-  level <- omXplore::get_type(obj.pep)
-  rowcol <- function(meta.col, X.col) (meta.col)[X.col > 0]
-  
-  df <- data.frame(stringsAsFactors = TRUE)
-  for (j in seq_len(ncol(meta))) {
-    for (i in seq_len(ncol(X))) {
-      df[i, j] <- metacombine(rowcol(meta[, j], X[, i]), level)
-    }
-  }
-  
-  df[df == "NA"] <- NA
-  colnames(df) <- obj.pep@experimentData@other$names_metacell
-  rownames(df) <- colnames(X)
-  # Delete protein with only NA
-  
-  
-  
-  # Post processing of metacell to discover 'Imputed POV', 'Imputed MEC'
-  conds <- Biobase::pData(obj.pep)$Condition
-  df <- Set_POV_MEC_tags(conds, df, level)
-  
-  
-  # Search for issues
-  prot.ind <- unique(rownames(which(df == "STOP", arr.ind = TRUE)))
-  if (!is.null(prot.ind)) {
-    issues <- stats::setNames(
-      lapply(
-        prot.ind,
-        function(x) {
-          rownames(X)[which(X[, which(colnames(X) == x)] == 1)]
-        }
-      ),
-      prot.ind
-    )
-  }
-  
-  list(
-    metacell = df,
-    issues = issues
-  )
-}
-
+#' #' @title
+#' #' Symbolic product of matrices
+#' #'
+#' #' @description
+#' #' Execute a product two matrices: the first is an adjacency one  while the
+#' #' second if a simple dataframe
+#' #'
+#' #' @param X An adjacency matrix between peptides and proteins
+#' #'
+#' #' @param obj.pep A dataframe of the cell metadata for peptides
+#' #'
+#' #' @return xxxx
+#' #'
+#' #' @author Samuel Wieczorek
+#' #'
+#' #' @examples
+#' #' \dontrun{
+#' #' data(Exp1_R25_pept, package="DaparToolshedData")
+#' #' obj.pep <- Exp1_R25_pept[seq_len(10)]
+#' #' protID <- parentProtId(obj.pep[[length(obj.pep)]])
+#' #' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]], protID)
+#' #' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
+#' #' agg.meta <- AggregateMetacell(obj.pep[[length(obj.pep)]])
+#' #' }
+#' #'
+#' #' @export
+#' #' 
+#' #' @import omXplore
+#' #' @import stats
+#' #'
+#' AggregateMetacell <- function(obj.pep) {
+#'   
+#'   issues <- NULL
+#'   meta <- qMetacell(obj.pep)
+#'   level <- TypeDataset(obj.pep)
+#'   X <- adjacencyMatrix(obj.pep)
+#'   rowcol <- function(meta.col, X.col) (meta.col)[X.col > 0]
+#'   
+#'   df <- data.frame(stringsAsFactors = TRUE)
+#'   for (j in seq_len(ncol(meta))) {
+#'     for (i in seq_len(ncol(X))) {
+#'       df[i, j] <- metacombine(rowcol(meta[, j], X[, i]), level)
+#'     }
+#'   }
+#'   
+#'   df[df == "NA"] <- NA
+#'   colnames(df) <- obj.pep@experimentData@other$names_metacell
+#'   rownames(df) <- colnames(X)
+#'   # Delete protein with only NA
+#'   
+#'   
+#'   
+#'   # Post processing of metacell to discover 'Imputed POV', 'Imputed MEC'
+#'   conds <- Biobase::pData(obj.pep)$Condition
+#'   df <- Set_POV_MEC_tags(conds, df, level)
+#'   
+#'   
+#'   # Search for issues
+#'   prot.ind <- unique(rownames(which(df == "STOP", arr.ind = TRUE)))
+#'   if (!is.null(prot.ind)) {
+#'     issues <- stats::setNames(
+#'       lapply(
+#'         prot.ind,
+#'         function(x) {
+#'           rownames(X)[which(X[, which(colnames(X) == x)] == 1)]
+#'         }
+#'       ),
+#'       prot.ind
+#'     )
+#'   }
+#'   
+#'   list(
+#'     metacell = df,
+#'     issues = issues
+#'   )
+#' }
+#' 
 

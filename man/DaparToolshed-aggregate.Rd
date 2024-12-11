@@ -118,7 +118,7 @@ feat1 <- aggregateFeatures4Prostar(object = ft,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',
-fun = colSumsMat)
+fun = 'colSumsMat')
 feat1
 
 assay(feat1[[1]])
@@ -129,8 +129,8 @@ aggcounts(feat1[[3]])
 rowData(feat1[[2]])
 data(ft, package='DaparToolshed')
 qMeta <- qMetacell(ft, 1)
-X <- adjacencyMatrix(ft, 1)
-level <- typeDataset(ft, 1)
+X <- adjacencyMatrix(ft[[1]])
+level <- typeDataset(ft[[1]])
 conds <- colData(ft)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 

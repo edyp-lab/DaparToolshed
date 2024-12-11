@@ -19,8 +19,8 @@ a MSnSet object (peptides)
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-mat <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)], "Protein_group_IDs")
-GraphPepProt(mat)
+X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)])
+GraphPepProt(X)
 
 }
 \author{

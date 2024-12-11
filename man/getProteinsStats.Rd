@@ -5,7 +5,7 @@
 \title{Computes the number of proteins that are only defined by
 specific peptides, shared peptides or a mixture of two.}
 \usage{
-getProteinsStats(matShared)
+getProteinsStats(X)
 }
 \arguments{
 \item{matShared}{The adjacency matrix with both specific and
@@ -20,10 +20,9 @@ specific peptides, shared peptides or a mixture of two.
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-protID <- "Protein_group_IDs"
 obj <- Exp1_R25_pept[seq_len(20)]
-MShared <- BuildAdjacencyMatrix(obj, protID, FALSE)
-getProteinsStats(matShared = MShared)
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+getProteinsStats(X)
 
 }
 \author{

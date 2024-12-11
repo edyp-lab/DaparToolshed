@@ -19,8 +19,7 @@ protein
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
+X <- BuildAdjacencyMatrix(obj.pep)
 n <- GetDetailedNbPeptides(X)
 
 }

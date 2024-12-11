@@ -81,7 +81,7 @@ splitAdjacencyMat <- function(X) {
 #' protId <- "Protein_group_IDs"
 #' obj <- Exp1_R25_pept[[1]]
 #' obj.pep <- obj[seq_len(10)]
-#' BuildAdjacencyMatrix(obj.pep, protId)
+#' BuildAdjacencyMatrix(obj.pep)
 #'
 #' @export
 #' @importFrom Matrix Matrix
@@ -89,9 +89,10 @@ splitAdjacencyMat <- function(X) {
 #' @import QFeatures
 #'
 
-BuildAdjacencyMatrix <- function(obj.pep, protID) {
+BuildAdjacencyMatrix <- function(obj.pep) {
   
   stopifnot(inherits(obj.pep, 'SummarizedExperiment'))
+  protID <- parentProtId(obj.pep)
   
   data <- assay(obj.pep)
   PG <- rowData(obj.pep)[, protID]

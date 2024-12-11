@@ -76,7 +76,7 @@
 ##' i = 1,
 ##' name = 'aggregated',
 ##' fcol = 'adjacencyMatrix',
-##' fun = colSumsMat)
+##' fun = 'colSumsMat')
 ##' feat1
 ##'
 ##' assay(feat1[[1]])
@@ -201,8 +201,8 @@ setMethod(
 #' @examples
 #' data(ft, package='DaparToolshed')
 #' qMeta <- qMetacell(ft, 1)
-#' X <- adjacencyMatrix(ft, 1)
-#' level <- typeDataset(ft, 1)
+#' X <- adjacencyMatrix(ft[[1]])
+#' level <- typeDataset(ft[[1]])
 #' conds <- colData(ft)$Condition
 #' aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 #'
@@ -232,7 +232,26 @@ aggQmetacell <- function(qMeta, X, level, conds) {
     # Post processing of metacell to discover 'imputed POV', 'imputed MEC'
     df <- Set_POV_MEC_tags(conds, df, level)
 
-    df
+    
+      # Search for issues
+      prot.ind <- unique(rownames(which(df == "STOP", arr.ind = TRUE)))
+      if (!is.null(prot.ind)) {
+        issues <- stats::setNames(
+          lapply(
+            prot.ind,
+            function(x) {
+              rownames(X)[which(X[, which(colnames(X) == x)] == 1)]
+            }
+          ),
+          prot.ind
+        )
+      }
+
+      list(
+        metacell = df,
+        issues = issues
+      )
+    #df
 }
 
 
@@ -256,6 +275,117 @@ aggregateMethods <- function() {
 
 
 
+#' @title xxx
+#' @description xxx
+#' A short description...
+#' @param includeSharedPeptides A boolean 
+#' @param operator xxx
+#' @param considerPeptides xxx
+#' @param topN In case of "top n peptides', specify then number of peptides
+#' 
+#' @examples
+#' data(ft, package='DaparToolshed')
+#' ft
+#' RunAggregation(ft, "Yes_As_Specific", 'colSumsMat', 'allPeptides')
+#' RunAggregation(ft, "Yes_As_Specific", operator, 'allPeptides')
+#' RunAggregation(ft, "No", 'colSumsMat', 'allPeptides')
+#' RunAggregation(ft, "No", operator, 'allPeptides')
+#' 
+#' @export
+#'
+RunAggregation <- function(qf = NULL,
+  includeSharedPeptides = "Yes_As_Specific",
+  operator = NULL,
+  considerPeptides = 'allPeptides',
+  topN  = NULL){
+  
+  
+  caseA <- includeSharedPeptides == "Yes_Redistribution" && considerPeptides == "allPeptides"
+  caseD <- includeSharedPeptides == "Yes_Redistribution" && considerPeptides == "topN"
+  caseB <- includeSharedPeptides == "Yes_As_Specific" && considerPeptides == "allPeptides"
+  caseC <- includeSharedPeptides == "Yes_As_Specific" && considerPeptides == "topN"
+  caseE <- includeSharedPeptides == "No" && considerPeptides == "allPeptides"
+  caseF <- includeSharedPeptides == "No" && considerPeptides == "topN"
+  
+  case <- setNames(c(caseA, caseB, caseC, caseD, caseE, caseF),
+    nm = c('caseA', 'caseB', 'caseC', 'caseD', 'caseE', 'caseF'))
+
+  switch (as.character(names(which(case))),
+    caseA = {
+      # Redistribution of shared peptides and all peptides
+      ll.agg <- aggregateIterParallel(
+        obj.pep = qf,
+        X = adjacencyMatrix(qf[[length(qf)]]),
+        init.method = "Sum",
+        method = "Mean"
+      )
+    },
+    caseB = {
+      # Shared peptides as specific and top n peptides
+      # ll.agg <- aggregateFeatures4Prostar(
+      #   object = qf,
+      #   i = length(qf),
+      #   name = 'aggregated',
+      #   fcol = 'adjacencyMatrix',
+      #   fun = operator)
+      ll.agg <- do.call("aggregateProstar2",
+        list(obj.pep = qf,
+          i = length(obj.pep),
+          FUN = operator
+        )
+      )
+    },
+    caseC = {
+      # Shared peptides as specific and top n peptides
+      ll.agg <- aggregateTopn(qf,
+        X,
+        operator,
+        n = as.numeric(topN)
+      )
+    },
+    caseD = {
+      # Redistribution of shared peptides and top n peptides
+      ll.agg <- aggregateIterParallel(qf,
+      X = adjacencyMatrix(qf[[length(qf)]]),
+      init.method = "Sum",
+      method = "onlyN",
+      n = topN
+    )
+    },
+    caseE = {
+      # Only unique peptides and all peptides
+      X.all <- QFeatures::adjacencyMatrix(qf[[length(qf)]])
+      X.split <- DaparToolshed::splitAdjacencyMat(X.all)
+      QFeatures::adjacencyMatrix(qf[[length(qf)]]) <- X.split$Xspec
+      
+      # ll.agg <- aggregateFeatures4Prostar(
+      #   object = qf,
+      #   i = length(qf),
+      #   name = 'aggregated',
+      #   fcol = 'adjacencyMatrix',
+      #   fun = operator)
+      # 
+      # QFeatures::adjacencyMatrix(ll.agg[[ll.agg(qf) - 1]]) <- X.all
+      # 
+      do.call("aggregateProstar2",
+        list(obj.pep = qf,
+          i = length(obj.pep),
+          FUN = operator
+        )
+      )
+    },
+    caseF = {
+      # only unique peptides and top n peptides
+      ll.agg <- aggregateTopn(qf,
+        X,
+        operator,
+        n = as.numeric(topN)
+        )
+    }
+  )
+
+  return(ll.agg)
+}
 
 
 

@@ -4,12 +4,10 @@
 \alias{finalizeAggregation}
 \title{Finalizes the aggregation process}
 \usage{
-finalizeAggregation(obj.pep, pepData, protData, protMetacell, X)
+finalizeAggregation(obj.pep, protData, protMetacell, X)
 }
 \arguments{
 \item{obj.pep}{A peptide object of class \code{MSnSet}}
-
-\item{pepData}{xxxx}
 
 \item{protData}{xxxxx}
 
@@ -17,6 +15,8 @@ finalizeAggregation(obj.pep, pepData, protData, protMetacell, X)
 
 \item{X}{An adjacency matrix in which lines and columns correspond
 respectively to peptides and proteins.}
+
+\item{pepData}{xxxx}
 }
 \value{
 A protein object of class \code{MSnSet}
@@ -25,8 +25,10 @@ A protein object of class \code{MSnSet}
 Method to finalize the aggregation process
 }
 \examples{
-NULL
-
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
 
 }
 \author{

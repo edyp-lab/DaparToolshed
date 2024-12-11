@@ -4,12 +4,10 @@
 \alias{inner.sum}
 \title{xxxx}
 \usage{
-inner.sum(pepData, X)
+inner.sum(pepData)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}
-
-\item{X}{An adjacency matrix}
 }
 \value{
 A matrix
@@ -20,9 +18,8 @@ xxxx
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(obj, protID, FALSE)
-inner.sum(assay(obj), X)
+adjacencyMatrix(obj[[length(obj)]]) <- BuildAdjacencyMatrix(obj[[length(obj)]])
+inner.sum(obj[[length(obj)]])
 }
 \author{
 Samuel Wieczorek

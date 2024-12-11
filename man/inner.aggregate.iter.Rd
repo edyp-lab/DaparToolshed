@@ -32,8 +32,7 @@ Method to xxxxx
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept
-protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(obj[seq_len(10)], protID, FALSE)
+X <- BuildAdjacencyMatrix(obj[seq_len(10)])
 qdata.agg <- inner.aggregate.iter(assay(obj[seq_len(10)]), X)
 
 }

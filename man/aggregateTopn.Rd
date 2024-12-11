@@ -27,8 +27,8 @@ intensities of their n best peptides.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-protID <- "Protein_group_IDs"
-X <- BuildAdjacencyMatrix(obj.pep, protID, FALSE)
+X <- BuildAdjacencyMatrix(obj.pep)
+adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
 ll.agg <- aggregateTopn(obj.pep, X, n = 3)
 
 }

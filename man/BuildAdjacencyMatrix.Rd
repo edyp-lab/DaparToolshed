@@ -4,7 +4,7 @@
 \alias{BuildAdjacencyMatrix}
 \title{Function matrix of appartenance group}
 \usage{
-BuildAdjacencyMatrix(obj.pep, protID)
+BuildAdjacencyMatrix(obj.pep)
 }
 \arguments{
 \item{obj.pep}{An object (peptides) of class \code{MSnSet}.}
@@ -23,7 +23,7 @@ data(Exp1_R25_pept, package="DaparToolshedData")
 protId <- "Protein_group_IDs"
 obj <- Exp1_R25_pept[[1]]
 obj.pep <- obj[seq_len(10)]
-BuildAdjacencyMatrix(obj.pep, protId)
+BuildAdjacencyMatrix(obj.pep)
 
 }
 \author{
