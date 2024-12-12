@@ -204,36 +204,41 @@ setMethod(
 #' aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 #'
 #' @rdname DaparToolshed-aggregate
+#' 
+#' @export
 #'
 aggQmetacell <- function(qMeta, X, level, conds) {
     # stopifnot(inherits(object, "SummarizedExperiment"))
 
+  res <- list(
+    metacell = NULL,
+    issues = NULL
+  )
     rowcol <- function(meta.col, X.col) {
         meta.col[X.col > 0]
     }
 
-    df <- data.frame(stringsAsFactors = TRUE)
+    res$metacell <- data.frame(stringsAsFactors = TRUE)
     for (j in seq(ncol(qMeta))) {
         for (i in seq(ncol(X))) {
-            df[i, j] <- metacombine(
+          res$metacell[i, j] <- metacombine(
                 rowcol(qMeta[, j], X[, i]),
                 level
             )
         }
     }
 
-    df[df == "NA"] <- NA
-    dimnames(df) <- list(colnames(X), colnames(qMeta))
+    res$metacell[res$metacell == "NA"] <- NA
+    dimnames(res$metacell) <- list(colnames(X), colnames(qMeta))
     # Delete protein with only NA
 
     # Post processing of metacell to discover 'imputed POV', 'imputed MEC'
-    df <- Set_POV_MEC_tags(conds, df, level)
+    res$metacell <- Set_POV_MEC_tags(conds, res$metacell, level)
 
-    
       # Search for issues
-      prot.ind <- unique(rownames(which(df == "STOP", arr.ind = TRUE)))
+      prot.ind <- unique(rownames(which(res$metacell == "STOP", arr.ind = TRUE)))
       if (!is.null(prot.ind)) {
-        issues <- stats::setNames(
+        res$issues <- stats::setNames(
           lapply(
             prot.ind,
             function(x) {
@@ -244,11 +249,9 @@ aggQmetacell <- function(qMeta, X, level, conds) {
         )
       }
 
-      list(
-        metacell = df,
-        issues = issues
-      )
-    #df
+      
+    
+      return(res)
 }
 
 

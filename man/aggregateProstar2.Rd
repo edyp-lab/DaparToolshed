@@ -5,13 +5,13 @@
 \title{Compute the intensity of proteins with the sum of the intensities
 of their peptides.}
 \usage{
-aggregateProstar2(obj, i, FUN = "Sum")
+aggregateProstar2(obj, i, FUN = "Sum", X)
 }
 \arguments{
-\item{obj.pep}{A matrix of intensities of peptides}
-
 \item{X}{An adjacency matrix in which lines and columns correspond
 respectively to peptides and proteins.}
+
+\item{obj.pep}{A matrix of intensities of peptides}
 }
 \value{
 A matrix of intensities of proteins
@@ -23,10 +23,10 @@ intensities of their peptides.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(20)]
+last.obj <- obj.pep[[length(obj.pep)]]
 #obj.pep.imp <- wrapper.impute.detQuant(obj.pep[[length(obj.pep)]], na.type = c("Missing POV", "Missing MEC"))
-X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
-adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-ll.agg <- aggregateProstar2(obj.pep, length(obj.pep))
+X <- BuildAdjacencyMatrix(last.obj)
+ll.agg <- aggregateProstar2(obj.pep, length(obj.pep), X = X)
 
 }
 \author{

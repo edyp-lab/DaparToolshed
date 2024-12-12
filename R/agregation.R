@@ -14,22 +14,23 @@
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(20)]
-#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+#' obj.last <- obj[[length(obj)]]
+#' X <- BuildAdjacencyMatrix(obj.last)
 #' getProteinsStats(X)
 #'
 #' @export
 #'
 getProteinsStats <- function(X) {
-  if (missing(matShared)) {
-    stop("'matShared' is needed.")
+  if (missing(X)) {
+    stop("'X' is needed.")
   }
   
-  stopifnot(!is.null(matShared))
+  stopifnot(!is.null(X))
   
   nbPeptide <- 0
   
-  ind.shared.Pep <- which(rowSums(as.matrix(matShared)) > 1)
-  M.shared.Pep <- matShared[ind.shared.Pep, ]
+  ind.shared.Pep <- which(rowSums(as.matrix(X)) > 1)
+  M.shared.Pep <- X[ind.shared.Pep, ]
   if (length(ind.shared.Pep) == 1) {
     j <- which(as.matrix(M.shared.Pep) == 0)
     M.shared.Pep <- M.shared.Pep[-j]
@@ -41,8 +42,8 @@ getProteinsStats <- function(X) {
   }
   
   
-  ind.unique.Pep <- which(rowSums(as.matrix(matShared)) == 1)
-  M.unique.Pep <- matShared[ind.unique.Pep, ]
+  ind.unique.Pep <- which(rowSums(as.matrix(X)) == 1)
+  M.unique.Pep <- X[ind.unique.Pep, ]
   if (length(ind.unique.Pep) == 1) {
     j <- which(as.matrix(M.unique.Pep) == 0)
     M.unique.Pep <- M.unique.Pep[-j]
@@ -72,8 +73,7 @@ getProteinsStats <- function(X) {
       nbPeptides = length(ind.unique.Pep) + length(ind.shared.Pep),
       nbSpecificPeptides = length(ind.unique.Pep),
       nbSharedPeptides = length(ind.shared.Pep),
-      nbProt = length(protOnlyShared) + length(protOnlyUnique) + 
-        length(protMix),
+      nbProt = length(protOnlyShared) + length(protOnlyUnique) + length(protMix),
       protOnlyUniquePep = protOnlyUnique,
       protOnlySharedPep = protOnlyShared,
       protMixPep = protMix
@@ -101,7 +101,8 @@ getProteinsStats <- function(X) {
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+#' last.obj <- obj.pep[[length(obj.pep)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
 #' CountPep(X)
 #'
 #' @export
@@ -132,12 +133,12 @@ CountPep <- function(M) {
 #' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
-#' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-#' GetNbPeptidesUsed(obj.pep)
+#' last.obj <- obj.pep[[length(obj.pep)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
+#' GetNbPeptidesUsed(assay(last.obj), X)
 #' 
 GetNbPeptidesUsed <- function(pepData, X) {
-  
+  stopifnot(inherits(pepData, 'matrix'))
   
   pepData[!is.na(pepData)] <- 1
   pepData[is.na(pepData)] <- 0
@@ -171,22 +172,20 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' library(DaparToolshedData)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
-#' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-#' ll.n <- GetDetailedNbPeptidesUsed(obj.pep[[length(obj.pep)]])
+#' last.obj <- obj.pep[[length(obj.pep)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
+#' ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
 #'
-GetDetailedNbPeptidesUsed <- function(obj.pep) {
-  stopifnot(inherits(obj.pep, 'SummarizedExperiment'))
-  stopifnot('adjacencyMatrix' %in% names(rowData(obj.pep)))
+GetDetailedNbPeptidesUsed <- function(pepData, X) {
+  stopifnot(inherits(pepData, 'matrix'))
   
-  X <- as.matrix(adjacencyMatrix(obj.pep))
-  assay(obj.pep)[!is.na(assay(obj.pep))] <- 1
-  assay(obj.pep)[is.na(assay(obj.pep))] <- 0
+  pepData[!is.na(pepData)] <- 1
+  pepData[is.na(pepData)] <- 0
   
   mat <- splitAdjacencyMat(X)
   return(list(
-    nShared = t(mat$Xshared) %*% assay(obj.pep),
-    nSpec = t(mat$Xspec) %*% assay(obj.pep)
+    nShared = t(mat$Xshared) %*% pepData,
+    nSpec = t(mat$Xspec) %*% pepData
   ))
 }
 
@@ -208,7 +207,8 @@ GetDetailedNbPeptidesUsed <- function(obj.pep) {
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep)
+#' last.obj <- obj.pep[[length(obj.pep)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
 #' n <- GetDetailedNbPeptides(X)
 #'
 #' @export
@@ -242,7 +242,9 @@ GetDetailedNbPeptides <- function(X) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)])
+#' obj <- Exp1_R25_pept[seq_len(10)]
+#' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
 #' GraphPepProt(X)
 #'
 #' @export
@@ -283,8 +285,10 @@ GraphPepProt <- function(mat) {
 #' @param X xxx
 #' @export
 #' @examples
-#' #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)])
+#' data(Exp1_R25_pept, package="DaparToolshedData")
+#' obj <- Exp1_R25_pept[seq_len(10)]
+#' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
+#' X <- BuildAdjacencyMatrix(last.obj)
 #' ExtractUniquePeptides(X)
 #' 
 ExtractUniquePeptides <- function(X){
@@ -316,20 +320,18 @@ ExtractUniquePeptides <- function(X){
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(20)]
+#' last.obj <- obj.pep[[length(obj.pep)]]
 #' #obj.pep.imp <- wrapper.impute.detQuant(obj.pep[[length(obj.pep)]], na.type = c("Missing POV", "Missing MEC"))
-#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
-#' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-#' ll.agg <- aggregateProstar2(obj.pep, length(obj.pep))
+#' X <- BuildAdjacencyMatrix(last.obj)
+#' ll.agg <- aggregateProstar2(obj.pep, length(obj.pep), X = X)
 #'
 #' @export
 #'
 #' @import QFeatures
 #' 
-aggregateProstar2 <- function(obj, i, FUN = 'Sum') {
+aggregateProstar2 <- function(obj, i, FUN = 'Sum', X) {
   stopifnot(inherits(obj, "QFeatures"))
-  stopifnot('adjacencyMatrix' %in% names(rowData(obj.pep[[i]])))
    
-    X <- adjacencyMatrix(obj[[i]])
     qMeta <- qMetacell(obj[[i]])
     level <- typeDataset(obj[[i]])
     conds <- colData(obj)$Condition
@@ -387,9 +389,9 @@ aggregateProstar2 <- function(obj, i, FUN = 'Sum') {
 #' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep)
-#' level <- 'protein'
-#' obj.agg <- aggregateIterParallel(obj.pep, X, level)
+#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+#' conds <- colData(obj.pep)$Condition
+#' obj.agg <- aggregateIterParallel(obj.pep = obj.pep[[length(obj.pep)]], X = X, n = 3, conds = conds)
 #' }
 #' 
 #' @export
@@ -406,49 +408,57 @@ aggregateIterParallel <- function(obj.pep,
   init.method = "Sum",
   method = "Mean",
   n = NULL,
-  level
+  conds
 ) {
   
-  
+  stopifnot(inherits(obj.pep, "SummarizedExperiment"))
   #pkgs.require(c("Msnbase", "parallel", "doParallel", "foreach", "Biobase", 'QFeatures'))
   
   doParallel::registerDoParallel()
   obj.prot <- NULL
+  level <- typeDataset(obj.pep)
   
   # Step 1: Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
+  qMeta <- qMetacell(obj.pep)
+  level <- typeDataset(obj.pep)
+  pepData <- assay(obj.pep)
+  
+  obj.prot <- NULL
+  # Aggregation of metacell data
+  metacell <- aggQmetacell(qMeta, X, level, conds)
   if (!is.null(metacell$issues)) {
     return(list(
       obj.prot = NULL,
       issues = metacell$issues
     ))
   } else { # Step 2 : Agregation of quantitative data
-    qData.pep <- 2^(assay(obj.pep))
+    #qData.pep <- 2^(assay(obj.pep))
     protData <- matrix(rep(0, ncol(X) * ncol(obj.pep)),
                        nrow = ncol(X),
                        dimnames = list(colnames(X), rep("cond", ncol(obj.pep)))
     )
     
     protData <- foreach::foreach(
-      cond = seq_len(length(unique(Biobase::pData(obj.pep)$Condition))),
+      cond = seq_len(length(unique(conds))),
       .combine = cbind,
       .packages = "QFeatures"
     ) %dopar% {
-      .conds <- Biobase::pData(obj.pep)$Condition
-      condsIndices <- which(.conds == unique(.conds)[cond])
-      qData <- qData.pep[, condsIndices]
+      condsIndices <- which(conds == unique(conds)[cond])
+      qData <- assay(obj.pep)[, condsIndices]
       inner.aggregate.iter(qData, X, init.method, method, n)
     }
     
     protData <- protData[, colnames(assay(obj.pep))]
     colnames(protData) <- colnames(assay(obj.pep))
     
+    
+    browser()
     # Step 3 : Build the protein dataset
-    obj.prot <- finalizeAggregation(obj.pep, 
-                                    qData.pep, 
-                                    protData, 
-                                    metacell$metacell, 
-                                    X
+    obj.prot <- finalizeAggregation(
+      obj.pep, 
+      2^(assay(obj.pep)), 
+      protData, 
+      metacell$metacell
     )
     
     return(list(
@@ -477,9 +487,9 @@ aggregateIterParallel <- function(obj.pep,
 #'
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept
-#' X <- BuildAdjacencyMatrix(obj[seq_len(10)])
-#' qdata.agg <- inner.aggregate.iter(assay(obj[seq_len(10)]), X)
+#' obj <- Exp1_R25_pept[seq_len(10)]
+#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+#' qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
 #'
 #' @export
 #'
@@ -490,143 +500,53 @@ inner.aggregate.iter <- function(
     method = "Mean",
     n = NULL
 ) {
-  
+
   if (!(init.method %in% c("Sum", "Mean"))) {
     warning("Wrong parameter init.method")
     return(NULL)
   }
-  
+
   if (!(method %in% c("onlyN", "Mean"))) {
     warning("Wrong parameter method")
     return(NULL)
   }
-  
-  
+
+
   if (method == "onlyN" && is.null(n)) {
     warning("Parameter n is null")
     return(NULL)
   }
-  
+
   yprot <- NULL
   switch(init.method,
          Sum = yprot <- inner.sum(pepData, X),
          Mean = yprot <- inner.mean(pepData, X)
   )
   conv <- 1
-  
+
   while (conv > 10**(-10)) {
     mean.prot <- rowMeans(as.matrix(yprot), na.rm = TRUE)
     mean.prot[is.na(mean.prot)] <- 0
-    
+
     X.tmp <- mean.prot * X
     X.new <- X.tmp / rowSums(as.matrix(X.tmp), na.rm = TRUE)
     X.new[is.na(X.new)] <- 0
-    
+
     # l'appel a la fonction ci-dessous depend des parametres choisis par
     # l'utilisateur
     switch(method,
            Mean = yprot <- inner.mean(pepData, X.new),
            onlyN = yprot <- inner.aggregate.topn(pepData, X.new, "Mean", n)
     )
-    
+
     mean.prot.new <- rowMeans(as.matrix(yprot), na.rm = TRUE)
     mean.prot.new[is.na(mean.prot.new)] <- 0
-    
+
     conv <- mean(abs(mean.prot.new - mean.prot))
   }
   return(as.matrix(yprot))
 }
 
-
-
-#' @title xxxx
-#'
-#' @param obj.pep xxxxx
-#'
-#' @param X xxxx
-#'
-#' @param init.method xxxxx
-#'
-#' @param method xxxxx
-#'
-#' @param n xxxx
-#'
-#' @return A protein object of class `MSnSet`
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' protID <- "Protein_group_IDs"
-#' obj <- Exp1_R25_pept[[2]]
-#' obj <- obj[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj)
-#' ll.agg <- aggregateIter(obj.pep = obj)
-#'
-#' @export
-#'
-#'
-aggregateIter <- function(
-    obj.pep,
-    X,
-    init.method = "Sum",
-    method = "Mean",
-    n = NULL,
-  level
-) {
-  
-  obj.prot <- NULL
-  
-  # Step 1 : Agregation of metacell data
-  metacell <- AggregateMetacell(X = X, obj.pep = obj.pep, level)
-  
-  if (!is.null(metacell$issues)) {
-    return(list(
-      obj.prot = NULL,
-      issues = metacell$issues
-    ))
-  } else {
-    # Step 2: Agregation of quantitative data
-    # For each condition, reproduce iteratively
-    # Initialisation: At initialization step, take "sum overall" and  
-    # matAdj = X
-    # for simplicity.
-    # Note : X <- as.matrix(X)
-    qData.pep <- 2^(assay(obj.pep))
-    
-    protData <- matrix(rep(0, ncol(X) * ncol(obj.pep)),
-                       nrow = ncol(X),
-                       dimnames = list(colnames(X), rep("cond", ncol(obj.pep)))
-    )
-    
-    for (cond in unique(Biobase::pData(obj.pep)$Condition)) {
-      condsIndices <- which(Biobase::pData(obj.pep)$Condition == cond)
-      qData <- qData.pep[, condsIndices]
-      protData[, condsIndices] <- inner.aggregate.iter(
-        qData,
-        X,
-        init.method,
-        method,
-        n
-      )
-      .tmp <- assay(obj.pep)
-      colnames(protData)[condsIndices] <- colnames(.tmp)[condsIndices]
-    }
-    
-    # Step 3: Build the protein dataset
-    obj.prot <- finalizeAggregation(
-      obj.pep, 
-      qData.pep, 
-      protData, 
-      metacell$metacell, 
-      X
-    )
-    return(list(
-      obj.prot = obj.prot,
-      issues = NULL
-    ))
-  }
-}
 
 
 #' @title xxxx
@@ -642,15 +562,15 @@ aggregateIter <- function(
 #' @examples 
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
-#' adjacencyMatrix(obj[[length(obj)]]) <- BuildAdjacencyMatrix(obj[[length(obj)]])
-#' inner.sum(obj[[length(obj)]])
+#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+#' inner.sum(assay(obj[[length(obj)]]), X)
 
 inner.sum <- function(pepData, X) {
-  #stopifnot(inherits(pepData, 'SummarizedExperiment'))
+  stopifnot(inherits(pepData, 'matrix'))
+  pepData <- 2^pepData
+  pepData[is.na(pepData)] <- 0
   
-  assay(pepData)[is.na(pepData)] <- 0
-  
-  Mp <- t(as.matrix(X)) %*% (2^pepData)
+  Mp <- t(as.matrix(X)) %*% pepData
   return(Mp)
 }
 
@@ -674,7 +594,7 @@ inner.sum <- function(pepData, X) {
 #' inner.mean(assay(obj), X)
 #' 
 inner.mean <- function(pepData, X) {
-  #stopifnot(inherits(pepData, 'SummarizedExperiment'))
+  stopifnot(inherits(pepData, 'matrix'))
   
   
   Mp <- inner.sum(pepData, X)
@@ -706,7 +626,7 @@ inner.mean <- function(pepData, X) {
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-#' inner.aggregate.topn(assay(obj), X)
+#' inner.aggregate.topn(assay(obj[[length(obj)]]), X, n=3)
 #' 
 #' @import stats
 #' 
@@ -714,6 +634,7 @@ inner.aggregate.topn <- function(pepData, X, method = "Mean", n = 10) {
   #stopifnot(inherits(pepData, 'SummarizedExperiment'))
   
  # pkgs.require("stats")
+  pepData <- 2^pepData
   
   med <- apply(pepData, 1, stats::median)
   xmed <- as(X * med, "dgCMatrix")
@@ -731,8 +652,8 @@ inner.aggregate.topn <- function(pepData, X, method = "Mean", n = 10) {
   
   Mp <- NULL
   switch(method,
-         Mean = Mp <- inner.mean(pepData, X),
-         Sum = Mp <- inner.sum(pepData, X)
+         Mean = Mp <- inner.mean(.dat, X),
+         Sum = Mp <- inner.sum(.dat, X)
   )
   
   return(Mp)
@@ -795,8 +716,8 @@ aggregateTopn <- function(obj.pep,
     ))
   } else {
     # Step 2 : Agregation of quantitative data
-    pepData <- 2^(assay(obj.pep))
-    protData <- inner.aggregate.topn(pepData, X, method = method, n)
+    #pepData <- 2^(assay(obj.pep))
+    protData <- inner.aggregate.topn(assay(obj.pep), X, method = method, n)
     
     browser()
     # Step 3: Build the protein dataset
@@ -861,14 +782,14 @@ finalizeAggregation <- function(obj.pep, protData, protMetacell, X) {
   }
   
   # (obj.pep, pepData, protData, metacell, X)
-  
+
   protData <- as.matrix(protData)
   X <- as.matrix(X)
   protData[protData == 0] <- NA
   protData[is.nan(protData)] <- NA
   protData[is.infinite(protData)] <- NA
   
-  temp <- GetDetailedNbPeptidesUsed(obj.pep[[length(obj.pep)]])
+  temp <- GetDetailedNbPeptidesUsed(assay(obj.pep[[length(obj.pep)]]), X)
 
   pepSharedUsed <- as.matrix(temp$nShared)
   colnames(pepSharedUsed) <- paste("pepShared.used.", 
@@ -882,7 +803,7 @@ finalizeAggregation <- function(obj.pep, protData, protMetacell, X) {
                                  sep = "")
   rownames(pepSpecUsed) <- colnames(X)
   
-  pepTotalUsed <- as.matrix(GetNbPeptidesUsed(obj.pep[[length(obj.pep)]]), X)
+  pepTotalUsed <- as.matrix(GetNbPeptidesUsed(assay(obj.pep[[length(obj.pep)]]), X))
   colnames(pepTotalUsed) <- paste("pepTotal.used.", 
                                   colnames(assay(obj.pep[[length(obj.pep)]])),
                                   sep = "")
@@ -947,7 +868,7 @@ finalizeAggregation <- function(obj.pep, protData, protMetacell, X) {
   
   tryCatch(
     {
-      find.package("Prostar")
+      find.package("Prostar2")
       find.package("DaparToolshed")
       prostar.ver <- Biobase::package.version("Prostar2")
       dapar.ver <- Biobase::package.version("DaparToolshed")
@@ -965,6 +886,9 @@ finalizeAggregation <- function(obj.pep, protData, protMetacell, X) {
     prot.se,
     name = 'Aggregated'
   )
+  
+  adjacencyMatrix(obj.prot[[length(obj.prot) - 1]]) <- BuildAdjacencyMatrix(obj.prot[[length(obj.prot) - 1]])
+  
   
   ## Link the input assay to the aggregated assay
   addAssayLink(obj.prot,

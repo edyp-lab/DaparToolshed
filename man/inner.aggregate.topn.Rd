@@ -24,8 +24,8 @@ xxxx
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj)
-inner.aggregate.topn(assay(obj), X)
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+inner.aggregate.topn(assay(obj[[length(obj)]]), X, n=3)
 
 }
 \author{

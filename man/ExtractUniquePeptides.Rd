@@ -13,8 +13,10 @@ ExtractUniquePeptides(X)
 Test
 }
 \examples{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-X <- BuildAdjacencyMatrix(Exp1_R25_pept[seq_len(10)])
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
+X <- BuildAdjacencyMatrix(last.obj)
 ExtractUniquePeptides(X)
 
 }

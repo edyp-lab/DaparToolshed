@@ -31,8 +31,8 @@ Method to xxxxx
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept
-X <- BuildAdjacencyMatrix(obj[seq_len(10)])
-qdata.agg <- inner.aggregate.iter(assay(obj[seq_len(10)]), X)
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
 
 }

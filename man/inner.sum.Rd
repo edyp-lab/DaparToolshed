@@ -4,7 +4,7 @@
 \alias{inner.sum}
 \title{xxxx}
 \usage{
-inner.sum(pepData)
+inner.sum(pepData, X)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}
@@ -18,8 +18,8 @@ xxxx
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-adjacencyMatrix(obj[[length(obj)]]) <- BuildAdjacencyMatrix(obj[[length(obj)]])
-inner.sum(obj[[length(obj)]])
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+inner.sum(assay(obj[[length(obj)]]), X)
 }
 \author{
 Samuel Wieczorek

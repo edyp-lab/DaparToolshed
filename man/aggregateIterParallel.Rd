@@ -10,7 +10,7 @@ aggregateIterParallel(
   init.method = "Sum",
   method = "Mean",
   n = NULL,
-  level
+  conds
 )
 }
 \arguments{
@@ -34,9 +34,9 @@ xxxx
 \dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj.pep)
-level <- 'protein'
-obj.agg <- aggregateIterParallel(obj.pep, X, level)
+X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+conds <- colData(obj.pep)$Condition
+obj.agg <- aggregateIterParallel(obj.pep = obj.pep[[length(obj.pep)]], X = X, n = 3, conds = conds)
 }
 
 }

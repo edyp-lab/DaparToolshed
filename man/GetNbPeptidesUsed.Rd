@@ -4,7 +4,7 @@
 \alias{GetNbPeptidesUsed}
 \title{Computes the number of peptides used for aggregating each protein}
 \usage{
-GetNbPeptidesUsed(pepData)
+GetNbPeptidesUsed(pepData, X)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}
@@ -22,9 +22,9 @@ each protein
 library(QFeatures)
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
-adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-GetNbPeptidesUsed(obj.pep)
+last.obj <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.obj)
+GetNbPeptidesUsed(assay(last.obj), X)
 
 }
 \author{

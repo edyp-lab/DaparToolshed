@@ -21,7 +21,8 @@ specific peptides, shared peptides or a mixture of two.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(20)]
-X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+obj.last <- obj[[length(obj)]]
+X <- BuildAdjacencyMatrix(obj.last)
 getProteinsStats(X)
 
 }

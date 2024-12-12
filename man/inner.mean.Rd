@@ -4,7 +4,7 @@
 \alias{inner.mean}
 \title{xxxx}
 \usage{
-inner.mean(pepData)
+inner.mean(pepData, X)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}

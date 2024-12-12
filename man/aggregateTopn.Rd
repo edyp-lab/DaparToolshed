@@ -5,17 +5,17 @@
 \title{Compute the intensity of proteins as the sum of the
 intensities of their n best peptides.}
 \usage{
-aggregateTopn(obj.pep, X, method = "Mean", n = 10, level)
+aggregateTopn(obj.pep, method = "Mean", n = 10, conds)
 }
 \arguments{
 \item{obj.pep}{A matrix of intensities of peptides}
 
-\item{X}{An adjacency matrix in which lines and columns correspond
-respectively to peptides and proteins.}
-
 \item{method}{xxx}
 
 \item{n}{The maximum number of peptides used to aggregate a protein.}
+
+\item{X}{An adjacency matrix in which lines and columns correspond
+respectively to peptides and proteins.}
 }
 \value{
 A matrix of intensities of proteins
@@ -27,9 +27,10 @@ intensities of their n best peptides.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj.pep)
+X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
 adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
-ll.agg <- aggregateTopn(obj.pep, X, n = 3)
+conds <- colData(obj.pep)$Condition
+ll.agg <- aggregateTopn(obj.pep[[length(obj.pep)]], n = 3, conds = conds)
 
 }
 \author{
