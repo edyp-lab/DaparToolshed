@@ -142,36 +142,33 @@ setMethod(
 
 
 .aggregateFeatures4Prostar <- function(object, fcol, fun, conds, ...) {
-    X <- adjacencyMatrix(object)
-
+    
+    ## Create the aggregated assay
+    aggAssay <- aggregateFeatures(object, fcol, fun, ...)
+    
     # add agregation of qMetacell
     # Aggregate the quantitative metdata
     #if(is.null(fun.qmeta) || is.missing(fun.qmeta))
     aggQ <- aggQmetacell(
-        qMeta = qMetacell(object),
-        X = adjacencyMatrix(object),
-        level = typeDataset(object),
-        conds = conds
+      qMeta = qMetacell(object),
+      X = adjacencyMatrix(object),
+      level = typeDataset(object),
+      conds = conds
     )
-
-    ## Remove the qMetacell that should be dropped anyway and not be aggregated
-    ## within QFeatures::aggregateFeatures
-    rowData(object)[["qMetacell"]] <- NULL
-
-    ## Create the aggregated assay
-    aggAssay <- aggregateFeatures(object, fcol, fun, ...)
-
+    
     ## Add the qMetacell to the new assay
-    qMetacell(aggAssay) <- aggQ
-    X.spec <- X.shared <- X
-
+    qMetacell(aggAssay) <- aggQ$metacell
+    metadata(aggAssay)[['aggQmetacell_issues']] <- aggQ$issues
+    
+    
+    X.spec <- X.shared <- X <- adjacencyMatrix(object)
     X.spec[which(rowSums(as.matrix(X.spec)) > 1), ] <- 0
     X.shared[which(rowSums(as.matrix(X.shared)) == 1), ] <- 0
     
     .allPep <- t(as.matrix(X)) %*% !is.na(assay(object))
     .specPep <- t(as.matrix(X.spec)) %*% !is.na(assay(object))
     .sharedPep <- t(as.matrix(X.shared)) %*% !is.na(assay(object))
-    rowData(aggAssay)[["allPeptidesUsed"]] <-.allPep
+    rowData(aggAssay)[["allPeptidesUsed"]] <- .allPep
     rowData(aggAssay)[["specPeptidesUsed"]] <- .specPep
     rowData(aggAssay)[["sharedPeptidesUsed"]] <- .sharedPep
 
