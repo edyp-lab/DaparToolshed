@@ -274,10 +274,11 @@ aggregateMethods <- function() {
 #' @title xxx
 #' @description xxx
 #' A short description...
+#' @param qf xxx
 #' @param includeSharedPeptides A boolean 
 #' @param operator xxx
-#' @param considerPeptides xxx
-#' @param topN In case of "top n peptides', specify then number of peptides
+#' @param considerPeptides Available values are 'allPeptides' (default) and 'topN'
+#' @param n In case of "top n peptides', specify then number of peptides
 #' 
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
@@ -286,7 +287,10 @@ aggregateMethods <- function() {
 #' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides')
 #' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4)
 #' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4)
+#' 
+#' # Case E
 #' RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides')
+#' 
 #' RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
 #' RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides')
 #' RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4)
@@ -303,7 +307,7 @@ RunAggregation <- function(qf = NULL,
   stopifnot(inherits(qf, "QFeatures"))
   
   X.all <- BuildAdjacencyMatrix(qf[[i]])
-  X.split <- DaparToolshed::splitAdjacencyMat(X.all)
+  #X.split <- DaparToolshed::splitAdjacencyMat(X.all)
   
   
   
@@ -364,7 +368,6 @@ RunAggregation <- function(qf = NULL,
     },
     caseE = {
       # Only unique peptides and all peptides
-      X.all <- X
       X.split <- DaparToolshed::splitAdjacencyMat(X.all)
       
       # ll.agg <- aggregateFeatures4Prostar(
