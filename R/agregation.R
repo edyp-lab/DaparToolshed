@@ -716,7 +716,7 @@ aggregateTopn <- function(obj.pep,
     qMeta = qMetacell(obj.pep[[i]]),
     X = X,
     level = typeDataset(obj.pep[[i]]),
-    conds = conds
+    conds = colData(obj.pep)$Condition
   )
   
   if (!is.null(metacell$issues)) {
@@ -844,15 +844,10 @@ stopifnot(inherits(obj.pep, "QFeatures"))
   )
   ## Add the qMetacell to the new assay
   qMetacell(prot.se) <- protMetacell
-  
-  
-  
+
   ## Remove the qMetacell that should be dropped anyway and not be aggregated
   ## within QFeatures::aggregateFeatures
-  
-  
-  
-  
+
   X.spec <- X.shared <- X
   
   X.spec[which(rowSums(as.matrix(X.spec)) > 1), ] <- 0

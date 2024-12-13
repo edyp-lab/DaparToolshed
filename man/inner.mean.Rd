@@ -21,7 +21,7 @@ xxxx
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
 X <- BuildAdjacencyMatrix(obj)
-inner.mean(assay(obj), X)
+i.mean <- inner.mean(assay(obj), X)
 
 }
 \author{

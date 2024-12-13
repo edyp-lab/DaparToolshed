@@ -6,11 +6,11 @@
 \usage{
 aggregateIterParallel(
   obj.pep,
+  i,
   X,
   init.method = "Sum",
   method = "Mean",
-  n = NULL,
-  conds
+  n = NULL
 )
 }
 \arguments{
@@ -34,9 +34,10 @@ xxxx
 \dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+last.se <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.se)
 conds <- colData(obj.pep)$Condition
-obj.agg <- aggregateIterParallel(obj.pep = obj.pep[[length(obj.pep)]], X = X, n = 3, conds = conds)
+obj.agg <- aggregateIterParallel(obj.pep = obj.pep, i = length(obj.pep), X = X, n = 3)
 }
 
 }

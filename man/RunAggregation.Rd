@@ -6,31 +6,42 @@
 \usage{
 RunAggregation(
   qf = NULL,
+  i = 0,
   includeSharedPeptides = "Yes_As_Specific",
-  operator = NULL,
+  operator = "Sum",
   considerPeptides = "allPeptides",
-  topN = NULL
+  n = NULL,
+  addRowData = FALSE
 )
 }
 \arguments{
+\item{qf}{xxx}
+
 \item{includeSharedPeptides}{A boolean}
 
 \item{operator}{xxx}
 
-\item{considerPeptides}{xxx}
+\item{considerPeptides}{Available values are 'allPeptides' (default) and 'topN'}
 
-\item{topN}{In case of "top n peptides', specify then number of peptides}
+\item{n}{In case of "top n peptides', specify then number of peptides}
 }
 \description{
 xxx
 A short description...
 }
 \examples{
-data(ft, package='DaparToolshed')
-ft
-RunAggregation(ft, "Yes_As_Specific", 'colSumsMat', 'allPeptides')
-RunAggregation(ft, "Yes_As_Specific", operator, 'allPeptides')
-RunAggregation(ft, "No", 'colSumsMat', 'allPeptides')
-RunAggregation(ft, "No", operator, 'allPeptides')
+data(Exp1_R25_pept, package="DaparToolshedData")
+ft <- Exp1_R25_pept[seq_len(10)]
+RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides')
+RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides')
+RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4)
+RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4)
+
+# Case E
+RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides')
+
+RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
+RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides')
+RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4)
 
 }

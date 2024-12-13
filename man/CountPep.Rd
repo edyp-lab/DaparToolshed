@@ -4,7 +4,7 @@
 \alias{CountPep}
 \title{Compute the number of peptides used to aggregate proteins}
 \usage{
-CountPep(M)
+CountPep(X)
 }
 \arguments{
 \item{M}{A "valued" adjacency matrix in which lines and columns correspond

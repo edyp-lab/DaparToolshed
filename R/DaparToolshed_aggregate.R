@@ -283,17 +283,17 @@ aggregateMethods <- function() {
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' ft <- Exp1_R25_pept[seq_len(10)]
-#' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides')
-#' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides')
-#' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4)
-#' RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides', addRowData = TRUE)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides', addRowData = TRUE)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4, addRowData = TRUE)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4, addRowData = TRUE)
 #' 
 #' # Case E
-#' RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides')
+#' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides', addRowData = TRUE)
 #' 
-#' RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
-#' RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides')
-#' RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4)
+#' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides', addRowData = TRUE)
+#' obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4, addRowData = TRUE)
 #' 
 #' @export
 #'
@@ -302,7 +302,8 @@ RunAggregation <- function(qf = NULL,
   includeSharedPeptides = "Yes_As_Specific",
   operator = 'Sum',
   considerPeptides = 'allPeptides',
-  n = NULL){
+  n = NULL,
+  addRowData = FALSE){
   
   stopifnot(inherits(qf, "QFeatures"))
   
@@ -388,6 +389,8 @@ RunAggregation <- function(qf = NULL,
     },
     caseF = {
       # only unique peptides and top n peptides
+      X.split <- DaparToolshed::splitAdjacencyMat(X.all)
+      
       ll.agg <- aggregateTopn(qf,
         i = length(qf),
         method = operator,
@@ -397,6 +400,10 @@ RunAggregation <- function(qf = NULL,
     }
   )
 
+  
+  if (is.null(ll.agg$issues) && isTRUE(addRowData))
+    ll.agg$obj.prot <- Add_Aggregated_rowData(ll.agg$obj.prot)
+    
   return(ll.agg)
 }
 
@@ -448,5 +455,44 @@ BuildColumnToProteinDataset <- function(
     i <- i + 1
   }
   return(newCol)
+}
+
+
+
+
+
+#' @title Add_Aggregated_rowData()
+#'
+#' @param obj An instance of `QFeatures` class
+#'
+#' @return An instance of `QFeatures` class
+#'
+#' @author Samuel Wieczorek
+#'
+#' @export
+#'
+Add_Aggregated_rowData <- function(obj){
+  stopifnot(inherits(obj, "QFeatures"))
+  stopifnot('Aggregated' %in% names(obj))
+  
+  #browser()
+  i.agg <- match("Aggregated", names(obj))
+  
+  .names <- names(rowData(obj[[i.agg - 1]]))
+  .names <- .names[-match(c('qMetacell', 'adjacencyMatrix'), .names)]
+  
+  for (col.name in .names) {
+      newCol <- BuildColumnToProteinDataset(
+        peptideData = rowData((obj[[i.agg - 1]])),
+        matAdj = adjacencyMatrix(obj[[i.agg - 1]]),
+        columnName = col.name,
+        proteinNames = rownames(rowData((obj[[i.agg]])))
+      )
+      
+      rowData(obj[[i.agg]]) <- data.frame(rowData(obj[[i.agg]]), newCol)
+      colnames(rowData(obj[[i.agg]]))[length(colnames(rowData(obj[[i.agg]])))] <- paste0("agg_", col.name)
+  }
+  
+  return(obj)
 }
 

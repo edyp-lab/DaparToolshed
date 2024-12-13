@@ -4,7 +4,7 @@
 \alias{finalizeAggregation}
 \title{Finalizes the aggregation process}
 \usage{
-finalizeAggregation(obj.pep, protData, protMetacell, X)
+finalizeAggregation(obj.pep, i, protData, protMetacell, X)
 }
 \arguments{
 \item{obj.pep}{A peptide object of class \code{MSnSet}}
