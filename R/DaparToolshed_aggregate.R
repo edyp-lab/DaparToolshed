@@ -322,6 +322,8 @@ RunAggregation <- function(qf = NULL,
   case <- setNames(c(caseA, caseB, caseC, caseD, caseE, caseF),
     nm = c('caseA', 'caseB', 'caseC', 'caseD', 'caseE', 'caseF'))
 
+  
+  
   switch (as.character(names(which(case))),
     caseA = {
       # Redistribution of shared peptides and all peptides
