@@ -282,14 +282,14 @@ aggregateMethods <- function() {
 #' 
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' ft <- Exp1_R25_pept[seq_len(10)]
+#' ft <- Exp1_R25_pept
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides', addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides', addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4, addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4, addRowData = TRUE)
 #' 
 #' # Case E
-#' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides', addRowData = TRUE)
+#' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides', addRowData = FALSE)
 #' 
 #' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides', addRowData = TRUE)

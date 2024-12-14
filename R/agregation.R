@@ -343,12 +343,7 @@ aggregateProstar2 <- function(obj, i, FUN = 'Sum', X) {
     obj.prot <- NULL
     # Aggregation of metacell data
     metacell <- aggQmetacell(qMeta, X, level, conds)
-    if (!is.null(metacell$issues)) {
-      return(list(
-        obj.prot = NULL,
-        issues = metacell$issues
-      ))
-    } else {
+    
       # Step 2: Agregation of quantitative data
       #cat("Computing quantitative data for proteins ...\n")
       pepData <- 2^pepData
@@ -361,14 +356,10 @@ aggregateProstar2 <- function(obj, i, FUN = 'Sum', X) {
       obj.prot <- finalizeAggregation(obj, 
         i,
         protData, 
-        metacell$metacell, 
+        metacell, 
         X)
       
-      return(list(
-        obj.prot = obj.prot,
-        issues = NULL
-      ))
-    }
+      return(obj.prot)
 }
 
 
@@ -431,12 +422,7 @@ aggregateIterParallel <- function(obj.pep,
   obj.prot <- NULL
   # Aggregation of metacell data
   metacell <- aggQmetacell(qMeta, X, level, conds)
-  if (!is.null(metacell$issues)) {
-    return(list(
-      obj.prot = NULL,
-      issues = metacell$issues
-    ))
-  } else { # Step 2 : Agregation of quantitative data
+  # Step 2 : Agregation of quantitative data
     qData.pep <- 2^(assay(pepData))
     
     protData <- matrix(rep(0, ncol(X) * ncol(qData.pep)),
@@ -458,23 +444,18 @@ aggregateIterParallel <- function(obj.pep,
     
     protData <- protData[, colnames(pepData)]
     colnames(protData) <- colnames(pepData)
-    
-    
-    
+
     # Step 3 : Build the protein dataset
     obj.prot <- finalizeAggregation(
       obj.pep, 
       i,
       protData, 
-      metacell$metacell,
+      metacell,
       X
     )
     
-    return(list(
-      obj.prot = obj.prot,
-      issues = NULL
-    ))
-  }
+    return(obj.prot)
+
 }
 
 
@@ -719,12 +700,7 @@ aggregateTopn <- function(obj.pep,
     conds = colData(obj.pep)$Condition
   )
   
-  if (!is.null(metacell$issues)) {
-    return(list(
-      obj.prot = NULL,
-      issues = metacell$issues
-    ))
-  } else {
+  
     # Step 2 : Agregation of quantitative data
     protData <- inner.aggregate.topn(2^assay(obj.pep[[i]]), X, method = method, n)
 
@@ -733,14 +709,10 @@ aggregateTopn <- function(obj.pep,
       obj.pep, 
       i,
       protData, 
-      metacell$metacell, 
+      metacell, 
       X)
     
-    return(list(
-      obj.prot = obj.prot,
-      issues = NULL
-    ))
-  }
+    return(obj.prot)
 }
 
 
@@ -829,7 +801,7 @@ stopifnot(inherits(obj.pep, "QFeatures"))
               pepSpecUsed,
               pepSharedUsed,
               pepTotalUsed,
-              protMetacell,
+              protMetacell$metacell,
               stringsAsFactors = FALSE
   )
   
@@ -843,7 +815,8 @@ stopifnot(inherits(obj.pep, "QFeatures"))
     colData = colData(obj.pep)
   )
   ## Add the qMetacell to the new assay
-  qMetacell(prot.se) <- protMetacell
+  qMetacell(prot.se) <- protMetacell$metacell
+  metadata(prot.se)[['aggQmetacell_issues']] <- protMetacell$issues
 
   ## Remove the qMetacell that should be dropped anyway and not be aggregated
   ## within QFeatures::aggregateFeatures
