@@ -297,7 +297,7 @@ Write_RowData <- function(wb, obj, i, n){
 #' @import stats
 #'
 write.excel <- function(obj, filename) {
-  pkgs.require(c('stats', 'openxlsx'))
+  #pkgs.require(c('stats', 'openxlsx'))
   if (!inherits(obj, "QFeatures")){
     message('Obj is not a QFeatures')
   return(NULL)
@@ -309,7 +309,7 @@ write.excel <- function(obj, filename) {
   
   
   n <- 1
-  
+
   wb <- WriteHistory(wb, obj, n)
   n <- n + 1
   wb <- Write_SamplesData_to_Excel(wb, obj, n)
