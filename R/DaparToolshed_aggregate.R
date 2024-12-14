@@ -403,8 +403,10 @@ RunAggregation <- function(qf = NULL,
   )
 
   
-  if (is.null(ll.agg$issues) && isTRUE(addRowData))
-    ll.agg$obj.prot <- Add_Aggregated_rowData(ll.agg$obj.prot)
+  if (isTRUE(addRowData)){
+    message('Adding aggregated metadata')
+    ll.agg <- Add_Aggregated_rowData(ll.agg)
+  }
     
   return(ll.agg)
 }
