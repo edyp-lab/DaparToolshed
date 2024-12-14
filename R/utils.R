@@ -423,3 +423,29 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
     )
 }
 
+
+
+
+
+
+#' @title Customised resetZoomButton of highcharts plots
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' library("highcharter")
+#' hc <- highchart()
+#' hc_chart(hc, type = "line")
+#' hc_add_series(hc, data = c(29, 71, 40))
+#' my_hc_ExportMenu(hc, filename = "foo")
+#'
+#' @export
+#'
+CleanRowData <- function(obj){
+  stopifnot(inherits(obj, 'QFeatures'))
+  
+  for(i in names(obj)){
+    ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj.agg[[i]])))
+    rowData(obj.agg[[i]]) <- rowData(obj.agg[[i]])[, -ind[which(!is.na(ind))]]
+  }
+}

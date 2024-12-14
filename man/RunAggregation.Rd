@@ -31,17 +31,17 @@ A short description...
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-ft <- Exp1_R25_pept[seq_len(10)]
-RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides')
-RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides')
-RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4)
-RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4)
+ft <- Exp1_R25_pept
+obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides', addRowData = TRUE)
+obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides', addRowData = TRUE)
+obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4, addRowData = TRUE)
+obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', "topN", n = 4, addRowData = TRUE)
 
 # Case E
-RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides')
+obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', 'allPeptides', addRowData = FALSE)
 
-RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
-RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides')
-RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4)
+obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
+obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides', addRowData = TRUE)
+obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4, addRowData = TRUE)
 
 }
