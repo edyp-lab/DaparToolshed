@@ -445,7 +445,11 @@ CleanRowData <- function(obj){
   stopifnot(inherits(obj, 'QFeatures'))
   
   for(i in names(obj)){
-    ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj.agg[[i]])))
-    rowData(obj.agg[[i]]) <- rowData(obj.agg[[i]])[, -ind[which(!is.na(ind))]]
+    ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj[[i]])))
+    ind <- ind[which(!is.na(ind))]
+    if (length(ind) > 0)
+    rowData(obj[[i]]) <- rowData(obj[[i]])[, -ind]
   }
+  
+  return(obj)
 }

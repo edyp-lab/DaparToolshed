@@ -292,6 +292,9 @@ Write_RowData <- function(wb, obj, i, n){
 
 #' @export
 #' @rdname output_2_Excel
+#' 
+#' @import openxlsx
+#' @import stats
 #'
 write.excel <- function(obj, filename) {
   pkgs.require(c('stats', 'openxlsx'))
@@ -299,6 +302,8 @@ write.excel <- function(obj, filename) {
     message('Obj is not a QFeatures')
   return(NULL)
   }
+
+  obj <- CleanRowData(obj)
   name <- filename
   wb <- openxlsx::createWorkbook(filename)
   
