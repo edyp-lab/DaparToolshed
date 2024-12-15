@@ -161,10 +161,10 @@ compareNormalizationD_HC <- function(
   }
   
   h1 <- highchart() %>%
-    dapar_hc_chart(chartType = type) %>%
+    my_hc_chart(chartType = type) %>%
     hc_add_series_list(series) %>%
     hc_colors(myColors) %>%
     hc_tooltip(headerFormat = "", pointFormat = "Id: {point.name}") %>%
-    dapar_hc_ExportMenu(filename = "compareNormalization")
+    my_hc_ExportMenu(filename = "compareNormalization")
   h1
 }

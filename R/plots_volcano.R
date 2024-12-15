@@ -137,7 +137,7 @@
 #'             type = "scatter", 
 #'             hcaes(df$x, df$y, group = g)) %>%
 #'         hc_colors(c(palette$In, palette$Out)) %>%
-#'         dapar_hc_chart(
+#'         my_hc_chart(
 #'             zoomType = "xy", 
 #'             chartType = "scatter") %>%
 #'         hc_title(
@@ -174,7 +174,7 @@
 #'                 ))
 #'             )
 #'         ) %>%
-#'         dapar_hc_ExportMenu(filename = "volcanoplot") %>%
+#'         my_hc_ExportMenu(filename = "volcanoplot") %>%
 #'         hc_add_series(data = leftBorder, type = "line", color = "grey") %>%
 #'         hc_add_series(data = rightBorder, type = "line", color = "grey")
 #' 
