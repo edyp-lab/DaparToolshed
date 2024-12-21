@@ -75,7 +75,10 @@ qMetacellFilteringScope <- function() {
 #' SymFilteringOperators()
 #'
 SymFilteringOperators <- function() {
-    c( "<=", "<", ">=", ">", "==", "!=")
+    setNames(
+      c( "<=", "<", ">=", ">", "==", "!="),
+      nm = c('lessthan', 'less', 'greaterthan', 'greater', 'equal', 'different')
+    )
 }
 
 

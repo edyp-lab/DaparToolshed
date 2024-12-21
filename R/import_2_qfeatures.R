@@ -19,7 +19,8 @@
 #' @param keyId A `character(1)` or `numeric(1)` which is the indice of the 
 #' column containing the ID of entities (peptides or proteins)
 #'
-#' @param indexForMetacell xxxxxxxxxxx
+#' @param indexForMetacell They must be in the same order as the samples in
+#' the experimental design
 #' @param logData xxx
 #'
 #' @param force.na A `boolean` that indicates if the '0' and 'NaN' values of
@@ -53,7 +54,7 @@
 #'
 #' @examples inst/extdata/examples/ex_createQFeatures.R
 #'
-#' @importFrom QFeatures readQFeatures
+#' @import QFeatures
 #' @importFrom utils installed.packages read.table
 #'
 #' @export
@@ -78,8 +79,6 @@ createQFeatures <- function(data = NULL,
   name = "original") {
 
 
-  pkgs.require('QFeatures')
-  
     # Check parameters validity
     if (missing(data) && missing(file)) {
         stop("Either 'data' or 'file' is required")
@@ -116,6 +115,12 @@ createQFeatures <- function(data = NULL,
     if (missing(indQData)) {
         stop("'indQData' is required")
     }
+  
+  
+  
+  
+  
+  
   # else if (!is.numeric(indQData)) {
   #       stop("'indQData' must be a vector of integer")
   #   }
@@ -144,13 +149,29 @@ createQFeatures <- function(data = NULL,
     
     indQData <- ReplaceSpecialChars(indQData)
     
+    qdata <- data[,indQData]
+    tmp.qMetacell <- NULL
+    ind2delete <- c(indQData)
+    if(!is.null(indexForMetacell)){
+      if (is.numeric(indexForMetacell))
+        indexForMetacell <- colnames(data)[indexForMetacell]
+      else
+        indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
+      
+      tmp.qMetacell <- data[, indexForMetacell]
+      tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
+      colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
+      
+      ind2delete <- c(ind2delete, indexForMetacell)
+    } 
     
-    if (is.numeric(indexForMetacell))
-      indexForMetacell <- colnames(data)[indexForMetacell]
-    else
-      indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
+    ind2delete <- match(ind2delete, colnames(data))
+    data <- data[, -ind2delete]
+    data <- cbind(qdata, data)
+    indQData <- 1:length(indQData)
+    #indexForMetacell <- length(indQData) + 1:length(indexForMetacell)
+    # Applying new order for qdata columns
     
-
 
     # Standardizes names
     keyId <- ReplaceSpecialChars(keyId)
@@ -160,7 +181,6 @@ createQFeatures <- function(data = NULL,
     #processes <- ReplaceSpecialChars(processes)
     typePipeline <- ReplaceSpecialChars(typePipeline)
     software <- ReplaceSpecialChars(software)
-    indexForMetacell  <- ReplaceSpecialChars(indexForMetacell)
     
 
 
@@ -172,14 +192,14 @@ createQFeatures <- function(data = NULL,
     } else {
         rownames(data) <- data[, keyId]
     }
+
     
-
-
+    
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
       assayData = data,
       quantCols = indQData,
-      #ecol = indQData,
+      #colData = sample,
       name = "original",
       fnames = keyId
       )
@@ -187,23 +207,15 @@ createQFeatures <- function(data = NULL,
   
     # The function readQFeatures changes non alphanumeric characters, like '+' converted to '.'
     # Force the use of original colnames
-    colnames(rowData(obj[[1]])) <- colnames(data)[-match(indQData, colnames(data))]
+    #colnames(rowData(obj[[1]])) <- colnames(data)[-match(indQData, colnames(data))]
 
     ## Encoding the sample data
-    sample <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
-    design.qf(obj) <- sample
+    
+    design.qf(obj) <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
 
  
     # Get the metacell info
-    tmp.qMetacell <- NULL
-    if (!is.null(indexForMetacell)) {
-      tmp.qMetacell <- data[, indexForMetacell]
-      #tmp.qMetacell <- apply(tmp.qMetacell, 2, tolower)
-      #tmp.qMetacell <- apply(tmp.qMetacell, 2, function(x) gsub("\\s", "", x))
-      tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
-      colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
-    }
-      
+
       qMetacell <- BuildMetacell(
         from = software,
         level = typeDataset,
