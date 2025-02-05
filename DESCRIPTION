@@ -1,8 +1,8 @@
 Package: DaparToolshed
 Type: Package
 Title: Tools for the Differential Analysis of Proteins Abundance with R
-Version: 0.99.3
-Date: 2022-08-27
+Version: 0.99.5
+Date: 2025-02-05
 Authors@R: c(person(given = "Samuel", family = "Wieczorek",
     email = "samuel.wieczorek@cea.fr",
     role = c("aut","cre")),
@@ -11,12 +11,13 @@ Authors@R: c(person(given = "Samuel", family = "Wieczorek",
     role = c("aut")),
     person(given = "Enora", family ="Fremy",
     email = "enora.fremy@cea.fr",
+    role = c("ctb")),
+    person(given = "Manon", family ="Gaudin",
+    email = "manon.gaudin@cea.fr",
     role = c("ctb"))
     )
 Description: This package contains a collection of functions for the
     visualisation and the statistical analysis of proteomic data.
-    fsdfsd fjsjkdfsd klsqhfsjdlf. fhdshf sofhsjkdhf fsd.
-    sd sfsfs.
 License: Artistic-2.0
 Depends: R (>= 4.3.0)
 Imports:

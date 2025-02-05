@@ -50,7 +50,7 @@
 #'
 #' @return An instance of class `QFeatures`.
 #'
-#' @author Samuel Wieczorek
+#' @author Samuel Wieczorek, Manon Gaudin
 #'
 #' @examples inst/extdata/examples/ex_createQFeatures.R
 #'
@@ -105,10 +105,19 @@ createQFeatures <- function(data = NULL,
   #           )
   #       }
 
+  
+  # Standardize all colnames
+  colnames(data) <- ReplaceSpecialChars(colnames(data))
+  
+  
+  
     if (missing(sample)) {
         stop("'sample' is required")
     } else if (!is(sample, "data.frame")) {
         stop("'sample' must be a data.frame")
+    } else{
+      sample <- cbind (sample, quantCols = names(data)[indQData])
+      
     }
 
 
@@ -140,18 +149,18 @@ createQFeatures <- function(data = NULL,
         stop("'typeDataset' is required")
     }
 
-    # Standardize all colnames
-    colnames(data) <- ReplaceSpecialChars(colnames(data))
     
+   
     
-    if (is.numeric(indQData))
-        indQData <- colnames(data)[indQData]
+    #if (is.numeric(indQData))
+     #   indQData <- colnames(data)[indQData]
     
-    indQData <- ReplaceSpecialChars(indQData)
-    
+    #indQData <- ReplaceSpecialChars(indQData)
+
+ 
     qdata <- data[,indQData]
     tmp.qMetacell <- NULL
-    ind2delete <- c(indQData)
+    #ind2delete <- colnames(data)[indQData]
     if(!is.null(indexForMetacell)){
       if (is.numeric(indexForMetacell))
         indexForMetacell <- colnames(data)[indexForMetacell]
@@ -162,13 +171,14 @@ createQFeatures <- function(data = NULL,
       tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
       colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
       
-      ind2delete <- c(ind2delete, indexForMetacell)
+      #ind2delete <- c(ind2delete, indexForMetacell)
+      ind2delete <- indexForMetacell
     } 
-    
+    #browser()
     ind2delete <- match(ind2delete, colnames(data))
     data <- data[, -ind2delete]
-    data <- cbind(qdata, data)
-    indQData <- 1:length(indQData)
+    #data <- cbind(qdata, data)
+    #indQData <- 1:length(indQData)
     #indexForMetacell <- length(indQData) + 1:length(indexForMetacell)
     # Applying new order for qdata columns
     
@@ -193,18 +203,17 @@ createQFeatures <- function(data = NULL,
         rownames(data) <- data[, keyId]
     }
 
-    
-    
+    #
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
       assayData = data,
-      quantCols = indQData,
-      #colData = sample,
+      #quantCols = indQData,
+      colData = sample,
       name = "original",
       fnames = keyId
       )
 
-  
+    #browser()
     # The function readQFeatures changes non alphanumeric characters, like '+' converted to '.'
     # Force the use of original colnames
     #colnames(rowData(obj[[1]])) <- colnames(data)[-match(indQData, colnames(data))]
@@ -252,14 +261,14 @@ createQFeatures <- function(data = NULL,
     typeDataset(obj[["original"]]) <- typeDataset
     idcol(obj[["original"]]) <- keyId
 
-    if (tolower(typeDataset) == "peptide") {
+    if (tolower(typeDataset) == "peptide" && !is.null(parentProtId)) {
       pkgs.require('PSMatch')
       parentProtId(obj[["original"]]) <- parentProtId
       
       # Create the adjacency matrix
-      #X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
-      #rownames(X) <- rownames(rowData(obj[[1]]))
-      #adjacencyMatrix(obj[[1]]) <- X
+      X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
+      rownames(X) <- rownames(rowData(obj[[1]]))
+      adjacencyMatrix(obj[[1]]) <- X
       
       # Create the connected components
       #ConnectedComp(obj[[1]]) <- PSMatch::ConnectedComponents(X)

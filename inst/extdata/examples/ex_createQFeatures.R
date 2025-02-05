@@ -2,6 +2,11 @@ data.file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DaparToolshe
 
 data <- read.table(data.file, header = TRUE, sep = "\t", as.is = TRUE, stringsAsFactors = FALSE)
 
+
+qdata.indices <- 56:61
+qdata.names <- colnames(data)[qdata.indices]
+
+
 sample.file <- system.file("extdata", "samples_Exp1_R25.txt", package = "DaparToolshedData")
 
 sample <- read.table(sample.file, header = TRUE, sep = " ", as.is = TRUE, stringsAsFactors = FALSE)
@@ -10,8 +15,6 @@ sample <- read.table(sample.file, header = TRUE, sep = " ", as.is = TRUE, string
 metacell.indices <- 43:48
 metacell.names <- colnames(data)[metacell.indices]
 
-qdata.indices <- 56:61
-qdata.names <- colnames(data)[qdata.indices]
 
 
 ft <- createQFeatures(file = data.file,
