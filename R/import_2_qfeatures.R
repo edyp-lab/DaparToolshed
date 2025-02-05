@@ -80,30 +80,12 @@ createQFeatures <- function(data = NULL,
 
 
     # Check parameters validity
-    if (missing(data) && missing(file)) {
-        stop("Either 'data' or 'file' is required")
-    } 
-  
-  # else if (!missing(data) && !missing(file)) {
-  #       stop("Only 'data' or 'file' is required at a time. Please choose 
-  #           one of them.")
-  #   }
-
-    if (!missing(data) && !is(data, "data.frame")) {
+    if (missing(data)) {
+        stop("'data' is required")
+    } else if (!is(data, "data.frame")) {
         stop("'data' must be a data.frame")
-    }
-
-    if (missing(file)){
-      stop("'file' is required")
-      } 
-  # else {
-  #       
-  #           data <- read.table(file,
-  #               header = TRUE,
-  #               sep = "\t",
-  #               stringsAsFactors = FALSE
-  #           )
-  #       }
+      }
+    
 
   
   # Standardize all colnames
