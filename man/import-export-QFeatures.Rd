@@ -37,7 +37,8 @@ the \code{rowData()} table of the \code{QFeatures} object.}
 \item{keyId}{A \code{character(1)} or \code{numeric(1)} which is the indice of the
 column containing the ID of entities (peptides or proteins)}
 
-\item{indexForMetacell}{xxxxxxxxxxx}
+\item{indexForMetacell}{They must be in the same order as the samples in
+the experimental design}
 
 \item{logData}{xxx}
 
@@ -79,5 +80,5 @@ inst/extdata/examples/ex_createQFeatures.R
 
 }
 \author{
-Samuel Wieczorek
+Samuel Wieczorek, Manon Gaudin
 }
