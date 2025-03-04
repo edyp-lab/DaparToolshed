@@ -98,7 +98,7 @@ createQFeatures <- function(data = NULL,
     } else if (!is(sample, "data.frame")) {
         stop("'sample' must be a data.frame")
     } else{
-      sample <- cbind (sample, quantCols = names(data)[indQData])
+      colnames(sample)[1] <- 'quantCols'
       
     }
 
@@ -107,21 +107,6 @@ createQFeatures <- function(data = NULL,
         stop("'indQData' is required")
     }
   
-  
-  
-  
-  
-  
-  # else if (!is.numeric(indQData)) {
-  #       stop("'indQData' must be a vector of integer")
-  #   }
-
-    # if (missing(indexForMetacell)) {
-    #     stop("'indexForMetacell' is required")
-    # }
-  # else if (!is.numeric(indexForMetacell)) {
-  #       stop("'indexForMetacell' must be a vector of integer")
-  #   }
 
     if (!is.null(keyId) && !is.character(keyId)) {
         stop("'keyId' must be either NULL nor a string")
@@ -131,15 +116,6 @@ createQFeatures <- function(data = NULL,
         stop("'typeDataset' is required")
     }
 
-    
-   
-    
-    #if (is.numeric(indQData))
-     #   indQData <- colnames(data)[indQData]
-    
-    #indQData <- ReplaceSpecialChars(indQData)
-
- 
     qdata <- data[,indQData]
     tmp.qMetacell <- NULL
     #ind2delete <- colnames(data)[indQData]
@@ -189,7 +165,6 @@ createQFeatures <- function(data = NULL,
     # Creates the QFeatures object
     obj <- QFeatures::readQFeatures(
       assayData = data,
-      #quantCols = indQData,
       colData = sample,
       name = "original",
       fnames = keyId

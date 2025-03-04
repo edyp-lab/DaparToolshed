@@ -1,4 +1,4 @@
-Sample.name	Condition	Bio.Rep
+quantCols	Condition	Bio.Rep
 Sample_A_R1	A	1
 Sample_A_R2	A	2
 Sample_A_R3	A	3

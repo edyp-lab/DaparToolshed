@@ -596,8 +596,8 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
   )
   #sTab.old <- sTab
   conds <- factor(sTab$Condition, levels = unique(sTab$Condition))
-  #sTab <- sTab[unlist(lapply(split(sTab, conds), function(x) {x["Sample.name"]})), ]
-  #qData <- qData[, unlist(lapply(split(sTab.old, conds), function(x) {x["Sample.name"]}))]
+  #sTab <- sTab[unlist(lapply(split(sTab, conds), function(x) {x["quantCols"]})), ]
+  #qData <- qData[, unlist(lapply(split(sTab.old, conds), function(x) {x["quantCols"]}))]
   #conds <- conds[order(conds)]
   
   res.l <- NULL

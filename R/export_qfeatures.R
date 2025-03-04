@@ -175,7 +175,7 @@ setMethod(
 
     tags <- as.data.frame(exp.design)
     tags[, ] <- "blank"
-    tags$Sample.name <- exp.design$Condition
+    tags$quantCols <- exp.design$Condition
     tags$Condition <- exp.design$Condition
 
     addColors(wb, i.sheet, tags, colors)

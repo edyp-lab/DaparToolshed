@@ -153,11 +153,11 @@ wrapper.dapar.impute.mi <- function(obj,
     ## order exp and pData table before using imp4p functions
     tmp <- Biobase::pData(obj)$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- Biobase::pData(obj)$Sample.name
+    sample.names.old <- Biobase::pData(obj)[, 'quantCols']
     sTab <- Biobase::pData(obj)
     qData <- Biobase::exprs(obj)
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
-        x["Sample.name"]
+        x["quantCols"]
     }))
     qData <- Biobase::exprs(obj)[, new.order]
     sTab <- Biobase::pData(obj)[new.order, ]
@@ -310,10 +310,10 @@ wrapper.impute.pa2 <- function(obj,
     ## order exp and pData table before using imp4p functions
     tmp <- Biobase::pData(obj)$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- Biobase::pData(obj)$Sample.name
+    sample.names.old <- Biobase::pData(obj)[, 'quantCols']
     sTab <- Biobase::pData(obj)
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
-        x["Sample.name"]
+        x["quantCols"]
     }))
     qData <- Biobase::exprs(obj)[, new.order]
     sTab <- Biobase::pData(obj)[new.order, ]

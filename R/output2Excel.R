@@ -211,7 +211,7 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
   
   tags <- as.data.frame(SummarizedExperiment::colData(obj))
   tags[, ] <- "blank"
-  tags$Sample.name <- omXplore::get_group(obj)
+  tags$quantCols <- omXplore::get_group(obj)
   tags$Condition <- omXplore::get_group(obj)
   
   unique.tags <- NULL

@@ -343,11 +343,11 @@ wrapper.impute.slsa <- function(
 
     # sort conditions to be compliant with impute.slsa
     conds <- factor(grp, levels = unique(grp))
-    sample.names.old <- coldata$Sample.name
+    sample.names.old <- coldata[, 'quantCols']
     sTab <- as.data.frame(coldata)
     new.order <- unlist(
       lapply(split(sTab, conds), 
-        function(x) {x["Sample.name"]})
+        function(x) {x["quantCols"]})
       )
     qdata <- SummarizedExperiment::assay(obj)[, new.order]
     res <- imp4p::impute.slsa(qdata,
