@@ -36,7 +36,10 @@ Imports:
     stats,
     utils,
     foreach,
-    tibble
+    tibble,
+    Matrix,
+    doParallel,
+    stringr
 biocViews: 
     Proteomics,
     Normalization,
