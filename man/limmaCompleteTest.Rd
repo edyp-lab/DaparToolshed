@@ -9,7 +9,7 @@ limmaCompleteTest(qData, sTab, comp.type = "OnevsOne")
 \arguments{
 \item{qData}{A matrix of quantitative data, without any missing values.}
 
-\item{sTab}{A dataframe of experimental design (Biobase::pData()).}
+\item{sTab}{A dataframe of experimental design (design.qf()).}
 
 \item{comp.type}{A string that corresponds to the type of comparison.
 Values are: 'anova1way', 'OnevsOne' and 'OnevsAll'; default is 'OnevsOne'.}

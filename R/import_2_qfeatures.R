@@ -52,7 +52,7 @@
 #'
 #' @author Samuel Wieczorek, Manon Gaudin
 #'
-#' @examples inst/extdata/examples/ex_createQFeatures.R
+#' @example inst/extdata/examples/ex_createQFeatures.R
 #'
 #' @import QFeatures
 #' @importFrom utils installed.packages read.table
@@ -118,7 +118,7 @@ createQFeatures <- function(data = NULL,
 
     qdata <- data[,indQData]
     tmp.qMetacell <- NULL
-    #ind2delete <- colnames(data)[indQData]
+    ind2delete <- NULL
     if(!is.null(indexForMetacell)){
       if (is.numeric(indexForMetacell))
         indexForMetacell <- colnames(data)[indexForMetacell]
@@ -131,10 +131,11 @@ createQFeatures <- function(data = NULL,
       
       #ind2delete <- c(ind2delete, indexForMetacell)
       ind2delete <- indexForMetacell
+      ind2delete <- match(ind2delete, colnames(data))
+      data <- data[, -ind2delete]
+      
     } 
-    #browser()
-    ind2delete <- match(ind2delete, colnames(data))
-    data <- data[, -ind2delete]
+
     #data <- cbind(qdata, data)
     #indQData <- 1:length(indQData)
     #indexForMetacell <- length(indQData) + 1:length(indexForMetacell)

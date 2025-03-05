@@ -21,12 +21,14 @@ This function computes the intensity of proteins based on the sum of the
 intensities of their peptides.
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(20)]
 last.obj <- obj.pep[[length(obj.pep)]]
 #obj.pep.imp <- wrapper.impute.detQuant(obj.pep[[length(obj.pep)]], na.type = c("Missing POV", "Missing MEC"))
 X <- BuildAdjacencyMatrix(last.obj)
 ll.agg <- aggregateProstar2(obj.pep, length(obj.pep), X = X)
+}
 
 }
 \author{

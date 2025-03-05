@@ -95,7 +95,7 @@ of each column of an expression set, up to a scaling factor
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[[1]][seq_len(100)]
-grp <- get_group(Exp1_R25_pept)
+grp <- design.qf(Exp1_R25_pept)$Condition
 lapala <- findMECBlock(obj, grp)
 na.type = c("Missing POV", "Missing MEC")
 obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)

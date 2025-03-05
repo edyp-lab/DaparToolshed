@@ -9,7 +9,7 @@ plotCompareAssays(
   i,
   j,
   info = NULL,
-  pal.name = NULL,
+  pal.name = "Set1",
   subset.view = NULL,
   n = 100,
   type = "scatter",
@@ -49,8 +49,8 @@ process.
 The comparison is made with the division operator.
 }
 \examples{
-data(vData_ft)
-plotCompareAssays(vData_ft, 1, 2, n = 5)
+data(Exp1_R25_prot, package="DaparToolshedData")
+plotCompareAssays(Exp1_R25_prot, 1, 2, n = 5)
 
 }
 \author{

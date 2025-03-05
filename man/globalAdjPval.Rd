@@ -27,7 +27,7 @@ Computes the adjusted p-values on all the stacked contrasts using CP4P
 \examples{
 data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
-globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
+globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 
 }
 \author{

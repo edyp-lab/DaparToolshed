@@ -23,10 +23,10 @@ Check if the design is valid
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-check.conditions(get_group(Exp1_R25_pept))
+check.conditions(design.qf(Exp1_R25_pept)$Condition)
 
 data(Exp1_R25_pept, package="DaparToolshedData")
-check.conditions(Biobase::pData(Exp1_R25_pept)$Condition)
+check.conditions(design.qf(Exp1_R25_pept)$Condition)
 
 }
 \author{

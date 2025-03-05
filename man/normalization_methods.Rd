@@ -95,7 +95,7 @@ normalizeMethods()
 
 data(Exp1_R25_pept, package="DaparToolshedData")
 
-conds <- Biobase::pData(Exp1_R25_pept)$Condition
+conds <- design.qf(Exp1_R25_pept)$Condition
 obj <- wrapper.normalizeD(
     obj = Exp1_R25_pept, method = "QuantileCentering",
     conds = conds, type = "within conditions"

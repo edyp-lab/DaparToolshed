@@ -17,11 +17,13 @@ Method to compute the detailed number of quantified peptides for each
 protein
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
 last.obj <- obj.pep[[length(obj.pep)]]
 X <- BuildAdjacencyMatrix(last.obj)
 n <- GetDetailedNbPeptides(X)
+}
 
 }
 \author{

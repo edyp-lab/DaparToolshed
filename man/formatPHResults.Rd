@@ -21,5 +21,5 @@ Extract logFC and raw pvalues from multiple post-hoc models summaries
 
 }
 \author{
-Hélène Borges
+Helene Borges
 }

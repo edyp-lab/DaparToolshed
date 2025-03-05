@@ -557,10 +557,8 @@ BuildMetacell <- function(from = NULL,
 #' @examples 
 #' file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
 #' data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", 
-#' package="DaparToolshedData")
-#' metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, 
-#' stringsAsFactors = FALSE)
+#' metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", package="DaparToolshedData")
+#' metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
 #' conds <- metadata$Condition
 #' qdata <- data[seq_len(100), seq(56, 61)]
 #' df <- data[seq_len(100) , seq(43,48)]
@@ -852,7 +850,7 @@ Metacell_maxquant <- function(qdata, conds, df, level = NULL) {
 #' obj <- Exp1_R25_pept[seq_len(10), ]
 #' metadata <- qMetacell(obj[[1]])
 #' m <- match.metacell(metadata, pattern = "Missing", level = "peptide")
-#' m <- match.metacell(metadata, pattern = NULL, level = "peptide")
+#' m <- match.metacell(metadata, pattern = 'Missing POV', level = "peptide")
 #' m <- match.metacell(metadata, pattern = c('Missing', 'Missing POV'), level = "peptide")
 #' @export
 #'
@@ -888,33 +886,6 @@ match.metacell <- function(metadata, pattern = NULL, level) {
   
   return(res)
 }
-
-#' #' @title xxxx
-#' #'
-#' #' @description
-#' #' xxxx
-#' #'
-#' #' @param obj xxxx
-#' #'
-#' #' @export
-#' #' 
-#' #' @return xxx
-#' #' 
-#' #' @examples 
-#' #' NULL
-#' #'
-#' GetMetacell <- function(obj) {
-#'   value <- Biobase::fData(obj)[, obj@experimentData@other$names_metacell]
-#'   if (is.null(value)) {
-#'     warning(" The metacell dataframe does not exist. Returns NULL.")
-#'     return(NULL)
-#'   } else {
-#'     return(value)
-#'   }
-#' }
-#' 
-
-
 
 
 
@@ -1245,7 +1216,7 @@ metacombine <- function(met, level) {
 #'   
 #'   
 #'   # Post processing of metacell to discover 'Imputed POV', 'Imputed MEC'
-#'   conds <- Biobase::pData(obj.pep)$Condition
+#'   conds <- design.qf(obj.pep)$Condition
 #'   df <- Set_POV_MEC_tags(conds, df, level)
 #'   
 #'   

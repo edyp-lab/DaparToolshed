@@ -62,8 +62,9 @@ missing values which have been imputed.
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
-tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
+obj <- Exp1_R25_pept[seq_len(100)]
+df <- assay(obj[[1]])
+tags <- qMetacell(obj[[1]])
 colors <- list(
     "Missing POV" = "lightblue",
     "Missing MEC" = "orange",

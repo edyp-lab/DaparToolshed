@@ -4,7 +4,7 @@
 \alias{ExtendPalette}
 \title{Extends a base-palette of the package RColorBrewer to n colors.}
 \usage{
-ExtendPalette(n = NULL, base = "Set1")
+ExtendPalette(n = 0, base = "Set1")
 }
 \arguments{
 \item{n}{The number of desired colors in the palette}

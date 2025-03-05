@@ -4,10 +4,10 @@
 \alias{wrapperClassic1wayAnova}
 \title{Wrapper for One-way Anova statistical test}
 \usage{
-wrapperClassic1wayAnova(obj, with_post_hoc = "No", post_hoc_test = "No")
+wrapperClassic1wayAnova(obj, i, with_post_hoc = "No", post_hoc_test = "No")
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{QFeatures}.}
 
 \item{with_post_hoc}{a character string with 2 possible values: "Yes" and
 "No" (default) saying if function must perform a Post-Hoc test or not.}

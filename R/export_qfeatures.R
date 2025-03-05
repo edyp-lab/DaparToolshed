@@ -146,14 +146,19 @@ setMethod(
 
 
     # Add colors to quantitative table
-    mc <- omXplore::metacell.def(omXplore::get_type(object))
-    colors <- as.list(stats::setNames(mc$color, mc$node))
     tags <- cbind(
-        keyId = rep("identified", nrow(object)),
-        qMetacell(object)
+      keyId = rep("Any", nrow(object)),
+      qMetacell(object)
     )
-
-    addColors(wb, i.sheet, tags, colors)
+    
+     mc <- omXplore::metacell.def(typeDataset(object))
+    
+    unique.tags <- unique(unlist(unname(tags)))
+    
+    test <- match(mc$node, unique.tags)
+    test <- test[which(!is.na(test))]
+    colors <- as.list(stats::setNames(mc$color, mc$node))
+    addColors(wb, i.sheet, tags, colors[unique.tags[test]])
 
     # Write the rowData table to the second sheet
     i.sheet <- 2
@@ -211,30 +216,38 @@ setMethod(
     )
 
 
-    colors <- as.list(stats::setNames(mc$color, mc$node))
     tags <- cbind(
-        keyId = rep("identified", nrow(new.rowData)),
+        keyId = rep("Any", nrow(new.rowData)),
         new.rowData
     )
 
-    tags[, ] <- "identified"
+    tags[, ] <- "Any"
     tags[, 1 + seq_len(ncol(new.rowData))] <- new.rowData
 
-    addColors(wb, n, tags, colors)
+    
+    unique.tags <- unique(unlist(unname(tags)))
+    
+    test <- match(mc$node, unique.tags)
+    test <- test[which(!is.na(test))]
+    colors <- as.list(stats::setNames(mc$color, mc$node))
+    
+    
+    
+    addColors(wb, n, tags, colors[unique.tags[test]])
     
     
     
     # Add the row data for the last SE only (which is supposed to collect
     # all the rowDatas of the previous SE
-    if (writeColData) {
-      n <- 5
-    openxlsx::addWorksheet(wb, "colData")
-    openxlsx::writeData(wb,
-      sheet = n,
-      colData(object),
-      rowNames = TRUE
-    )
-    
+    # if (writeColData) {
+    #   n <- 5
+    # openxlsx::addWorksheet(wb, "rowData")
+    # openxlsx::writeData(wb,
+    #   sheet = n,
+    #   rowData(object),
+    #   rowNames = TRUE
+    # )
+    # 
     # 
     # colors <- as.list(stats::setNames(mc$color, mc$node))
     # tags <- cbind(
@@ -247,10 +260,11 @@ setMethod(
     # 
     # addColors(wb, n, tags, colors)
 
-}
-
+#}
+    
 
     openxlsx::saveWorkbook(wb, name, overwrite = TRUE)
+    
     return(name)
 }
 

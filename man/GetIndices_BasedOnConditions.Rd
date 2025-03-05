@@ -35,16 +35,14 @@ or at least one condition.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
-level <- GetTypeofData(obj)
+level <- typeDataset(obj[[1]])
 pattern <- 'Missing'
-metacell.mask <- match.metacell(metadata=GetMetacell(obj), 
-pattern=pattern, level=level)
+metacell.mask <- match.metacell(metadata=qMetacell(obj[[1]]), pattern=pattern, level=level)
 type <- 'AllCond'
-conds <- Biobase::pData(obj)$Condition
+conds <- design.qf(obj)$Condition
 op <- '>='
 th <- 0.5
 percent <- TRUE
-ind <- GetIndices_BasedOnConditions(metacell.mask, type, conds, 
-percent, op, th)
+ind <- GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 
 }

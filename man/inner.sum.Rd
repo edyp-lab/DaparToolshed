@@ -16,10 +16,13 @@ A matrix
 xxxx
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
 X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 i.sum <- inner.sum(assay(obj[[length(obj)]]), X)
+}
+
 }
 \author{
 Samuel Wieczorek

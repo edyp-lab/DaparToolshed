@@ -20,8 +20,8 @@ xxxx
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-GetColorsForConditions(get_group(Exp1_R25_pept))
-GetColorsForConditions(get_group(Exp1_R25_pept), ExtendPalette(2))
+GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition)
+GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition, ExtendPalette(2))
 
 }
 \author{

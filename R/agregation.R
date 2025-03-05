@@ -12,11 +12,13 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(20)]
 #' obj.last <- obj[[length(obj)]]
 #' X <- BuildAdjacencyMatrix(obj.last)
 #' getProteinsStats(X)
+#' }
 #'
 #' @export
 #'
@@ -99,11 +101,13 @@ getProteinsStats <- function(X) {
 #' @author Alexia Dorffer
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' CountPep(X)
+#' }
 #'
 #' @export
 #'
@@ -130,12 +134,14 @@ CountPep <- function(X) {
 #' @export
 #' 
 #' @examples 
+#' \dontrun{
 #' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' GetNbPeptidesUsed(assay(last.obj), X)
+#' }
 #' 
 GetNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -169,12 +175,14 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' @export
 #' 
 #' @examples 
+#' \dontrun{
 #' library(DaparToolshedData)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
+#' }
 #'
 GetDetailedNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -205,11 +213,13 @@ GetDetailedNbPeptidesUsed <- function(pepData, X) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' n <- GetDetailedNbPeptides(X)
+#' }
 #'
 #' @export
 #'
@@ -241,11 +251,13 @@ GetDetailedNbPeptides <- function(X) {
 #' @author Alexia Dorffer, Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' GraphPepProt(X)
+#' }
 #'
 #' @export
 #' 
@@ -285,11 +297,13 @@ GraphPepProt <- function(mat) {
 #' @param X xxx
 #' @export
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' ExtractUniquePeptides(X)
+#' }
 #' 
 ExtractUniquePeptides <- function(X){
   ll <- which(rowSums(X) > 1)
@@ -318,13 +332,15 @@ ExtractUniquePeptides <- function(X){
 #' @author Alexia Dorffer
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(20)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' #obj.pep.imp <- wrapper.impute.detQuant(obj.pep[[length(obj.pep)]], na.type = c("Missing POV", "Missing MEC"))
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' ll.agg <- aggregateProstar2(obj.pep, length(obj.pep), X = X)
-#'
+#' }
+#' 
 #' @export
 #'
 #' @import QFeatures
@@ -476,11 +492,13 @@ aggregateIterParallel <- function(obj.pep,
 #' @return xxxxx
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 #' qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
-#'
+#' }
+#' 
 #' @export
 #'
 inner.aggregate.iter <- function(
@@ -551,11 +569,13 @@ inner.aggregate.iter <- function(
 #' @export
 #' 
 #' @examples 
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 #' i.sum <- inner.sum(assay(obj[[length(obj)]]), X)
-
+#' }
+#' 
 inner.sum <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
   
@@ -579,10 +599,12 @@ inner.sum <- function(pepData, X) {
 #' @export
 #' 
 #' @examples 
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj)
 #' i.mean <- inner.mean(assay(obj), X)
+#' }
 #' 
 inner.mean <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -614,10 +636,12 @@ inner.mean <- function(pepData, X) {
 #' @export
 #'
 #' @examples 
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 #' inner.aggregate.topn(assay(obj[[length(obj)]]), X, n=3)
+#' }
 #' 
 #' @import stats
 #' 
@@ -670,13 +694,14 @@ inner.aggregate.topn <- function(pepData, X, method = "Mean", n = 10) {
 #' @author Alexia Dorffer, Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
 #' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
 #' conds <- colData(obj.pep)$Condition
 #' ll.agg <- aggregateTopn(obj.pep[[length(obj.pep)]], n = 3, conds = conds)
-#'
+#' }
 #' @export
 #'
 #' @import QFeatures
@@ -740,10 +765,12 @@ aggregateTopn <- function(obj.pep,
 #' @export
 #'
 #' @examples 
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
 #' adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
+#' }
 #'
 #' @import utils
 #' 

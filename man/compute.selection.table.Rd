@@ -20,7 +20,7 @@ Applies an FDR threshold on a table of adjusted p-values and summarizes the resu
 \examples{
 data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
-adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
+adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 seltab <- compute.selection.table(adjpvaltab, 0.2)
 seltab
 

@@ -106,7 +106,7 @@ test.design <- function(tab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' check.conditions(get_group(Exp1_R25_pept))
+#' check.conditions(design.qf(Exp1_R25_pept)$Condition)
 #'
 #' @export
 #'
@@ -467,7 +467,7 @@ getDesignLevel <- function(sTab){
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
 #' design <- make.design(colData(Exp1_R25_pept))
-#' conds <- get_group(Exp1_R25_pept)
+#' conds <- design.qf(Exp1_R25_pept)$Condition
 #' make.contrast(design, conds)
 #'
 #' @export
@@ -551,7 +551,7 @@ make.contrast <- function(design,
 #'
 #' @param qData A matrix of quantitative data, without any missing values.
 #'
-#' @param sTab A dataframe of experimental design (Biobase::pData()).
+#' @param sTab A dataframe of experimental design (design.qf()).
 #'
 #' @param comp.type A string that corresponds to the type of comparison.
 #' Values are: 'anova1way', 'OnevsOne' and 'OnevsAll'; default is 'OnevsOne'.

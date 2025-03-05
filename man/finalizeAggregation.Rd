@@ -25,10 +25,12 @@ A protein object of class \code{MSnSet}
 Method to finalize the aggregation process
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
 X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
 adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
+}
 
 }
 \author{

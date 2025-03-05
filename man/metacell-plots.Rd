@@ -102,49 +102,47 @@ and the considered condition.
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data(ft_na)
-grp <- omXplore::get_group(ft_na)
+grp <- design.qf(ft_na)$Condition
 metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
 metacellPerLinesHisto_HC(ft_na[[1]])
-metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quantified")
-metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quant. by direct id")
-metacellPerLinesHisto_HC(ft_na[[1]], pattern = "Quant. by recovery")
+metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
+metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
+metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHisto_HC(ft_na[[1]], pattern = pattern)
+metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
 
 
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Missing POV")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
 metacellPerLinesHistoPerCondition_HC(ft_na[[1]])
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quantified")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quant. by direct id")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = "Quant. by recovery")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quantified")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], pattern = pattern)
+metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = pattern)
 
 
-metacellHisto_HC(ft_na[[1]], pattern = "Missing POV")
+metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
 metacellHisto_HC(ft_na[[1]])
-metacellHisto_HC(ft_na[[1]], pattern = "Quantified")
-metacellHisto_HC(ft_na[[1]], pattern = "Quant. by direct id")
-metacellHisto_HC(ft_na[[1]], pattern = "Quant. by recovery")
+metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
+metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
+metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellHisto_HC(ft_na[[1]], pattern = pattern)
+metacellHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
 
 
 \dontshow{\}) # examplesIf}
 data(Exp1_R25_pept, package = 'DaparToolshedData')
-vData <- convert2viz(Exp1_R25_pept)
 pattern <- "Missing POV"
 pal <- ExtendPalette(2, "Dark2")
-metacellHisto_HC(vData@ll.obj[[1]], pattern, showValues = TRUE, pal = pal)
+metacellHisto_HC(Exp1_R25_pept[[1]], pattern, showValues = TRUE, pal = pal)
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
-vData <- convert2viz(Exp1_R25_pept)
-mvImage(vData@ll.obj[[1]])
+mvImage(Exp1_R25_pept[[1]], design.qf(Exp1_R25_pept)$Condition)
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
-pal <- ExtendPalette(length(unique(get_group(Exp1_R25_pept))), "Dark2")
+pal <- ExtendPalette(length(unique(design.qf(Exp1_R25_pept)$Condition)), "Dark2")
 pattern <- "Missing MEC"
-hc_mvTypePlot2(Exp1_R25_pept[[1]], group = get_group(Exp1_R25_pept), pattern = pattern, pal = pal)
+hc_mvTypePlot2(Exp1_R25_pept[[1]], group = design.qf(Exp1_R25_pept)$Condition, pattern = pattern, pal = pal)
 
 }
 \author{

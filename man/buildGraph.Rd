@@ -20,7 +20,7 @@ Display a CC
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(100)]
-X <- BuildAdjacencyMatrix(obj, "Protein_group_IDs", FALSE)
+X <- adjacencyMatrix(obj[[1]])
 ll <- get.pep.prot.cc(X)
 g <- buildGraph(ll[[1]], X)
 

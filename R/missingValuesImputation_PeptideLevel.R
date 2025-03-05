@@ -21,7 +21,7 @@
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10), ]
 #' level <- 'peptide'
-#' metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)
+#' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 #' obj.imp.na <- wrapper.impute.mle(obj)
 #'
@@ -35,7 +35,7 @@ wrapper.impute.mle <- function(obj) {
     if (missing(obj))
         stop("'obj' is required.")
 
-    tmp_cond <- Biobase::pData(obj)$Condition
+    tmp_cond <- design.qf(obj)$Condition
     cond <- factor(tmp_cond, levels = unique(tmp_cond))
     res <- imp4p::impute.mle(Biobase::exprs(obj), conditions = cond)
 
@@ -114,7 +114,7 @@ wrapper.impute.mle <- function(obj) {
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
 #' level <- 'peptide'
-#' metacell.mask <- DaparToolshed::match.metacell(GetMetacell(obj), c("Missing POV", "Missing MEC"), level)
+#' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 #' obj.imp.na <- wrapper.dapar.impute.mi(obj, nb.iter = 1, lapala = TRUE)
 #' obj.imp.pov <- wrapper.dapar.impute.mi(obj, nb.iter = 1, lapala = FALSE)
@@ -151,16 +151,16 @@ wrapper.dapar.impute.mi <- function(obj,
 
 
     ## order exp and pData table before using imp4p functions
-    tmp <- Biobase::pData(obj)$Condition
+    tmp <- design.qf(obj)$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- Biobase::pData(obj)[, 'quantCols']
-    sTab <- Biobase::pData(obj)
+    sample.names.old <- design.qf(obj)[, 'quantCols']
+    sTab <- design.qf(obj)
     qData <- Biobase::exprs(obj)
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
         x["quantCols"]
     }))
     qData <- Biobase::exprs(obj)[, new.order]
-    sTab <- Biobase::pData(obj)[new.order, ]
+    sTab <- design.qf(obj)[new.order, ]
 
     conditions <- as.factor(sTab$Condition)
     repbio <- sTab$Bio.Rep
@@ -308,15 +308,15 @@ wrapper.impute.pa2 <- function(obj,
 
 
     ## order exp and pData table before using imp4p functions
-    tmp <- Biobase::pData(obj)$Condition
+    tmp <- design.qf(obj)$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- Biobase::pData(obj)[, 'quantCols']
-    sTab <- Biobase::pData(obj)
+    sample.names.old <- design.qf(obj)[, 'quantCols']
+    sTab <- design.qf(obj)
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
         x["quantCols"]
     }))
     qData <- Biobase::exprs(obj)[, new.order]
-    sTab <- Biobase::pData(obj)[new.order, ]
+    sTab <- design.qf(obj)[new.order, ]
 
 
     tab <- qData
@@ -372,8 +372,9 @@ wrapper.impute.pa2 <- function(obj,
 #'
 #' @examples
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj.imp <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
-#' distribution = "beta")
+#' qdata <- assay(Exp1_R25_pept[[1]])
+#' conds <- design.qf(Exp1_R25_pept)$Condition
+#' obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
 #'
 #' @export
 #'

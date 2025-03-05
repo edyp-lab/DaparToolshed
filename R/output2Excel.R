@@ -32,8 +32,9 @@
 #' @name output_2_Excel
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' df <- Biobase::exprs(Exp1_R25_pept[seq_len(100)])
-#' tags <- GetMetacell(Exp1_R25_pept[seq_len(100)])
+#' obj <- Exp1_R25_pept[seq_len(100)]
+#' df <- assay(obj[[1]])
+#' tags <- qMetacell(obj[[1]])
 #' colors <- list(
 #'     "Missing POV" = "lightblue",
 #'     "Missing MEC" = "orange",
@@ -205,14 +206,14 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
   
   
   # Add colors for sample data sheet
-  u_conds <- unique(omXplore::get_group(obj))
+  u_conds <- unique(design.qf(obj)$Condition)
   colors <- stats::setNames(ExtendPalette(length(u_conds)), u_conds)
   colors[["blank"]] <- "white"
   
   tags <- as.data.frame(SummarizedExperiment::colData(obj))
   tags[, ] <- "blank"
-  tags$quantCols <- omXplore::get_group(obj)
-  tags$Condition <- omXplore::get_group(obj)
+  tags$quantCols <- design.qf(obj)$Condition
+  tags$Condition <- design.qf(obj)$Condition
   
   unique.tags <- NULL
   if (!is.null(tags) && !is.null(colors)) {

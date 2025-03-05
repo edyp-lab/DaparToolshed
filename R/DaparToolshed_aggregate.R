@@ -67,6 +67,7 @@
 ##' ## ---------------------------------------
 ##' ## An example QFeatures with PSM-level data
 ##' ## ---------------------------------------
+##' \dontrun{
 ##' data(ft, package='DaparToolshed')
 ##' ft
 ##'
@@ -85,6 +86,7 @@
 ##' assay(feat1[[3]])
 ##' aggcounts(feat1[[3]])
 ##' rowData(feat1[[2]])
+##' }
 NULL
 
 ##' @exportMethod aggregateFeatures4Prostar

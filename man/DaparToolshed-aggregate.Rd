@@ -109,6 +109,7 @@ The function to aggregate the quantitative metadata is
 ## ---------------------------------------
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
+\dontrun{
 data(ft, package='DaparToolshed')
 ft
 
@@ -127,6 +128,7 @@ aggcounts(feat1[[2]])
 assay(feat1[[3]])
 aggcounts(feat1[[3]])
 rowData(feat1[[2]])
+}
 data(ft, package='DaparToolshed')
 qMeta <- qMetacell(ft, 1)
 X <- adjacencyMatrix(ft[[1]])

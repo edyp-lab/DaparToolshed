@@ -4,10 +4,12 @@
 \alias{applyAnovasOnProteins}
 \title{iteratively applies OWAnova() on the features of an MSnSet object}
 \usage{
-applyAnovasOnProteins(obj)
+applyAnovasOnProteins(obj, i)
 }
 \arguments{
-\item{obj}{an MSnSet object
+\item{obj}{a QFreatures object}
+
+\item{i}{xxx
 '}
 }
 \value{
@@ -19,7 +21,7 @@ iteratively applies OWAnova() on the features of an MSnSet object
 \examples{
 data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
-applyAnovasOnProteins(exdata)
+applyAnovasOnProteins(exdata, 1)
 
 }
 \author{

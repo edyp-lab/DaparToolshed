@@ -25,11 +25,15 @@ analysis.
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept
+# Simulate missing value imputation
+assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
+assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
+
 qData <- as.matrix(assay(obj[[2]]))
 sTab <- colData(obj)
-limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
+limma <- limmaCompleteTest(qData, sTab)
 pal <- ExtendPalette(2, "Dark2")
-hc_logFC_DensityPlot(res$logFC, th_logFC = 1, pal = pal)
+hc_logFC_DensityPlot(limma$logFC, th_logFC = 1, pal = pal)
 
 }
 \author{

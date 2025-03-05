@@ -30,8 +30,7 @@ data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
 level <- 'peptide'
 pattern <- "Missing"
-metacell.mask <- match.metacell(metadata = GetMetacell(obj), 
-pattern = pattern, level = level)
+metacell.mask <- match.metacell(metadata = qMetacell(obj[[1]]), pattern = pattern, level = level)
 percent <- FALSE
 th <- 3
 op <- ">="

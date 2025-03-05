@@ -18,11 +18,13 @@ but with NA values if they exist in the intensity matrix.
 This function computes the number of peptides used to aggregate proteins.
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
 last.obj <- obj.pep[[length(obj.pep)]]
 X <- BuildAdjacencyMatrix(last.obj)
 CountPep(X)
+}
 
 }
 \author{

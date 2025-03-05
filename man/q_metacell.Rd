@@ -82,31 +82,6 @@ Gives all the tags of the metadata vocabulary containing the pattern
 Agregation rules for the cells quantitative metadata of peptides.
 Please refer to the qMetacell.def vocabulary in \code{qMetacell.def()}
 }
-\details{
-#' @title xxxx
-#'
-#' @description
-#' xxxx
-#'
-#' @param obj xxxx
-#'
-#' @export
-#'
-#' @return xxx
-#'
-#' @examples
-#' NULL
-#'
-GetMetacell <- function(obj) {
-value <- Biobase::fData(obj)\link{, obj@experimentData@other$names_metacell}
-if (is.null(value)) {
-warning(" The metacell dataframe does not exist. Returns NULL.")
-return(NULL)
-} else {
-return(value)
-}
-}
-}
 \section{Glossary}{
 
 
@@ -233,10 +208,8 @@ df <- Set_POV_MEC_tags(ft_na, 1, level)
 
 file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
 data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", 
-package="DaparToolshedData")
-metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, 
-stringsAsFactors = FALSE)
+metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", package="DaparToolshedData")
+metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
 conds <- metadata$Condition
 qdata <- data[seq_len(100), seq(56, 61)]
 df <- data[seq_len(100) , seq(43,48)]

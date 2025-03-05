@@ -24,21 +24,22 @@ OWAnova <- function(current_protein, conditions){
 #'
 #' @author Thomas Burger
 #'
-#' @param obj an MSnSet object
+#' @param obj a QFreatures object
+#' @param i xxx
 #' '
 #' @return a list of linear models
 #'
 #' @examples
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
-#' applyAnovasOnProteins(exdata)
+#' applyAnovasOnProteins(exdata, 1)
 #'
 #' @export
 #' 
-applyAnovasOnProteins <- function(obj){
-  qData <- Biobase::exprs(obj)
-  sTab <- Biobase::pData(obj)
-  anova_models <- t(apply(qData,1, OWAnova, conditions=as.factor(sTab$Condition)))
+applyAnovasOnProteins <- function(obj, i){
+  qData <- assay(obj[[i]])
+  sTab <- design.qf(obj)
+  anova_models <- t(apply(qData, 1, OWAnova, conditions=as.factor(sTab$Condition)))
   names(anova_models) <- rownames(qData)
   return(anova_models)
 }
@@ -61,7 +62,7 @@ applyAnovasOnProteins <- function(obj){
 #' @examples
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
-#' testAnovaModels(applyAnovasOnProteins(exdata))
+#' testAnovaModels(applyAnovasOnProteins(exdata, 1))
 #'
 #' @export
 #' 
@@ -121,6 +122,8 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
   )
   return(res)
 }
+
+
 
 #' @title xxx
 #'
@@ -229,7 +232,7 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #' @examples
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
-#' separateAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
+#' separateAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 #'
 #' @export
 #' 
@@ -262,7 +265,7 @@ separateAdjPval <- function(x,
 #' @examples
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
-#' globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
+#' globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 #'
 #' @export
 #' 
@@ -291,7 +294,7 @@ globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
 #' @examples
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' exdata <- Exp1_R25_prot[1:5,]
-#' adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata), "TukeyHSD")$P_Value)
+#' adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 #' seltab <- compute.selection.table(adjpvaltab, 0.2)
 #' seltab
 #' 
@@ -347,7 +350,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #'
 #' @author Hélène Borges
 #'
-#' @param obj An object of class \code{MSnSet}.
+#' @param obj An object of class \code{QFeatures}.
 #'
 #' @param with_post_hoc a character string with 2 possible values: "Yes" and
 #' "No" (default) saying if function must perform a Post-Hoc test or not.
@@ -376,15 +379,16 @@ classic1wayAnova <- function(current_line, conditions) {
 #' @export
 #'
 wrapperClassic1wayAnova <- function(obj, 
-                                    with_post_hoc = "No", 
-                                    post_hoc_test = "No") {
+  i,
+  with_post_hoc = "No", 
+  post_hoc_test = "No") {
   
   .Deprecated("testAnovaModels")
   pkgs.require('dplyr')
   
   
-  qData <- Biobase::exprs(obj)
-  sTab <- Biobase::pData(obj)
+  qData <- assay(obj[[i]])
+  sTab <- design.qf(obj)
   if (with_post_hoc == "No") {
     anova_tests <- as.data.frame(
       t(
@@ -453,7 +457,7 @@ wrapperClassic1wayAnova <- function(obj,
 #' @return a list of 2 dataframes containing the logFC values and pvalues for
 #' each comparison.
 #'
-#' @author Hélène Borges
+#' @author Helene Borges
 #'
 #' @examples
 #' \dontrun{examples/ex_formatPHResults.R}

@@ -64,7 +64,6 @@ Suggests:
     lme4,
     DT,
     shinyWidgets,
-    Matrix,
     vsn, 
     cp4p,
     limma,
@@ -78,7 +77,6 @@ Suggests:
     testthat,
     FactoMineR, 
     factoextra,
-    doParallel,
     dplyr,
     colourpicker,
     readxl,
@@ -88,7 +86,6 @@ Suggests:
     forcats,
     multcomp,
     purrr,
-    stringr, 
     gplots, 
     tidyr
 Remotes:

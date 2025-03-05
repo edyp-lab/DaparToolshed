@@ -20,8 +20,8 @@ An integer
 Returns the possible number of values in lines in the data
 }
 \examples{
-data(ft, package='DaparToolshed')
-res <- getListNbValuesInLines(ft, 1)
+data(Exp1_R25_prot, package='DaparToolshedData')
+res <- getListNbValuesInLines(Exp1_R25_prot[[1]])
 
 }
 \author{

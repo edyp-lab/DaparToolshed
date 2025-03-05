@@ -19,11 +19,13 @@ This function computes the number of proteins that are only defined by
 specific peptides, shared peptides or a mixture of two.
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(20)]
 obj.last <- obj[[length(obj)]]
 X <- BuildAdjacencyMatrix(obj.last)
 getProteinsStats(X)
+}
 
 }
 \author{

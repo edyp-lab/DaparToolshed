@@ -24,13 +24,15 @@
 #'
 #' @export
 #'
-ExtendPalette <- function(n = NULL, base = "Set1") {
+ExtendPalette <- function(n = 0, base = "Set1") {
   
   pkgs.require(c('grDevices', 'RColorBrewer', "utils"))
   
+  if(is.null(base))
+    base <- "Set1"
   pal <- NULL
   nMaxColors <- RColorBrewer::brewer.pal.info[base, "maxcolors"]
-  if (is.null(n)) {
+  if (n == 0) {
     n <- nMaxColors
   }
   
@@ -72,8 +74,8 @@ ExtendPalette <- function(n = NULL, base = "Set1") {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' GetColorsForConditions(get_group(Exp1_R25_pept))
-#' GetColorsForConditions(get_group(Exp1_R25_pept), ExtendPalette(2))
+#' GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition)
+#' GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition, ExtendPalette(2))
 #'
 #' @export
 #'

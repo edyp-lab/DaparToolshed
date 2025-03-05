@@ -27,7 +27,7 @@ data(Exp1_R25_pept, package='DaparToolshedData')
 check.design(colData(Exp1_R25_pept)[, seq(3)])
 
 data(Exp1_R25_pept, package="DaparToolshedData")
-check.design(Biobase::pData(Exp1_R25_pept)[, seq_len(3)])
+check.design(design.qf(Exp1_R25_pept)[, seq_len(3)])
 
 }
 \author{

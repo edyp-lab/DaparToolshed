@@ -26,7 +26,7 @@ Applies a statistical test on each element of a list of linear models
 \examples{
 data(Exp1_R25_prot, package='DaparToolshedData')
 exdata <- Exp1_R25_prot[1:5,]
-testAnovaModels(applyAnovasOnProteins(exdata))
+testAnovaModels(applyAnovasOnProteins(exdata, 1))
 
 }
 \author{

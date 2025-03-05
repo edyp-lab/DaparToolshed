@@ -18,11 +18,13 @@ Method to create a plot with proteins and peptides on
 a MSnSet object (peptides)
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10)]
 last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
 X <- BuildAdjacencyMatrix(last.obj)
 GraphPepProt(X)
+}
 
 }
 \author{

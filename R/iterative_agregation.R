@@ -99,7 +99,7 @@
 #' #' @examples
 #' #' library(doParallel)
 #' #' library(QFeatures)
-#' #' Exp1_R25_pept <- readRDS(system.file("data", 'Exp1_R25_pept.rda', package="DaparToolshedData"))
+#' #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' #' obj <- Exp1_R25_pept[seq_len(1000),]
 #' #' obj <- addListAdjacencyMatrices(obj, 2)
 #' #' X <- as.matrix(GetAdjMat(obj[[2]])$all)

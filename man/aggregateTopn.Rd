@@ -25,13 +25,14 @@ This function computes the intensity of proteins as the sum of the
 intensities of their n best peptides.
 }
 \examples{
+\dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
 X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
 adjacencyMatrix(obj.pep[[length(obj.pep)]]) <- X
 conds <- colData(obj.pep)$Condition
 ll.agg <- aggregateTopn(obj.pep[[length(obj.pep)]], n = 3, conds = conds)
-
+}
 }
 \author{
 Alexia Dorffer, Samuel Wieczorek

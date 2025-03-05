@@ -70,7 +70,7 @@ compute_t_tests <- function(obj,
   logFC <- list()
   P_Value <- list()
   nbComp <- NULL
-  Conditions <- omXplore::get_group(obj)
+  Conditions <- design.qf(obj)$Condition
   
   Conditionsf <- factor(Conditions, levels = unique(Conditions))
   Cond.Nb <- length(levels(Conditionsf))

@@ -26,12 +26,13 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' data(vData_ft)
-#' plotCompareAssays(vData_ft, 1, 2, n = 5)
+#' data(Exp1_R25_prot, package="DaparToolshedData")
+#' plotCompareAssays(Exp1_R25_prot, 1, 2, n = 5)
 #'
 #' @import highcharter
 #' @importFrom tibble as_tibble
 #' @importFrom utils str
+#' @import omXplore
 #'
 #' @export
 #'
@@ -41,7 +42,7 @@ plotCompareAssays <- function(obj,
                               i,
                               j,
                               info = NULL,
-                              pal.name = NULL,
+                              pal.name = "Set1",
                               subset.view = NULL,
                               n = 100,
                               type = "scatter",
@@ -49,13 +50,13 @@ plotCompareAssays <- function(obj,
   
   pkgs.require('highcharter')
     if (missing(obj)) {
-        stop("'vList' is missing")
+        stop("'obj' is missing")
     }
-    stopifnot(inherits(obj, "list"))
+    stopifnot(inherits(obj, "QFeatures"))
     
-    qdata1 <- obj[[i]]@qdata
-    qdata2 <- obj[[j]]@qdata
-    conds <- obj[[i]]@conds
+    qdata1 <- assay(obj[[i]])
+    qdata2 <- assay(obj[[j]])
+    conds <- design.qf(obj)$Condition
     
    
     if (nrow(qdata1) != nrow(qdata2) || 
@@ -116,6 +117,7 @@ plotCompareAssays <- function(obj,
         }
     }
 
+    
     myColors <- ExtendPalette(length(unique(conds)), pal.name)
 
     # Compare by using the division between assays
@@ -135,10 +137,10 @@ plotCompareAssays <- function(obj,
     }
 
     h1 <- highcharter::highchart() %>%
-        customChart(chartType = type) %>%
+      omXplore::customChart(chartType = type) %>%
         highcharter::hc_add_series_list(series) %>%
       highcharter::hc_colors(myColors) %>%
-        customExportMenu(fname = "compareAssays")
+      omXplore::customExportMenu(fname = "compareAssays")
 
     if (!all.equal(info, rep(NA, length(info)))) {
         h1 <- h1 %>%

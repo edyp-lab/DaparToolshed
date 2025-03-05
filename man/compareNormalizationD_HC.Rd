@@ -49,7 +49,7 @@ normalization using the package \code{highcharter}
 data(Exp1_R25_prot, package="DaparToolshedData")
 obj <- Exp1_R25_prot
 qDataBefore <- SummarizedExperiment::assay(obj[[length(obj)]])
-conds <- omXplore::get_group(obj)
+conds <- design.qf(obj)$Condition
 id <- rowData(obj[[length(obj)]])[, omXplore::get_colID(obj[[length(obj)]])]
 # pal <- ExtendPalette(2)
 qDataAfter <- GlobalQuantileAlignment(qDataBefore)
@@ -59,7 +59,7 @@ compareNormalizationD_HC(
 qDataBefore = qDataBefore,
 qDataAfter = qDataAfter, 
 keyId = id, 
-pal = pal, 
+pal = NULL, 
 n = n,
 subset.view = seq_len(n),
 conds = conds)

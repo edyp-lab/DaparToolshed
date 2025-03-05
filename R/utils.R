@@ -216,8 +216,8 @@ is.subset <- function(set1, set2)
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' data(ft, package='DaparToolshed')
-#' res <- getListNbValuesInLines(ft, 1)
+#' data(Exp1_R25_prot, package='DaparToolshedData')
+#' res <- getListNbValuesInLines(Exp1_R25_prot[[1]])
 #'
 #' @export
 #'

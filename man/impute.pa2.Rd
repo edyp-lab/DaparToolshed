@@ -43,8 +43,9 @@ package \code{imp4p}.
 }
 \examples{
 utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-obj.imp <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
-distribution = "beta")
+qdata <- assay(Exp1_R25_pept[[1]])
+conds <- design.qf(Exp1_R25_pept)$Condition
+obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
 
 }
 \author{
