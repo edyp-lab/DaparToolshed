@@ -237,7 +237,7 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
 #' @rdname output_2_Excel
 #' 
 Write_RowData <- function(wb, obj, i, n){
-  .name <- paste0(names(obj)[i], '_coldata')
+  .name <- paste0(names(obj)[i], '_rowdata')
   openxlsx::addWorksheet(wb, .name)
 
   openxlsx::writeData(wb, 
