@@ -8,10 +8,14 @@ of their peptides.}
 aggregateProstar2(obj, i, FUN = "Sum", X)
 }
 \arguments{
+\item{obj}{A matrix of intensities of peptides}
+
+\item{i}{xxx}
+
+\item{FUN}{xxx}
+
 \item{X}{An adjacency matrix in which lines and columns correspond
 respectively to peptides and proteins.}
-
-\item{obj.pep}{A matrix of intensities of peptides}
 }
 \value{
 A matrix of intensities of proteins

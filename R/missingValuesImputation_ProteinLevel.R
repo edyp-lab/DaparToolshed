@@ -77,8 +77,8 @@
 #' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
 #' 
-#' coldata <- colData(Exp1_R25_pept)
-#' obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
+#' coldata <- design.qf(Exp1_R25_pept)
+#' #obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 #'
 #'
 #'

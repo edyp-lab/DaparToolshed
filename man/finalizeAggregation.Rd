@@ -9,14 +9,14 @@ finalizeAggregation(obj.pep, i, protData, protMetacell, X)
 \arguments{
 \item{obj.pep}{A peptide object of class \code{MSnSet}}
 
+\item{i}{xx#'}
+
 \item{protData}{xxxxx}
 
 \item{protMetacell}{xxx}
 
 \item{X}{An adjacency matrix in which lines and columns correspond
 respectively to peptides and proteins.}
-
-\item{pepData}{xxxx}
 }
 \value{
 A protein object of class \code{MSnSet}

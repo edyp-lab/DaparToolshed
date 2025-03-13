@@ -66,9 +66,11 @@ setMethod(
 #' @export
 #' @rdname QFeatures-accessors
 #' @import SummarizedExperiment
+#' @name QFeatures-accessors
 #' @return NA
 setMethod(
     "qMetacell", "SummarizedExperiment",
+  #' @param object xxx
     function(object) {
         .GetRowdataSlot(object, "qMetacell")
     }
@@ -78,6 +80,11 @@ setMethod(
 
 #' @export
 #' @rdname QFeatures-accessors
+#' @param object An instance of class `SummarizedExperiment` or `QFeatures`.
+#' @param i The index or name of the assays to extract the quantitative 
+#' metadata from. All must have a rowdata variable named as `slotName`
+#' @param slotName xxx
+#' @param value xxx
 #' @return NA
 "qMetacell<-" <- function(object,
                           i,

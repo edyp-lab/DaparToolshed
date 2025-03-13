@@ -10,7 +10,7 @@
 #'
 #' @examples
 #'
-#' xxxx
+#' NULL
 #'
 NULL
 

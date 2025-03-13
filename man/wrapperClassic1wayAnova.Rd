@@ -9,6 +9,8 @@ wrapperClassic1wayAnova(obj, i, with_post_hoc = "No", post_hoc_test = "No")
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
 
+\item{i}{xxx}
+
 \item{with_post_hoc}{a character string with 2 possible values: "Yes" and
 "No" (default) saying if function must perform a Post-Hoc test or not.}
 

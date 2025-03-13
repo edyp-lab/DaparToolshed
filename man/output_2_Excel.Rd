@@ -39,14 +39,6 @@ write.excel(obj, filename)
 \item{n}{xxx}
 
 \item{filename}{A character string for the name of the Excel file.}
-
-\item{df}{An data.frame}
-
-\item{tags}{xxx}
-
-\item{colors}{xxx}
-
-\item{tabname}{xxx}
 }
 \value{
 A Excel file (.xlsx)

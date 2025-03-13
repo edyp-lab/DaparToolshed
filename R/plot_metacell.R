@@ -339,9 +339,12 @@ metacellHisto_HC <- function(obj,
 #' @import omXplore
 #'
 wrapper.mvImage <- function(obj, 
-  group,
+  group = NULL,
   pattern = "Missing MEC") {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
+  if (is.null(group))
+    return(NULL)
   
   indices <- which(apply(match.metacell(
     omXplore::get_metacell(obj), 
@@ -539,7 +542,7 @@ hc_mvTypePlot2 <- function(obj,
       data <- mTemp[which(nbValues[, iCond] == i), iCond]
       tmp <- NULL
       if (length(data) >= 2) {
-        tmp <- stats::density(mTemp[which(nbValues[, iCond] == i), iCond])
+        tmp <- stats::density(mTemp[which(nbValues[, iCond] == i), iCond], na.rm = TRUE)
         tmp$y <- tmp$y + i
         if (max(tmp$y) > ymax) {
           ymax <- max(tmp$y)
@@ -552,21 +555,21 @@ hc_mvTypePlot2 <- function(obj,
   }
   
   
-  hc <- highchart(type = "chart") %>%
-    hc_title(text = title) %>%
+  hc <- highcharter::highchart(type = "chart") %>%
+    highcharter::hc_title(text = title) %>%
     my_hc_chart(chartType = "spline", zoomType = "xy") %>%
-    hc_legend(align = "left", verticalAlign = "top", layout = "vertical"
+    highcharter::hc_legend(align = "left", verticalAlign = "top", layout = "vertical"
     ) %>%
-    hc_xAxis(title = list(text = "Mean of intensities")) %>%
-    hc_yAxis(title = list(text = "Number of quantity values per condition"),
+    highcharter::hc_xAxis(title = list(text = "Mean of intensities")) %>%
+    highcharter::hc_yAxis(title = list(text = "Number of quantity values per condition"),
              tickInterval = 0.5) %>%
-    hc_tooltip(
+    highcharter::hc_tooltip(
       headerFormat = "",
       pointFormat = "<b> {series.name} </b>: {point.y} ",
       valueDecimals = 2
     ) %>%
     my_hc_ExportMenu(filename = paste0(pattern, "_distribution")) %>%
-    hc_plotOptions(
+    highcharter::hc_plotOptions(
       series = list(
         showInLegend = TRUE,
         animation = list(duration = 100),
@@ -576,7 +579,7 @@ hc_mvTypePlot2 <- function(obj,
     )
   
   for (i in seq_len(length(series))) {
-    hc <- hc_add_series(hc,
+    hc <- highcharter::hc_add_series(hc,
                         data = list_parse(data.frame(cbind(
                           x = series[[i]]$x,
                           y = series[[i]]$y
@@ -590,7 +593,7 @@ hc_mvTypePlot2 <- function(obj,
   # add three empty series for the legend entries. Change color and marker 
   # symbol
   for (c in seq_len(length(unique(group)))) {
-    hc <- hc_add_series(hc,
+    hc <- highcharter::hc_add_series(hc,
                         data = data.frame(),
                         name = unique(group)[c],
                         color = pal[c],

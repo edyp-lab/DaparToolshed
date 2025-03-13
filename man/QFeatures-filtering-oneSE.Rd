@@ -85,14 +85,14 @@ Or based on the quantitative metadata (identification):
 }
 
 \examples{
-
+data(feat1, package = 'QFeatures')
 ## ----------------------------------------
 ## Creating function filters
 ## ----------------------------------------
 
-FunctionFilter('FUN',
-               param1 = 'value_of_param1',
-               param2 = 'value_of_param2')
+#FunctionFilter('FUN',
+#               param1 = 'value_of_param1',
+#               param2 = 'value_of_param2')
 
 FunctionFilter('qMetacellWholeLine',
                cmd = 'delete',
@@ -129,7 +129,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
 cmd = 'delete',
 mode = 'AtLeastOneCond',
 pattern = 'imputed POV',
-conds = colData(ft)$Condition,
+conds = colData(feat1)$Condition,
 percent = TRUE,
 th = 0.8,
 operator = '<')

@@ -8,7 +8,7 @@ specific peptides, shared peptides or a mixture of two.}
 getProteinsStats(X)
 }
 \arguments{
-\item{matShared}{The adjacency matrix with both specific and
+\item{X}{The adjacency matrix with both specific and
 shared peptides.}
 }
 \value{

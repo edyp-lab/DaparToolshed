@@ -21,6 +21,6 @@ xxxxx
 }
 \examples{
 
-xxxx
+NULL
 
 }

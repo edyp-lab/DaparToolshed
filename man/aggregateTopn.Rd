@@ -10,6 +10,8 @@ aggregateTopn(obj.pep, i, method = "Mean", n = 10, X)
 \arguments{
 \item{obj.pep}{A matrix of intensities of peptides}
 
+\item{i}{xxx}
+
 \item{method}{xxx}
 
 \item{n}{The maximum number of peptides used to aggregate a protein.}

@@ -16,6 +16,8 @@ aggregateIterParallel(
 \arguments{
 \item{obj.pep}{xxxxx}
 
+\item{i}{xxx}
+
 \item{X}{xxxx}
 
 \item{init.method}{xxxxx}

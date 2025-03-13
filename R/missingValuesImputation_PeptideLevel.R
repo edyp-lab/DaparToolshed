@@ -11,7 +11,7 @@
 #'
 #' @param obj An object of class \code{MSnSet}.
 #'
-#' @return The \code{Biobase::exprs(obj)} matrix with imputed values instead 
+#' @return The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead 
 #' of missing
 #' values.
 #'
@@ -37,9 +37,9 @@ wrapper.impute.mle <- function(obj) {
 
     tmp_cond <- design.qf(obj)$Condition
     cond <- factor(tmp_cond, levels = unique(tmp_cond))
-    res <- imp4p::impute.mle(Biobase::exprs(obj), conditions = cond)
+    res <- imp4p::impute.mle(SummarizedExperiment::assay(obj), conditions = cond)
 
-    Biobase::exprs(obj) <- res
+    SummarizedExperiment::assay(obj) <- res
     obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)

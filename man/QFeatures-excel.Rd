@@ -29,6 +29,8 @@ addColors(wb, n, tags, colors)
 
 \item{exp.design}{xxx}
 
+\item{writeColData}{A boolean}
+
 \item{wb}{A workbook}
 
 \item{n}{A \code{integer(1)} which is the number of sheet in the workbook.}

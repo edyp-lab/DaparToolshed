@@ -18,9 +18,9 @@ of class dgCMatrix from package Matrix. This function is largely inspired
 from the package \code{RINGO}.
 }
 \examples{
+library(Matrix)
 mat <- Matrix(c(0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1),
-    nrow = 5, byrow = TRUE, sparse = TRUE
-)
+    nrow = 5, byrow = TRUE, sparse = TRUE)
 res <- nonzero(mat)
 
 }

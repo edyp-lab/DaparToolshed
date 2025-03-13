@@ -58,12 +58,12 @@ create_ft_example <- function(with.na = FALSE) {
 
     if (with.na) {
         ft_na <- tmp.qf
-        save(ft_na, file = paste0("data/ft_na.rda"))
-        saveRDS(ft_na, file = paste0("inst/extdata/ft_na.qf"))
+        save(ft_na, file = paste0("ft_na.rda"))
+        saveRDS(ft_na, file = paste0("ft_na.qf"))
     } else {
         ft <- tmp.qf
-        save(ft, file = paste0("data/ft.rda"))
-        saveRDS(ft, file = paste0("inst/extdata/ft.qf"))
+        save(ft, file = paste0("ft.rda"))
+        saveRDS(ft, file = paste0("ft.qf"))
     }
 
     tmp.qf

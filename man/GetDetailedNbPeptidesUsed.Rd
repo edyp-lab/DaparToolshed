@@ -8,9 +8,9 @@ each protein}
 GetDetailedNbPeptidesUsed(pepData, X)
 }
 \arguments{
-\item{X}{An adjacency matrix}
+\item{pepData}{A data.frame of quantitative data}
 
-\item{qdata.pep}{A data.frame of quantitative data}
+\item{X}{An adjacency matrix}
 }
 \value{
 A list of two items

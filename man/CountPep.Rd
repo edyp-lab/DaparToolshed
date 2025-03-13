@@ -7,7 +7,7 @@
 CountPep(X)
 }
 \arguments{
-\item{M}{A "valued" adjacency matrix in which lines and columns correspond
+\item{X}{A "valued" adjacency matrix in which lines and columns correspond
 respectively to peptides and proteins.}
 }
 \value{

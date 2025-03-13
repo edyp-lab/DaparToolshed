@@ -134,6 +134,9 @@ createQFeatures <- function(data = NULL,
       ind2delete <- match(ind2delete, colnames(data))
       data <- data[, -ind2delete]
       
+    } else {
+      
+      
     } 
 
     #data <- cbind(qdata, data)
@@ -180,9 +183,10 @@ createQFeatures <- function(data = NULL,
     
     design.qf(obj) <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
 
- 
-    # Get the metacell info
 
+    # Get the metacell info
+    qMetacell <- NULL
+    #if (!is.null(tmp.qMetacell)){
       qMetacell <- BuildMetacell(
         from = software,
         level = typeDataset,
@@ -197,7 +201,8 @@ createQFeatures <- function(data = NULL,
 
       # Add the quantitative cell metadata info
       qMetacell(obj[["original"]]) <- qMetacell
-    
+      #}
+
       # if (!is.null(indexForMetacell)) {
       # # Remove the identification columns which became useless
       # .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))

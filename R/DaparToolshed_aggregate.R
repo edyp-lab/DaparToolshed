@@ -277,14 +277,18 @@ aggregateMethods <- function() {
 #' @description xxx
 #' A short description...
 #' @param qf xxx
+#' @param i xxx
 #' @param includeSharedPeptides A boolean 
 #' @param operator xxx
 #' @param considerPeptides Available values are 'allPeptides' (default) and 'topN'
 #' @param n In case of "top n peptides', specify then number of peptides
+#' @param addRowData xxx
+#' 
 #' 
 #' @examples
+#' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' ft <- Exp1_R25_pept
+#' ft <- Exp1_R25_pept[1:100]
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', 'allPeptides', addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Mean', 'allPeptides', addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_As_Specific", 'Sum', "topN", n = 4, addRowData = TRUE)
@@ -296,6 +300,7 @@ aggregateMethods <- function() {
 #' obj.agg <- RunAggregation(ft, length(ft), "No", 'Sum', "topN", n = 4)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', 'allPeptides', addRowData = TRUE)
 #' obj.agg <- RunAggregation(ft, length(ft), "Yes_Redistribution", 'Sum', "topN", n = 4, addRowData = TRUE)
+#' }
 #' 
 #' @export
 #'

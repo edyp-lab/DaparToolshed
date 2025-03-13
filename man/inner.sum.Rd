@@ -8,6 +8,8 @@ inner.sum(pepData, X)
 }
 \arguments{
 \item{pepData}{A data.frame of quantitative data}
+
+\item{X}{xxx}
 }
 \value{
 A matrix

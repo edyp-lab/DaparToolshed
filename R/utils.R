@@ -270,9 +270,9 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
 #' @rdname nonzero
 #'
 #' @examples
+#' library(Matrix)
 #' mat <- Matrix(c(0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1),
-#'     nrow = 5, byrow = TRUE, sparse = TRUE
-#' )
+#'     nrow = 5, byrow = TRUE, sparse = TRUE)
 #' res <- nonzero(mat)
 #'
 #' @export
@@ -431,6 +431,8 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #' @title Customised resetZoomButton of highcharts plots
 #'
 #' @author Samuel Wieczorek
+#' 
+#' @param obj xxx
 #'
 #' @examples
 #' library("highcharter")

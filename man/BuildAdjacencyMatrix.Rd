@@ -8,8 +8,6 @@ BuildAdjacencyMatrix(obj.pep)
 }
 \arguments{
 \item{obj.pep}{An object (peptides) of class \code{MSnSet}.}
-
-\item{protID}{The name of proteins ID column}
 }
 \value{
 A binary matrix

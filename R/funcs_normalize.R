@@ -11,7 +11,7 @@
 #' "Overall" which means that the value for each protein
 #' (ie line in the expression data tab) is computed over all the samples ;
 #' "within conditions" which means that the value for each protein
-#' (ie line in the \code{Biobase::exprs()} data tab) is computed condition
+#' (ie line in the \code{SummarizedExperiment::assay()} data tab) is computed condition
 #' by condition.
 #'
 #' @param target xxx
@@ -45,15 +45,11 @@
 #' 
 #' 
 #' data(Exp1_R25_pept, package="DaparToolshedData")
+#' obj <- Exp1_R25_pept
+#' qData <- SummarizedExperiment::assay(obj[[1]])
+#' conds <- design.qf(obj)$Condition
 #' 
-#' conds <- design.qf(Exp1_R25_pept)$Condition
-#' obj <- wrapper.normalizeD(
-#'     obj = Exp1_R25_pept, method = "QuantileCentering",
-#'     conds = conds, type = "within conditions"
-#' )
 #' 
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
 #' 
 #' normalized <- GlobalQuantileAlignment(qData)
 #' 
@@ -62,7 +58,7 @@
 #'     subset.norm = seq_len(10)
 #' )
 #' 
-#' normalized <- QuantileCentering(Biobase::exprs(obj), conds,
+#' normalized <- QuantileCentering(SummarizedExperiment::assay(obj[[1]]), conds,
 #' type = "within conditions", subset.norm = seq_len(10)
 #' )
 #' 

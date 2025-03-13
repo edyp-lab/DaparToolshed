@@ -13,17 +13,8 @@
 #' @param obj xxx
 #' @param i xxx
 #' @param n xxx
-#' @param df An data.frame
-#'
-#' @param tags xxx
-#'
-#' @param colors xxx
-#'
-#' @param tabname xxx
-#'
 #' @param filename A character string for the name of the Excel file.
 #' @param file The name of the Excel file.
-#'
 #' @param sheet The name of the sheet
 #' 
 #' @return A Excel file (.xlsx)
@@ -59,7 +50,7 @@ NULL
 #'
 #' @export
 #'
-readExcel <- function(file, sheet=NULL) {
+readExcel <- function(file, sheet = NULL) {
   pkgs.require('readxl')
   
   if(is.null(sheet))

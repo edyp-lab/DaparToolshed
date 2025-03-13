@@ -69,8 +69,6 @@ splitAdjacencyMat <- function(X) {
 #'
 #' @param obj.pep An object (peptides) of class `MSnSet`.
 #'
-#' @param protID The name of proteins ID column
-#'
 #' @return A binary matrix
 #'
 #' @author Florence Combes, Samuel Wieczorek, Alexia Dorffer

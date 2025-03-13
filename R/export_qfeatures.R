@@ -59,6 +59,7 @@ setMethod(
     #' @param object xxx
     #' @param i xxx
     #' @param filename xxx
+    #' @param writeColData xxx
     #' @param ... xxx
     function(object,
              i = NULL,
@@ -94,6 +95,7 @@ setMethod(
     #' @param object xxx
     #' @param filename xxx
     #' @param exp.design xxx
+    #' @param writeColData xxx
     #' @param ... xxx
     function(object, 
       filename, 
@@ -119,7 +121,8 @@ setMethod(
 #' @param object xxx
 #' @param filename xxx
 #' @param exp.design xxx
-#'
+#' @param writeColData A boolean
+#' 
 #' @rdname QFeatures-excel
 #' 
 #' @import omXplore

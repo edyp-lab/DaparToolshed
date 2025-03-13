@@ -9,7 +9,6 @@
 \alias{GetMetacellTags,SummarizedExperiment-method}
 \alias{QFeatures-accessors}
 \alias{qMetacell,QFeatures-method}
-\alias{qMetacell,SummarizedExperiment-method}
 \alias{qMetacell<-}
 \alias{GetUniqueTags,QFeatures-method}
 \alias{GetUniqueTags,SummarizedExperiment-method}

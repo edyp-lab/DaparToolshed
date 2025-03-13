@@ -4,7 +4,7 @@
 #' @title Computes the number of proteins that are only defined by
 #' specific peptides, shared peptides or a mixture of two.
 #'
-#' @param matShared The adjacency matrix with both specific and
+#' @param X The adjacency matrix with both specific and
 #' shared peptides.
 #'
 #' @return A list
@@ -92,7 +92,7 @@ getProteinsStats <- function(X) {
 #'
 #' @title Compute the number of peptides used to aggregate proteins
 #'
-#' @param M A "valued" adjacency matrix in which lines and columns correspond
+#' @param X A "valued" adjacency matrix in which lines and columns correspond
 #' respectively to peptides and proteins.
 #'
 #' @return A vector of boolean which is the adjacency matrix
@@ -166,7 +166,7 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #'
 #' @param X An adjacency matrix
 #'
-#' @param qdata.pep A data.frame of quantitative data
+#' @param pepData A data.frame of quantitative data
 #'
 #' @return A list of two items
 #'
@@ -322,8 +322,9 @@ ExtractUniquePeptides <- function(X){
 #' This function computes the intensity of proteins based on the sum of the
 #' intensities of their peptides.
 #'
-#' @param obj.pep A matrix of intensities of peptides
-#'
+#' @param obj A matrix of intensities of peptides
+#' @param i xxx
+#' @param FUN xxx
 #' @param X An adjacency matrix in which lines and columns correspond
 #' respectively to peptides and proteins.
 #'
@@ -383,13 +384,10 @@ aggregateProstar2 <- function(obj, i, FUN = 'Sum', X) {
 #' @title xxxx
 #'
 #' @param obj.pep xxxxx
-#'
+#' @param i xxx
 #' @param X xxxx
-#'
 #' @param init.method xxxxx
-#'
 #' @param method xxxxx
-#'
 #' @param n xxxx
 #'
 #' @return xxxxx
@@ -561,7 +559,7 @@ inner.aggregate.iter <- function(
 #' @title xxxx
 #'
 #' @param pepData A data.frame of quantitative data
-#'
+#' @param X xxx
 #' @return A matrix
 #'
 #' @author Samuel Wieczorek
@@ -681,7 +679,7 @@ inner.aggregate.topn <- function(pepData, X, method = "Mean", n = 10) {
 #' intensities of their n best peptides.
 #'
 #' @param obj.pep A matrix of intensities of peptides
-#'
+#' @param i xxx
 #' @param X An adjacency matrix in which lines and columns correspond
 #' respectively to peptides and proteins.
 #'
@@ -748,9 +746,7 @@ aggregateTopn <- function(obj.pep,
 #' @title Finalizes the aggregation process
 #'
 #' @param obj.pep A peptide object of class `MSnSet`
-#'
-#' @param pepData xxxx
-#'
+#' @param i xx#'
 #' @param X An adjacency matrix in which lines and columns correspond
 #' respectively to peptides and proteins.
 #'

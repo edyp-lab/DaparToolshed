@@ -351,7 +351,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #' @author Hélène Borges
 #'
 #' @param obj An object of class \code{QFeatures}.
-#'
+#' @param i xxx
 #' @param with_post_hoc a character string with 2 possible values: "Yes" and
 #' "No" (default) saying if function must perform a Post-Hoc test or not.
 #'
