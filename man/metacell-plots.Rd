@@ -37,7 +37,7 @@ metacellHisto_HC(
   pal = NULL
 )
 
-wrapper.mvImage(obj, group, pattern = "Missing MEC")
+wrapper.mvImage(obj, group = NULL, pattern = "Missing MEC")
 
 mvImage(obj, group)
 

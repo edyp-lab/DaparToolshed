@@ -21,23 +21,29 @@
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10), ]
 #' level <- 'peptide'
+#' # Delete whole empty lines
 #' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' obj.imp.na <- wrapper.impute.mle(obj)
+#' grp <- design.qf(obj)$Condition
+#' obj.imp.na <- wrapper.impute.mle(obj[[2]], grp)
 #'
 #' @export
 #'
 #'
-wrapper.impute.mle <- function(obj) {
+wrapper.impute.mle <- function(obj, grp) {
     
     pkgs.require('imp4p')
     
     if (missing(obj))
         stop("'obj' is required.")
-
-    tmp_cond <- design.qf(obj)$Condition
-    cond <- factor(tmp_cond, levels = unique(tmp_cond))
-    res <- imp4p::impute.mle(SummarizedExperiment::assay(obj), conditions = cond)
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  if (missing(grp))
+    stop("'grp' is required.")
+  
+    cond <- factor(grp, levels = unique(grp))
+    res <- imp4p::impute.mle(
+      SummarizedExperiment::assay(obj),
+      conditions = cond)
 
     SummarizedExperiment::assay(obj) <- res
     obj <- UpdateMetacellAfterImputation(obj)
@@ -55,7 +61,8 @@ wrapper.impute.mle <- function(obj) {
 #' \code{imp4p} adapted to an object of class \code{MSnSet}.
 #'
 #'
-#' @param obj An object of class \code{MSnSet}.
+#' @param obj An object of class \code{SummarizedExperiment}.
+#' @param design xxx
 #'
 #' @param nb.iter Same as the function \code{mi.mix} in the package \code{imp4p}
 #'
@@ -112,68 +119,76 @@ wrapper.impute.mle <- function(obj) {
 #'
 #' @examples
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
+#' obj <- Exp1_R25_pept[seq_len(500)]
 #' level <- 'peptide'
+#' design <- design.qf(obj)
 #' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' obj.imp.na <- wrapper.dapar.impute.mi(obj, nb.iter = 1, lapala = TRUE)
-#' obj.imp.pov <- wrapper.dapar.impute.mi(obj, nb.iter = 1, lapala = FALSE)
+#' obj.imp.na <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = TRUE)
+#' obj.imp.pov <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = FALSE)
 #'
 #' @export
 #'
 #'
 wrapper.dapar.impute.mi <- function(obj,
-                                    nb.iter = 3,
-                                    nknn = 15,
-                                    selec = 600,
-                                    siz = 500, 
-                                    weight = 1,
-                                    ind.comp = 1,
-                                    progress.bar = FALSE,
-                                    x.step.mod = 300,
-                                    x.step.pi = 300,
-                                    nb.rei = 100,
-                                    method = 4,
-                                    gridsize = 300,
-                                    q = 0.95,
-                                    q.min = 0,
-                                    q.norm = 3,
-                                    eps = 0,
-                                    methodi = "slsa",
-                                    lapala = TRUE,
-                                    distribution = "unif") {
+  design,
+  nb.iter = 3,
+  nknn = 15,
+  selec = 600,
+  siz = 500, 
+  weight = 1,
+  ind.comp = 1,
+  progress.bar = FALSE,
+  x.step.mod = 300,
+  x.step.pi = 300,
+  nb.rei = 100,
+  method = 4,
+  gridsize = 300,
+  q = 0.95,
+  q.min = 0,
+  q.norm = 3,
+  eps = 0,
+  methodi = "slsa",
+  lapala = TRUE,
+  distribution = "unif") {
 
     pkgs.require('imp4p')
 
     if (missing(obj))
         stop("'obj' is required.")
-
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
+  if (missing(design))
+    stop("'design' is required.")
 
 
     ## order exp and pData table before using imp4p functions
-    tmp <- design.qf(obj)$Condition
+    tmp <- design$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- design.qf(obj)[, 'quantCols']
-    sTab <- design.qf(obj)
-    qData <- Biobase::exprs(obj)
+    sample.names.old <- design[, 'quantCols']
+    sTab <- design
+    qData <- SummarizedExperiment::assay(obj)
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
-        x["quantCols"]
+        x[,"quantCols"]
     }))
-    qData <- Biobase::exprs(obj)[, new.order]
-    sTab <- design.qf(obj)[new.order, ]
+    
+    qData <- SummarizedExperiment::assay(obj)[, new.order]
+    sTab <- design[new.order, ]
 
     conditions <- as.factor(sTab$Condition)
     repbio <- sTab$Bio.Rep
     reptech <- sTab$Tech.Rep
 
+    dat.slsa <- imp4p::impute.rand(
+      tab = qData, 
+      conditions = conditions
+      )
 
-    dat.slsa <- imp4p::impute.rand(tab = qData, conditions = conditions)
-
-
-    res <- imp4p::estim.mix(tab = qData,
-                            tab.imp = dat.slsa,
-                            conditions = conditions
-                            )
+    res <- imp4p::estim.mix(
+      tab = qData,
+      tab.imp = dat.slsa,
+      conditions = conditions
+      )
 
 
     born <- imp4p::estim.bound(tab = qData, conditions = conditions)
@@ -205,13 +220,13 @@ wrapper.dapar.impute.mi <- function(obj,
     # restore previous order
     colnames(data.final) <- new.order
     data.final <- data.final[, sample.names.old]
+    rownames(data.final) <- rownames(SummarizedExperiment::assay(obj))
 
-    Biobase::exprs(obj) <- data.final
+    SummarizedExperiment::assay(obj) <- data.final
 
-    msg <- paste("Missing values imputation using imp4p")
-    obj@processingData@processing <- c(obj@processingData@processing, msg)
-
-    obj@experimentData@other$imputation.method <- "imp4p"
+    #msg <- paste("Missing values imputation using imp4p")
+    #obj@processingData@processing <- c(obj@processingData@processing, msg)
+    #obj@experimentData@other$imputation.method <- "imp4p"
     # na.type <- "Missing POV"
     # if (isTRUE(lapala)) {
     #     na.type <- "Missing"
@@ -247,7 +262,12 @@ wrapper.dapar.impute.mi <- function(obj,
 #'
 #'
 #'
-translatedRandomBeta <- function(n, min, max, param1 = 3, param2 = 1) {
+translatedRandomBeta <- function(
+    n, 
+    min, 
+    max, 
+    param1 = 3, 
+    param2 = 1) {
     pkgs.require('stats')
 
     scale <- max - min
@@ -266,7 +286,8 @@ translatedRandomBeta <- function(n, min, max, param1 = 3, param2 = 1) {
 #' This method is a wrapper to the function \code{impute.pa2()} adapted to
 #' objects of class \code{MSnSet}.
 #'
-#' @param obj An object of class \code{MSnSet}.
+#' @param obj An object of class \code{SummarizedExperiment}.
+#' @param design xxx
 #'
 #' @param q.min A quantile value of the observed values allowing defining the
 #' maximal value which can be generated. This maximal value is defined by the
@@ -297,26 +318,33 @@ translatedRandomBeta <- function(n, min, max, param1 = 3, param2 = 1) {
 #' @export
 #'
 #'
-wrapper.impute.pa2 <- function(obj,
-                               q.min = 0,
-                               q.norm = 3,
-                               eps = 0,
-                               distribution = "unif") {
+wrapper.impute.pa2 <- function(
+    obj,
+    design, 
+    q.min = 0,
+    q.norm = 3,
+    eps = 0,
+    distribution = "unif") {
 
     if (missing(obj))
         stop("'obj' is required.")
-
+  stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
+  if (missing(design))
+    stop("'design' is required.")
+  
+  
 
     ## order exp and pData table before using imp4p functions
-    tmp <- design.qf(obj)$Condition
+    tmp <- design$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- design.qf(obj)[, 'quantCols']
-    sTab <- design.qf(obj)
+    sample.names.old <- design[, 'quantCols']
+    sTab <- design
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
         x["quantCols"]
     }))
-    qData <- Biobase::exprs(obj)[, new.order]
-    sTab <- design.qf(obj)[new.order, ]
+    qData <- SummarizedExperiment::assay(obj)[, new.order]
+    sTab <- design[new.order, ]
 
 
     tab <- qData
@@ -327,7 +355,7 @@ wrapper.impute.pa2 <- function(obj,
     colnames(tab_imp) <- new.order
     tab_imp <- tab_imp[, sample.names.old]
 
-    Biobase::exprs(obj) <- tab_imp
+    SummarizedExperiment::assay(obj) <- tab_imp
     obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
@@ -387,6 +415,14 @@ impute.pa2 <- function(tab,
                        ) {
 
     pkgs.require('stats')
+  if (missing(tab))
+    stop("'tab' is required.")
+  #stopifnot(inherits(obj, 'SummarizedExperiment'))
+  
+  if (missing(conditions))
+    stop("'conditions' is required.")
+  
+  
 
     tab_imp <- tab
     qu <- apply(tab_imp, 2, stats::quantile, na.rm = TRUE, q.min)

@@ -6,6 +6,7 @@
 \usage{
 wrapper.dapar.impute.mi(
   obj,
+  design,
   nb.iter = 3,
   nknn = 15,
   selec = 600,
@@ -28,7 +29,9 @@ wrapper.dapar.impute.mi(
 )
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
+
+\item{design}{xxx}
 
 \item{nb.iter}{Same as the function \code{mi.mix} in the package \code{imp4p}}
 

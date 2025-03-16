@@ -4,13 +4,13 @@
 \alias{wrapper.impute.mle}
 \title{Imputation of peptides having no values in a biological condition.}
 \usage{
-wrapper.impute.mle(obj)
+wrapper.impute.mle(obj, grp)
 }
 \arguments{
 \item{obj}{An object of class \code{MSnSet}.}
 }
 \value{
-The \code{Biobase::exprs(obj)} matrix with imputed values instead
+The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead
 of missing
 values.
 }

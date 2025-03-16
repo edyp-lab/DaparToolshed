@@ -4,10 +4,19 @@
 \alias{wrapper.impute.pa2}
 \title{Missing values imputation from a \code{MSnSet} object}
 \usage{
-wrapper.impute.pa2(obj, q.min = 0, q.norm = 3, eps = 0, distribution = "unif")
+wrapper.impute.pa2(
+  obj,
+  design,
+  q.min = 0,
+  q.norm = 3,
+  eps = 0,
+  distribution = "unif"
+)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
+
+\item{design}{xxx}
 
 \item{q.min}{A quantile value of the observed values allowing defining the
 maximal value which can be generated. This maximal value is defined by the
