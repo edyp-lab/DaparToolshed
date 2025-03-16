@@ -312,8 +312,9 @@ translatedRandomBeta <- function(
 #'
 #' @examples
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj.imp.pa2 <- wrapper.impute.pa2(Exp1_R25_pept[seq_len(100)], 
-#' distribution = "beta")
+#' obj <- Exp1_R25_pept[seq_len(100)]
+#' design <- design.qf(obj)
+#' obj.imp.pa2 <- wrapper.impute.pa2(obj[[1]], design, distribution = "beta")
 #'
 #' @export
 #'
@@ -341,7 +342,7 @@ wrapper.impute.pa2 <- function(
     sample.names.old <- design[, 'quantCols']
     sTab <- design
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
-        x["quantCols"]
+        x[,"quantCols"]
     }))
     qData <- SummarizedExperiment::assay(obj)[, new.order]
     sTab <- design[new.order, ]
