@@ -120,7 +120,6 @@ wrapper.impute.mle <- function(obj, grp) {
 #' @examples
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(500)]
-#' level <- 'peptide'
 #' design <- design.qf(obj)
 #' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
@@ -165,10 +164,10 @@ wrapper.dapar.impute.mi <- function(obj,
     ## order exp and pData table before using imp4p functions
     tmp <- design$Condition
     conds <- factor(tmp, levels = unique(tmp))
-    sample.names.old <- design[, 'quantCols']
+    sample.names.old <- design$quantCols
     sTab <- design
     qData <- SummarizedExperiment::assay(obj)
-    new.order <- unlist(lapply(split(sTab, conds), function(x) {
+    new.order <- unlist(lapply(S4Vectors::split(sTab, conds), function(x) {
         x[,"quantCols"]
     }))
     

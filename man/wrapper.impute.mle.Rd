@@ -23,9 +23,11 @@ It does not impute MEC missing values.
 utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(10), ]
 level <- 'peptide'
+# Delete whole empty lines
 metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-obj.imp.na <- wrapper.impute.mle(obj)
+grp <- design.qf(obj)$Condition
+obj.imp.na <- wrapper.impute.mle(obj[[2]], grp)
 
 }
 \author{

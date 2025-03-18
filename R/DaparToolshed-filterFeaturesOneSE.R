@@ -176,7 +176,6 @@ setMethod(
         
         new.se <- object[[i]]
    
-      
         for (x in filters) {
           if (inherits(x, "AnnotationFilter")) {
             new.se <- filterFeatures(object, x, i)[[i]]

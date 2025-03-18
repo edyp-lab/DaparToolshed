@@ -455,3 +455,28 @@ CleanRowData <- function(obj){
   
   return(obj)
 }
+
+
+
+#' Returns the number of empty lines in a matrix.
+#'
+#' @title Returns the number of empty lines in the data
+#'
+#' @param qData A matrix corresponding to the quantitative data.
+#'
+#' @return An integer
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' data(Exp1_R25_pept, package="DaparToolshedData")
+#' qData <- Biobase::exprs(Exp1_R25_pept)
+#' getNumberOfEmptyLines(qData)
+#'
+#' @export
+#'
+#'
+getNumberOfEmptyLines <- function(qData) {
+  n <- sum(apply(is.na(as.matrix(qData)), 1, all))
+  return(n)
+}
