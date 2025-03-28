@@ -33,7 +33,7 @@
 #'     "Quant. by direct id" = "white",
 #'     "Combined tags" = "red"
 #' )
-#' write.excel(df, tags, colors, filename = "toto")
+#' write.excel(obj, filename = "toto.xlsx")
 #' 
 #' 
 #' data(Exp1_R25_pept, package="DaparToolshedData")
@@ -104,26 +104,26 @@ write_Assay_To_Excel <- function(wb, obj, i, n){
   
   
   # Add colors to quantitative table
-  mc <- metacell.def(omXplore::get_type(obj[[i]]))
+  mc <- metacell.def(typeDataset(obj[[i]]))
   colors <- as.list(stats::setNames(mc$color, mc$node))
   tags <- cbind(
-    keyId = rep("Quant. by direct id", nrow(obj[[i]])),
-    omXplore::get_metacell(obj[[i]])
+    keyId = rep("Any", nrow(obj[[i]])),
+    qMetacell(obj[[i]])
   )
   
-  
+
   unique.tags <- NULL
-  if (!is.null(tags) && !is.null(colors)) {
+  if (!is.null(tags) && !is.null(colors) && !is.null(qMetacell(obj[[i]]))) {
     unique.tags <- unique(as.vector(as.matrix(tags)))
-    if (!isTRUE(
-      sum(unique.tags %in% names(colors)) == length(unique.tags))) {
+    test <- sum(unique.tags %in% names(colors)) == length(unique.tags)
+    if (!isTRUE(test)) {
       warning("The length of colors vector must be equal to the number 
             of different tags. As is it not the case, colors are ignored")
-    }
-    if (isTRUE(
-      sum(unique.tags %in% names(colors)) == length(unique.tags))) {
+    } else {
+       
       lapply(seq_len(length(colors)), function(x) {
         list.tags <- which(names(colors)[x] == tags, arr.ind = TRUE)
+
         openxlsx::addStyle(wb,
           sheet = n,
           cols = list.tags[, "col"],
@@ -213,9 +213,7 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
       sum(unique.tags %in% names(colors)) == length(unique.tags))) {
       warning("The length of colors vector must be equal to the number 
             of different tags. As is it not the case, colors are ignored")
-    }
-    if (isTRUE(
-      sum(unique.tags %in% names(colors)) == length(unique.tags))) {
+    } else {
       lapply(seq_len(length(colors)), function(x) {
         list.tags <- which(names(colors)[x] == tags, arr.ind = TRUE)
         openxlsx::addStyle(wb,
@@ -239,6 +237,8 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
 Write_RowData <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_rowdata')
   openxlsx::addWorksheet(wb, .name)
+
+  obj[[i]] <- CleanRowData(obj, i)
 
   openxlsx::writeData(wb, 
     sheet = n, 
@@ -295,7 +295,7 @@ write.excel <- function(obj, filename) {
   return(NULL)
   }
 
-  obj <- CleanRowData(obj)
+  
   name <- filename
   wb <- openxlsx::createWorkbook(filename)
   
