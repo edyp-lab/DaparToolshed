@@ -61,8 +61,9 @@
 #'
 #' @rdname import-export-QFeatures
 #'
-createQFeatures <- function(data = NULL,
-  file = NULL,
+createQFeatures <- function(
+    data = NULL,
+  file = 'myDataset',
   sample,
   indQData,
   keyId = "AutoID",
