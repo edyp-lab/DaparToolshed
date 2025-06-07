@@ -37,6 +37,7 @@
 #' 
 #' @param obj An object of class `QFeatures`.
 #' @param grp xxx
+#' @param design xxx
 #' @param MECIndex A data.frame that contains index of MEC (see findMECBlock) 
 #' @param q.min Same as the function `impute.pa()` in the package `imp4p`
 #' @param K the number of neighbors.
@@ -58,9 +59,9 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[[1]][seq_len(100)]
-#' grp <- design.qf(Exp1_R25_pept)$Condition
+#' data(Exp1_R25_prot, package="DaparToolshedData")
+#' obj <- Exp1_R25_prot[[1]][seq_len(100)]
+#' grp <- design.qf(Exp1_R25_prot)$Condition
 #' lapala <- findMECBlock(obj, grp)
 #' na.type = c("Missing POV", "Missing MEC")
 #' obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
@@ -77,7 +78,7 @@
 #' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
 #' 
-#' coldata <- design.qf(Exp1_R25_pept)
+#' coldata <- design.qf(Exp1_R25_prot)
 #' #obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 #'
 #'
@@ -330,8 +331,7 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #'
 wrapper.impute.slsa <- function(
     obj = NULL,
-    grp,
-    coldata) {
+    design = NULL) {
     
     pkgs.require('imp4p')
     
@@ -339,17 +339,18 @@ wrapper.impute.slsa <- function(
         stop("'obj' is required.")
   stopifnot(inherits(obj, 'SummarizedExperiment'))
   
-    MECIndex <- findMECBlock(obj, grp)
+  MECIndex <- findMECBlock(obj, design$Condition)
 
     # sort conditions to be compliant with impute.slsa
-    conds <- factor(grp, levels = unique(grp))
-    sample.names.old <- coldata[, 'quantCols']
-    sTab <- as.data.frame(coldata)
+    conds <- factor(design$Condition, levels = unique(design$Condition))
+    sample.names.old <- design[, 'quantCols']
     new.order <- unlist(
-      lapply(split(sTab, conds), 
+      lapply(split(as.data.frame(design), conds), 
         function(x) {x["quantCols"]})
       )
+    new.order.num <- match(sample.names.old, new.order)
     qdata <- SummarizedExperiment::assay(obj)[, new.order]
+    
     res <- imp4p::impute.slsa(qdata,
       conditions = conds,
       nknn = 10,

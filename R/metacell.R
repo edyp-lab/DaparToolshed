@@ -405,25 +405,31 @@ setMethod("GetMetacellTags", "data.frame",
 #' @author Samuel Wieczorek
 #' 
 #' @examples 
-#' data(ft_na)
-#' df <- assay(ft_na, 2)
-#' level <- typeDataset(ft_na, 1)
-#' df <- Set_POV_MEC_tags(ft_na, 1, level)
+#' data(Exp1_R25_prot, package = "DaparToolshedData")
+#' obj <- Exp1_R25_prot[[1]]
+#' conds <- design.qf(Exp1_R25_prot)$Condition
+#' df <- Set_POV_MEC_tags(obj, conds)
 #'
 #' @export
 #'
 #' @rdname q_metacell
 #' 
 #' 
-Set_POV_MEC_tags <- function(conds, df, level){
+Set_POV_MEC_tags <- function(obj, conds){
+  stopifnot(inherits(obj, "SummarizedExperiment"))
   u_conds <- unique(conds)
   
+  df <- assay(obj)
+  qMeta <- qMetacell(obj)
+  level <- typeDataset(obj)
+    
+    
   for (i in seq_len(length(u_conds))) {
     ind.samples <- which(conds == u_conds[i])
     
-    ind.imputed <- match.metacell(df[, ind.samples], "Imputed", level)
+    ind.imputed <- match.metacell(qMeta[, ind.samples], "Imputed", level)
     
-    ind.missing <- match.metacell(df[, ind.samples], "Missing", level)
+    ind.missing <- match.metacell(qMeta[, ind.samples], "Missing", level)
     
     ind.missing.pov <- ind.missing & 
       rowSums(ind.missing) < length(ind.samples) & 
@@ -439,12 +445,12 @@ Set_POV_MEC_tags <- function(conds, df, level){
     ind.imputed.mec <- ind.imputed & 
       rowSums(ind.imputed) == length(ind.samples)
     
-    df[, ind.samples][ind.imputed.mec] <- "Imputed MEC"
-    df[, ind.samples][ind.missing.mec] <- "Missing MEC"
-    df[, ind.samples][ind.imputed.pov] <- "Imputed POV"
-    df[, ind.samples][ind.missing.pov] <- "Missing POV"
+    qMeta[, ind.samples][ind.imputed.mec] <- "Imputed MEC"
+    qMeta[, ind.samples][ind.missing.mec] <- "Missing MEC"
+    qMeta[, ind.samples][ind.imputed.pov] <- "Imputed POV"
+    qMeta[, ind.samples][ind.missing.pov] <- "Missing POV"
   }
-  return(df)
+  return(qMeta)
 }
 
 
