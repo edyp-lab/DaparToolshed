@@ -363,7 +363,7 @@ wrapper.impute.slsa <- function(
     res <- res[, sample.names.old]
 
     SummarizedExperiment::assay(obj) <- res
-    obj <- reIntroduceMEC(obj, grp, MECIndex)
+    obj <- reIntroduceMEC(obj, design$Condition, MECIndex)
 
     obj <- UpdateMetacellAfterImputation(obj)
     return(obj)
