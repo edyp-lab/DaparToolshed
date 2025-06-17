@@ -16,8 +16,8 @@ setGeneric("aggregateQmetacell",
     function(object, ...) standardGeneric("aggregateQmetacell"))
 setGeneric("aggregateFeatures4Prostar", 
     function(object, ...) standardGeneric("aggregateFeatures4Prostar"))
-setGeneric("FinalizeAggregation", 
-    function(object, ...) standardGeneric("FinalizeAggregation"))
+setGeneric("aggregateRedistribution", 
+    function(object, ...) standardGeneric("aggregateRedistribution"))
 setGeneric("filterFeaturesOneSE", 
     function(object, ...) standardGeneric("filterFeaturesOneSE"))
 
