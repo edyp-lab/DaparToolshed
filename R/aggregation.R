@@ -967,9 +967,7 @@ getProteinsStats <- function(X) {
   if (missing(X)) {
     stop("'X' is needed.")
   }
-  
-  
-  browser()
+print("TODO : verifier pourquoi on passe plusieurs fois dedans !!!!!!!")
   stopifnot(!is.null(X))
   
   nbPeptide <- 0
