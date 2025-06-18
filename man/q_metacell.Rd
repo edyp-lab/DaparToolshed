@@ -15,7 +15,7 @@ metacell.def(level)
 
 custom_metacell_colors()
 
-Set_POV_MEC_tags(conds, df, level)
+Set_POV_MEC_tags(obj, conds)
 
 Metacell_generic(qdata, conds, level)
 
@@ -29,8 +29,6 @@ metacombine(met, level)
 \item{level}{xxx}
 
 \item{conds}{xxx}
-
-\item{df}{An object of class \code{SummarizedExperiment}}
 
 \item{qdata}{A matrix of quantitative data}
 
@@ -47,6 +45,8 @@ metacombine(met, level)
 \item{depth}{xxx}
 
 \item{met}{xxx}
+
+\item{df}{An object of class \code{SummarizedExperiment}}
 }
 \value{
 A data.frame containing the different tags and corresponding colors for the level
@@ -201,10 +201,10 @@ server <- function(input, output, session) {
   
   
 }
-data(ft_na)
-df <- assay(ft_na, 2)
-level <- typeDataset(ft_na, 1)
-df <- Set_POV_MEC_tags(ft_na, 1, level)
+data(Exp1_R25_prot, package = "DaparToolshedData")
+obj <- Exp1_R25_prot[[1]]
+conds <- design.qf(Exp1_R25_prot)$Condition
+df <- Set_POV_MEC_tags(obj, conds)
 
 file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
 data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)

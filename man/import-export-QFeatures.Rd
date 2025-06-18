@@ -6,7 +6,7 @@
 \usage{
 createQFeatures(
   data = NULL,
-  file = NULL,
+  file = "myDataset",
   sample,
   indQData,
   keyId = "AutoID",

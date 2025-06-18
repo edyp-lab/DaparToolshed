@@ -26,7 +26,7 @@ wrapper.impute.detQuant(obj, qval = 0.025, factor = 1, na.type)
 
 getQuantile4Imp(qdata, qval = 0.025, factor = 1)
 
-wrapper.impute.slsa(obj = NULL, grp, coldata)
+wrapper.impute.slsa(obj = NULL, design = NULL)
 }
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
@@ -50,6 +50,8 @@ replicates}
 \item{factor}{A scaling factor to multiply the imputation value with}
 
 \item{qdata}{xxx}
+
+\item{design}{xxx}
 
 \item{coldata}{xxx}
 }
@@ -93,9 +95,9 @@ of each column of an expression set, up to a scaling factor
 }
 
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[[1]][seq_len(100)]
-grp <- design.qf(Exp1_R25_pept)$Condition
+data(Exp1_R25_prot, package="DaparToolshedData")
+obj <- Exp1_R25_prot[[1]][seq_len(100)]
+grp <- design.qf(Exp1_R25_prot)$Condition
 lapala <- findMECBlock(obj, grp)
 na.type = c("Missing POV", "Missing MEC")
 obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
@@ -112,7 +114,7 @@ obj.imp.pov <- wrapper.impute.pa(obj, grp)
 qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)
 
-coldata <- design.qf(Exp1_R25_pept)
+coldata <- design.qf(Exp1_R25_prot)
 #obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
 
 

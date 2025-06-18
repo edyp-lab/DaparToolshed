@@ -453,7 +453,37 @@ Set_POV_MEC_tags <- function(obj, conds){
   return(qMeta)
 }
 
-
+Set_POV_MEC_tags <- function(conds, df, level){
+  u_conds <- unique(conds)
+  
+  for (i in seq_len(length(u_conds))) {
+    ind.samples <- which(conds == u_conds[i])
+    
+    ind.imputed <- match.metacell(df[, ind.samples], "Imputed", level)
+    
+    ind.missing <- match.metacell(df[, ind.samples], "Missing", level)
+    
+    ind.missing.pov <- ind.missing & 
+      rowSums(ind.missing) < length(ind.samples) & 
+      rowSums(ind.missing) > 0
+    
+    ind.missing.mec <- ind.missing & 
+      rowSums(ind.missing) == length(ind.samples)
+    
+    ind.imputed.pov <- ind.imputed & 
+      rowSums(ind.imputed) < length(ind.samples) & 
+      rowSums(ind.imputed) > 0
+    
+    ind.imputed.mec <- ind.imputed & 
+      rowSums(ind.imputed) == length(ind.samples)
+    
+    df[, ind.samples][ind.imputed.mec] <- "Imputed MEC"
+    df[, ind.samples][ind.missing.mec] <- "Missing MEC"
+    df[, ind.samples][ind.imputed.pov] <- "Imputed POV"
+    df[, ind.samples][ind.missing.pov] <- "Missing POV"
+  }
+  return(df)
+}
 
 #' @title The set of available softwares to convert from
 #' 

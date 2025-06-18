@@ -64,7 +64,7 @@ colors <- list(
     "Quant. by direct id" = "white",
     "Combined tags" = "red"
 )
-write.excel(df, tags, colors, filename = "toto")
+write.excel(obj, filename = "toto.xlsx")
 
 
 data(Exp1_R25_pept, package="DaparToolshedData")

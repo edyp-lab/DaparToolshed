@@ -43,7 +43,7 @@
 #'
 #' @name DaparToolshed-aggregate
 #'
-#' @return
+#' @return NULL
 #'
 #' @examples
 #'
@@ -214,7 +214,7 @@ setMethod(
 #' applying a summarization function (`fun`) to sets of features.
 #' The `fcol` variable name points to a rowData column that defines
 #' how to group the features during aggregate. This variable has to 
-#' be an adjacency matrix. This function uses [DaparToolShed::inner.aggregate.iter()]
+#' be an adjacency matrix. This function uses [DaparToolshed::inner.aggregate.iter()]
 #' to aggregate quantitative data.
 #'
 #' The list of agregation methods can be obtained with the function
@@ -230,10 +230,10 @@ setMethod(
 #'             Note that the function will fail if there's already an assay with `name`.
 #' @param init.method A function used for initializing the aggregation. 
 #'                    Available functions are `Sum`, `Mean`, `Median`, `medianPolish` or `robustSummary`. 
-#'                    See [DaparToolShed::inner.aggregate.iter()] for details.
+#'                    See [DaparToolshed::inner.aggregate.iter()] for details.
 #' @param method A function used for the aggregation. 
 #'               Available functions are `Sum`, `Mean`, `Median` or `medianPolish`. 
-#'               See [DaparToolShed::inner.aggregate.iter()] for details.
+#'               See [DaparToolshed::inner.aggregate.iter()] for details.
 #' @param ponderation A `character(1)` defining what to consider to create the coefficient for redistribution of shared peptides. 
 #'                    Available values are `Global` (default), `Condition` or `Sample`. 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
@@ -242,7 +242,7 @@ setMethod(
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).
 #'
 #' @details 
-#' This function uses [DaparToolShed::inner.aggregate.iter()] to aggregate quantitative data.
+#' This function uses [DaparToolshed::inner.aggregate.iter()] to aggregate quantitative data.
 #'
 #' @section Iterative aggregation function:
 #' xxxxxx
@@ -256,7 +256,7 @@ setMethod(
 #'
 #' @name DaparToolshed-aggregateRedistribution
 #'
-#' @return
+#' @return NULL
 #'
 #' @examples
 #'
@@ -826,7 +826,7 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 
 #' @title Metacell aggregation
 #' 
-#' @description 
+#' @description  xxx
 #' 
 #' @param aggregatedSE An instance of class [SummarizedExperiment] containing the aggregated data.
 #' @param originalSE An instance of class [SummarizedExperiment] containing the non-aggregated data. 
@@ -893,7 +893,7 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 
 #' @title Selection of top n peptides
 #' 
-#' @description 
+#' @description  xxx
 #' 
 #' @param pepData A `matrix` containing the peptide intensities. 
 #' @param X A `matrix` acting as an adjacency matrix. 
@@ -968,6 +968,8 @@ getProteinsStats <- function(X) {
     stop("'X' is needed.")
   }
   
+  
+  browser()
   stopifnot(!is.null(X))
   
   nbPeptide <- 0

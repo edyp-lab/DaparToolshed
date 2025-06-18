@@ -4,7 +4,7 @@
 \alias{CleanRowData}
 \title{Customised resetZoomButton of highcharts plots}
 \usage{
-CleanRowData(obj)
+CleanRowData(obj, i)
 }
 \arguments{
 \item{obj}{xxx}
