@@ -167,7 +167,10 @@ setMethod(
   # Create the aggregated assay
   aggAssay <- QFeatures::aggregateFeatures(copy_object, fcol, fun, na.rm = TRUE, ...)
   assays(aggAssay)<- assays(aggAssay)[1]
-  assay(aggAssay)[assay(aggAssay) == 0 | is.nan(assay(aggAssay))] <- NA
+  if (fun != "robustSummary"){
+    assay(aggAssay) <- log2(assay(aggAssay))
+  }
+  assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
   
   # If some proteins do not contain any peptide but are included in the adjacency matrix
   if (nrow(assay(aggAssay)) != ncol(matadj)){
@@ -388,7 +391,10 @@ setMethod(
            }
            colnames(aggAssay) <- colnames(quanti_data)}
   )
-  assay(aggAssay)[assay(aggAssay) == 0 | is.nan(assay(aggAssay))] <- NA
+  if (method != "robustSummary"){
+    assay(aggAssay) <- log2(assay(aggAssay))
+  }
+  assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
   # Create aggregated SummarizedExperiment
   aggSE <- SummarizedExperiment(assays=SimpleList(assay = aggAssay), colData = colData(object))
   
@@ -967,7 +973,6 @@ getProteinsStats <- function(X) {
   if (missing(X)) {
     stop("'X' is needed.")
   }
-print("TODO : verifier pourquoi on passe plusieurs fois dedans !!!!!!!")
   stopifnot(!is.null(X))
   
   nbPeptide <- 0
@@ -1332,7 +1337,12 @@ inner.aggregate.iter <- function(
          Mean = yprot <- inner.mean(pepData, X.split$Xspec), 
          Median = yprot <- inner.median(pepData, X.split$Xspec),
          medianPolish = yprot <- inner.medianpolish(pepData, X.split$Xspec),
-         robustSummary = yprot <- 2^inner.robustsummary(log2(pepData), X.split$Xspec)
+         robustSummary = {pepDatalog <- log2(pepData)
+                          pepDatalog[which(pepDatalog == "-Inf")] <- NA
+                          yprot <- inner.robustsummary(pepDatalog, X.split$Xspec)
+                          yprot <- 2^yprot
+                          yprot[which(yprot == 1)] <- NA
+                          }
   )
   
   if (!is.null(n)){
@@ -1361,9 +1371,12 @@ inner.aggregate.iter <- function(
     val.prot <- rowMeans(yprot, na.rm = TRUE)
     val.prot[is.na(val.prot)] <- 0
     # Calculate each peptide coeficient
-    X.tmp <- t(t(X) * val.prot) #val.prot * X
-    X.new <- X.tmp / rowSums(X.tmp, na.rm = TRUE)
-    X.new[is.na(X.new)] <- 0
+    X.tmp <- t(t(X) * val.prot) 
+    rs <- rowSums(X.tmp)
+    rs[rs == 0] <- NA  
+    X.new <- X.tmp
+    X.new@x <- X.new@x / rs[X.new@i + 1]
+    X.new@x[is.na(X.new@x)] <- 0  
     
     # If only consider top n peptides
     if (!is.null(n)){
@@ -1393,18 +1406,18 @@ inner.aggregate.iter <- function(
            Mean = yprot <- inner.mean(pepData, X.new),
            Sum = yprot <- inner.sum(pepData, X.new),
            Median = {X.new <- X.new[, ProtSharedPept]
-           protval <- inner.median(pepData, X.new)
-           yprot[rownames(protval),] <- protval},
+                     protval <- inner.median(pepData, X.new)
+                     yprot[rownames(protval),] <- protval},
            medianPolish = {X.new <- X.new[, ProtSharedPept]
-           protval <- inner.medianpolish(pepData, X.new)
-           yprot[rownames(protval),] <- protval},
+                           protval <- inner.medianpolish(pepData, X.new)
+                           yprot[rownames(protval),] <- protval},
            robustSummary = {X.new <- X.new[, ProtSharedPept]
-           pepDatalog <- log2(pepData)
-           pepDatalog[which(pepDatalog == "-Inf")] <- NA
-           protval <- inner.robustsummary(pepDatalog, X.new)
-           protval <- 2^protval
-           protval[which(protval == 1)] <- NA
-           yprot[rownames(protval),] <- protval}
+                            pepDatalog <- log2(pepData)
+                            pepDatalog[which(pepDatalog == "-Inf")] <- NA
+                            protval <- inner.robustsummary(pepDatalog, X.new)
+                            protval <- 2^protval
+                            protval[which(protval == 1)] <- NA
+                            yprot[rownames(protval),] <- protval}
     )
     
     # Get the value of each protein with the new coefficient 
