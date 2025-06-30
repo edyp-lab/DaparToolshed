@@ -1535,7 +1535,8 @@ inner.median <- function(pepData, X) {
   for (prot in colnames(X)){
     coef <- X[, prot]
     peptval <- pepData*coef
-    peptval[peptval == 0] <- NA
+    peptval[peptval >= 0 & peptval < 0.5] <- NA
+    peptval[peptval >= 0.5 & peptval < 1] <- 1
     medprot <- colMedians(peptval, na.rm = TRUE)
     protval <- rbind(protval, medprot)
   }
@@ -1575,7 +1576,8 @@ inner.medianpolish <- function(pepData, X) {
   for (prot in colnames(X)){
     coef <- X[, prot]
     peptval <- pepData*coef
-    peptval[peptval == 0] <- NA
+    peptval[peptval >= 0 & peptval < 0.5] <- NA
+    peptval[peptval >= 0.5 & peptval < 1] <- 1
     peptvalnoNA <- peptval[which(rowSums(peptval, na.rm = TRUE) != 0), , drop = FALSE]
     if (nrow(peptvalnoNA) > 1) { # If more than 1 peptide
       if (ncol(peptvalnoNA) == 1) { # If only 1 column
