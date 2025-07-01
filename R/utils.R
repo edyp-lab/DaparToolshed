@@ -301,7 +301,7 @@ nonzero <- function(x) {
 
 
 #' @title Extension of a file
-#' @param fname xxx
+#' @param fname A `character()` containing the file name.
 #' @rdname getExtension
 #' @export
 #' 
@@ -309,7 +309,8 @@ nonzero <- function(x) {
 #' GetExtension('foo.txt')
 #' 
 GetExtension <- function(fname) {
-    strsplit(fname, ".", TRUE)[[1]][2]
+    listname <- strsplit(fname, ".", TRUE)[[1]]
+    listname[length(listname)]
 }
 
 
