@@ -7,7 +7,7 @@
 GetExtension(fname)
 }
 \arguments{
-\item{fname}{xxx}
+\item{fname}{A \code{character()} containing the file name.}
 }
 \description{
 Extension of a file

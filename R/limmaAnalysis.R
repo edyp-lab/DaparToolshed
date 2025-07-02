@@ -115,7 +115,7 @@ check.conditions <- function(conds) {
   
   if (("" %in% conds) || (NA %in% conds)) {
     res <- list(valid = FALSE, 
-                warn = "The conditions are note full filled.")
+                warn = "The conditions are not fullY filled.")
     return(res)
   }
   
@@ -131,7 +131,7 @@ check.conditions <- function(conds) {
   nValPerCond <- unlist(lapply(unique(conds), function(x) {
     length(conds[which(conds == x)])
   }))
-  if (all(nValPerCond < 2)) {
+  if (any(nValPerCond < 2)) {
     res <- list(valid = FALSE, 
                 warn = "The design must contain at least two values per condition.")
     return(res)
