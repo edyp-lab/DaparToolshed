@@ -7,10 +7,12 @@
 check.conditions(conds)
 }
 \arguments{
-\item{conds}{A vector}
+\item{conds}{A \code{vector} containing the conditions.}
 }
 \value{
-A list
+A \code{list} including :
+"valid" : Wether the conditions are valid or not.
+"warn" : A message describing the issue if the conditions ar not valid.
 }
 \description{
 Check if the design is valid

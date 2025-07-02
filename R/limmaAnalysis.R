@@ -98,9 +98,11 @@ test.design <- function(tab) {
 
 #' @title Check if the design is valid
 #'
-#' @param conds A vector
+#' @param conds A `vector` containing the conditions.
 #'
-#' @return A list
+#' @return A `list` including : 
+#' "valid" : Wether the conditions are valid or not.
+#' "warn" : A message describing the issue if the conditions ar not valid.
 #'
 #' @author Samuel Wieczorek
 #'
@@ -115,7 +117,7 @@ check.conditions <- function(conds) {
   
   if (("" %in% conds) || (NA %in% conds)) {
     res <- list(valid = FALSE, 
-                warn = "The conditions are not fullY filled.")
+                warn = "The conditions are not fully filled.")
     return(res)
   }
   
