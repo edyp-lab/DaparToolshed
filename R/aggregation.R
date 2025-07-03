@@ -163,6 +163,9 @@ setMethod(
                                       colData = colData(object),
                                       rowData = rowdata_SE)
   
+  if (fun == "medianPolish"){fun <- MsCoreUtils::medianPolish
+  } else if (fun == "robustSummary"){fun <- MsCoreUtils::robustSummary}
+  
   ###QUANTITATIVE DATA
   # Create the aggregated assay
   aggAssay <- QFeatures::aggregateFeatures(copy_object, fcol, fun, na.rm = TRUE, ...)
@@ -576,6 +579,9 @@ RunAggregation <- function(qf,
   }
   if (!is.null(n) & !is.numeric(n)) {
     stop("n is not numeric or NULL.")
+  }
+  if (length(which(rowSums(assay(qf[[length(qf)]]), na.rm = TRUE) == 0)) != 0){
+    stop("The last assay of the QF contains entire missing row. Please remove them before proceeding.")
   }
   
   # Each possible situation
