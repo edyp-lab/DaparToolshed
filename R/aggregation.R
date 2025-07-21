@@ -380,9 +380,9 @@ setMethod(
          Condition = {
            aggAssay <- NULL
            for (condition in unique(conds)){
-             pepDatasample <- quanti_data[, which(conds==condition), drop = FALSE]
-             aggregsample <- inner.aggregate.iter(as.matrix(pepDatasample),  rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
-             aggAssay <- cbind(aggAssay, aggregsample)
+             pepDataCond <- quanti_data[, which(conds==condition), drop = FALSE]
+             aggregCond <- inner.aggregate.iter(as.matrix(pepDataCond),  rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggAssay <- cbind(aggAssay, aggregCond)
            }
            colnames(aggAssay) <- colnames(quanti_data)},
          Sample = {
@@ -1433,7 +1433,9 @@ inner.aggregate.iter <- function(
       conv <- 0
     } else {
       convN <- conv
-      conv <- mean(abs(val.prot-val.prot.new)/val.prot.new, na.rm = T) 
+      conv_coef <- abs(val.prot-val.prot.new)/val.prot.new
+      conv_coef[which(conv_coef == Inf)] <- NA
+      conv <- mean(conv_coef, na.rm = T) 
       if ((convN - conv) == 0){
         conv <- 0
       }
