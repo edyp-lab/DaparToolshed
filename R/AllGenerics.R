@@ -60,6 +60,12 @@ setGeneric("parentProtId",
 setGeneric("parentProtId<-", 
     function(object, ..., value) standardGeneric("parentProtId<-"))
 
+setGeneric("file", 
+  function(object, ...) standardGeneric("file"))
+setGeneric("file<-", 
+  function(object, ..., value) standardGeneric("file<-"))
+
+
 setGeneric("analysis", 
     function(object, ...) standardGeneric("analysis"))
 setGeneric("analysis<-", 

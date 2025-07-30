@@ -15,7 +15,7 @@ metacell.def(level)
 
 custom_metacell_colors()
 
-Set_POV_MEC_tags(obj, conds)
+Set_POV_MEC_tags(conds, df, level)
 
 Metacell_generic(qdata, conds, level)
 
@@ -29,6 +29,8 @@ metacombine(met, level)
 \item{level}{xxx}
 
 \item{conds}{xxx}
+
+\item{df}{An object of class \code{SummarizedExperiment}}
 
 \item{qdata}{A matrix of quantitative data}
 
@@ -45,8 +47,6 @@ metacombine(met, level)
 \item{depth}{xxx}
 
 \item{met}{xxx}
-
-\item{df}{An object of class \code{SummarizedExperiment}}
 }
 \value{
 A data.frame containing the different tags and corresponding colors for the level
