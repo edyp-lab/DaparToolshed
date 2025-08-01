@@ -163,11 +163,17 @@ setMethod(
                                       colData = colData(object),
                                       rowData = rowdata_SE)
   
+  if (fun == "medianPolish"){fun <- MsCoreUtils::medianPolish
+  } else if (fun == "robustSummary"){fun <- MsCoreUtils::robustSummary}
+  
   ###QUANTITATIVE DATA
   # Create the aggregated assay
   aggAssay <- QFeatures::aggregateFeatures(copy_object, fcol, fun, na.rm = TRUE, ...)
   assays(aggAssay)<- assays(aggAssay)[1]
-  assay(aggAssay)[assay(aggAssay) == 0 | is.nan(assay(aggAssay))] <- NA
+  if (fun != "robustSummary"){
+    assay(aggAssay) <- log2(assay(aggAssay))
+  }
+  assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
   
   # If some proteins do not contain any peptide but are included in the adjacency matrix
   if (nrow(assay(aggAssay)) != ncol(matadj)){
@@ -374,9 +380,9 @@ setMethod(
          Condition = {
            aggAssay <- NULL
            for (condition in unique(conds)){
-             pepDatasample <- quanti_data[, which(conds==condition), drop = FALSE]
-             aggregsample <- inner.aggregate.iter(as.matrix(pepDatasample),  rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
-             aggAssay <- cbind(aggAssay, aggregsample)
+             pepDataCond <- quanti_data[, which(conds==condition), drop = FALSE]
+             aggregCond <- inner.aggregate.iter(as.matrix(pepDataCond),  rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggAssay <- cbind(aggAssay, aggregCond)
            }
            colnames(aggAssay) <- colnames(quanti_data)},
          Sample = {
@@ -388,7 +394,10 @@ setMethod(
            }
            colnames(aggAssay) <- colnames(quanti_data)}
   )
-  assay(aggAssay)[assay(aggAssay) == 0 | is.nan(assay(aggAssay))] <- NA
+  if (method != "robustSummary"){
+    assay(aggAssay) <- log2(assay(aggAssay))
+  }
+  assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
   # Create aggregated SummarizedExperiment
   aggSE <- SummarizedExperiment(assays=SimpleList(assay = aggAssay), colData = colData(object))
   
@@ -570,6 +579,9 @@ RunAggregation <- function(qf,
   }
   if (!is.null(n) & !is.numeric(n)) {
     stop("n is not numeric or NULL.")
+  }
+  if (length(which(rowSums(assay(qf[[length(qf)]]), na.rm = TRUE) == 0)) != 0){
+    stop("The last assay of the QF contains entire missing row. Please remove them before proceeding.")
   }
   
   # Each possible situation
@@ -967,7 +979,6 @@ getProteinsStats <- function(X) {
   if (missing(X)) {
     stop("'X' is needed.")
   }
-print("TODO : verifier pourquoi on passe plusieurs fois dedans !!!!!!!")
   stopifnot(!is.null(X))
   
   nbPeptide <- 0
@@ -1332,7 +1343,12 @@ inner.aggregate.iter <- function(
          Mean = yprot <- inner.mean(pepData, X.split$Xspec), 
          Median = yprot <- inner.median(pepData, X.split$Xspec),
          medianPolish = yprot <- inner.medianpolish(pepData, X.split$Xspec),
-         robustSummary = yprot <- 2^inner.robustsummary(log2(pepData), X.split$Xspec)
+         robustSummary = {pepDatalog <- log2(pepData)
+                          pepDatalog[which(pepDatalog == "-Inf")] <- NA
+                          yprot <- inner.robustsummary(pepDatalog, X.split$Xspec)
+                          yprot <- 2^yprot
+                          yprot[which(yprot == 1)] <- NA
+                          }
   )
   
   if (!is.null(n)){
@@ -1361,9 +1377,12 @@ inner.aggregate.iter <- function(
     val.prot <- rowMeans(yprot, na.rm = TRUE)
     val.prot[is.na(val.prot)] <- 0
     # Calculate each peptide coeficient
-    X.tmp <- t(t(X) * val.prot) #val.prot * X
-    X.new <- X.tmp / rowSums(X.tmp, na.rm = TRUE)
-    X.new[is.na(X.new)] <- 0
+    X.tmp <- t(t(X) * val.prot) 
+    rs <- rowSums(X.tmp)
+    rs[rs == 0] <- NA  
+    X.new <- X.tmp
+    X.new@x <- X.new@x / rs[X.new@i + 1]
+    X.new@x[is.na(X.new@x)] <- 0  
     
     # If only consider top n peptides
     if (!is.null(n)){
@@ -1393,18 +1412,18 @@ inner.aggregate.iter <- function(
            Mean = yprot <- inner.mean(pepData, X.new),
            Sum = yprot <- inner.sum(pepData, X.new),
            Median = {X.new <- X.new[, ProtSharedPept]
-           protval <- inner.median(pepData, X.new)
-           yprot[rownames(protval),] <- protval},
+                     protval <- inner.median(pepData, X.new)
+                     yprot[rownames(protval),] <- protval},
            medianPolish = {X.new <- X.new[, ProtSharedPept]
-           protval <- inner.medianpolish(pepData, X.new)
-           yprot[rownames(protval),] <- protval},
+                           protval <- inner.medianpolish(pepData, X.new)
+                           yprot[rownames(protval),] <- protval},
            robustSummary = {X.new <- X.new[, ProtSharedPept]
-           pepDatalog <- log2(pepData)
-           pepDatalog[which(pepDatalog == "-Inf")] <- NA
-           protval <- inner.robustsummary(pepDatalog, X.new)
-           protval <- 2^protval
-           protval[which(protval == 1)] <- NA
-           yprot[rownames(protval),] <- protval}
+                            pepDatalog <- log2(pepData)
+                            pepDatalog[which(pepDatalog == "-Inf")] <- NA
+                            protval <- inner.robustsummary(pepDatalog, X.new)
+                            protval <- 2^protval
+                            protval[which(protval == 1)] <- NA
+                            yprot[rownames(protval),] <- protval}
     )
     
     # Get the value of each protein with the new coefficient 
@@ -1414,7 +1433,9 @@ inner.aggregate.iter <- function(
       conv <- 0
     } else {
       convN <- conv
-      conv <- mean(abs(val.prot-val.prot.new)/val.prot.new, na.rm = T) 
+      conv_coef <- abs(val.prot-val.prot.new)/val.prot.new
+      conv_coef[which(conv_coef == Inf)] <- NA
+      conv <- mean(conv_coef, na.rm = T) 
       if ((convN - conv) == 0){
         conv <- 0
       }
@@ -1522,7 +1543,8 @@ inner.median <- function(pepData, X) {
   for (prot in colnames(X)){
     coef <- X[, prot]
     peptval <- pepData*coef
-    peptval[peptval == 0] <- NA
+    peptval[peptval >= 0 & peptval < 0.5] <- NA
+    peptval[peptval >= 0.5 & peptval < 1] <- 1
     medprot <- colMedians(peptval, na.rm = TRUE)
     protval <- rbind(protval, medprot)
   }
@@ -1562,7 +1584,8 @@ inner.medianpolish <- function(pepData, X) {
   for (prot in colnames(X)){
     coef <- X[, prot]
     peptval <- pepData*coef
-    peptval[peptval == 0] <- NA
+    peptval[peptval >= 0 & peptval < 0.5] <- NA
+    peptval[peptval >= 0.5 & peptval < 1] <- 1
     peptvalnoNA <- peptval[which(rowSums(peptval, na.rm = TRUE) != 0), , drop = FALSE]
     if (nrow(peptvalnoNA) > 1) { # If more than 1 peptide
       if (ncol(peptvalnoNA) == 1) { # If only 1 column

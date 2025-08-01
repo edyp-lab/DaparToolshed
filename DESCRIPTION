@@ -126,7 +126,6 @@ Collate:
     pepa.R
     global.R
     zzz.R
-    design_utils.R
     palette.R
     shinyValue.R
     get_pep_prot_cc.R

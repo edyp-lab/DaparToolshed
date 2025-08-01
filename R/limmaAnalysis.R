@@ -98,9 +98,11 @@ test.design <- function(tab) {
 
 #' @title Check if the design is valid
 #'
-#' @param conds A vector
+#' @param conds A `vector` containing the conditions.
 #'
-#' @return A list
+#' @return A `list` including : 
+#' "valid" : Wether the conditions are valid or not.
+#' "warn" : A message describing the issue if the conditions ar not valid.
 #'
 #' @author Samuel Wieczorek
 #'
@@ -115,7 +117,7 @@ check.conditions <- function(conds) {
   
   if (("" %in% conds) || (NA %in% conds)) {
     res <- list(valid = FALSE, 
-                warn = "The conditions are note full filled.")
+                warn = "The conditions are not fully filled.")
     return(res)
   }
   
@@ -131,7 +133,7 @@ check.conditions <- function(conds) {
   nValPerCond <- unlist(lapply(unique(conds), function(x) {
     length(conds[which(conds == x)])
   }))
-  if (all(nValPerCond < 2)) {
+  if (any(nValPerCond < 2)) {
     res <- list(valid = FALSE, 
                 warn = "The design must contain at least two values per condition.")
     return(res)
@@ -168,36 +170,36 @@ check.design <- function(sTab) {
   if (!res$valid) {
     return(res)
   }
-  # Check if all the column are fullfilled
+  # Check if all the column are fully filled
   
   if (level.design == 1) {
     if (("" %in% sTab$Bio.Rep) || (NA %in% sTab$Bio.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Bio.Rep colmumn are not full filled.")
+                  warn = "The Bio.Rep colmumn is not fully filled.")
       return(res)
     }
   } else if (level.design == 2) {
     if (("" %in% sTab$Bio.Rep) || (NA %in% sTab$Bio.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Bio.Rep colmumn are not full filled.")
+                  warn = "The Bio.Rep colmumn is not fully filled.")
       return(res)
     } else if (("" %in% sTab$Tech.Rep) || (NA %in% sTab$Tech.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Tech.Rep colmumn are not full filled.")
+                  warn = "The Tech.Rep colmumn is not fully filled.")
       return(res)
     }
   } else if (level.design == 3) {
     if (("" %in% sTab$Bio.Rep) || (NA %in% sTab$Bio.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Bio.Rep colmumn are not full filled.")
+                  warn = "The Bio.Rep colmumn is not fully filled.")
       return(res)
     } else if (("" %in% sTab$Tech.Rep) || (NA %in% sTab$Tech.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Tech.Rep colmumn are not full filled.")
+                  warn = "The Tech.Rep colmumn is not fully filled.")
       return(res)
     } else if (("" %in% sTab$Analyt.Rep) || (NA %in% sTab$Analyt.Rep)) {
       res <- list(valid = FALSE, 
-                  warn = "The Analyt.Rep colmumn are not full filled.")
+                  warn = "The Analyt.Rep colmumn is not fully filled.")
       return(res)
     }
   }
