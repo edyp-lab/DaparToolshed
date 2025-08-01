@@ -213,7 +213,7 @@ createQFeatures <- function(
     
     # Enrich the metadata for whole QFeatures object
     S4Vectors::metadata(obj)$versions <- ProstarVersions()
-    S4Vectors::metadata(obj)$file <- file
+    S4Vectors::metadata(obj)$filename <- file
     S4Vectors::metadata(obj)$analysis <- list(
         analysis = analysis,
         description = description

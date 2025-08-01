@@ -456,21 +456,19 @@ setMethod(
 
 
 
-
-
-#' @exportMethod file
+#' @exportMethod filename
 #' @rdname QFeatures-accessors
 setMethod(
-  "file", "QFeatures",
-  function(object, i, slotName = "file") {
-    file(object, slotName)
-  }
+  "filename", "QFeatures",
+  function(object, slotName = "filename") {
+    .GetMetadataSlot(object, slotName)
+    }
 )
 
 
 #' @export
 #' @rdname QFeatures-accessors
-"file<-" <- function(object, slotName = "file", value) {
+"filename<-" <- function(object, slotName = "filename", value) {
   if (inherits(object, "QFeatures")){
       S4Vectors::metadata(object)[[slotName]] <- value
     }

@@ -26,8 +26,8 @@
 \alias{parentProtId,QFeatures-method}
 \alias{parentProtId,SummarizedExperiment-method}
 \alias{parentProtId<-}
-\alias{file,QFeatures-method}
-\alias{file<-}
+\alias{filename,QFeatures-method}
+\alias{filename<-}
 \alias{analysis,QFeatures-method}
 \alias{analysis,SummarizedExperiment-method}
 \alias{analysis<-}
@@ -95,9 +95,9 @@ idcol(object, i, slotName = "idcol") <- value
 
 parentProtId(object, i, slotName = "parentProtId") <- value
 
-\S4method{file}{QFeatures}(object, i, slotName = "file")
+\S4method{filename}{QFeatures}(object, slotName = "filename")
 
-file(object, slotName = "file") <- value
+filename(object, slotName = "filename") <- value
 
 \S4method{analysis}{QFeatures}(object, i, slotName = "analysis")
 
