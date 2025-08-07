@@ -1,3 +1,4 @@
-url: ~
-pandoc: 2.11.4
-pkgdown: 1.6.1.9001
+url: https://edyp-lab.github.io/DaparToolshed/
+template:
+  bootstrap: 5
+

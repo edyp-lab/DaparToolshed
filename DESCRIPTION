@@ -134,8 +134,7 @@ RoxygenNote: 7.3.2
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false
-URL: https://github.com/edyp-lab/DaparToolshed
+URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-
