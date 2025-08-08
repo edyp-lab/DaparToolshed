@@ -71,16 +71,16 @@ Available functions are :
 \dontrun{
 data(Exp1_R25_pept, package="DaparToolshedData")
 ft <- Exp1_R25_pept[1:100]
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
 
 obj.agg <- RunAggregation(ft, "No", "Sum", "allPeptides")
 obj.agg <- RunAggregation(ft, "No", "Sum", "topN", n = 4)
 
-obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
 }
 
 }

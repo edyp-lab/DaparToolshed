@@ -950,6 +950,7 @@ setGeneric("UpdateMetacellAfterImputation",
 #' @export
 #' 
 #' @import omXplore
+#' @import SummarizedExperiment
 #' 
 setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
           function(object,

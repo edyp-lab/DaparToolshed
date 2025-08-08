@@ -105,6 +105,7 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}.
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
 \dontrun{
+library(SummarizedExperiment)
 data(ft, package='DaparToolshed')
 ft
 

@@ -103,6 +103,7 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}
 ## ---------------------------------------
 \dontrun{
 data(ft, package='DaparToolshed')
+library(SummarizedExperiment)
 ft
 
 ## Aggregate peptides into proteins

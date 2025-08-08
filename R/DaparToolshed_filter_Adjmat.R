@@ -121,7 +121,7 @@ AdjMatFilters <- function() {
 #' 
 allPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
-    stopifnot("adjacencyMatrix" %in% names(rowData(object)))
+    stopifnot("adjacencyMatrix" %in% names(SummarizedExperiment::rowData(object)))
 
     return(object)
 }
@@ -131,7 +131,7 @@ allPeptides <- function(object, ...) {
 #' @rdname adjacency-matrix-filter
 specPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
-    stopifnot("adjacencyMatrix" %in% names(rowData(object)))
+    stopifnot("adjacencyMatrix" %in% names(SummarizedExperiment::rowData(object)))
 
     X <- QFeatures::adjacencyMatrix(object)
     X.specific <- subAdjMat_specificPeptides(X)
@@ -159,7 +159,7 @@ subAdjMat_specificPeptides <- function(X) {
 #' @rdname adjacency-matrix-filter
 sharedPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
-    stopifnot("adjacencyMatrix" %in% names(rowData(object)))
+    stopifnot("adjacencyMatrix" %in% names(SummarizedExperiment::rowData(object)))
 
     X <- QFeatures::adjacencyMatrix(object)
     X.shared <- subAdjMat_sharedPeptides(X)
@@ -185,7 +185,7 @@ subAdjMat_sharedPeptides <- function(X) {
   
   pkgs.require('PSMatch')
   
-    rowData(object)$adjacencyMatrix <- X
+  SummarizedExperiment::rowData(object)$adjacencyMatrix <- X
     # Identify and delete the empty lines in the dataset
     emptyLines <- which(rowSums(as.matrix(X)) == 0)
     if (length(emptyLines) > 0) {
@@ -199,10 +199,10 @@ subAdjMat_sharedPeptides <- function(X) {
 
     if (length(emptyCols) > 0) {
         X <- X[, -emptyCols]
-        rowData(object)$adjacencyMatrix <- X
+        SummarizedExperiment::rowData(object)$adjacencyMatrix <- X
         idcol <- S4Vectors::metadata(object)$parentProtId
         .val <- PSMatch::makePeptideProteinVector(X)
-        rowData(object)[, idcol] <- .val
+        SummarizedExperiment::rowData(object)[, idcol] <- .val
     }
 
     return(object)
@@ -220,7 +220,7 @@ topnFunctions <- function() {
 #' @rdname adjacency-matrix-filter
 topnPeptides <- function(object, fun, top) {
     stopifnot(inherits(object, "SummarizedExperiment"))
-    .names <- names(rowData(object))
+    .names <- names(SummarizedExperiment::rowData(object))
     stopifnot("adjacencyMatrix" %in% .names)
 
     X <- QFeatures::adjacencyMatrix(object)

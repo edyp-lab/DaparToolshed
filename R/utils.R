@@ -444,6 +444,7 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #' my_hc_ExportMenu(hc, filename = "foo")
 #'
 #' @export
+#' @import SummarizedExperiment
 #'
 CleanRowData <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))

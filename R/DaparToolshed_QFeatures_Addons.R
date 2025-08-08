@@ -96,7 +96,7 @@ setMethod(
         }
         # if (slotName %in% colnames(rowData(object)))
         #  stop("Found an existing variable ", slotName, ".")
-        rowData(object)[[slotName]] <- value
+      SummarizedExperiment::rowData(object)[[slotName]] <- value
         return(object)
     } else {
     if (inherits(object, "QFeatures"))
@@ -246,7 +246,7 @@ setMethod(
 #' @return NA
 #' @rdname QFeatures-accessors
 .GetRowdataSlot <- function(object, slotName = NULL) {
-    rowData(object)[[slotName]]
+  SummarizedExperiment::rowData(object)[[slotName]]
 }
 
 

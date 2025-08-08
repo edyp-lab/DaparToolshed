@@ -20,7 +20,7 @@ Display a CC
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(100)]
-X <- adjacencyMatrix(obj[[1]])
+X <- QFeatures::adjacencyMatrix(obj[[1]])
 ll <- get.pep.prot.cc(X)
 g <- buildGraph(ll[[1]], X)
 

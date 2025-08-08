@@ -51,6 +51,7 @@
 #' ## An example QFeatures with PSM-level data
 #' ## ---------------------------------------
 #' \dontrun{
+#' library(SummarizedExperiment)
 #' data(ft, package='DaparToolshed')
 #' ft
 #'
@@ -137,15 +138,15 @@ setMethod(
 
 .aggregateFeatures4Prostar <- function(object, fcol, fun, conds, shared = TRUE, n = NULL, ...) {
   
-  if (!is(rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
+  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.")}
   
   if (fun != "robustSummary"){
-    assay(object) <-  2^(assay(object))
+    SummarizedExperiment::assay(object) <-  2^(SummarizedExperiment::assay(object))
   }
   
-  matadj <- rowData(object)[[fcol]]
-  peptdata <- assay(object)
+  matadj <- SummarizedExperiment::rowData(object)[[fcol]]
+  peptdata <- SummarizedExperiment::assay(object)
   
   if (!shared){
     if (length(which(rowSums(matadj) > 1)) != 0){
@@ -195,10 +196,10 @@ setMethod(
     assay_missprot <- rbind(assay(aggAssay), missprot_mat_a)
     
     # Add missing proteins to  rowData
-    missprot_mat_rd <- matrix(NA, nrow = length(missprot), ncol = ncol(rowData(aggAssay))) 
+    missprot_mat_rd <- matrix(NA, nrow = length(missprot), ncol = ncol(SummarizedExperiment::rowData(aggAssay))) 
     rownames(missprot_mat_rd) <- missprot
-    colnames(missprot_mat_rd) <- colnames(rowData(aggAssay))
-    rowdata_missprot <- rbind(rowData(aggAssay), missprot_mat_rd)
+    colnames(missprot_mat_rd) <- colnames(SummarizedExperiment::rowData(aggAssay))
+    rowdata_missprot <- rbind(SummarizedExperiment::rowData(aggAssay), missprot_mat_rd)
     
     # Make new SummarizedExperiment, including missing proteins
     aggAssay <- SummarizedExperiment(assays = SimpleList(assay = assay_missprot),
@@ -208,7 +209,7 @@ setMethod(
   
   ###METACELL DATA
   # Removing aggregated rowdata
-  rowData(aggAssay) <- NULL
+  SummarizedExperiment::rowData(aggAssay) <- NULL
   # Add rowdata
   protname_order <- rownames(assay(aggAssay))
   aggAssay <- metacell_agg(aggAssay, object, matadj, conds, protname_order)
@@ -282,6 +283,7 @@ setMethod(
 #' ## ---------------------------------------
 #' \dontrun{
 #' data(ft, package='DaparToolshed')
+#' library(SummarizedExperiment)
 #' ft
 #'
 #' ## Aggregate peptides into proteins
@@ -376,7 +378,7 @@ setMethod(
                                      uniqueiter = FALSE,
                                      conds,
                                      max_iter = 500) {
-  if (!is(rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a sparse matrix.")}
+  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a sparse matrix.")}
   if (!(init.method %in% c("Sum", "Mean", "Median", "medianPolish", "robustSummary"))) {
     stop("Wrong parameter init.method")
   }
@@ -394,12 +396,12 @@ setMethod(
   ## Create the aggregated assay
   quanti_data <- 2^assay(object)
   switch(ponderation,
-         Global = {aggAssay <- inner.aggregate.iter(quanti_data, rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)},
+         Global = {aggAssay <- inner.aggregate.iter(quanti_data, SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)},
          Condition = {
            aggAssay <- NULL
            for (condition in unique(conds)){
              pepDataCond <- quanti_data[, which(conds==condition), drop = FALSE]
-             aggregCond <- inner.aggregate.iter(as.matrix(pepDataCond),  rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggregCond <- inner.aggregate.iter(as.matrix(pepDataCond), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
              aggAssay <- cbind(aggAssay, aggregCond)
            }
            colnames(aggAssay) <- colnames(quanti_data)},
@@ -407,15 +409,15 @@ setMethod(
            aggAssay <- NULL
            for (sample in colnames(quanti_data)){
              pepDatasample <- quanti_data[, sample, drop = FALSE]
-             aggregsample <- inner.aggregate.iter(as.matrix(pepDatasample), rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggregsample <- inner.aggregate.iter(as.matrix(pepDatasample), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
              aggAssay <- cbind(aggAssay, aggregsample)
            }
            colnames(aggAssay) <- colnames(quanti_data)}
   )
   if (method != "robustSummary"){
-    assay(aggAssay) <- log2(assay(aggAssay))
+    SummarizedExperiment::assay(aggAssay) <- log2(SummarizedExperiment::assay(aggAssay))
   }
-  assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
+  SummarizedExperiment::assay(aggAssay)[SummarizedExperiment::assay(aggAssay) <= 0 | is.nan(SummarizedExperiment::assay(aggAssay))] <- NA
   # Create aggregated SummarizedExperiment
   aggSE <- SummarizedExperiment(
     assays=SimpleList(assay = aggAssay), 
@@ -425,7 +427,7 @@ setMethod(
   ###METACELL DATA
   # Add rowdata
   protname_order <- rownames(aggAssay)
-  aggSE <- metacell_agg(aggSE, object, rowData(object)[[fcol]], conds, protname_order)
+  aggSE <- metacell_agg(aggSE, object, SummarizedExperiment::rowData(object)[[fcol]], conds, protname_order)
   
   ## Enrich the new assay
   typeDataset(aggSE) <- "protein"
@@ -564,16 +566,16 @@ aggregateMethods <- function() {
 #' \dontrun{
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' ft <- Exp1_R25_pept[1:100]
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
 #' 
 #' obj.agg <- RunAggregation(ft, "No", "Sum", "allPeptides")
 #' obj.agg <- RunAggregation(ft, "No", "Sum", "topN", n = 4)
 #' 
-#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
 #' }
 #' 
 #' @export
@@ -825,6 +827,8 @@ BuildColumnToProteinDataset <- function(
 #' @return An instance of `QFeatures` class with aggregated rowData in specified assay.
 #'
 #' @author Samuel Wieczorek, Manon Gaudin
+#' 
+#' @import SummarizedExperiment
 #'
 #' @export
 #'
@@ -838,8 +842,8 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
   if (length(col) == 0) {return(obj)}
   
   matadj <- QFeatures::adjacencyMatrix(obj[[i.agg - 1]])
-  protnames <- rownames(rowData((obj[[i.agg]])))
-  peptrowdata <- rowData((obj[[i.agg - 1]]))
+  protnames <- rownames(SummarizedExperiment::rowData((obj[[i.agg]])))
+  peptrowdata <- SummarizedExperiment::rowData((obj[[i.agg - 1]]))
   
   # For each protein, create the aggregated column
   for (col.name in col) {
@@ -870,7 +874,7 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 #' @return A `SummarizedExperiment` containing the aggregated data.
 #' 
 #' @author Samuel Wieczorek, Manon Gaudin 
-#' 
+#' @import SummarizedExperiment
 #' @export 
 #'
 metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_order){
@@ -945,7 +949,7 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 #' X.topn <- select_topn(assay(obj[[length(obj)]]), X, n = 3)
 #' }
-#'  
+#' @import SummarizedExperiment
 #' @export
 #'
 select_topn <- function(pepData, X, n = 10, funpept = "Mean") {

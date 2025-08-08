@@ -132,6 +132,7 @@ setMethod(
 #' 
 #' @import omXplore
 #' @import openxlsx
+#' @import SummarizedExperiment
 #' 
 .write2excel <- function(object, 
   filename, 

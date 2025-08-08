@@ -29,7 +29,6 @@ obj <- Exp1_R25_pept[seq_len(50)]
 X <- BuildAdjacencyMatrix(obj[[length(obj)]])
 X.topn <- select_topn(assay(obj[[length(obj)]]), X, n = 3)
 }
- 
 }
 \author{
 Manon Gaudin

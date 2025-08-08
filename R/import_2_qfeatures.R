@@ -56,6 +56,7 @@
 #'
 #' @import QFeatures
 #' @importFrom utils installed.packages read.table
+#' @import SummarizedExperiment
 #'
 #' @export
 #'

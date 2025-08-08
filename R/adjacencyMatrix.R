@@ -92,7 +92,7 @@ BuildAdjacencyMatrix <- function(obj.pep) {
   protID <- parentProtId(obj.pep)
   
   data <- SummarizedExperiment::assay(obj.pep)
-  PG <- rowData(obj.pep)[, protID]
+  PG <- SummarizedExperiment::rowData(obj.pep)[, protID]
   
   PG.l <- lapply(
     strsplit(as.character(PG), "[,;]+"),
