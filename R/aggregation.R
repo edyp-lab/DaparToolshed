@@ -81,6 +81,7 @@ setGeneric("aggregateFeatures4Prostar",
 #' @exportMethod aggregateFeatures4Prostar
 #' @rdname DaparToolshed-aggregate
 #' @importFrom MsCoreUtils robustSummary
+#' @import SummarizedExperiment
 setMethod(
   "aggregateFeatures4Prostar", "QFeatures",
   function(object, i, fcol, name = "newAssay",
@@ -105,7 +106,7 @@ setMethod(
       n = n,
       ...
     )
-    colData(aggAssay) <- colData(object)
+    SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
     ## Add the assay to the QFeatures object
     object <- addAssay(object,
@@ -126,6 +127,7 @@ setMethod(
 #' @exportMethod aggregateFeatures4Prostar
 #' @rdname DaparToolshed-aggregate
 #' @importFrom MsCoreUtils robustSummary
+#' @import SummarizedExperiment
 setMethod(
   "aggregateFeatures4Prostar", "SummarizedExperiment",
   function(object, fcol, fun = MsCoreUtils::robustSummary, conds, shared = TRUE, n = NULL, ...) {
@@ -166,7 +168,7 @@ setMethod(
   colnames(rowdata_SE) <- fcol
   
   copy_object <- SummarizedExperiment(assays = SimpleList(assay = assay_SE),
-                                      colData = colData(object),
+                                      colData = SummarizedExperiment::colData(object),
                                       rowData = rowdata_SE)
   
   if (fun == "medianPolish"){fun <- MsCoreUtils::medianPolish
@@ -200,7 +202,7 @@ setMethod(
     
     # Make new SummarizedExperiment, including missing proteins
     aggAssay <- SummarizedExperiment(assays = SimpleList(assay = assay_missprot),
-                                     colData = colData(aggAssay),
+                                     colData = SummarizedExperiment::colData(aggAssay),
                                      rowData = rowdata_missprot)
   }
   
@@ -335,7 +337,7 @@ setMethod(
       conds = design.qf(object)$Condition, 
       max_iter = max_iter
     )
-    colData(aggAssay) <- colData(object)
+    SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
     ## Add the assay to the QFeatures object
     object <- addAssay(object,
@@ -356,6 +358,7 @@ setMethod(
 #' @exportMethod aggregateRedistribution
 #' @rdname DaparToolshed-aggregateRedistribution
 #' @importFrom MsCoreUtils robustSummary
+#' @import QFeatures
 setMethod(
   "aggregateRedistribution", "SummarizedExperiment",
   function(object, fcol, init.method = "Mean", method = "Mean", ponderation = "Global", n = NULL, uniqueiter = FALSE, conds, max_iter = 500) {
@@ -414,7 +417,10 @@ setMethod(
   }
   assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
   # Create aggregated SummarizedExperiment
-  aggSE <- SummarizedExperiment(assays=SimpleList(assay = aggAssay), colData = colData(object))
+  aggSE <- SummarizedExperiment(
+    assays=SimpleList(assay = aggAssay), 
+    colData = SummarizedExperiment::colData(object)
+    )
   
   ###METACELL DATA
   # Add rowdata
@@ -443,9 +449,9 @@ setMethod(
 #' @examples
 #' data(ft, package='DaparToolshed')
 #' qMeta <- qMetacell(ft, 1)
-#' X <- adjacencyMatrix(ft[[1]])
+#' X <- QFeatures::adjacencyMatrix(ft[[1]])
 #' level <- typeDataset(ft[[1]])
-#' conds <- colData(ft)$Condition
+#' conds <- SummarizedExperiment::colData(ft)$Condition
 #' aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 #'
 #' @rdname DaparToolshed-aggregate
@@ -831,7 +837,7 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
   col <- col[-match(c('qMetacell', 'adjacencyMatrix'), col)]
   if (length(col) == 0) {return(obj)}
   
-  matadj <- adjacencyMatrix(obj[[i.agg - 1]])
+  matadj <- QFeatures::adjacencyMatrix(obj[[i.agg - 1]])
   protnames <- rownames(rowData((obj[[i.agg]])))
   peptrowdata <- rowData((obj[[i.agg - 1]]))
   
@@ -1142,6 +1148,7 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' @export
 #' 
 #' @examples 
+#' library(SummarizedExperiment)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]

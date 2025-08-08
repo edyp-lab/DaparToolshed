@@ -36,6 +36,8 @@ OWAnova <- function(current_protein, conditions){
 #'
 #' @export
 #' 
+#' @import QFeatures
+#' 
 applyAnovasOnProteins <- function(obj, i){
   qData <- assay(obj[[i]])
   sTab <- design.qf(obj)

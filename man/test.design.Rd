@@ -17,7 +17,7 @@ Check if xxxxxx
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-test.design(colData(Exp1_R25_pept)[, seq(3)])
+test.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
 
 }
 \author{

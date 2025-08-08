@@ -1,7 +1,9 @@
+library(QFeatures)
+
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[1:10]
 protID <- parentProtId(obj[[2]])
-X <- adjacencyMatrix(obj[[2]])
+X <- QFeatures::adjacencyMatrix(obj[[2]])
 
 X.split <- DaparToolshed::splitAdjacencyMat(X)
 X.shared <- X.split$Xshared

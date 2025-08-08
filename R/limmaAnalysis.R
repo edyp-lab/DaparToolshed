@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' test.design(colData(Exp1_R25_pept)[, seq(3)])
+#' test.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -155,7 +155,7 @@ check.conditions <- function(conds) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' check.design(colData(Exp1_R25_pept)[, seq(3)])
+#' check.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -234,7 +234,7 @@ check.design <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design(colData(Exp1_R25_pept))
+#' make.design(SummarizedExperiment::colData(Exp1_R25_pept))
 #'
 #' @export
 #' 
@@ -270,7 +270,7 @@ make.design <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.1(colData(Exp1_R25_pept))
+#' make.design.1(SummarizedExperiment::colData(Exp1_R25_pept))
 #'
 #' @export
 make.design.1 <- function(sTab) {
@@ -321,7 +321,7 @@ make.design.1 <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.2(colData(Exp1_R25_pept))
+#' make.design.2(SummarizedExperiment::colData(Exp1_R25_pept))
 #'
 #'
 #' @export
@@ -378,7 +378,7 @@ make.design.2 <- function(sTab) {
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- cbind(colData(Exp1_R25_pept), Tech.Rep = 1:6)
+#' sTab <- cbind(SummarizedExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
 #' make.design.3(sTab)
 #'
 #'
@@ -433,7 +433,7 @@ make.design.3 <- function(sTab) {
 #' 
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- colData(Exp1_R25_pept)
+#' sTab <- SummarizedExperiment::colData(Exp1_R25_pept)
 #' getDesignLevel(sTab)
 #'
 #' @export
@@ -468,7 +468,7 @@ getDesignLevel <- function(sTab){
 #'
 #' @examples
 #' data(Exp1_R25_pept, package='DaparToolshedData')
-#' design <- make.design(colData(Exp1_R25_pept))
+#' design <- make.design(SummarizedExperiment::colData(Exp1_R25_pept))
 #' conds <- design.qf(Exp1_R25_pept)$Condition
 #' make.contrast(design, conds)
 #'
@@ -569,8 +569,8 @@ make.contrast <- function(design,
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept
-#' qData <- as.matrix(assay(obj[[2]]))
-#' sTab <- colData(obj)
+#' qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
+#' sTab <- SummarizedExperiment::colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'
 #' @export
@@ -690,8 +690,8 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' # Simulate imputation
 #' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
 #' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
-#' qData <- as.matrix(assay(obj[[2]]))
-#' sTab <- colData(obj)
+#' qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
+#' sTab <- SummarizedExperiment::colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab)
 #'
 formatLimmaResult <- function(fit, conds, contrast, design.level) {

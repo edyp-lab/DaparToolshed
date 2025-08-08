@@ -30,7 +30,7 @@ assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
 assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
 
 qData <- as.matrix(assay(obj[[2]]))
-sTab <- colData(obj)
+sTab <- SummarizedExperiment::colData(obj)
 limma <- limmaCompleteTest(qData, sTab)
 pal <- ExtendPalette(2, "Dark2")
 hc_logFC_DensityPlot(limma$logFC, th_logFC = 1, pal = pal)

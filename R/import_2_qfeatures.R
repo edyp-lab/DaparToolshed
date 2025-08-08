@@ -191,8 +191,8 @@ createQFeatures <- function(
       qMetacell <- BuildMetacell(
         from = software,
         level = typeDataset,
-        qdata = assay(obj),
-        conds = colData(obj)$Condition,
+        qdata = SummarizedExperiment::assay(obj),
+        conds = SummarizedExperiment::colData(obj)$Condition,
         df = tmp.qMetacell
         )
     
@@ -232,7 +232,7 @@ createQFeatures <- function(
       # Create the adjacency matrix
       X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
       rownames(X) <- rownames(rowData(obj[[1]]))
-      adjacencyMatrix(obj[[1]]) <- X
+      QFeatures::adjacencyMatrix(obj[[1]]) <- X
       
       # Create the connected components
       #ConnectedComp(obj[[1]]) <- PSMatch::ConnectedComponents(X)

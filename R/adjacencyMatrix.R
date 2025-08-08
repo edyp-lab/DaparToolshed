@@ -91,7 +91,7 @@ BuildAdjacencyMatrix <- function(obj.pep) {
   stopifnot(inherits(obj.pep, 'SummarizedExperiment'))
   protID <- parentProtId(obj.pep)
   
-  data <- assay(obj.pep)
+  data <- SummarizedExperiment::assay(obj.pep)
   PG <- rowData(obj.pep)[, protID]
   
   PG.l <- lapply(

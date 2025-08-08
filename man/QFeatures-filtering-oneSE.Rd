@@ -131,7 +131,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
 cmd = 'delete',
 mode = 'AtLeastOneCond',
 pattern = 'imputed POV',
-conds = colData(feat1)$Condition,
+conds = SummarizedExperiment::colData(feat1)$Condition,
 percent = TRUE,
 th = 0.8,
 operator = '<')

@@ -166,7 +166,7 @@
 #' #'
 #' #' @examples
 #' #' ft <- create_ft_example(with.na = TRUE)
-#' #' X <- adjacencyMatrix(ft[[1]])
+#' #' X <- QFeatures::adjacencyMatrix(ft[[1]])
 #' #' conds <- design.qf(ft)$Condition
 #' #' aggIterative(assay(ft,1), X, conditions=conds)
 #' #'

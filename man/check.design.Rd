@@ -18,7 +18,7 @@ Check if the design is valid
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-check.design(colData(Exp1_R25_pept)[, seq(3)])
+check.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
 
 }
 \author{

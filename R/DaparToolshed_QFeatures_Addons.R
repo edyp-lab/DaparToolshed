@@ -601,7 +601,7 @@ setGeneric("design.qf<-",
 setMethod(
     "design.qf", "QFeatures",
     function(object, slotName = "design") {
-        colData(object)
+      SummarizedExperiment::colData(object)
     }
 )
 
@@ -611,7 +611,7 @@ setMethod(
 #' @rdname QFeatures-accessors
 "design.qf<-" <- function(object, slotName = "design", value) {
     stopifnot(inherits(object, "QFeatures"))
-    colData(object)@listData <- value
+  SummarizedExperiment::colData(object)@listData <- value
     return(object)
 }
 
@@ -803,6 +803,7 @@ setMethod(
 #' @return NULL
 #' 
 #' @import omXplore
+#' @import SummarizedExperiment
 #' 
 NAIsZero <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))

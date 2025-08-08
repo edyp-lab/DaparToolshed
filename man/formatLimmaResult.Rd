@@ -34,8 +34,8 @@ c("Missing POV", "Missing MEC"), level)
 # Simulate imputation
 assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
 assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
-qData <- as.matrix(assay(obj[[2]]))
-sTab <- colData(obj)
+qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
+sTab <- SummarizedExperiment::colData(obj)
 limma <- limmaCompleteTest(qData, sTab)
 
 }

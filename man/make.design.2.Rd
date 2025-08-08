@@ -18,7 +18,7 @@ Builds the design matrix for designs of level 2
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-make.design.2(colData(Exp1_R25_pept))
+make.design.2(SummarizedExperiment::colData(Exp1_R25_pept))
 
 
 }

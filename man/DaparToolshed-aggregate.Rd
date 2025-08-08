@@ -126,9 +126,9 @@ rowData(feat1[[2]])
 }
 data(ft, package='DaparToolshed')
 qMeta <- qMetacell(ft, 1)
-X <- adjacencyMatrix(ft[[1]])
+X <- QFeatures::adjacencyMatrix(ft[[1]])
 level <- typeDataset(ft[[1]])
-conds <- colData(ft)$Condition
+conds <- SummarizedExperiment::colData(ft)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
 }

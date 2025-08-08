@@ -75,7 +75,8 @@ all samples. The list of these functions is given by \code{topnFunctions()}:
 }
 }
 \examples{
-
+library(Matrix)
+library(QFeatures)
 #------------------------------------------------
 # This function will keep only specific peptides
 #------------------------------------------------

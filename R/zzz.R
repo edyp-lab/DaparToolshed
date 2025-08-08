@@ -4,7 +4,7 @@
     #     directoryPath = system.file("images",package = "DaparToolshed")
     # )
   
-  library(QFeatures)
+  #library(QFeatures)
 }
 
 .onUnload <- function(libname, pkgname) {

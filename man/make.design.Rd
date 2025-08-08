@@ -18,7 +18,7 @@ Builds the design matrix
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-make.design(colData(Exp1_R25_pept))
+make.design(SummarizedExperiment::colData(Exp1_R25_pept))
 
 }
 \author{

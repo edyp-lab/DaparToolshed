@@ -28,7 +28,7 @@ Builds the contrast matrix
 }
 \examples{
 data(Exp1_R25_pept, package='DaparToolshedData')
-design <- make.design(colData(Exp1_R25_pept))
+design <- make.design(SummarizedExperiment::colData(Exp1_R25_pept))
 conds <- design.qf(Exp1_R25_pept)$Condition
 make.contrast(design, conds)
 

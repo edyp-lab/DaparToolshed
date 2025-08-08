@@ -27,8 +27,8 @@ Computes a hierarchical differential analysis
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept
-qData <- as.matrix(assay(obj[[2]]))
-sTab <- colData(obj)
+qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
+sTab <- SummarizedExperiment::colData(obj)
 limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 
 }

@@ -133,7 +133,7 @@ specPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
     stopifnot("adjacencyMatrix" %in% names(rowData(object)))
 
-    X <- adjacencyMatrix(object)
+    X <- QFeatures::adjacencyMatrix(object)
     X.specific <- subAdjMat_specificPeptides(X)
     object <- .UpdateSEBasedOnAdjmat(object, X.specific)
 
@@ -161,7 +161,7 @@ sharedPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
     stopifnot("adjacencyMatrix" %in% names(rowData(object)))
 
-    X <- adjacencyMatrix(object)
+    X <- QFeatures::adjacencyMatrix(object)
     X.shared <- subAdjMat_sharedPeptides(X)
     object <- .UpdateSEBasedOnAdjmat(object, X.shared)
     return(object)
@@ -194,7 +194,7 @@ subAdjMat_sharedPeptides <- function(X) {
 
     # Reload the adjacency matrix after lines deletion
     # Identify empty columns in the adjacency matrix
-    X <- adjacencyMatrix(object)
+    X <- QFeatures::adjacencyMatrix(object)
     emptyCols <- which(colSums(as.matrix(X)) == 0)
 
     if (length(emptyCols) > 0) {
@@ -223,8 +223,8 @@ topnPeptides <- function(object, fun, top) {
     .names <- names(rowData(object))
     stopifnot("adjacencyMatrix" %in% .names)
 
-    X <- adjacencyMatrix(object)
-    qData <- assay(object)
+    X <- QFeatures::adjacencyMatrix(object)
+    qData <- SummarizedExperiment::assay(object)
     X.topn <- subAdjMat_topnPeptides(X, qData, fun, top)
     object <- .UpdateSEBasedOnAdjmat(object, X.topn)
     return(object)
