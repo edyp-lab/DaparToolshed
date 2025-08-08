@@ -53,25 +53,6 @@ qMetacellFilteringScope <- function() {
 
 
 
-#' @export
-#'
-#' @rdname qMetacell-filter
-#'
-#' @return A vector of operators
-#' 
-#' @examples 
-#' SymFilteringOperators()
-#'
-SymFilteringOperators <- function() {
-    setNames(
-      c( "<=", "<", ">=", ">", "==", "!="),
-      nm = c('lessthan', 'less', 'greaterthan', 'greater', 'equal', 'different')
-    )
-}
-
-
-
-
 #' @param object An instance of the class `SummarizedExperiment`
 #' @param cmd A `character(1)` xxx
 #' @param pattern A `character(1)` xxx

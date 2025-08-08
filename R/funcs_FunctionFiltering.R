@@ -121,18 +121,24 @@ MetacellFilteringScope <- function() {
 
 
 
-#' @title xxx
-#'
+
 #' @export
-#' 
-#' @return A `character()`
+#'
+#' @rdname qMetacell-filter
+#'
+#' @return A vector of operators
 #' 
 #' @examples 
 #' SymFilteringOperators()
 #'
 SymFilteringOperators <- function() {
-    c("<=", "<", ">=", ">", "==", "!=")
+  setNames(
+    c( "<=", "<", ">=", ">", "==", "!="),
+    nm = c('lessthan', 'less', 'greaterthan', 'greater', 'equal', 'different')
+  )
 }
+
+
 
 
 #' @title

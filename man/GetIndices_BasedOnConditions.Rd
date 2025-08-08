@@ -20,7 +20,7 @@ GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 \item{percent}{xxx}
 
 \item{op}{String for operator to use. List of operators is available
-with the function \code{SymFilteringOperators()}.}
+with the function 'SymFilteringOperators()'.}
 
 \item{th}{The theshold to apply}
 }
