@@ -1,15 +1,15 @@
-
-Build_CC_list <- function(matAdj){
-  require(Matrix)
-  
-  ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = TRUE))
-  ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = FALSE))
-  
-  return(
-    list(allPep = ll1,
-         onlyUniquePep = ll2)
-  )
-}
+# 
+# Build_CC_list <- function(matAdj){
+#   require(Matrix)
+#   
+#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = TRUE))
+#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = FALSE))
+#   
+#   return(
+#     list(allPep = ll1,
+#          onlyUniquePep = ll2)
+#   )
+# }
 
 
 
