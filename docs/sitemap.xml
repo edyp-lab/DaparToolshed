@@ -1,237 +1,291 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Add_Item_to_Dataset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/adjacency-matrix-filter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Base_Palette.html</loc>
-  </url>
-  <url>
-    <loc>/reference/checkClusterability.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_t_tests.html</loc>
-  </url>
-  <url>
-    <loc>/reference/connected-components.html</loc>
-  </url>
-  <url>
-    <loc>/reference/connected_components.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create-example.html</loc>
-  </url>
-  <url>
-    <loc>/reference/customChart.html</loc>
-  </url>
-  <url>
-    <loc>/reference/customExportMenu_HC.html</loc>
-  </url>
-  <url>
-    <loc>/reference/DaparToolshed-aggregate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dapar_hc_chart.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dapar_hc_ExportMenu.html</loc>
-  </url>
-  <url>
-    <loc>/reference/descriptive-statistics-plots.html</loc>
-  </url>
-  <url>
-    <loc>/reference/descriptive-statistics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/descriptives-statistics-plots.html</loc>
-  </url>
-  <url>
-    <loc>/reference/differential-analysis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/diff_analysis_sam.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Example_Palette.html</loc>
-  </url>
-  <url>
-    <loc>/reference/formatPHResults.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fudge2LRT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getListNbValuesInLines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/GetProstarVersions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/GraphPepProt_hc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import-export-dataset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import-export-QFeatures.html</loc>
-  </url>
-  <url>
-    <loc>/reference/imputation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is.MV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is.OfType.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Keep_Items_from_Dataset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LH0.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LH0.lm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LH1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LH1.lm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/matAdjStats.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_Agregation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_all_plots_server.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_all_plots_ui.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_convert.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_Filtering.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_format_DT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_plots_tracking.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_popover_for_help.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mod_settings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nEmptyLines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nonzero.html</loc>
-  </url>
-  <url>
-    <loc>/reference/normalization.html</loc>
-  </url>
-  <url>
-    <loc>/reference/normalizeD.html</loc>
-  </url>
-  <url>
-    <loc>/reference/palette.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pca_plots.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pepa-imputation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pepa.test.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pipeline-protein.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Pipelines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/postHocTest.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ProstarVersions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QFeatures-accessors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QFeatures-excel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QFeatures-filtering-oneSE.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QFeatures-supplementary-accessors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QFeatures-utils.html</loc>
-  </url>
-  <url>
-    <loc>/reference/qMetadata-filter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/quantitative-metadata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/q_metadata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ReplaceSpecialChars.html</loc>
-  </url>
-  <url>
-    <loc>/reference/samLRT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/standardise.html</loc>
-  </url>
-  <url>
-    <loc>/reference/standardiseMeanIntensities.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tracking.html</loc>
-  </url>
-  <url>
-    <loc>/reference/UpdateqMetadata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/visualizeClusters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrapperClassic1wayAnova.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrapperRunClustering.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/404.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/authors.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/index.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/news/index.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Add_Aggregated_rowData.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Add_Item_to_Dataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggIter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggIterative.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggIterParallel.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggMean.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggMetadata_parallel_sam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggMetadata_sam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggregateFeatures_sam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggregate_with_matAdj.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggSum.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggTopn.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/all_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/applyAnovasOnProteins.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Base_Palette.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/boxPlotD_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildAdjacencyMatrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildColumnToProteinDataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/buildGraph.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildMetaCell.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildqMetadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/check.conditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/check.design.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/checkClusterability.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/CheckDesign.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Children.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/classic1wayAnova.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/CleanRowData.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compare-assays.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compareNormalizationD_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ComplexFilterFeatures.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute.group.t.test.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute.selection.table.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ComputeAdjacencyMatrices.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ComputeConnectedComposants.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/connected-components.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/connected_components.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ConvertListToHtml.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/corrMatrixD_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/corrmatrix_plot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/CountPep.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/create-example.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/createQFeatures.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/customChart.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/customExportMenu_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/CVDistD_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/cv_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregateRedistribution.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/dapar_hc_chart.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/dapar_hc_ExportMenu.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/data_explorer.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/density-plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/densityPlotD_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/descriptive-statistics-plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/descriptive-statistics.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/descriptives-statistics-plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/descriptive_statistics_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeFDR.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnalysis.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaVolcanoplot_rCharts.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/differential-analysis.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diff_analysis_sam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/display.CC.visNet.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Example_Palette.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ExtendPalette.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ExtractUniquePeptides.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/filterFeaturesSam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/find_MEC_matrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatHSDResults.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatLimmaResult.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatPHResults.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatPHTResults.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ft.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ft_na.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/fudge2LRT.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/get.pep.prot.cc.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetAdjMat.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetColorsForConditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetConnectedComps.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getDesignLevel.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetDetailedNbPeptides.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetDetailedNbPeptidesUsed.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getExtension.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndicesForPrefix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_BasedOnConditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_ComplexQueryFiltering.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_FunFiltering.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeLine.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeMatrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getListNbValuesInLines.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetNbPeptidesUsed.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetNbTags.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getNumberOfEmptyLines.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetProstarVersions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getProteinsStats.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetSoftAvailables.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetTypeDataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_AllComparisons.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_qMetadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_qMetadata_names.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/globalAdjPval.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GraphPepProt.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GraphPepProt_hc.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/groupttest.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/heatmapD.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/heatmapForMissingValues.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/heatmap_plot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/histPValue_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/HypothesisTestMethods.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/import-export-dataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/import-export-QFeatures.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/imputation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute.pa2.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/imputeMethodsDapar.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_dapar.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_det_quant.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_fixed_value.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_knn_by_conditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_matrix_dapar.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_MEC_Methods.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_mi.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_mle_dapar.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_pa.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_pa2.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_POV_Methods.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_slsa.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/index.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.aggregate.iter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.aggregate.topn.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.mean.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.median.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.medianpolish.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.robustsummary.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.sum.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/intensity_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.MV.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.OfType.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.subset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/iterative-aggregation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Keep_Items_from_Dataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/LH0.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/LH0.lm.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/LH1.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/LH1.lm.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/limmaCompleteTest.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.contrast.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.design.1.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.design.2.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.design.3.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.design.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/matAdjStats.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/match.metacell.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/match.qMetadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/MetacellFilteringScope.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/metacell_agg.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_DIA_NN.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_maxquant.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_proline.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Agregation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_all_plots_server.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_all_plots_ui.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_convert.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Filtering.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_format_DT.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_graph_pept_prot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_legend_colored_exprs.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_corr_matrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_density.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_group_mv.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_heatmap.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_intensity_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_mv_for_imputation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_plots_tracking.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_popover_for_help.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_Description.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_Description_server.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_Filtering.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_Normalization_server.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_Normalization_ui.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_Protein_server.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_query_metacell.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_settings.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_se_explorer.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mod_var_dist_plot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mvHisto_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mvPerLinesHistoPerCondition_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mvPerLinesHisto_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/MVrowsTagToOne.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/MVrowsTagToOne_HB.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/mv_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/my_hc_chart.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/my_hc_ExportMenu.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/NAIsZero.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/nEmptyLines.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/nonzero.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalization.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalizeD.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalizeMethods.dapar.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/OWAnova.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/palette.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Parent.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pca_plots.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pepa-imputation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pepa.test.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pipeline-protein.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Pipelines.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pkgs.require.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitterCC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitter_hc.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitter_rCharts.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotPCA_Eigen_hc.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotPCA_Ind.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotPCA_Var.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plots_cc.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plot_ds_mv.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/postHocTest.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/POV_impute_det_quant.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/POV_impute_knn_by_conditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/POV_impute_slsa.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/proportionConRev_HC.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ProstarVersions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-excel.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-filtering-oneSE.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-supplementary-accessors.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-utils.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata-aggregate.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata-filter.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata.def.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadataFilteringScope.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadataOnConditions.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadataWholeLine.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata_combine.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata_generic.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata_maxquant.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadata_proline.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetadatWholeMatrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/quantitative-metadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/q_metadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/removeAdditionalCol.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ReplaceSpecialChars.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/restore_MEC_matrix.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/rowdata_stats_Aggregation_sam.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/RunAggregation.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/samLRT.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/search.qMetadata.tags.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/select_topn.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/separateAdjPval.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SetAdjMat.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SetConnectedComps.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SetTypeDataset.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/splitAdjacencyMat.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/standardise.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/standardiseMeanIntensities.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SymFilteringOperators.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/test.design.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/testAnovaModels.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/thresholdpval4fdr.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/tracking.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/translatedRandomBeta.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/UpdateMetacell.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/UpdateqMetadata.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/violinPlotD.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/visualizeClusters.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.dapar.impute.mi.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.mle.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.pa2.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.pca.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapperClassic1wayAnova.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapperRunClustering.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/writeQFeaturesToExcel.html</loc></url>
 </urlset>
+
