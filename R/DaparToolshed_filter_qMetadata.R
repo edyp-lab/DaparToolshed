@@ -78,8 +78,7 @@ SymFilteringOperators <- function() {
 #' @param percent A boolean to indicate whether the threshold represent an 
 #' absolute value (percent = FALSE) or a percentage (percent=TRUE).
 #' @param th A floating number which is in the interval [0, 1]
-#' @param operator String for operator to use. List of operators is available 
-#' with `SymFilteringOperators()`.
+#' @param operator String for operator to use.
 #'
 #'
 #' @return NA
@@ -235,7 +234,7 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
 #' @param percent xxx
 #'
 #' @param operator  String for operator to use. List of operators is available 
-#' with `SymFilteringOperators()`.
+#' with 'SymFilteringOperators()'.
 #'
 #' @param th The threshold to apply
 #'

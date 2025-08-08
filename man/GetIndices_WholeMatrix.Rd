@@ -10,7 +10,7 @@ GetIndices_WholeMatrix(metacell.mask, op = "==", percent = FALSE, th = 0)
 \item{metacell.mask}{xxx}
 
 \item{op}{String for operator to use. List of operators is available with
-\code{SymFilteringOperators()}.}
+'SymFilteringOperators()'.}
 
 \item{percent}{A boolean to indicate whether the threshold represent an
 absolute value (percent = FALSE) or
