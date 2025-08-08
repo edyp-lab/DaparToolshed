@@ -10,9 +10,7 @@ abstract: >
     functions to analyze quantitative data from label-free proteomics 
     experiments. Contrarily to most other similar R packages, it is endowed 
     with rich and user-friendly graphical interfaces, so that no programming 
-    skill is required. This document covers the functionalities available in 
-    `r BiocStyle::pkg_ver('Prostar')`, `r BiocStyle::pkg_ver('DAPAR')`, 
-    `r BiocStyle::pkg_ver('DAPARdata')`.
+    skill is required.
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
