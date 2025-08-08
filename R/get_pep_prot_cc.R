@@ -1,19 +1,4 @@
 
-Build_CC_list <- function(matAdj){
-  require(Matrix)
-  
-  ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = TRUE))
-  ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = FALSE))
-  
-  return(
-    list(allPep = ll1,
-         onlyUniquePep = ll2)
-  )
-}
-
-
-
-
 
 #' @title Build the list of connex composant of the adjacency matrix
 #'
@@ -31,9 +16,10 @@ Build_CC_list <- function(matAdj){
 #'
 #' @export
 #' @import Matrix
+#' @import igraph
+#' @import graph
 #'
 get.pep.prot.cc <- function(X) {
-  pkgs.require(c('Matrix', 'igraph', 'graph'))
   
   if (is.null(X)) {
     warning("The adjacency matrix is empty")

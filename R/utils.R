@@ -5,7 +5,7 @@
 #' @param ll.deps A `character()` vector which contains packages names
 #' 
 #' @examples 
-#' pkgs.require('QFeatures')
+#' NULL
 #' 
 #' @export
 #' 

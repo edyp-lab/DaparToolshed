@@ -54,7 +54,8 @@
 #' @return NA
 #'
 #' @examples
-#'
+#' library(Matrix)
+#' library(QFeatures)
 #' #------------------------------------------------
 #' # This function will keep only specific peptides
 #' #------------------------------------------------

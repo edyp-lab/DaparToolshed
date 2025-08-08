@@ -39,7 +39,9 @@ Imports:
     tibble,
     Matrix,
     doParallel,
-    stringr
+    stringr,
+    graph,
+    igraph
 biocViews: 
     Proteomics,
     Normalization,
