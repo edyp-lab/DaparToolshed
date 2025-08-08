@@ -1,6 +1,9 @@
-pandoc: 2.11.2
-pkgdown: 1.6.1
+pandoc: 3.1.11
+pkgdown: 2.1.3
 pkgdown_sha: ~
-articles: {}
-last_built: 2021-10-21T06:33Z
-
+articles:
+  DaparToolshed: DaparToolshed.html
+last_built: 2025-08-08T16:00Z
+urls:
+  reference: https://edyp-lab.github.io/DaparToolshed/reference
+  article: https://edyp-lab.github.io/DaparToolshed/articles
