@@ -15,6 +15,8 @@
 \usage{
 FunctionFilter(name, ...)
 
+filterFeaturesOneSE(object, ...)
+
 \S4method{filterFeaturesOneSE}{QFeatures}(object, i, name = "newAssay", filters)
 }
 \arguments{

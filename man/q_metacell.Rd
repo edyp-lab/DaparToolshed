@@ -5,7 +5,9 @@
 \alias{metacell.def}
 \alias{custom_metacell_colors}
 \alias{Set_POV_MEC_tags}
+\alias{Set_POV_MEC_tags2}
 \alias{Metacell_generic}
+\alias{UpdateMetacellAfterImputation}
 \alias{UpdateMetacellAfterImputation,SummarizedExperiment-method}
 \alias{search.metacell.tags}
 \alias{metacombine}
@@ -15,9 +17,13 @@ metacell.def(level)
 
 custom_metacell_colors()
 
-Set_POV_MEC_tags(conds, df, level)
+Set_POV_MEC_tags(obj, conds)
+
+Set_POV_MEC_tags2(conds, df, level)
 
 Metacell_generic(qdata, conds, level)
+
+UpdateMetacellAfterImputation(object, ...)
 
 \S4method{UpdateMetacellAfterImputation}{SummarizedExperiment}(object, from, to, ...)
 
@@ -28,6 +34,8 @@ metacombine(met, level)
 \arguments{
 \item{level}{xxx}
 
+\item{obj}{xxx}
+
 \item{conds}{xxx}
 
 \item{df}{An object of class \code{SummarizedExperiment}}
@@ -36,11 +44,11 @@ metacombine(met, level)
 
 \item{object}{xxx}
 
+\item{...}{xxx}
+
 \item{from}{xxx}
 
 \item{to}{xxx}
-
-\item{...}{xxx}
 
 \item{pattern}{The string to search.}
 
@@ -185,22 +193,6 @@ TODO
 metacell.def('protein')
 metacell.def('peptide')
 
-#-----------------------------------------------
-# A shiny app to view color legends 
-#-----------------------------------------------
-if(interactive()){
-data(ft)
-ui <- mod_qMetacellLegend_ui("legend")
-
-server <- function(input, output, session) {
-  mod_qMetacellLegend_server('legend',
-  object = reactive({ft[[1]]}))
-  }
-  
- shinyApp(ui = ui, server = server)
-  
-  
-}
 data(Exp1_R25_prot, package = "DaparToolshedData")
 obj <- Exp1_R25_prot[[1]]
 conds <- design.qf(Exp1_R25_prot)$Condition
@@ -213,14 +205,14 @@ metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, stringsA
 conds <- metadata$Condition
 qdata <- data[seq_len(100), seq(56, 61)]
 df <- data[seq_len(100) , seq(43,48)]
-df <- qMetacell_generic(qdata, conds, 'peptide')
+df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(Exp1_R25_pept, package = 'DaparToolshedData')
 obj <- Exp1_R25_pept[seq_len(10),]
-obj[[2]] <- UpdateqMetacell(obj[[2]], 'missing', 'imputed')
+obj[[2]] <- UpdateMetacellAfterImputation(obj[[2]], 'Missing', 'Imputed')
 
-search.qMetacell.tags('missing POV', 'peptide')
-search.qMetacell.tags('quanti', 'peptide')
+search.metacell.tags('Missing POV', 'peptide')
+search.metacell.tags('Quantified', 'peptide')
 
 \dontrun{
 ll <- omXplore::metacell.def('peptide')$node

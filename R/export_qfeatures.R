@@ -51,6 +51,11 @@
 #'
 NULL
 
+#' @rdname QFeatures-excel
+setGeneric("write2excel", 
+  function(object, ...) standardGeneric("write2excel"))
+
+
 
 #' @exportMethod write2excel
 #' @rdname QFeatures-excel

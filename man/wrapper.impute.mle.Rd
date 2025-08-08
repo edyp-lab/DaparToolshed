@@ -8,6 +8,8 @@ wrapper.impute.mle(obj, grp)
 }
 \arguments{
 \item{obj}{An object of class \code{MSnSet}.}
+
+\item{grp}{xxx}
 }
 \value{
 The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead

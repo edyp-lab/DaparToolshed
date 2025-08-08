@@ -1,3 +1,10 @@
+#' @rdname QFeatures-accessors
+setGeneric("paramshistory", 
+  function(object, ...) standardGeneric("paramshistory"))
+setGeneric("paramshistory<-", 
+  function(object, ..., value) standardGeneric("paramshistory<-"))
+
+
 
 
 #' @export

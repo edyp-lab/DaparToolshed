@@ -93,6 +93,7 @@ This method is a wrapper to the function \code{impute.mi()} of the package
 utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(500)]
 design <- design.qf(obj)
+level <- 'protein'
 metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 obj.imp.na <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = TRUE)

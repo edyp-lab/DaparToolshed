@@ -87,14 +87,13 @@ Suggests:
     multcomp,
     purrr,
     gplots, 
-    tidyr
+    tidyr,
+    DaparToolshedData
 Remotes:
-    git::https://github.com/edyp-lab/MagellanNTK,
     git::https://github.com/edyp-lab/DaparToolshedData,
-    git::https://github.com/prostarproteomics/omXplore
+    git::https://github.com/edyp-lab/omXplore
 NeedsCompilation: no
 Collate:
-    AllGenerics.R
     plots_volcano.R
     adjacencyMatrix.R
     plots_compare_assays.R

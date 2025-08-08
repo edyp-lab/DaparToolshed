@@ -2,12 +2,15 @@
 % Please edit documentation in R/export_qfeatures.R
 \name{QFeatures-excel}
 \alias{QFeatures-excel}
+\alias{write2excel}
 \alias{write2excel,QFeatures-method}
 \alias{write2excel,SummarizedExperiment-method}
 \alias{.write2excel}
 \alias{addColors}
 \title{Exports a \code{QFeatures} object to a Excel file.}
 \usage{
+write2excel(object, ...)
+
 \S4method{write2excel}{QFeatures}(object, i = NULL, filename = "newFile", writeColdData = TRUE, ...)
 
 \S4method{write2excel}{SummarizedExperiment}(object, filename, exp.design, writeColData = TRUE, ...)
@@ -19,13 +22,13 @@ addColors(wb, n, tags, colors)
 \arguments{
 \item{object}{xxx}
 
+\item{...}{xxx}
+
 \item{i}{xxx}
 
 \item{filename}{xxx}
 
 \item{writeColdData}{xxx}
-
-\item{...}{xxx}
 
 \item{exp.design}{xxx}
 

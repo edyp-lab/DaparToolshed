@@ -73,8 +73,8 @@ conditions or at least one condition.
 \examples{
 data(ft, package='DaparToolshed')
 obj <- ft[[1]]
-level <- typeOfData(ft, 1)
-pattern <- "missing"
+level <- typeDataset(obj)
+pattern <- "Missing"
 mask <- match.metacell(
     metadata = qMetacell(obj),
     pattern = pattern,
@@ -83,30 +83,18 @@ mask <- match.metacell(
 percent <- FALSE
 th <- 3
 op <- ">="
-ind <- qMetacellWholeMatrix(mask, op, percent, th)
+cmd <- 'delete' 
+ind <- qMetacellWholeMatrix(obj, cmd, pattern, percent, th, op)
 
 data(ft, package='DaparToolshed')
-obj <- ft[[1]]
-mask <- match.metacell(
-    metadata = qMetacell(obj),
-    pattern = "missing POV",
-    level = typeOfData(obj)
-)
-ind <- qMetacellWholeLine(mask)
+ind <- qMetacellWholeLine(obj, cmd, pattern)
 
-#' data(ft, package='DaparToolshed')
-obj <- ft[[1]]
-mask <- match.metacell(
-    metadata = qMetacell(obj),
-    pattern = "missing",
-    level = typeOfData(obj)
-)
-type <- "AllCond"
 conds <- design.qf(ft)$Condition
 op <- ">="
-th <- 2
-percent <- FALSE
-ind <- qMetacellOnConditions(mask, type, conds, percent, op, th)
+th <- 0.5
+percent <- "Percentage"
+mode <- "AllCond"
+ind <- qMetacellOnConditions(obj, cmd, mode, pattern, conds, percent, op, th)
 
 qMetacellFilteringScope()
 

@@ -64,7 +64,7 @@
 #' 
 #' normalized <- MeanCentering(qData, conds, type = "overall")
 #' 
-#' normalized <- vsn(qData, conds, type = "overall")
+#' # normalized <- vsn(qData, conds, type = "overall")
 #' 
 #' normalized <- LOESS(qData, conds, type = "overall")
 #'

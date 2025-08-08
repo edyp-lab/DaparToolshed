@@ -71,22 +71,6 @@
 #' metacell.def('protein')
 #' metacell.def('peptide')
 #' 
-#' #-----------------------------------------------
-#' # A shiny app to view color legends 
-#' #-----------------------------------------------
-#' if(interactive()){
-#' data(ft)
-#' ui <- mod_qMetacellLegend_ui("legend")
-#' 
-#' server <- function(input, output, session) {
-#'   mod_qMetacellLegend_server('legend',
-#'   object = reactive({ft[[1]]}))
-#'   }
-#'   
-#'  shinyApp(ui = ui, server = server)
-#'   
-#'   
-#' }
 NULL
 
 
@@ -307,6 +291,11 @@ Children <- function(level, parent = NULL){
 #'
 #'
 
+#' @rdname QFeatures-accessors
+setGeneric("GetMetacellTags", 
+  function(object, ...) standardGeneric("GetMetacellTags"))
+
+
 
 #' @exportMethod GetMetacellTags
 #' @rdname QFeatures-accessors
@@ -316,8 +305,6 @@ setMethod("GetMetacellTags", "QFeatures",
     GetMetacellTags(object[[i]], ...)
   }
 )
-
-
 
 
 #' @export
@@ -330,6 +317,7 @@ setMethod("GetMetacellTags", "SummarizedExperiment",
 )
 
 
+#' @rdname QFeatures-accessors
 setMethod("GetMetacellTags", "data.frame",
           function(object, ...) {
             .GetMetacellTags(object, ...)
@@ -396,6 +384,7 @@ setMethod("GetMetacellTags", "data.frame",
 #' values (used to update an initial dataset) or imputed values (used when
 #' post processing protein qMetacell after aggregation)
 #' 
+#' @param obj xxx
 #' @param conds A 1-col dataframe with the condition associated to each sample.
 #' @param df An object of class `SummarizedExperiment`
 #' @param level Type of entity/pipeline
@@ -410,11 +399,14 @@ setMethod("GetMetacellTags", "data.frame",
 #' conds <- design.qf(Exp1_R25_prot)$Condition
 #' df <- Set_POV_MEC_tags(obj, conds)
 #'
+#' @name q_metacell
+#' 
+NULL
+
+
+
 #' @export
-#'
 #' @rdname q_metacell
-#' 
-#' 
 Set_POV_MEC_tags <- function(obj, conds){
   stopifnot(inherits(obj, "SummarizedExperiment"))
   u_conds <- unique(conds)
@@ -453,7 +445,10 @@ Set_POV_MEC_tags <- function(obj, conds){
   return(qMeta)
 }
 
-Set_POV_MEC_tags <- function(conds, df, level){
+
+#' @export
+#' @rdname q_metacell
+Set_POV_MEC_tags2 <- function(conds, df, level){
   u_conds <- unique(conds)
   
   for (i in seq_len(length(u_conds))) {
@@ -598,7 +593,7 @@ BuildMetacell <- function(from = NULL,
 #' conds <- metadata$Condition
 #' qdata <- data[seq_len(100), seq(56, 61)]
 #' df <- data[seq_len(100) , seq(43,48)]
-#' df <- qMetacell_generic(qdata, conds, 'peptide')
+#' df <- Metacell_generic(qdata, conds, 'peptide')
 #' 
 #' @export
 #' 
@@ -627,7 +622,7 @@ Metacell_generic <- function(qdata, conds, level) {
   # Rule 1
   qdata[qdata == 0] <- NA
   df[is.na(qdata)] <- "Missing"
-  df <- Set_POV_MEC_tags(conds, df, level)
+  df <- Set_POV_MEC_tags2(conds, df, level)
   
   colnames(df) <- paste0("metacell_", colnames(qdata))
   colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
@@ -761,7 +756,7 @@ Metacell_proline <- function(qdata, conds, df, level = NULL) {
   
   # Rule 1
   df[is.na(qdata)] <- "Missing"
-  df <- Set_POV_MEC_tags(conds, df, level)
+  df <- Set_POV_MEC_tags2(conds, df, level)
   
   # Rule 2
   df[df > 0 & qdata > 0] <- "Quant. by direct id"
@@ -857,7 +852,7 @@ Metacell_maxquant <- function(qdata, conds, df, level = NULL) {
   
   # Add details for NA values
   df[is.na(qdata)] <- "Missing"
-  df <- Set_POV_MEC_tags(conds, df, level)
+  df <- Set_POV_MEC_tags2(conds, df, level)
   
   colnames(df) <- paste0("metacell_", colnames(qdata))
   colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
@@ -923,6 +918,11 @@ match.metacell <- function(metadata, pattern = NULL, level) {
   return(res)
 }
 
+#' @rdname q_metacell
+setGeneric("UpdateMetacellAfterImputation", 
+  function(object, ...) standardGeneric("UpdateMetacellAfterImputation"))
+
+
 
 
 #' @title Update quantitative metadata after imputation
@@ -938,7 +938,7 @@ match.metacell <- function(metadata, pattern = NULL, level) {
 #' @examples
 #' data(Exp1_R25_pept, package = 'DaparToolshedData')
 #' obj <- Exp1_R25_pept[seq_len(10),]
-#' obj[[2]] <- UpdateqMetacell(obj[[2]], 'missing', 'imputed')
+#' obj[[2]] <- UpdateMetacellAfterImputation(obj[[2]], 'Missing', 'Imputed')
 #' 
 #' @author Samuel Wieczorek
 #'
@@ -999,8 +999,8 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
 #' @author Samuel Wieczorek
 #' 
 #' @examples
-#' search.qMetacell.tags('missing POV', 'peptide')
-#' search.qMetacell.tags('quanti', 'peptide')
+#' search.metacell.tags('Missing POV', 'peptide')
+#' search.metacell.tags('Quantified', 'peptide')
 #' 
 #' @export
 #' @return NA
@@ -1253,7 +1253,7 @@ metacombine <- function(met, level) {
 #'   
 #'   # Post processing of metacell to discover 'Imputed POV', 'Imputed MEC'
 #'   conds <- design.qf(obj.pep)$Condition
-#'   df <- Set_POV_MEC_tags(conds, df, level)
+#'   df <- Set_POV_MEC_tags2(conds, df, level)
 #'   
 #'   
 #'   # Search for issues

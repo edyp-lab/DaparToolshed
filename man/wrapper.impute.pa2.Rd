@@ -43,10 +43,12 @@ This method is a wrapper to the function \code{impute.pa2()} adapted to
 objects of class \code{MSnSet}.
 }
 \examples{
+\dontrun{
 utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(100)]
 design <- design.qf(obj)
-obj.imp.pa2 <- wrapper.impute.pa2(obj[[1]], design, distribution = "beta")
+obj.imp.pa2 <- wrapper.impute.pa2(obj = obj[[1]], design = design)
+}
 
 }
 \author{

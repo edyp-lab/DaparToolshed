@@ -17,7 +17,7 @@ Returns the number of empty lines in a matrix.
 }
 \examples{
 data(Exp1_R25_pept, package="DaparToolshedData")
-qData <- Biobase::exprs(Exp1_R25_pept)
+qData <- assay(Exp1_R25_pept[[1]])
 getNumberOfEmptyLines(qData)
 
 }

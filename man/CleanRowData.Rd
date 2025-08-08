@@ -8,6 +8,8 @@ CleanRowData(obj, i)
 }
 \arguments{
 \item{obj}{xxx}
+
+\item{i}{xxx}
 }
 \description{
 Customised resetZoomButton of highcharts plots

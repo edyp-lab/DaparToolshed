@@ -434,6 +434,7 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #' @author Samuel Wieczorek
 #' 
 #' @param obj xxx
+#' @param i xxx
 #'
 #' @examples
 #' library("highcharter")
@@ -469,7 +470,7 @@ CleanRowData <- function(obj, i){
 #'
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' qData <- Biobase::exprs(Exp1_R25_pept)
+#' qData <- assay(Exp1_R25_pept[[1]])
 #' getNumberOfEmptyLines(qData)
 #'
 #' @export

@@ -72,6 +72,12 @@
 #' }
 NULL
 
+#' @rdname DaparToolshed-aggregate
+setGeneric("aggregateFeatures4Prostar", 
+  function(object, ...) standardGeneric("aggregateFeatures4Prostar"))
+
+
+
 #' @exportMethod aggregateFeatures4Prostar
 #' @rdname DaparToolshed-aggregate
 #' @importFrom MsCoreUtils robustSummary
@@ -244,7 +250,10 @@ setMethod(
 #'                    Available values are `Global` (default), `Condition` or `Sample`. 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
 #' @param max_iter A `numeric(1)` setting the maximum number of iteration.
-#'
+#' @param uniqueiter xxx
+#' @param conds xxx
+#' @param ... xxx
+#' 
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).
 #'
 #' @details 
@@ -291,6 +300,12 @@ setMethod(
 #' rowData(feat1[[2]])
 #' }
 NULL
+
+#' @rdname DaparToolshed-aggregateRedistribution
+setGeneric("aggregateRedistribution", 
+  function(object, ...) standardGeneric("aggregateRedistribution"))
+
+
 
 #' @exportMethod aggregateRedistribution
 #' @rdname DaparToolshed-aggregateRedistribution
@@ -459,7 +474,7 @@ aggQmetacell <- function(qMeta, X, level, conds) {
   # Delete protein with only NA
   
   # Post processing of metacell to discover 'imputed POV', 'imputed MEC'
-  res$metacell <- Set_POV_MEC_tags(conds, res$metacell, level)
+  res$metacell <- Set_POV_MEC_tags2(conds, res$metacell, level)
   
   # Search for issues
   prot.ind <- unique(rownames(which(res$metacell == "STOP", arr.ind = TRUE)))
@@ -843,8 +858,8 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 #' @param aggregatedSE An instance of class [SummarizedExperiment] containing the aggregated data.
 #' @param originalSE An instance of class [SummarizedExperiment] containing the non-aggregated data. 
 #' @param adj_mat An adjacency matrix.
-#' @param conds 
-#' @param protname_order 
+#' @param conds xxx
+#' @param protname_order  xxx
 #' 
 #' @return A `SummarizedExperiment` containing the aggregated data.
 #' 
@@ -1127,14 +1142,11 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' @export
 #' 
 #' @examples 
-#' \dontrun{
-#' library(DaparToolshedData)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' last.obj <- obj.pep[[length(obj.pep)]]
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
-#' }
 #'
 GetDetailedNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))

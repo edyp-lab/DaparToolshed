@@ -8,14 +8,11 @@
 #' protein qMetacell after aggregation)
 #' 
 #' @name QFeatures-accessors
-#'
+#' 
 #' @param object An instance of class `SummarizedExperiment` or `QFeatures`.
-#'
 #' @param i The index or name of the assays to extract the quantitative 
 #' metadata from. All must have a rowdata variable named as `slotName`
-#'
 #' @param slotName xxx
-#'
 #' @param value xxx
 #' 
 #' @return NA
@@ -38,7 +35,7 @@
 #'
 #' @section Quantitative metadata:
 #'
-#' Default slotName is `"qMetacell"`.
+#' Default slotName is "qMetacell".
 #'  The value is an adjacency matrix with row and column names. The
 #'     matrix will be coerced to compressed, column-oriented sparse
 #'     matrix (class `dgCMatrix`) as defined in the `Matrix` package,
@@ -50,9 +47,16 @@
 #' design.qf(ft)
 NULL
 
+
+
+#' @rdname QFeatures-accessors
+setGeneric("qMetacell", 
+  function(object, ...) standardGeneric("qMetacell"))
+setGeneric("qMetacell<-", 
+  function(object, ..., value) standardGeneric("qMetacell<-"))
+
 #' @exportMethod qMetacell
 #' @rdname QFeatures-accessors
-#' @return NA
 setMethod(
     "qMetacell", "QFeatures",
     function(object, i) {
@@ -65,9 +69,6 @@ setMethod(
 
 #' @export
 #' @rdname QFeatures-accessors
-#' @import SummarizedExperiment
-#' @name QFeatures-accessors
-#' @return NA
 setMethod(
     "qMetacell", "SummarizedExperiment",
   #' @param object xxx
@@ -80,12 +81,6 @@ setMethod(
 
 #' @export
 #' @rdname QFeatures-accessors
-#' @param object An instance of class `SummarizedExperiment` or `QFeatures`.
-#' @param i The index or name of the assays to extract the quantitative 
-#' metadata from. All must have a rowdata variable named as `slotName`
-#' @param slotName xxx
-#' @param value xxx
-#' @return NA
 "qMetacell<-" <- function(object,
                           i,
                           slotName = "qMetacell",
@@ -125,6 +120,9 @@ setMethod(
 
 
 
+#' @rdname QFeatures-accessors
+setGeneric("GetUniqueTags", 
+  function(object, ...) standardGeneric("GetUniqueTags"))
 
 
 
@@ -253,8 +251,14 @@ setMethod(
 
 
 #---------------------------------------------------------------------------
+#' @rdname QFeatures-accessors
+setGeneric("ConnectedComp", 
+  function(object, ...) standardGeneric("ConnectedComp"))
+setGeneric("ConnectedComp<-", 
+  function(object, ..., value) standardGeneric("ConnectedComp<-"))
 
-#' @exportMethod typeDataset
+
+#' @exportMethod ConnectedComp
 #' @rdname QFeatures-accessors
 setMethod("ConnectedComp", "QFeatures",
           function(object, i, slotName = "ConnectedComp") {
@@ -304,6 +308,13 @@ setMethod("ConnectedComp", "SummarizedExperiment",
 }
 
 
+#' @rdname QFeatures-accessors
+setGeneric("typeDataset", 
+  function(object, ...) standardGeneric("typeDataset"))
+setGeneric("typeDataset<-", 
+  function(object, ..., value) standardGeneric("typeDataset<-"))
+
+
 #' @exportMethod typeDataset
 #' @rdname QFeatures-accessors
 setMethod("typeDataset", "QFeatures",
@@ -348,6 +359,12 @@ setMethod("typeDataset", "SummarizedExperiment",
     return(object)
 }
 
+
+#' @rdname QFeatures-accessors
+setGeneric("idcol", 
+  function(object, ...) standardGeneric("idcol"))
+setGeneric("idcol<-", 
+  function(object, ..., value) standardGeneric("idcol<-"))
 
 
 #' @exportMethod idcol
@@ -398,6 +415,11 @@ setMethod(
 }
 
 
+#' @rdname QFeatures-accessors
+setGeneric("parentProtId", 
+  function(object, ...) standardGeneric("parentProtId"))
+setGeneric("parentProtId<-", 
+  function(object, ..., value) standardGeneric("parentProtId<-"))
 
 
 #' @exportMethod parentProtId
@@ -454,6 +476,12 @@ setMethod(
 
 
 
+#' @rdname QFeatures-accessors
+setGeneric("filename", 
+  function(object, ...) standardGeneric("filename"))
+setGeneric("filename<-", 
+  function(object, ..., value) standardGeneric("filename<-"))
+
 
 
 #' @exportMethod filename
@@ -472,7 +500,6 @@ setMethod(
   if (inherits(object, "QFeatures")){
       S4Vectors::metadata(object)[[slotName]] <- value
     }
-
   return(object)
 }
 
@@ -481,7 +508,11 @@ setMethod(
 
 
 
-
+#' @rdname QFeatures-accessors
+setGeneric("analysis", 
+  function(object, ...) standardGeneric("analysis"))
+setGeneric("analysis<-", 
+  function(object, ..., value) standardGeneric("analysis<-"))
 
 
 #' @exportMethod analysis
@@ -531,6 +562,12 @@ setMethod(
 
 
 
+#' @rdname QFeatures-accessors
+setGeneric("version", 
+  function(object, ...) standardGeneric("version"))
+setGeneric("version<-", 
+  function(object, ..., value) standardGeneric("version<-"))
+
 
 #' @exportMethod version
 #' @rdname QFeatures-accessors
@@ -553,8 +590,11 @@ setMethod(
 
 
 
-
-
+#' @rdname QFeatures-accessors
+setGeneric("design.qf", 
+  function(object, ...) standardGeneric("design.qf"))
+setGeneric("design.qf<-", 
+  function(object, ..., value) standardGeneric("design.qf<-"))
 
 #' @exportMethod design.qf
 #' @rdname QFeatures-accessors
@@ -583,6 +623,11 @@ mainAssay <- function(object) {
 
 
 
+#' @rdname QFeatures-accessors
+setGeneric("HypothesisTest", 
+  function(object, ...) standardGeneric("HypothesisTest"))
+setGeneric("HypothesisTest<-", 
+  function(object, ..., value) standardGeneric("HypothesisTest<-"))
 
 #' @export
 #' @exportMethod HypothesisTest
@@ -634,6 +679,14 @@ setMethod(
 }
 
 
+
+
+
+#' @rdname QFeatures-accessors
+setGeneric("DifferentialAnalysis", 
+  function(object, ...) standardGeneric("DifferentialAnalysis"))
+setGeneric("DifferentialAnalysis<-", 
+  function(object, ..., value) standardGeneric("DifferentialAnalysis<-"))
 
 
 
@@ -690,9 +743,11 @@ setMethod(
 
 
 
+#' @rdname QFeatures-accessors
+setGeneric("names_metacell", 
+  function(object, ...) standardGeneric("names_metacell"))
 
-
-#' @exportMethod parentProtId
+#' @exportMethod names_metacell
 #' @rdname QFeatures-accessors
 setMethod(
   "names_metacell", "QFeatures",
@@ -750,7 +805,7 @@ setMethod(
 #' @import omXplore
 #' 
 NAIsZero <- function(obj, i){
-  
+  stopifnot(inherits(obj, 'QFeatures'))
   assay(obj[[i]])[which(is.na(assay(obj[[i]])))] <- 0
   
   m <- match.metacell(

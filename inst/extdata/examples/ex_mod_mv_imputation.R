@@ -6,7 +6,7 @@
 #' # xxx
 #' #-----------------------------
 #'
-#' mv.density(ft_na[[1]], conds, pattern = "missing MEC")
+#' mv.density(ft_na[[1]], conds, pattern = "Missing MEC")
 #'
 #' mv.mec.heatmap(ft_na[[1]], conds)
 #'

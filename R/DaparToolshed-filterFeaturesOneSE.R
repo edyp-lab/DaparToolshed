@@ -140,6 +140,12 @@ FunctionFilter <- function(name, ...) {
 }
 
 
+#' @rdname QFeatures-filtering-oneSE
+setGeneric("filterFeaturesOneSE", 
+  function(object, ...) standardGeneric("filterFeaturesOneSE"))
+
+
+
 #' @param object An instance of class `QFeatures` or `SummarizedExperiment`.
 #'
 #' @param i The index or name of the assay which features will be

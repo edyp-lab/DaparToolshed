@@ -10,6 +10,7 @@
 #'
 #'
 #' @param obj An object of class \code{MSnSet}.
+#' @param grp xxx
 #'
 #' @return The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead 
 #' of missing
@@ -121,6 +122,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(500)]
 #' design <- design.qf(obj)
+#' level <- 'protein'
 #' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 #' obj.imp.na <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = TRUE)
@@ -310,11 +312,13 @@ translatedRandomBeta <- function(
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
+#' \dontrun{
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
 #' design <- design.qf(obj)
-#' obj.imp.pa2 <- wrapper.impute.pa2(obj[[1]], design, distribution = "beta")
-#'
+#' obj.imp.pa2 <- wrapper.impute.pa2(obj = obj[[1]], design = design)
+#' }
+#' 
 #' @export
 #'
 #'
@@ -333,7 +337,7 @@ wrapper.impute.pa2 <- function(
   if (missing(design))
     stop("'design' is required.")
   
-  
+
 
     ## order exp and pData table before using imp4p functions
     tmp <- design$Condition

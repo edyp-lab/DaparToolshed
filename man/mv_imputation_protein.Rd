@@ -52,8 +52,6 @@ replicates}
 \item{qdata}{xxx}
 
 \item{design}{xxx}
-
-\item{coldata}{xxx}
 }
 \value{
 A data.frame containing the indexes of LAPALA

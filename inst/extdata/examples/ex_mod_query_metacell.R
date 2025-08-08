@@ -17,7 +17,7 @@ server <- function(input, output) {
   
   
   
-  utils::data("Exp1_R25_prot", package='DaparToolshedData')
+  utils::data(Exp1_R25_prot, package='DaparToolshedData')
   
   tmp <- mod_query_metacell_server('query', 
                                    obj = reactive({Exp1_R25_prot}),

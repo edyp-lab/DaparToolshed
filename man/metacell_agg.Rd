@@ -13,9 +13,9 @@ metacell_agg(aggregatedSE, originalSE, adj_mat, conds, protname_order)
 
 \item{adj_mat}{An adjacency matrix.}
 
-\item{conds}{}
+\item{conds}{xxx}
 
-\item{protname_order}{}
+\item{protname_order}{xxx}
 }
 \value{
 A \code{SummarizedExperiment} containing the aggregated data.

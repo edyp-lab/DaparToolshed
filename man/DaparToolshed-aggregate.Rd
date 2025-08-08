@@ -2,12 +2,15 @@
 % Please edit documentation in R/aggregation.R
 \name{DaparToolshed-aggregate}
 \alias{DaparToolshed-aggregate}
+\alias{aggregateFeatures4Prostar}
 \alias{aggregateFeatures4Prostar,QFeatures-method}
 \alias{aggregateFeatures4Prostar,SummarizedExperiment-method}
 \alias{aggQmetacell}
 \alias{aggregateMethods}
 \title{Aggregate an assay's quantitative features}
 \usage{
+aggregateFeatures4Prostar(object, ...)
+
 \S4method{aggregateFeatures4Prostar}{QFeatures}(
   object,
   i,
@@ -36,6 +39,8 @@ aggregateMethods()
 \arguments{
 \item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
 
+\item{...}{Additional parameters passed the \code{fun}.}
+
 \item{i}{The index or name of the assay which features will be aggregated the create the new assay.}
 
 \item{fcol}{A \code{character(1)} naming a rowdata variable (of assay \code{i} in case of a \code{QFeatures})
@@ -51,8 +56,6 @@ See details for examples.}
 \item{shared}{A \code{boolean} indication if shared peptides should be considered. If \code{TRUE}, shared peptides}
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
-
-\item{...}{Additional parameters passed the \code{fun}.}
 
 \item{conds}{A \code{character()} vector which is the names of conditions
 for each sample in the dataset.}

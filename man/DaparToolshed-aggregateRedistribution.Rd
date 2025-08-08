@@ -2,10 +2,13 @@
 % Please edit documentation in R/aggregation.R
 \name{DaparToolshed-aggregateRedistribution}
 \alias{DaparToolshed-aggregateRedistribution}
+\alias{aggregateRedistribution}
 \alias{aggregateRedistribution,QFeatures-method}
 \alias{aggregateRedistribution,SummarizedExperiment-method}
 \title{Aggregate an assay's quantitative features with shared peptide redistribution}
 \usage{
+aggregateRedistribution(object, ...)
+
 \S4method{aggregateRedistribution}{QFeatures}(
   object,
   i,
@@ -34,6 +37,8 @@
 \arguments{
 \item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
 
+\item{...}{xxx}
+
 \item{i}{The index or name of the assay which features will be aggregated the create the new assay.}
 
 \item{name}{A \code{character(1)} naming the new assay. Default is \code{newAssay}.
@@ -56,7 +61,11 @@ Available values are \code{Global} (default), \code{Condition} or \code{Sample}.
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
 
+\item{uniqueiter}{xxx}
+
 \item{max_iter}{A \code{numeric(1)} setting the maximum number of iteration.}
+
+\item{conds}{xxx}
 }
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).

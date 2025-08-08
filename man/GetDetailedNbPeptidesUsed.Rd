@@ -20,14 +20,11 @@ Method to compute the detailed number of quantified peptides used for
 aggregating each protein
 }
 \examples{
-\dontrun{
-library(DaparToolshedData)
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj.pep <- Exp1_R25_pept[seq_len(10)]
 last.obj <- obj.pep[[length(obj.pep)]]
 X <- BuildAdjacencyMatrix(last.obj)
 ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
-}
 
 }
 \author{

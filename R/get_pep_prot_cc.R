@@ -158,7 +158,7 @@ get.pep.prot.cc <- function(X) {
 #' @examples
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- BuildAdjacencyMatrix(obj, "Protein_group_IDs", TRUE)
+#' X <- BuildAdjacencyMatrix(obj[[1]])
 #' ll <- get.pep.prot.cc(X)
 #' plotJitter(ll)
 #'
@@ -336,7 +336,7 @@ display.CC.visNet <- function(
 #' @examples 
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- BuildAdjacencyMatrix(obj, "Protein_group_IDs", TRUE)
+#' X <- BuildAdjacencyMatrix(obj[[1]])
 #' ll <- get.pep.prot.cc(X)[1:4]
 #' n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
 #' n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
