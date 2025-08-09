@@ -180,9 +180,7 @@ QuantileCentering <- function(qData,
   type = "overall",
   subset.norm = NULL,
   quantile = 0.15) {
-  
-  pkgs.require('stats')
-  
+
   if (missing(conds)) {
     stop("'conds' is required")
   }

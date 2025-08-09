@@ -66,9 +66,7 @@ fudge2LRT <- function(lmm.res.h0,
     s, 
     alpha = seq(0, 1, 0.05), 
     include.zero = TRUE) {
-    
-  pkgs.require("stats") 
-    
+
     
     if (max(alpha) > 1 || min(alpha) < 0) {
         stop("alpha has to be between 0 and 1")
