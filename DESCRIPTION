@@ -39,7 +39,8 @@ Imports:
     Matrix,
     stringr,
     graph,
-    igraph
+    igraph,
+    preprocessCore
 biocViews: 
     Proteomics,
     Normalization,
