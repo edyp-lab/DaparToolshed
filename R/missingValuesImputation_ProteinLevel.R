@@ -310,10 +310,10 @@ wrapper.impute.detQuant <- function(
 #' @rdname mv_imputation_protein
 #' 
 #' @export
+#' @importFrom stats quantile
 #'
 getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
-    
-    pkgs.require('stats')
+
     r1 <- apply(qdata, 2, stats::quantile, qval, na.rm = TRUE)
     r2 <- r1 * factor
     return(list(ImpVal = r1, shiftedImpVal = r2))

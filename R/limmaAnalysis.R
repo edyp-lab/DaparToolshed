@@ -325,11 +325,10 @@ make.design.1 <- function(sTab) {
 #'
 #'
 #' @export
+#' @importFrom stats model.matrix rnorm
 #'
 make.design.2 <- function(sTab) {
-  pkgs.require('stats')
-  
-  
+
   Condition <- factor(sTab$Condition, levels = unique(sTab$Condition))
   RepBio <- factor(sTab$Bio.Rep, levels = unique(sTab$Bio.Rep))
   
@@ -383,11 +382,10 @@ make.design.2 <- function(sTab) {
 #'
 #'
 #' @export
+#' @importFrom rnorm model.matrix
 #'
 make.design.3 <- function(sTab) {
-  
-  pkgs.require('stats')
-  
+
   Condition <- factor(sTab$Condition, levels = unique(sTab$Condition))
   RepBio <- factor(sTab$Bio.Rep, levels = unique(sTab$Bio.Rep))
   RepTech <- factor(sTab$Tech.Rep, levels = unique(sTab$Tech.Rep))

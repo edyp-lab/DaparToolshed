@@ -90,6 +90,7 @@ listSheets <- function(file) {
 #' @rdname output_2_Excel
 #' @import omXplore
 #' @import QFeatures
+#' @importFrom stats setNames
 #' 
 write_Assay_To_Excel <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_quantdata')
@@ -188,6 +189,7 @@ WriteHistory <- function(wb, obj, n){
 #' @rdname output_2_Excel
 #' @import omXplore
 #' @import SummarizedExperiment
+#' @importFrom stats setNames
 #' 
 Write_SamplesData_to_Excel <- function(wb, obj, n){
   

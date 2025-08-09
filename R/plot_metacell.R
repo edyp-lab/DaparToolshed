@@ -393,13 +393,14 @@ wrapper.mvImage <- function(obj,
 #' 
 #' @import omXplore
 #' @import QFeatures
+#' @importFrom stats setNames
 #'
 #' @rdname metacell-plots
 #' 
 #'
 mvImage <- function(obj, group) {
   
-  pkgs.require(c('grDevices', 'stats'))
+  pkgs.require(c('grDevices'))
   
   ### build indices of conditions
   indCond <- list()
@@ -480,6 +481,7 @@ mvImage <- function(obj, group) {
 #' @export
 #' @import omXplore
 #' @import SummarizedExperiment
+#' @importFrom stats density
 #'
 hc_mvTypePlot2 <- function(obj,
   group,
@@ -489,7 +491,6 @@ hc_mvTypePlot2 <- function(obj,
   title = NULL) {
   
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-  pkgs.require('stats')
   
   
   qdata <- SummarizedExperiment::assay(obj)

@@ -260,7 +260,7 @@ wrapper.dapar.impute.mi <- function(obj,
 #' translatedRandomBeta(1000, 5, 10, 1, 1)
 #'
 #' @export
-#'
+#' @importFrom stats rbeta
 #'
 #'
 translatedRandomBeta <- function(
@@ -269,7 +269,7 @@ translatedRandomBeta <- function(
     max, 
     param1 = 3, 
     param2 = 1) {
-    pkgs.require('stats')
+
 
     scale <- max - min
     simu <- stats::rbeta(n, param1, param2)
@@ -410,6 +410,7 @@ wrapper.impute.pa2 <- function(
 #' obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
 #'
 #' @export
+#' @importFrom stats quantile sd runif median
 #'
 impute.pa2 <- function(tab,
                        conditions, 
@@ -419,7 +420,6 @@ impute.pa2 <- function(tab,
                        distribution = "unif"
                        ) {
 
-    pkgs.require('stats')
   if (missing(tab))
     stop("'tab' is required.")
   #stopifnot(inherits(obj, 'SummarizedExperiment'))

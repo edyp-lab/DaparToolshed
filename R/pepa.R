@@ -53,7 +53,7 @@
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
-#'
+#' @importFrom stats quantile mad sd
 #' 
 #' @examples 
 #' NULL
@@ -245,15 +245,12 @@ LH1 <- function(X, y1, y2, j) {
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
-#' 
+#' @importFrom stats lm logLik
 #' @examples 
 #' NULL
 #'
 LH0.lm <- function(X, y1, y2) {
-    
-  pkgs.require("stats") 
-    
-    
+
     Ytilde <- matrix(c(as.vector(y1), as.vector(y2)), ncol = 1)
     p <- ncol(X)
     q <- nrow(X)
@@ -314,7 +311,7 @@ LH0.lm <- function(X, y1, y2) {
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
-#'
+#' @importFrom stats formula lm logLik
 #' 
 #' @examples 
 #' NULL
@@ -412,13 +409,13 @@ LH1.lm <- function(X, y1, y2, j) {
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
-#' 
+#' @importFrom stats residuals
 #' @examples 
 #' NULL
 #'
 samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
     
-  pkgs.require(c("stats", "lme4")) 
+  pkgs.require(c("lme4")) 
     
     s <- lh1.sam <- llr.sam <- rep(NA, p)
     lh0.sam <- rep(NA, length(cc))
@@ -518,6 +515,7 @@ samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
 #'
 #' @export
 #' @importFrom graph graphAM connComp
+#' @importFrom stats residuals quantile pchisq
 #' 
 #' @examples 
 #' NA
@@ -529,7 +527,6 @@ pepa.test <- function(X,
     global = FALSE, 
     use.lm = FALSE
 ) {
-  pkgs.require(c("stats"))
     
     n <- n1 + n2
     

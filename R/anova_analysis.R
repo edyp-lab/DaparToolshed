@@ -335,10 +335,10 @@ compute.selection.table <- function(x, fdr.threshold){
 #' \dontrun{examples/ex_classic1wayAnova.R}
 #'
 #' @export
+#' @importFrom stats aov
 #'
 classic1wayAnova <- function(current_line, conditions) {
   .Deprecated("OWAnova")
-  pkgs.require('stats')
   
   
   # vector containing the protein/peptide intensities

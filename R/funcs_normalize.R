@@ -107,13 +107,12 @@ GlobalQuantileAlignment <- function(qData) {
 #' @return A normalized numeric matrix
 #' @export
 #' @rdname normalization_methods
+#' @importFrom stats median
 #'
 SumByColumns <- function(qData,
   conds = NULL,
   type = NULL,
   subset.norm = NULL) {
-  
-  pkgs.require('stats')
   
   
   if (missing(conds)) {
@@ -174,6 +173,7 @@ SumByColumns <- function(qData,
 #' @return A normalized numeric matrix
 #' @export
 #' @rdname normalization_methods
+#' @importFrom stats quantile
 #'
 QuantileCentering <- function(qData,
   conds = NULL,

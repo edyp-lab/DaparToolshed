@@ -98,6 +98,8 @@ NULL
 
 #' @export
 #' @rdname adjacency-matrix-filter
+#' @importFrom stats setNames
+#' 
 AdjMatFilters <- function() {
     stats::setNames(c(
         "allPeptides",

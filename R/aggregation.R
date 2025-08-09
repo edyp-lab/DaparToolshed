@@ -458,6 +458,8 @@ setMethod(
 #'
 #' @rdname DaparToolshed-aggregate
 #' 
+#' @importFrom stats setNames
+#' 
 #' @export
 #'
 aggQmetacell <- function(qMeta, X, level, conds) {
@@ -504,6 +506,7 @@ aggQmetacell <- function(qMeta, X, level, conds) {
 
 #' @export
 #' @rdname DaparToolshed-aggregate
+#' @importFrom stats setNames
 aggregateMethods <- function() {
   stats::setNames(
     c("medianPolish",

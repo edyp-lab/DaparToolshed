@@ -35,7 +35,7 @@
 #'
 #' @import omXplore
 #' @import SummarizedExperiment
-#'
+#' @importFrom stats t.test
 #' @export
 #'
 compute_t_tests <- function(obj, 
@@ -43,8 +43,6 @@ compute_t_tests <- function(obj,
   contrast = c("OnevsOne", "OnevsAll"),
   type = c("Student", "Welch")
   ){
-  
-  pkgs.require('stats')
   
   if(missing(contrast))
     contrast <- match.arg(contrast)[1]
