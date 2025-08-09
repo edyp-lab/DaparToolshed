@@ -382,7 +382,7 @@ make.design.2 <- function(sTab) {
 #'
 #'
 #' @export
-#' @importFrom rnorm model.matrix
+#' @importFrom stats rnorm model.matrix
 #'
 make.design.3 <- function(sTab) {
 
