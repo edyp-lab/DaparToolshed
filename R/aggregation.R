@@ -1237,7 +1237,7 @@ GetDetailedNbPeptides <- function(X) {
 #'
 #' @export
 #' 
-#' @import graphics
+#' @importFrom graphics barplot
 #'
 GraphPepProt <- function(mat) {
   
