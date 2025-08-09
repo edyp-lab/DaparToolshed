@@ -92,11 +92,10 @@ normalizeMethods <- function(target = 'all'){
 #' @return A normalized numeric matrix
 #' @export
 #' @rdname normalization_methods
+#' @importFrom preprocessCore normalize.quantiles
 #'
 GlobalQuantileAlignment <- function(qData) {
-  
-  pkgs.require('preprocessCore')
-  
+
   e <- preprocessCore::normalize.quantiles(as.matrix(qData),
     keep.names = TRUE)
   return(e)
