@@ -52,7 +52,7 @@ qDataBefore <- SummarizedExperiment::assay(obj[[length(obj)]])
 conds <- design.qf(obj)$Condition
 id <- SummarizedExperiment::rowData(obj[[length(obj)]])[, omXplore::get_colID(obj[[length(obj)]])]
 # pal <- ExtendPalette(2)
-# qDataAfter <- GlobalQuantileAlignment(qDataBefore)
+qDataAfter <- LOESS(qDataBefore, conds, type = "overall")
 
 n <- 1
 compareNormalizationD_HC(
