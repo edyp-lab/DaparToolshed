@@ -39,9 +39,7 @@ Imports:
     tibble,
     Matrix,
     doParallel,
-    stringr,
-    graph,
-    igraph
+    stringr
 biocViews: 
     Proteomics,
     Normalization,
@@ -88,7 +86,9 @@ Suggests:
     purrr,
     gplots, 
     tidyr,
-    DaparToolshedData
+    DaparToolshedData,
+    graph,
+    igraph
 Remotes:
     git::https://github.com/edyp-lab/DaparToolshedData,
     git::https://github.com/edyp-lab/omXplore
