@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   DaparToolshed: DaparToolshed.html
-last_built: 2025-08-09T03:03Z
+last_built: 2025-08-09T03:09Z
 urls:
   reference: https://edyp-lab.github.io/DaparToolshed/reference
   article: https://edyp-lab.github.io/DaparToolshed/articles
