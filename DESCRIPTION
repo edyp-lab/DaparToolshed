@@ -35,11 +35,11 @@ Imports:
     shiny,
     stats,
     utils,
-    foreach,
     tibble,
     Matrix,
-    doParallel,
-    stringr
+    stringr,
+    graph,
+    igraph
 biocViews: 
     Proteomics,
     Normalization,
@@ -86,9 +86,7 @@ Suggests:
     purrr,
     gplots, 
     tidyr,
-    DaparToolshedData,
-    graph,
-    igraph
+    DaparToolshedData
 Remotes:
     git::https://github.com/edyp-lab/DaparToolshedData,
     git::https://github.com/edyp-lab/omXplore

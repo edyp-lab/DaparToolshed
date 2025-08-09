@@ -129,6 +129,7 @@ allPeptides <- function(object, ...) {
 
 #' @export
 #' @rdname adjacency-matrix-filter
+#' @importFrom QFeatures adjacencyMatrix
 specPeptides <- function(object, ...) {
     stopifnot(inherits(object, "SummarizedExperiment"))
     stopifnot("adjacencyMatrix" %in% names(SummarizedExperiment::rowData(object)))

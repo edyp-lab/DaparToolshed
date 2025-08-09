@@ -517,7 +517,7 @@ samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
-#'
+#' @importFrom graph graphAM connComp
 #' 
 #' @examples 
 #' NA
@@ -529,7 +529,7 @@ pepa.test <- function(X,
     global = FALSE, 
     use.lm = FALSE
 ) {
-  pkgs.require(c("graph", "stats"))
+  pkgs.require(c("stats"))
     
     n <- n1 + n2
     

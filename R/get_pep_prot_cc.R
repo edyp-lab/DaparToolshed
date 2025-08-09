@@ -29,8 +29,8 @@
 #'
 #' @export
 #' @import Matrix
-#' @import igraph
-#' @import graph
+#' @importFrom igraph components graph.adjacency
+#' @importFrom graph graphAM connComp 
 #'
 get.pep.prot.cc <- function(X) {
   
