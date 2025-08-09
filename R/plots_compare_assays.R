@@ -33,6 +33,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom utils str
 #' @import omXplore
+#' @import QFeatures
 #'
 #' @export
 #'

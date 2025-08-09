@@ -682,6 +682,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' library(SummarizedExperiment)
 #' data(Exp1_R25_prot, package='DaparToolshedData')
 #' obj <- Exp1_R25_prot[seq(100)]
 #' level <- 'protein'

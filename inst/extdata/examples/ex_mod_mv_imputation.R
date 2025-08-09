@@ -1,3 +1,4 @@
+#' library(QFeatures)
 #' data(ft_na, package='omXplore')
 #' data <- assay(ft_na, 1)
 #' conds <- colData(ft_na)$Condition

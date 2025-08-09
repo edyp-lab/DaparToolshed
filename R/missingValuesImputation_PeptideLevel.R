@@ -403,6 +403,7 @@ wrapper.impute.pa2 <- function(
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
+#' library(QFeatures)
 #' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
 #' qdata <- assay(Exp1_R25_pept[[1]])
 #' conds <- design.qf(Exp1_R25_pept)$Condition

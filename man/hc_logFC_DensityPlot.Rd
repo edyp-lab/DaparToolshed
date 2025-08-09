@@ -23,6 +23,7 @@ by limma) for a list of the comparisons of conditions in a differential
 analysis.
 }
 \examples{
+library(SummarizedExperiment)
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept
 # Simulate missing value imputation

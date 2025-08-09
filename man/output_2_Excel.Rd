@@ -53,6 +53,7 @@ The colored cells in the experimental data correspond to the original
 missing values which have been imputed.
 }
 \examples{
+library(QFeatures)
 data(Exp1_R25_pept, package="DaparToolshedData")
 obj <- Exp1_R25_pept[seq_len(100)]
 df <- assay(obj[[1]])

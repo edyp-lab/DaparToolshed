@@ -22,6 +22,7 @@
 #' @author Samuel Wieczorek
 #' @name output_2_Excel
 #' @examples
+#' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(100)]
 #' df <- assay(obj[[1]])
@@ -88,6 +89,7 @@ listSheets <- function(file) {
 #' @export
 #' @rdname output_2_Excel
 #' @import omXplore
+#' @import QFeatures
 #' 
 write_Assay_To_Excel <- function(wb, obj, i, n){
   .name <- paste0(names(obj)[i], '_quantdata')

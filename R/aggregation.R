@@ -579,6 +579,7 @@ aggregateMethods <- function() {
 #' }
 #' 
 #' @export
+#' @import QFeatures
 #'
 RunAggregation <- function(qf,
                            includeSharedPeptides = 'Yes_As_Specific',
@@ -1484,6 +1485,7 @@ inner.aggregate.iter <- function(
 #' 
 #' @examples 
 #' \dontrun{
+#' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
@@ -1517,6 +1519,7 @@ inner.sum <- function(pepData, X) {
 #' 
 #' @examples 
 #' \dontrun{
+#' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj)
@@ -1550,6 +1553,7 @@ inner.mean <- function(pepData, X) {
 #' 
 #' @examples 
 #' \dontrun{
+#' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' obj <- Exp1_R25_pept[seq_len(10)]
 #' X <- BuildAdjacencyMatrix(obj)

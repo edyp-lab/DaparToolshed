@@ -407,6 +407,7 @@ NULL
 
 #' @export
 #' @rdname q_metacell
+#' @import SummarizedExperiment
 Set_POV_MEC_tags <- function(obj, conds){
   stopifnot(inherits(obj, "SummarizedExperiment"))
   u_conds <- unique(conds)

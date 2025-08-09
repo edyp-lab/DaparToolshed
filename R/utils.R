@@ -141,6 +141,7 @@ ProstarVersions <- function() {
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' library(QFeatures)
 #' data(ft, package='DaparToolshed')
 #' nEmptyLines(assay(ft, 1))
 #'
@@ -222,6 +223,7 @@ is.subset <- function(set1, set2)
 #' @export
 #'
 #' @importFrom S4Vectors sort
+#' @import QFeatures
 #'
 getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
     if (is.null(object)) {
@@ -470,6 +472,7 @@ CleanRowData <- function(obj, i){
 #' @author Samuel Wieczorek
 #'
 #' @examples
+#' library(QFeatures)
 #' data(Exp1_R25_pept, package="DaparToolshedData")
 #' qData <- assay(Exp1_R25_pept[[1]])
 #' getNumberOfEmptyLines(qData)

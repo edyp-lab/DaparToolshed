@@ -26,6 +26,7 @@ identical and correspond to the description of the comparison.
 xxxx
 }
 \examples{
+library(SummarizedExperiment)
 data(Exp1_R25_prot, package='DaparToolshedData')
 obj <- Exp1_R25_prot[seq(100)]
 level <- 'protein'

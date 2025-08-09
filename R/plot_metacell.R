@@ -57,6 +57,7 @@ NULL
 #' @export
 #' @import highcharter
 #' @import omXplore
+#' @import QFeatures
 #'
 metacellPerLinesHisto_HC <- function(obj,
   group,
@@ -135,6 +136,7 @@ metacellPerLinesHisto_HC <- function(obj,
 #' @rdname metacell-plots
 #' @export
 #' @import omXplore
+#' @import QFeatures
 #'
 metacellPerLinesHistoPerCondition_HC <- function(obj,
   group,
@@ -337,6 +339,7 @@ metacellHisto_HC <- function(obj,
 #' @rdname metacell-plots
 #' @export
 #' @import omXplore
+#' @import QFeatures
 #'
 wrapper.mvImage <- function(obj, 
   group = NULL,
@@ -389,8 +392,10 @@ wrapper.mvImage <- function(obj,
 #' @export
 #' 
 #' @import omXplore
+#' @import QFeatures
 #'
 #' @rdname metacell-plots
+#' 
 #'
 mvImage <- function(obj, group) {
   
