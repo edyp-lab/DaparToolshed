@@ -100,7 +100,7 @@ conds <- design.qf(obj)$Condition
 
 
 
-normalized <- GlobalQuantileAlignment(qData)
+#normalized <- GlobalQuantileAlignment(qData)
 
 normalized <- SumByColumns(qData, conds,
     type = "within conditions",
