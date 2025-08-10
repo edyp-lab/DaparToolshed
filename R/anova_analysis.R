@@ -67,7 +67,7 @@ applyAnovasOnProteins <- function(obj, i){
 #' testAnovaModels(applyAnovasOnProteins(exdata, 1))
 #'
 #' @export
-#' 
+#' @importFrom stats TukeyHSD
 #' 
 testAnovaModels <- function(aov_fits, test = "Omnibus"){  
   
@@ -82,7 +82,7 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
                        "P_Value" = data.frame("anova_1way_pval" = omnibus_tests_summaries[,9], row.names = names(aov_fits)))
          }, TukeyHSD={
            tukeyHSD_tests_summaries <- lapply(aov_fits, 
-                                              function(x) TukeyHSD(x, which = "conditions")$conditions)
+                                              function(x) stats::TukeyHSD(x, which = "conditions")$conditions)
            res <- formatHSDResults(tukeyHSD_tests_summaries)
          }, TukeySinglestep={
            tukeySS_tests_summaries <- lapply(aov_fits, 
@@ -270,11 +270,12 @@ separateAdjPval <- function(x,
 #' globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
 #'
 #' @export
+#' @importFrom utils stack
 #' 
 globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
   pkgs.require('cp4p')
   res <- x
-  vec <- stack(x)$values
+  vec <- utils::stack(x)$values
   index <- which(vec< pval.threshold)
   if(display)
     cp4p::calibration.plot(vec[index], pi0.method="ALL")
