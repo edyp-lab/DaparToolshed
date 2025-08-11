@@ -68,10 +68,11 @@ applyAnovasOnProteins <- function(obj, i){
 #'
 #' @export
 #' @importFrom stats TukeyHSD
+#' @importFrom MagellanNTK pkgs.require
 #' 
 testAnovaModels <- function(aov_fits, test = "Omnibus"){  
   
-  pkgs.require('multcomp')
+  MagellanNTK::pkgs.require('multcomp')
   
   switch(test,
          Omnibus={
@@ -134,12 +135,13 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
 #' @param post_hoc_models_summaries xxx
 #'
 #' @return xxx
+#' @importFrom MagellanNTK pkgs.require
 #'
 #' @examples
 #' NULL
 #' 
 formatHSDResults <- function(post_hoc_models_summaries){
-  pkgs.require(c('purrr', 'stringr'))
+  MagellanNTK::pkgs.require(c('purrr', 'stringr'))
   
   # get the fold-changes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x[,1])
@@ -172,8 +174,10 @@ formatHSDResults <- function(post_hoc_models_summaries){
 #' @examples
 #' NULL
 #' 
+#' @importFrom MagellanNTK pkgs.require
+#' 
 formatPHTResults <- function(post_hoc_models_summaries){
-  pkgs.require(c('purrr', 'stringr'))
+  MagellanNTK::pkgs.require(c('purrr', 'stringr'))
   
   # récupérer les différences entre les moyennes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x$test$coefficients)
@@ -208,8 +212,10 @@ formatPHTResults <- function(post_hoc_models_summaries){
 #' @examples
 #' NULL
 #' 
+#' @importFrom MagellanNTK pkgs.require
+#' 
 thresholdpval4fdr <- function(x, pval.T, M){
-  pkgs.require('cp4p')
+  MagellanNTK::pkgs.require('cp4p')
   index <- which(x< pval.T)
   R <- length(index)/length(x)
   print(R)
@@ -238,10 +244,12 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #'
 #' @export
 #' 
+#' @importFrom MagellanNTK pkgs.require
+#' 
 separateAdjPval <- function(x, 
                             pval.threshold = 1.05, 
                             method = 1){
-  pkgs.require('cp4p')
+  MagellanNTK::pkgs.require('cp4p')
   if(pval.threshold > 1){
     res <- apply(x, 2, function(x) cp4p::adjust.p(x, pi0.method = method)$adjp$adjusted.p)
   } else{
@@ -271,9 +279,10 @@ separateAdjPval <- function(x,
 #'
 #' @export
 #' @importFrom utils stack
+#' @importFrom MagellanNTK pkgs.require
 #' 
 globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
-  pkgs.require('cp4p')
+  MagellanNTK::pkgs.require('cp4p')
   res <- x
   vec <- utils::stack(x)$values
   index <- which(vec< pval.threshold)
@@ -380,6 +389,8 @@ classic1wayAnova <- function(current_line, conditions) {
 #' @seealso [postHocTest()]
 #'
 #' @export
+#' 
+#' @importFrom MagellanNTK pkgs.require
 #'
 wrapperClassic1wayAnova <- function(obj, 
   i,
@@ -387,7 +398,7 @@ wrapperClassic1wayAnova <- function(obj,
   post_hoc_test = "No") {
   
   .Deprecated("testAnovaModels")
-  pkgs.require('dplyr')
+  MagellanNTK::pkgs.require('dplyr')
   
   
   qData <- assay(obj[[i]])
@@ -466,10 +477,11 @@ wrapperClassic1wayAnova <- function(obj,
 #' \dontrun{examples/ex_formatPHResults.R}
 #'
 #' @export
+#' @importFrom MagellanNTK pkgs.require
 #'
 formatPHResults <- function(post_hoc_models_summaries) {
   .Deprecated("formatPHTResults")
-  pkgs.require(c('purrr', 'stringr'))
+  MagellanNTK::pkgs.require(c('purrr', 'stringr'))
   
   
   # récupérer les différences entre les moyennes
@@ -545,11 +557,13 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #' \dontrun{examples/ex_postHocTest.R}
 #'
 #' @export
+#' 
+#' @importFrom MagellanNTK pkgs.require
 #'
 #'
 postHocTest <- function(aov_fits, post_hoc_test = "TukeyHSD") {
   .Deprecated("The other functions present in the file anova_analysis.R")
-  pkgs.require('multcomp')
+  MagellanNTK::pkgs.require('multcomp')
   
   
   if (post_hoc_test == "TukeyHSD") {

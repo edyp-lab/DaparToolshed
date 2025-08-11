@@ -67,7 +67,7 @@ Convert_ui <- function(id) {
 #' @import QFeatures
 #' @importFrom shinyalert shinyalert
 #' @importFrom shinyjs disabled
-#' @importFrom MagellanNTK mod_popover_for_help_ui mod_popover_for_help_server
+#' @importFrom MagellanNTK mod_popover_for_help_ui mod_popover_for_help_server Timestamp
 #'
 #' @export
 #'

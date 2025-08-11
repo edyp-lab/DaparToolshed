@@ -143,10 +143,11 @@ reIntroduceMEC <- function(obj, grp, MECIndex) {
 #' @rdname mv_imputation_protein
 #' @import omXplore
 #' @import SummarizedExperiment
+#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.impute.KNN <- function(obj = NULL, grp, K) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-    pkgs.require('impute')
+  MagellanNTK::pkgs.require('impute')
     
     if (missing(obj)) {
         stop("'obj' is required.")
@@ -228,13 +229,14 @@ wrapper.impute.fixedValue <- function(obj,
 #' @rdname mv_imputation_protein
 #' @export
 #' @import SummarizedExperiment
+#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.impute.pa <- function(
     obj = NULL, 
     grp,
     q.min = 0.025) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-    pkgs.require('imp4p')
+  MagellanNTK::pkgs.require('imp4p')
 
     if (is.null(obj)) 
         stop("'obj' is required.")
@@ -327,12 +329,14 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #' 
 #' @rdname mv_imputation_protein
 #' @import SummarizedExperiment
+#' @importFrom MagellanNTK pkgs.require
+#' 
 #'
 wrapper.impute.slsa <- function(
     obj = NULL,
     design = NULL) {
     
-    pkgs.require('imp4p')
+    MagellanNTK::pkgs.require('imp4p')
     
     if (is.null(obj))
         stop("'obj' is required.")

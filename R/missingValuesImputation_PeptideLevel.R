@@ -29,11 +29,11 @@
 #' obj.imp.na <- wrapper.impute.mle(obj[[2]], grp)
 #'
 #' @export
-#'
+#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.impute.mle <- function(obj, grp) {
     
-    pkgs.require('imp4p')
+    MagellanNTK::pkgs.require('imp4p')
     
     if (missing(obj))
         stop("'obj' is required.")
@@ -129,7 +129,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #' obj.imp.pov <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = FALSE)
 #'
 #' @export
-#'
+#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.dapar.impute.mi <- function(obj,
   design,
@@ -153,7 +153,7 @@ wrapper.dapar.impute.mi <- function(obj,
   lapala = TRUE,
   distribution = "unif") {
 
-    pkgs.require('imp4p')
+    MagellanNTK::pkgs.require('imp4p')
 
     if (missing(obj))
         stop("'obj' is required.")

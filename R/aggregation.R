@@ -1171,8 +1171,8 @@ GetDetailedNbPeptidesUsed <- function(pepData, X) {
   
   mat <- splitAdjacencyMat(X)
   return(list(
-    nShared = t(mat$Xshared) %*% pepData,
-    nSpec = t(mat$Xspec) %*% pepData
+    nShared = as.matrix(t(mat$Xshared)) %*% pepData,
+    nSpec = as.matrix(t(mat$Xspec)) %*% pepData
   ))
 }
 

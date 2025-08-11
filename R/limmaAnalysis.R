@@ -572,11 +572,13 @@ make.contrast <- function(design,
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'
 #' @export
+#' 
+#' @importFrom MagellanNTK pkgs.require
 #'
 #'
 limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
   
-  pkgs.require(c('dplyr', 'limma', 'tidyr'))
+  MagellanNTK::pkgs.require(c('dplyr', 'limma', 'tidyr'))
   
   
   level <- getDesignLevel(sTab)
@@ -692,9 +694,11 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
 #' sTab <- SummarizedExperiment::colData(obj)
 #' limma <- limmaCompleteTest(qData, sTab)
+#' 
+#' @importFrom MagellanNTK pkgs.require
 #'
 formatLimmaResult <- function(fit, conds, contrast, design.level) {
-  pkgs.require('stringr')
+  MagellanNTK::pkgs.require('stringr')
   
   
   res <- cbind(fit$coefficients, fit$p.value)

@@ -28,7 +28,7 @@
 #' ll <- get.pep.prot.cc(X)
 #'
 #' @export
-#' @import Matrix
+#' @importFrom Matrix crossprod Matrix
 #' @importFrom igraph components graph.adjacency
 #' @importFrom graph graphAM connComp 
 #'
@@ -214,7 +214,7 @@ plotJitter <- function(list.of.cc = NULL) {
 #' g <- buildGraph(ll[[1]], X)
 #'
 #' @export
-#' @import Matrix
+#' @importFrom Matrix Matrix
 #'
 buildGraph <- function(The.CC, X) {
   nb.prot <- length(The.CC$proteins)
@@ -285,7 +285,7 @@ buildGraph <- function(The.CC, X) {
 #'
 #' @export
 #'
-#'
+#' @importFrom MagellanNTK pkgs.require
 #'
 display.CC.visNet <- function(
     g,
@@ -294,7 +294,7 @@ display.CC.visNet <- function(
     prot.tooltip = NULL,
     pept.tooltip = NULL) {
   
-  pkgs.require('visNetwork')
+  MagellanNTK::pkgs.require('visNetwork')
   
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"

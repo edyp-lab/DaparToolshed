@@ -55,6 +55,7 @@
 #' @import highcharter
 #' @importFrom utils str
 #' @import SummarizedExperiment
+#' @importFrom MagellanNTK pkgs.require
 #'
 #' @export
 #'
@@ -68,7 +69,7 @@ compareNormalizationD_HC <- function(
     n = 100,
     type = "scatter") {
   
-  pkgs.require('RColorBrewer')
+  MagellanNTK::pkgs.require('RColorBrewer')
   
   if (is.null(conds)) {
     warning("'conds' is null.")

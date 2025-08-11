@@ -50,6 +50,7 @@ biocViews:
     GO,
     DataImport
 Suggests: 
+    MagellanNTK,
     BiocManager,
     visNetwork,
     htmlwidgets,
@@ -80,7 +81,6 @@ Suggests:
     dplyr,
     colourpicker,
     readxl,
-    preprocessCore,
     grDevices,
     forcats,
     multcomp,
