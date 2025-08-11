@@ -22,6 +22,7 @@ License: Artistic-2.0
 Depends: R (>= 4.3.0)
 Imports:
     Biobase,
+    MagellanNTK,
     S4Vectors,
     SummarizedExperiment,
     omXplore,
@@ -50,7 +51,6 @@ biocViews:
     GO,
     DataImport
 Suggests: 
-    MagellanNTK,
     BiocManager,
     visNetwork,
     htmlwidgets,
