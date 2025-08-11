@@ -90,6 +90,7 @@ Suggests:
     DaparToolshedData
 Remotes:
     git::https://github.com/edyp-lab/DaparToolshedData,
+    git::https://github.com/edyp-lab/MagellanNTK,
     git::https://github.com/edyp-lab/omXplore
 NeedsCompilation: no
 Collate:
