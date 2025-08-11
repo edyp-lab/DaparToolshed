@@ -75,6 +75,7 @@ aggregating each protein</p>
 <span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">obj.pep</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ll.n</span> <span class="op">&lt;-</span> <span class="fu">GetDetailedNbPeptidesUsed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in t.default(mat$Xshared):</span> argument is not a matrix</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
