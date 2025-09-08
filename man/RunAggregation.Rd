@@ -17,7 +17,7 @@ RunAggregation(
 )
 }
 \arguments{
-\item{qf}{An instance of class \link{QFeatures}. The last assay contained in \code{qf} will be aggregated. Intensities are assumed to already be log-transformed.}
+\item{qf}{An instance of class \link[QFeatures:QFeatures-class]{QFeatures::QFeatures}. The last assay contained in \code{qf} will be aggregated. Intensities are assumed to already be log-transformed.}
 
 \item{includeSharedPeptides}{How shared peptides are handled. Either \code{Yes_As_Specific} (default), \code{Yes_Iterative_Redistribution}, \code{Yes_Simple_Redistribution} or \code{No}.
 See below for details.}
@@ -40,14 +40,14 @@ Available values are \code{Global} (default), \code{Condition} or \code{Sample}.
 \item{max_iter}{A \code{numeric(1)} setting the maximum number of iteration.}
 }
 \value{
-A \link{QFeatures} with an aggregated assay added.
+A \link[QFeatures:QFeatures-class]{QFeatures::QFeatures} with an aggregated assay added.
 }
 \description{
 This function aggregate both quantitative and rowdata from the last assay contained in a \code{QFeatures}.
 Note that the function assumes that the intensities in the QFeatures are already log-transformed.
 }
 \details{
-Aggregation of quantitative data is performed using \link{aggregateFeatures}, or \link{inner.aggregate.iter} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
+Aggregation of quantitative data is performed using \link[ProtGenerics:protgenerics]{ProtGenerics::aggregateFeatures}, or \link{inner.aggregate.iter} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
 
 The handling of shared peptide is as follow :
 \itemize{

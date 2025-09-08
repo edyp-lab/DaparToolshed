@@ -44,7 +44,7 @@ Delete the lines in the matrix of intensities and the metadata table
 given their indices.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 NA
 \dontshow{\}) # examplesIf}
 }

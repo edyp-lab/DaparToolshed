@@ -7,9 +7,9 @@
 metacell_agg(aggregatedSE, originalSE, adj_mat, conds, protname_order)
 }
 \arguments{
-\item{aggregatedSE}{An instance of class \link{SummarizedExperiment} containing the aggregated data.}
+\item{aggregatedSE}{An instance of class \link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} containing the aggregated data.}
 
-\item{originalSE}{An instance of class \link{SummarizedExperiment} containing the non-aggregated data.}
+\item{originalSE}{An instance of class \link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} containing the non-aggregated data.}
 
 \item{adj_mat}{An adjacency matrix.}
 

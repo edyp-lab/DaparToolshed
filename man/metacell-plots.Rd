@@ -100,7 +100,7 @@ whereas the y-axis count the number of observed values for this entity
 and the considered condition.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 data(ft_na)
 grp <- design.qf(ft_na)$Condition
 metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")

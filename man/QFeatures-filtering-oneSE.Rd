@@ -67,7 +67,7 @@ Those functions are divided into two main categories:
 matrix
 }
 
-for the first category, all filters of class \link{AnnotationFilter} can be
+for the first category, all filters of class \link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::AnnotationFilter} can be
 used as they are used in \code{QFeatures}
 
 For the second category, the package \code{DaparToolshed} provides filter

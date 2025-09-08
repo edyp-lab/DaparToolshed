@@ -52,7 +52,7 @@ These functions filters (delete) peptides of an assay, applying a function
 on peptides and proteins. They can be used alone but the usual usage is to
 create an instance of a class \link{FunctionFilter} and to pass it to the function
 \link{filterFeaturesOneSE} in order to create a new assay, embedded into the
-\link{QFeatures} object.
+\link[QFeatures:QFeatures-class]{QFeatures::QFeatures} object.
 }
 \details{
 This function builds an intermediate matrix with scores for each peptide

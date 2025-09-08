@@ -276,20 +276,6 @@ nonzero <- function(x) {
 
 
 
-#' @title Extension of a file
-#' @param fname A `character()` containing the file name.
-#' @rdname getExtension
-#' @export
-#' 
-#' @examples 
-#' GetExtension('foo.txt')
-#' 
-GetExtension <- function(fname) {
-    listname <- strsplit(fname, ".", TRUE)[[1]]
-    listname[length(listname)]
-}
-
-
 #' @title Convert a list to unnumbered HTML list
 #' @description xxx
 #' @param ll A `list()` of `character()`

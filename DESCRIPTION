@@ -129,7 +129,7 @@ Collate:
     shinyValue.R
     get_pep_prot_cc.R
     aggregation.R
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
 LazyData: false

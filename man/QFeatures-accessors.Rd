@@ -250,7 +250,7 @@ Default slotName is "qMetacell".
 The value is an adjacency matrix with row and column names. The
 matrix will be coerced to compressed, column-oriented sparse
 matrix (class \code{dgCMatrix}) as defined in the \code{Matrix} package,
-as generaled by the \code{\link[=sparseMatrix]{sparseMatrix()}} constructor.
+as generaled by the \code{\link[Matrix:sparseMatrix]{Matrix::sparseMatrix()}} constructor.
 }
 
 \examples{

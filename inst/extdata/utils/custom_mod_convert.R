@@ -256,7 +256,7 @@ Convert_server <- function(id,
     fileExt.ok <- reactive({
       req(rv.widgets$SelectFile_file$name)
       authorizedExts <- c("txt", "csv", "tsv", "xls", "xlsx")
-      ext <- GetExtension(rv.widgets$SelectFile_file$name)
+      ext <- MagellanNTK::GetExtension(rv.widgets$SelectFile_file$name)
       !is.na(match(ext, authorizedExts))
     })
     
@@ -264,7 +264,7 @@ Convert_server <- function(id,
     observeEvent(req(rv.widgets$SelectFile_file), {
       rv.widgets$SelectFile_XLSsheets
       
-      ext <- GetExtension(rv.widgets$SelectFile_file$name)
+      ext <- MagellanNTK::GetExtension(rv.widgets$SelectFile_file$name)
       
       if (((ext %in% c("xls", "xlsx"))) && is.null(rv.widgets$SelectFile_XLSsheets))
         return(NULL)
@@ -309,7 +309,7 @@ Convert_server <- function(id,
       req(rv.widgets$SelectFile_software)
       req(rv.widgets$SelectFile_file)
       
-      req(GetExtension(rv.widgets$SelectFile_file$name) %in% c("xls", "xlsx"))
+      req(MagellanNTK::GetExtension(rv.widgets$SelectFile_file$name) %in% c("xls", "xlsx"))
       
       tryCatch({   
         sheets <- listSheets(rv.widgets$SelectFile_file$datapath)

@@ -7,7 +7,7 @@
 Add_Aggregated_rowData(obj, col, i.agg)
 }
 \arguments{
-\item{obj}{An instance of class \link{QFeatures}.}
+\item{obj}{An instance of class \link[QFeatures:QFeatures-class]{QFeatures::QFeatures}.}
 
 \item{col}{A \code{character()} of column names from rowdata to be aggregated.}
 
