@@ -141,8 +141,8 @@ setMethod(
   
   if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.")}
-  
-  if (fun != "robustSummary"){
+  funname <- fun
+  if (funname != "robustSummary"){
     SummarizedExperiment::assay(object) <-  2^(SummarizedExperiment::assay(object))
   }
   
@@ -150,8 +150,8 @@ setMethod(
   peptdata <- SummarizedExperiment::assay(object)
   
   if (!shared){
-    if (length(which(rowSums(matadj) > 1)) != 0){
-      matadj[which(rowSums(matadj) > 1), ] <- 0
+    if (length(which(Matrix::rowSums(matadj) > 1)) != 0){
+      matadj[which(Matrix::rowSums(matadj) > 1), ] <- 0
     }
   }
   
@@ -160,7 +160,7 @@ setMethod(
     matadj <- select_topn(peptdata, matadj, n, funpept = "Mean") 
   }
   
-  repeat_counts <- rowSums(matadj)
+  repeat_counts <- Matrix::rowSums(matadj)
   
   assay_SE <- peptdata[rep(1:nrow(peptdata), repeat_counts), ]
   rownames(assay_SE) <- NULL
@@ -169,18 +169,18 @@ setMethod(
   rowdata_SE <- data.frame(unlist(strsplit(vect_prot, ";")))
   colnames(rowdata_SE) <- fcol
   
-  copy_object <- SummarizedExperiment(assays = SimpleList(assay = assay_SE),
+  copy_object <- SummarizedExperiment(assays = S4Vectors::SimpleList(assay = assay_SE),
                                       colData = SummarizedExperiment::colData(object),
                                       rowData = rowdata_SE)
   
-  if (fun == "medianPolish"){fun <- MsCoreUtils::medianPolish
-  } else if (fun == "robustSummary"){fun <- MsCoreUtils::robustSummary}
+  if (funname == "medianPolish"){fun <- MsCoreUtils::medianPolish
+  } else if (funname == "robustSummary"){fun <- MsCoreUtils::robustSummary}
   
   ###QUANTITATIVE DATA
   # Create the aggregated assay
   aggAssay <- QFeatures::aggregateFeatures(copy_object, fcol, fun, na.rm = TRUE, ...)
   assays(aggAssay)<- assays(aggAssay)[1]
-  if (fun != "robustSummary"){
+  if (funname != "robustSummary"){
     assay(aggAssay) <- log2(assay(aggAssay))
   }
   assay(aggAssay)[assay(aggAssay) <= 0 | is.nan(assay(aggAssay))] <- NA
@@ -203,7 +203,7 @@ setMethod(
     rowdata_missprot <- rbind(SummarizedExperiment::rowData(aggAssay), missprot_mat_rd)
     
     # Make new SummarizedExperiment, including missing proteins
-    aggAssay <- SummarizedExperiment(assays = SimpleList(assay = assay_missprot),
+    aggAssay <- SummarizedExperiment(assays = S4Vectors::SimpleList(assay = assay_missprot),
                                      colData = SummarizedExperiment::colData(aggAssay),
                                      rowData = rowdata_missprot)
   }
@@ -422,7 +422,7 @@ setMethod(
   SummarizedExperiment::assay(aggAssay)[SummarizedExperiment::assay(aggAssay) <= 0 | is.nan(SummarizedExperiment::assay(aggAssay))] <- NA
   # Create aggregated SummarizedExperiment
   aggSE <- SummarizedExperiment(
-    assays=SimpleList(assay = aggAssay), 
+    assays = S4Vectors::SimpleList(assay = aggAssay), 
     colData = SummarizedExperiment::colData(object)
     )
   
@@ -895,11 +895,11 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
   
   # Get matrix with number of peptide
   X.spec <- X.shared <- X <- adj_mat
-  if (!isEmpty(which(rowSums(as.matrix(X.spec)) > 1))){
-    X.spec[which(rowSums(as.matrix(X.spec)) > 1), ] <- 0
+  if (!S4Vectors::isEmpty(which(Matrix::rowSums(as.matrix(X.spec)) > 1))){
+    X.spec[which(Matrix::rowSums(as.matrix(X.spec)) > 1), ] <- 0
   }
-  if (!isEmpty(which(rowSums(as.matrix(X.shared)) == 1))){
-    X.shared[which(rowSums(as.matrix(X.shared)) == 1), ] <- 0
+  if (!S4Vectors::isEmpty(which(Matrix::rowSums(as.matrix(X.shared)) == 1))){
+    X.shared[which(Matrix::rowSums(as.matrix(X.shared)) == 1), ] <- 0
   }
   .allPep <- t(as.matrix(X)) %*% !is.na(assay(originalSE))
   .allPep <- .allPep[match(protname_order, rownames(.allPep)), , drop = FALSE]
@@ -1014,7 +1014,7 @@ getProteinsStats <- function(X) {
   
   nbPeptide <- 0
   
-  ind.shared.Pep <- which(rowSums(as.matrix(X)) > 1)
+  ind.shared.Pep <- which(Matrix::rowSums(as.matrix(X)) > 1)
   M.shared.Pep <- X[ind.shared.Pep, ]
   if (length(ind.shared.Pep) == 1) {
     j <- which(as.matrix(M.shared.Pep) == 0)
@@ -1027,7 +1027,7 @@ getProteinsStats <- function(X) {
   }
   
   
-  ind.unique.Pep <- which(rowSums(as.matrix(X)) == 1)
+  ind.unique.Pep <- which(Matrix::rowSums(as.matrix(X)) == 1)
   M.unique.Pep <- X[ind.unique.Pep, ]
   if (length(ind.unique.Pep) == 1) {
     j <- which(as.matrix(M.unique.Pep) == 0)
@@ -1132,7 +1132,7 @@ GetNbPeptidesUsed <- function(pepData, X) {
   pepData[!is.na(pepData)] <- 1
   pepData[is.na(pepData)] <- 0
   
-  pep <- t(X) %*% pepData
+  pep <- BiocGenerics::t(X) %*% pepData
   
   return(pep)
 }
@@ -1211,9 +1211,9 @@ GetDetailedNbPeptides <- function(X) {
   
   
   return(list(
-    nTotal = rowSums(t(as.matrix(X))),
-    nShared = rowSums(t(mat$Xshared)),
-    nSpec = rowSums(t(mat$Xspec))
+    nTotal = Matrix::rowSums(t(as.matrix(X))),
+    nShared = Matrix::rowSums(t(mat$Xshared)),
+    nSpec = Matrix::rowSums(t(mat$Xspec))
   ))
 }
 
@@ -1284,7 +1284,7 @@ GraphPepProt <- function(mat) {
 #' }
 #' 
 ExtractUniquePeptides <- function(X){
-  ll <- which(rowSums(X) > 1)
+  ll <- which(Matrix::rowSums(X) > 1)
   if (length(ll) > 0) {
     X[ll, ] <- 0
   }
@@ -1365,7 +1365,7 @@ inner.aggregate.iter <- function(
   }
   
   X.split <- DaparToolshed::splitAdjacencyMat(X)
-  ProtSharedPept <- names(which(colSums(X.split$Xshared) !=0 & colSums(X.split$Xspec) !=0))
+  ProtSharedPept <- names(which(Matrix::colSums(X.split$Xshared) !=0 & Matrix::colSums(X.split$Xspec) !=0))
   
   yprot <- NULL
   # Initialisation
@@ -1405,11 +1405,11 @@ inner.aggregate.iter <- function(
     # print(n_iter)
     
     # Get the value of each protein
-    val.prot <- rowMeans(yprot, na.rm = TRUE)
+    val.prot <- Matrix::rowMeans(yprot, na.rm = TRUE)
     val.prot[is.na(val.prot)] <- 0
     # Calculate each peptide coeficient
-    X.tmp <- t(t(X) * val.prot) 
-    rs <- rowSums(X.tmp)
+    X.tmp <- BiocGenerics::t(BiocGenerics::t(X) * val.prot) 
+    rs <- Matrix::rowSums(X.tmp)
     rs[rs == 0] <- NA  
     X.new <- X.tmp
     X.new@x <- X.new@x / rs[X.new@i + 1]
@@ -1458,7 +1458,7 @@ inner.aggregate.iter <- function(
     )
     
     # Get the value of each protein with the new coefficient 
-    val.prot.new <- rowMeans(yprot, na.rm = TRUE)
+    val.prot.new <- Matrix::rowMeans(yprot, na.rm = TRUE)
     val.prot.new[is.na(val.prot.new)] <- 0
     if (uniqueiter | (n_iter == max_iter)){
       conv <- 0
