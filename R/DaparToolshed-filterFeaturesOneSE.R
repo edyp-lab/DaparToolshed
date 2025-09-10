@@ -161,6 +161,7 @@ setGeneric("filterFeaturesOneSE",
 #' @exportMethod filterFeaturesOneSE
 #' @importFrom S4Vectors metadata
 #' @import AnnotationFilter
+#' @importFrom QFeatures addAssay addAssayLink
 #' @rdname QFeatures-filtering-oneSE
 setMethod(
     "filterFeaturesOneSE", "QFeatures",
@@ -191,7 +192,7 @@ setMethod(
         }
 
         ## Add the assay to the QFeatures object
-        object <- addAssay(object,
+        object <- QFeatures::addAssay(object,
             new.se,
             name = name
         )
@@ -206,7 +207,7 @@ setMethod(
 
 
             ## Link the input assay to the aggregated assay
-            object <- addAssayLink(object,
+            object <- QFeatures::addAssayLink(object,
                 from = names(object)[i],
                 to = name,
                 varFrom = idcol,

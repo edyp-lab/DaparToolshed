@@ -82,6 +82,7 @@ setGeneric("aggregateFeatures4Prostar",
 #' @exportMethod aggregateFeatures4Prostar
 #' @rdname DaparToolshed-aggregate
 #' @importFrom MsCoreUtils robustSummary
+#' @importFrom QFeatures addAssay addAssayLink
 #' @import SummarizedExperiment
 setMethod(
   "aggregateFeatures4Prostar", "QFeatures",
@@ -110,13 +111,13 @@ setMethod(
     SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
     ## Add the assay to the QFeatures object
-    object <- addAssay(object,
+    object <- QFeatures::addAssay(object,
                        aggAssay,
                        name = name
     )
     
     ## Link the input assay to the aggregated assay
-    addAssayLink(object,
+    QFeatures::addAssayLink(object,
                  from = i,
                  to = name,
                  varFrom = fcol,
@@ -314,6 +315,7 @@ setGeneric("aggregateRedistribution",
 #' @exportMethod aggregateRedistribution
 #' @rdname DaparToolshed-aggregateRedistribution
 #' @importFrom MsCoreUtils robustSummary
+#' @importFrom QFeatures addAssay addAssayLink
 setMethod(
   "aggregateRedistribution", "QFeatures",
   function(object, i, name = "newAssay", fcol, init.method = "Mean", method = "Mean", ponderation = "Global", n = NULL, uniqueiter = FALSE, max_iter = 500) {
@@ -342,13 +344,13 @@ setMethod(
     SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
     ## Add the assay to the QFeatures object
-    object <- addAssay(object,
+    object <- QFeatures::addAssay(object,
                        aggAssay,
                        name = name
     )
     
     ## Link the input assay to the aggregated assay
-    addAssayLink(object,
+    QFeatures::addAssayLink(object,
                  from = i,
                  to = name,
                  varFrom = fcol,
