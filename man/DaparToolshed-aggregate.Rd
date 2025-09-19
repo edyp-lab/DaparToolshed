@@ -7,6 +7,24 @@
 \alias{aggregateFeatures4Prostar,SummarizedExperiment-method}
 \alias{aggQmetacell}
 \alias{aggregateMethods}
+\alias{RunAggregation}
+\alias{BuildColumnToProteinDataset}
+\alias{Add_Aggregated_rowData}
+\alias{metacell_agg}
+\alias{select_topn}
+\alias{getProteinsStats}
+\alias{CountPep}
+\alias{GetNbPeptidesUsed}
+\alias{GetDetailedNbPeptidesUsed}
+\alias{GetDetailedNbPeptides}
+\alias{GraphPepProt}
+\alias{ExtractUniquePeptides}
+\alias{inner.aggregate.iter}
+\alias{inner.sum}
+\alias{inner.mean}
+\alias{inner.median}
+\alias{inner.medianpolish}
+\alias{inner.robustsummary}
 \title{Aggregate an assay's quantitative features}
 \usage{
 aggregateFeatures4Prostar(object, ...)
@@ -35,6 +53,61 @@ aggregateFeatures4Prostar(object, ...)
 aggQmetacell(qMeta, X, level, conds)
 
 aggregateMethods()
+
+RunAggregation(
+  qf,
+  includeSharedPeptides = "Yes_As_Specific",
+  operator = "Mean",
+  considerPeptides = "allPeptides",
+  adjMatrix = "adjacencyMatrix",
+  ponderation = "Global",
+  n = NULL,
+  aggregated_col = NULL,
+  max_iter = 500
+)
+
+BuildColumnToProteinDataset(peptideData, matAdj, columnName, proteinNames)
+
+Add_Aggregated_rowData(obj, col, i.agg)
+
+metacell_agg(aggregatedSE, originalSE, adj_mat, conds, protname_order)
+
+select_topn(pepData, X, n = 10, funpept = "Mean")
+
+getProteinsStats(X)
+
+CountPep(X)
+
+GetNbPeptidesUsed(pepData, X)
+
+GetDetailedNbPeptidesUsed(pepData, X)
+
+GetDetailedNbPeptides(X)
+
+GraphPepProt(mat)
+
+ExtractUniquePeptides(X)
+
+inner.aggregate.iter(
+  pepData,
+  X,
+  init.method = "Mean",
+  method = "Mean",
+  n = NULL,
+  uniqueiter = FALSE,
+  topn_fun = "Mean",
+  max_iter = 500
+)
+
+inner.sum(pepData, X)
+
+inner.mean(pepData, X)
+
+inner.median(pepData, X)
+
+inner.medianpolish(pepData, X)
+
+inner.robustsummary(pepData, X)
 }
 \arguments{
 \item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
@@ -57,19 +130,120 @@ See details for examples.}
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
 
-\item{conds}{A \code{character()} vector which is the names of conditions
-for each sample in the dataset.}
+\item{conds}{xxx}
 
 \item{qMeta}{An object of class 'SummarizedExperiment'}
 
-\item{X}{xxxx}
+\item{X}{A \code{matrix} acting as an adjacency matrix.}
 
 \item{level}{A \code{character(1)} which is the type of dataset}
+
+\item{qf}{An instance of class \link[QFeatures:QFeatures-class]{QFeatures::QFeatures}. The last assay contained in \code{qf} will be aggregated. Intensities are assumed to already be log-transformed.}
+
+\item{includeSharedPeptides}{How shared peptides are handled. Either \code{Yes_As_Specific} (default), \code{Yes_Iterative_Redistribution}, \code{Yes_Simple_Redistribution} or \code{No}.
+See below for details.}
+
+\item{operator}{A function used for quantitative feature aggregation.
+Available functions are \code{Sum}, \code{Mean}, \code{Median}, \code{medianPolish} or \code{robustSummary}.
+See below for details.}
+
+\item{considerPeptides}{A \code{character(1)} defining what peptide to consider. Available values are \code{allPeptides} (default) and \code{topN}.}
+
+\item{adjMatrix}{A \code{character(1)} naming a rowdata variable from the last assay of \code{qf} containing an adjacency matrix.}
+
+\item{ponderation}{A \code{character(1)} defining what to consider to create the coefficient for redistribution of shared peptides.
+Available values are \code{Global} (default), \code{Condition} or \code{Sample}.}
+
+\item{aggregated_col}{A \code{character()} of column names from rowdata to be aggregated.}
+
+\item{max_iter}{A \code{numeric(1)} setting the maximum number of iteration.}
+
+\item{peptideData}{A data.frame of meta data of peptides. It is the rowData
+of the SummarizedExperiment object.}
+
+\item{matAdj}{The adjacency matrix used to agregate the peptides data.}
+
+\item{columnName}{The name(s) of the column in Biobase::rowData(peptides_MSnset)
+that the user wants to keep in the new protein data.frame.}
+
+\item{proteinNames}{The names of the protein in the new dataset
+(i.e. rownames)}
+
+\item{obj}{An instance of class \link[QFeatures:QFeatures-class]{QFeatures::QFeatures}.}
+
+\item{col}{A \code{character()} of column names from rowdata to be aggregated.}
+
+\item{i.agg}{A \code{numeric(1)} indicating the index of the assay to which add the aggregated rowData, using the previous assay's rowData.}
+
+\item{aggregatedSE}{An instance of class \link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} containing the aggregated data.}
+
+\item{originalSE}{An instance of class \link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} containing the non-aggregated data.}
+
+\item{adj_mat}{An adjacency matrix.}
+
+\item{protname_order}{xxx}
+
+\item{pepData}{A \code{matrix} containing the peptide intensities.
+Note that the function assume that data is already log-transformed.}
+
+\item{funpept}{A function used for determining a peptide's value.
+Available functions are \code{Sum}, \code{Mean} or \code{Median}.}
+
+\item{mat}{An adjacency matrix.}
+
+\item{init.method}{A function used for initializing the aggregation.
+Available functions are \code{Sum}, \code{Mean}, \code{Median}, \code{medianPolish} or \code{robustSummary}.
+See below for details.}
+
+\item{method}{A function used for the aggregation.
+Available functions are \code{Sum}, \code{Mean}, \code{Median}, \code{medianPolish} or \code{robustSummary}.
+See below for details.}
+
+\item{uniqueiter}{A bole}
+
+\item{topn_fun}{A function used to determine how to choose the top n peptides.
+Available functions are \code{Sum}, \code{Mean} or \code{Median}.
+See below for details.}
 }
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).
 
 xxxxx
+
+A \link[QFeatures:QFeatures-class]{QFeatures::QFeatures} with an aggregated assay added.
+
+A vector
+
+An instance of \code{QFeatures} class with aggregated rowData in specified assay.
+
+A \code{SummarizedExperiment} containing the aggregated data.
+
+An adjacency matrix with only the top n peptides selected.
+
+A list
+
+A vector of boolean which is the adjacency matrix
+but with NA values if they exist in the intensity matrix.
+
+A data.frame
+
+A list of two items
+
+A data.frame
+
+A histogram
+
+A \code{matrix} containing the aggregated values.
+
+A \code{matrix} containing the aggregated values.
+
+A \code{matrix} containing the aggregated values.
+
+A \code{matrix} containing the aggregated values.
+
+A \code{matrix} containing the aggregated values.
+
+A \code{matrix} containing the aggregated values.
 }
 \description{
 This function aggregates the quantitative features of an assay,
@@ -84,9 +258,83 @@ The list of agregation methods can be obtained with the function
 packages \code{DaparToolshed} and \code{QFeatures}.
 
 xxx
+
+This function aggregate both quantitative and rowdata from the last assay contained in a \code{QFeatures}.
+Note that the function assumes that the intensities in the QFeatures are already log-transformed.
+
+This function creates a column for the protein dataset after aggregation
+by using the previous peptide dataset.
+
+Aggregation of rowData of a \code{QFeatures} assay.
+
+xxx
+
+xxx
+
+This function computes the number of proteins that are only defined by
+specific peptides, shared peptides or a mixture of two.
+
+This function computes the number of peptides used to aggregate proteins.
+
+Method to compute the number of quantified peptides used for aggregating
+each protein
+
+Method to compute the detailed number of quantified peptides used for
+aggregating each protein
+
+Method to compute the detailed number of quantified peptides for each
+protein
+
+Method to create a plot with proteins and peptides on
+a MSnSet object (peptides)
+
+This function aggregate quantitative data using a method of redistribution of shared peptides. Intensity of shared peptides are redistributed proportionally to each protein.
+Note that the function assumes that the intensities are not log-transformed.
+
+Aggregation using sum method.
+
+Aggregation using mean method.
+
+Aggregation using median method.
+
+Aggregation using medianPolish method.
+Note that this method is parallelized to be more efficient.
+
+Aggregation using robustSummary method.
 }
 \details{
 This function uses \code{\link[QFeatures:QFeatures-aggregate]{QFeatures::aggregateFeatures()}} to aggregate quantitative data.
+
+Aggregation of quantitative data is performed using \link[ProtGenerics:protgenerics]{ProtGenerics::aggregateFeatures}, or \link{inner.aggregate.iter} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
+
+The handling of shared peptide is as follow :
+\itemize{
+\item \code{Yes_As_Specific} : Shared peptides are used multiple times.
+Each peptide is duplicated as many times as the number of proteins in which they are present, and thus are considered as if they are specific to each protein.
+\item \code{Yes_Simple_Redistribution} : Intensity of shared peptides are redistributed proportionally to each protein. See \link{inner.aggregate.iter} for more information.
+\item \code{Yes_Iterative_Redistribution} : Intensity of shared peptides are redistributed proportionally to each protein. See \link{inner.aggregate.iter} for more information.
+\item \code{No} : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample.
+}
+
+Available functions are :
+\itemize{
+\item \code{Sum} : \code{\link[base:colSums]{base::colSums()}} or \code{\link[base:colSums]{base::rowSums()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{Mean} : \code{\link[base:colSums]{base::colMeans()}} or \code{\link[base:colSums]{base::rowMeans()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{Median} : \code{\link[matrixStats:rowMedians]{matrixStats::colMedians()}} or \code{\link[matrixStats:rowMedians]{matrixStats::rowMedians()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{medianPolish} : \code{\link[MsCoreUtils:medianPolish]{MsCoreUtils::medianPolish()}}.
+\item \code{robustSummary} : \code{\link[MsCoreUtils:robustSummary]{MsCoreUtils::robustSummary()}}.
+}
+
+Available functions are :
+\itemize{
+\item \code{Sum} : base::rowSums()
+\item \code{Mean} : base::rowMeans()
+\item \code{Median} : matrixStats::rowMedians()
+\item \code{medianPolish} : MsCoreUtils::medianPolish(), not available for \code{topn_fun}.
+Note that this method takes significantly more time than the others, and is parallelized to be more efficient.
+\item \code{robustSummary} : MsCoreUtils::robustSummary(), not available for \code{topn_fun}.
+Note that this method takes significantly more time than the others, and is parallelized to be more efficient.
+}
 }
 \section{Iterative aggregation function}{
 
@@ -132,9 +380,178 @@ level <- typeDataset(ft[[1]])
 conds <- SummarizedExperiment::colData(ft)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+ft <- Exp1_R25_pept[1:100]
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+
+obj.agg <- RunAggregation(ft, "No", "Sum", "allPeptides")
+obj.agg <- RunAggregation(ft, "No", "Sum", "topN", n = 4)
+
+obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+}
+
+library(QFeatures)
+
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[1:10]
+protID <- parentProtId(obj[[2]])
+X <- QFeatures::adjacencyMatrix(obj[[2]])
+
+X.split <- DaparToolshed::splitAdjacencyMat(X)
+X.shared <- X.split$Xshared
+X.unique <- X.split$Xspec
+
+
+#adjacencyMatrix(obj[[2]]) <- X.unique
+#rowdata.pep <- rowData(obj[[2]])
+
+
+# obj <- aggregateFeatures4Prostar(
+#   object = obj,
+#   i = length(obj),
+#   name = 'aggregated',
+#   fcol = 'adjacencyMatrix',
+#   fun = 'colSumsMat')
+# 
+# 
+# .names <- "Sequence"
+# 
+# proteinNames <- rownames(obj[[length(obj)]])
+# data <- rowData(obj[[length(obj)-1]])
+# 
+# new.col <- BuildColumnToProteinDataset(
+#   peptideData = rowData(obj[[length(obj)-1]]), 
+#   matAdj = adjacencyMatrix(obj[[2]]), 
+#   columnName = "Sequence",
+#   proteinNames = rownames(obj[[length(obj)]]))
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(50)]
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+X.topn <- select_topn(assay(obj[[length(obj)]]), X, n = 3)
+}
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(20)]
+obj.last <- obj[[length(obj)]]
+X <- BuildAdjacencyMatrix(obj.last)
+getProteinsStats(X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+last.obj <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.obj)
+CountPep(X)
+}
+
+\dontrun{
+library(QFeatures)
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+last.obj <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.obj)
+GetNbPeptidesUsed(assay(last.obj), X)
+}
+
+\dontrun{
+library(SummarizedExperiment)
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+last.obj <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.obj)
+ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj.pep <- Exp1_R25_pept[seq_len(10)]
+last.obj <- obj.pep[[length(obj.pep)]]
+X <- BuildAdjacencyMatrix(last.obj)
+n <- GetDetailedNbPeptides(X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
+X <- BuildAdjacencyMatrix(last.obj)
+GraphPepProt(X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
+X <- BuildAdjacencyMatrix(last.obj)
+ExtractUniquePeptides(X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
+}
+
+\dontrun{
+library(QFeatures)
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj[[length(obj)]])
+i.sum <- inner.sum(assay(obj[[length(obj)]]), X)
+}
+
+\dontrun{
+library(QFeatures)
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj)
+i.mean <- inner.mean(assay(obj), X)
+}
+
+\dontrun{
+library(QFeatures)
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj)
+i.mean <- inner.median(assay(obj), X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj)
+i.mean <- inner.medianpolish(assay(obj), X)
+}
+
+\dontrun{
+data(Exp1_R25_pept, package="DaparToolshedData")
+obj <- Exp1_R25_pept[seq_len(10)]
+X <- BuildAdjacencyMatrix(obj)
+i.mean <- inner.robustSummary(assay(obj), X)
+}
+
 }
 \seealso{
 The \emph{QFeatures} vignette provides an extended example and
 the \emph{Aggregation} vignette, for a complete quantitative
 proteomics data processing pipeline.
+}
+\author{
+Samuel Wieczorek, Manon Gaudin
+
+Samuel Wieczorek
+
+Manon Gaudin
+
+Alexia Dorffer
+
+Alexia Dorffer, Samuel Wieczorek
 }

@@ -4,9 +4,9 @@
 #'
 #' These functions filters (delete) peptides of an assay, applying a function
 #' on peptides and proteins. They can be used alone but the usual usage is to
-#' create an instance of a class [FunctionFilter] and to pass it to the function
-#' [filterFeaturesOneSE] in order to create a new assay, embedded into the 
-#' [QFeatures] object.
+#' create an instance of a class FunctionFilter and to pass it to the function
+#' filterFeaturesOneSE in order to create a new assay, embedded into the 
+#' QFeatures object.
 #'
 #' @param object An object of class `SummarizedExperiment`
 #'

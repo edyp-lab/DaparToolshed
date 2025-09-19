@@ -137,6 +137,7 @@ setMethod(
   }
 )
 
+
 .aggregateFeatures4Prostar <- function(object, fcol, fun, conds, shared = TRUE, n = NULL, ...) {
   
   if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
@@ -585,6 +586,8 @@ aggregateMethods <- function() {
 #' 
 #' @export
 #' @import QFeatures
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 RunAggregation <- function(qf,
                            includeSharedPeptides = 'Yes_As_Specific',
@@ -791,6 +794,8 @@ RunAggregation <- function(qf,
 #'
 #' @author Samuel Wieczorek
 #'
+#' @rdname DaparToolshed-aggregate
+#' 
 #' @example inst/extdata/examples/ex_BuildColumnToProteinDataset.R
 #' @export
 #'
@@ -837,6 +842,8 @@ BuildColumnToProteinDataset <- function(
 #' @import SummarizedExperiment
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 Add_Aggregated_rowData <- function(obj, col, i.agg){
   stopifnot(inherits(obj, "QFeatures"))
@@ -882,6 +889,8 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 #' @author Samuel Wieczorek, Manon Gaudin 
 #' @import SummarizedExperiment
 #' @export 
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_order){
   # Get metacell from original data
@@ -957,6 +966,8 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 #' }
 #' @import SummarizedExperiment
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
   
@@ -1005,6 +1016,8 @@ select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
 #' }
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 getProteinsStats <- function(X) {
   if (missing(X)) {
@@ -1093,6 +1106,8 @@ getProteinsStats <- function(X) {
 #' }
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 CountPep <- function(X) {
   #z <- M
@@ -1115,6 +1130,8 @@ CountPep <- function(X) {
 #' @author Samuel Wieczorek
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #' 
 #' @examples 
 #' \dontrun{
@@ -1166,6 +1183,8 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' X <- BuildAdjacencyMatrix(last.obj)
 #' ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
 #' }
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 GetDetailedNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1205,6 +1224,8 @@ GetDetailedNbPeptidesUsed <- function(pepData, X) {
 #' }
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 GetDetailedNbPeptides <- function(X) {
   mat <- splitAdjacencyMat(as.matrix(X))
@@ -1243,6 +1264,8 @@ GetDetailedNbPeptides <- function(X) {
 #' }
 #'
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #' 
 #' @importFrom graphics barplot
 #'
@@ -1283,6 +1306,8 @@ GraphPepProt <- function(mat) {
 #' ExtractUniquePeptides(X)
 #' }
 #' 
+#' @rdname DaparToolshed-aggregate
+#' 
 ExtractUniquePeptides <- function(X){
   ll <- which(Matrix::rowSums(X) > 1)
   if (length(ll) > 0) {
@@ -1317,12 +1342,12 @@ ExtractUniquePeptides <- function(X){
 #' 
 #' @details
 #' Available functions are : 
-#' - `Sum` : [base::rowSums()]
-#' - `Mean` : [base::rowMeans()] 
-#' - `Median` : [matrixStats::rowMedians()]
-#' - `medianPolish` : [MsCoreUtils::medianPolish()], not available for `topn_fun`. 
+#' - `Sum` : base::rowSums()
+#' - `Mean` : base::rowMeans() 
+#' - `Median` : matrixStats::rowMedians()
+#' - `medianPolish` : MsCoreUtils::medianPolish(), not available for `topn_fun`. 
 #'   Note that this method takes significantly more time than the others, and is parallelized to be more efficient. 
-#' - `robustSummary` : [MsCoreUtils::robustSummary()], not available for `topn_fun`. 
+#' - `robustSummary` : MsCoreUtils::robustSummary(), not available for `topn_fun`. 
 #'   Note that this method takes significantly more time than the others, and is parallelized to be more efficient. 
 #' 
 #' @author Samuel Wieczorek, Manon Gaudin
@@ -1336,6 +1361,8 @@ ExtractUniquePeptides <- function(X){
 #' }
 #' 
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #'
 inner.aggregate.iter <- function(
     pepData,
@@ -1501,6 +1528,8 @@ inner.aggregate.iter <- function(
 #' 
 #' @export
 #' 
+#' @rdname DaparToolshed-aggregate
+#' 
 inner.sum <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
   #stopifnot(inherits(X, 'matrix'))
@@ -1535,6 +1564,8 @@ inner.sum <- function(pepData, X) {
 #' 
 #' @export
 #' 
+#' @rdname DaparToolshed-aggregate
+#' 
 inner.mean <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
   #stopifnot(inherits(X, 'matrix'))
@@ -1568,6 +1599,8 @@ inner.mean <- function(pepData, X) {
 #' }
 #' 
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #' 
 inner.median <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1609,6 +1642,8 @@ inner.median <- function(pepData, X) {
 #' }
 #' 
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #' 
 inner.medianpolish <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1680,6 +1715,8 @@ inner.medianpolish <- function(pepData, X) {
 #' }
 #' 
 #' @export
+#' 
+#' @rdname DaparToolshed-aggregate
 #' 
 inner.robustsummary <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
