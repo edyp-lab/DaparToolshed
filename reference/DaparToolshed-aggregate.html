@@ -8,7 +8,33 @@ to aggregate quantitative data.
 The list of agregation methods can be obtained with the function
 aggregateMethods(). This function compiles both methods from the
 packages DaparToolshed and QFeatures.
-xxx"><meta property="og:description" content="This function aggregates the quantitative features of an assay,
+xxx
+This function aggregate both quantitative and rowdata from the last assay contained in a QFeatures.
+Note that the function assumes that the intensities in the QFeatures are already log-transformed.
+This function creates a column for the protein dataset after aggregation
+by using the previous peptide dataset.
+Aggregation of rowData of a QFeatures assay.
+xxx
+xxx
+This function computes the number of proteins that are only defined by
+specific peptides, shared peptides or a mixture of two.
+This function computes the number of peptides used to aggregate proteins.
+Method to compute the number of quantified peptides used for aggregating
+each protein
+Method to compute the detailed number of quantified peptides used for
+aggregating each protein
+Method to compute the detailed number of quantified peptides for each
+protein
+Method to create a plot with proteins and peptides on
+a MSnSet object (peptides)
+This function aggregate quantitative data using a method of redistribution of shared peptides. Intensity of shared peptides are redistributed proportionally to each protein.
+Note that the function assumes that the intensities are not log-transformed.
+Aggregation using sum method.
+Aggregation using mean method.
+Aggregation using median method.
+Aggregation using medianPolish method.
+Note that this method is parallelized to be more efficient.
+Aggregation using robustSummary method."><meta property="og:description" content="This function aggregates the quantitative features of an assay,
 applying a summarization function (fun) to sets of features.
 The fcol variable name points to a rowData column that defines
 how to group the features during aggregate. This variable has to
@@ -17,7 +43,33 @@ to aggregate quantitative data.
 The list of agregation methods can be obtained with the function
 aggregateMethods(). This function compiles both methods from the
 packages DaparToolshed and QFeatures.
-xxx"></head><body>
+xxx
+This function aggregate both quantitative and rowdata from the last assay contained in a QFeatures.
+Note that the function assumes that the intensities in the QFeatures are already log-transformed.
+This function creates a column for the protein dataset after aggregation
+by using the previous peptide dataset.
+Aggregation of rowData of a QFeatures assay.
+xxx
+xxx
+This function computes the number of proteins that are only defined by
+specific peptides, shared peptides or a mixture of two.
+This function computes the number of peptides used to aggregate proteins.
+Method to compute the number of quantified peptides used for aggregating
+each protein
+Method to compute the detailed number of quantified peptides used for
+aggregating each protein
+Method to compute the detailed number of quantified peptides for each
+protein
+Method to create a plot with proteins and peptides on
+a MSnSet object (peptides)
+This function aggregate quantitative data using a method of redistribution of shared peptides. Intensity of shared peptides are redistributed proportionally to each protein.
+Note that the function assumes that the intensities are not log-transformed.
+Aggregation using sum method.
+Aggregation using mean method.
+Aggregation using median method.
+Aggregation using medianPolish method.
+Note that this method is parallelized to be more efficient.
+Aggregation using robustSummary method."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -63,6 +115,32 @@ to aggregate quantitative data.</p>
 <code>aggregateMethods()</code>. This function compiles both methods from the
 packages <code>DaparToolshed</code> and <code>QFeatures</code>.</p>
 <p>xxx</p>
+<p>This function aggregate both quantitative and rowdata from the last assay contained in a <code>QFeatures</code>.
+Note that the function assumes that the intensities in the QFeatures are already log-transformed.</p>
+<p>This function creates a column for the protein dataset after aggregation
+by using the previous peptide dataset.</p>
+<p>Aggregation of rowData of a <code>QFeatures</code> assay.</p>
+<p>xxx</p>
+<p>xxx</p>
+<p>This function computes the number of proteins that are only defined by
+specific peptides, shared peptides or a mixture of two.</p>
+<p>This function computes the number of peptides used to aggregate proteins.</p>
+<p>Method to compute the number of quantified peptides used for aggregating
+each protein</p>
+<p>Method to compute the detailed number of quantified peptides used for
+aggregating each protein</p>
+<p>Method to compute the detailed number of quantified peptides for each
+protein</p>
+<p>Method to create a plot with proteins and peptides on
+a MSnSet object (peptides)</p>
+<p>This function aggregate quantitative data using a method of redistribution of shared peptides. Intensity of shared peptides are redistributed proportionally to each protein.
+Note that the function assumes that the intensities are not log-transformed.</p>
+<p>Aggregation using sum method.</p>
+<p>Aggregation using mean method.</p>
+<p>Aggregation using median method.</p>
+<p>Aggregation using medianPolish method.
+Note that this method is parallelized to be more efficient.</p>
+<p>Aggregation using robustSummary method.</p>
     </div>
 
     <div class="section level2">
@@ -94,7 +172,62 @@ packages <code>DaparToolshed</code> and <code>QFeatures</code>.</p>
 <span></span>
 <span><span class="fu">aggQmetacell</span><span class="op">(</span><span class="va">qMeta</span>, <span class="va">X</span>, <span class="va">level</span>, <span class="va">conds</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">aggregateMethods</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">aggregateMethods</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">RunAggregation</span><span class="op">(</span></span>
+<span>  <span class="va">qf</span>,</span>
+<span>  includeSharedPeptides <span class="op">=</span> <span class="st">"Yes_As_Specific"</span>,</span>
+<span>  operator <span class="op">=</span> <span class="st">"Mean"</span>,</span>
+<span>  considerPeptides <span class="op">=</span> <span class="st">"allPeptides"</span>,</span>
+<span>  adjMatrix <span class="op">=</span> <span class="st">"adjacencyMatrix"</span>,</span>
+<span>  ponderation <span class="op">=</span> <span class="st">"Global"</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  aggregated_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_iter <span class="op">=</span> <span class="fl">500</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BuildColumnToProteinDataset</span><span class="op">(</span><span class="va">peptideData</span>, <span class="va">matAdj</span>, <span class="va">columnName</span>, <span class="va">proteinNames</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Add_Aggregated_rowData</span><span class="op">(</span><span class="va">obj</span>, <span class="va">col</span>, <span class="va">i.agg</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">metacell_agg</span><span class="op">(</span><span class="va">aggregatedSE</span>, <span class="va">originalSE</span>, <span class="va">adj_mat</span>, <span class="va">conds</span>, <span class="va">protname_order</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">select_topn</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span>, n <span class="op">=</span> <span class="fl">10</span>, funpept <span class="op">=</span> <span class="st">"Mean"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getProteinsStats</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">CountPep</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">GetNbPeptidesUsed</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">GetDetailedNbPeptidesUsed</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">GetDetailedNbPeptides</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">GraphPepProt</span><span class="op">(</span><span class="va">mat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ExtractUniquePeptides</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.aggregate.iter</span><span class="op">(</span></span>
+<span>  <span class="va">pepData</span>,</span>
+<span>  <span class="va">X</span>,</span>
+<span>  init.method <span class="op">=</span> <span class="st">"Mean"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"Mean"</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  uniqueiter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  topn_fun <span class="op">=</span> <span class="st">"Mean"</span>,</span>
+<span>  max_iter <span class="op">=</span> <span class="fl">500</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.sum</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.mean</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.median</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.medianpolish</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">inner.robustsummary</span><span class="op">(</span><span class="va">pepData</span>, <span class="va">X</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -138,8 +271,7 @@ See details for examples.</p></dd>
 
 
 <dt id="arg-conds">conds<a class="anchor" aria-label="anchor" href="#arg-conds"></a></dt>
-<dd><p>A <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> vector which is the names of conditions
-for each sample in the dataset.</p></dd>
+<dd><p>xxx</p></dd>
 
 
 <dt id="arg-qmeta">qMeta<a class="anchor" aria-label="anchor" href="#arg-qmeta"></a></dt>
@@ -147,22 +279,177 @@ for each sample in the dataset.</p></dd>
 
 
 <dt id="arg-x">X<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>xxxx</p></dd>
+<dd><p>A <code>matrix</code> acting as an adjacency matrix.</p></dd>
 
 
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
 <dd><p>A <code>character(1)</code> which is the type of dataset</p></dd>
+
+
+<dt id="arg-qf">qf<a class="anchor" aria-label="anchor" href="#arg-qf"></a></dt>
+<dd><p>An instance of class <a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">QFeatures::QFeatures</a>. The last assay contained in <code>qf</code> will be aggregated. Intensities are assumed to already be log-transformed.</p></dd>
+
+
+<dt id="arg-includesharedpeptides">includeSharedPeptides<a class="anchor" aria-label="anchor" href="#arg-includesharedpeptides"></a></dt>
+<dd><p>How shared peptides are handled. Either <code>Yes_As_Specific</code> (default), <code>Yes_Iterative_Redistribution</code>, <code>Yes_Simple_Redistribution</code> or <code>No</code>.
+See below for details.</p></dd>
+
+
+<dt id="arg-operator">operator<a class="anchor" aria-label="anchor" href="#arg-operator"></a></dt>
+<dd><p>A function used for quantitative feature aggregation.
+Available functions are <code>Sum</code>, <code>Mean</code>, <code>Median</code>, <code>medianPolish</code> or <code>robustSummary</code>.
+See below for details.</p></dd>
+
+
+<dt id="arg-considerpeptides">considerPeptides<a class="anchor" aria-label="anchor" href="#arg-considerpeptides"></a></dt>
+<dd><p>A <code>character(1)</code> defining what peptide to consider. Available values are <code>allPeptides</code> (default) and <code>topN</code>.</p></dd>
+
+
+<dt id="arg-adjmatrix">adjMatrix<a class="anchor" aria-label="anchor" href="#arg-adjmatrix"></a></dt>
+<dd><p>A <code>character(1)</code> naming a rowdata variable from the last assay of <code>qf</code> containing an adjacency matrix.</p></dd>
+
+
+<dt id="arg-ponderation">ponderation<a class="anchor" aria-label="anchor" href="#arg-ponderation"></a></dt>
+<dd><p>A <code>character(1)</code> defining what to consider to create the coefficient for redistribution of shared peptides.
+Available values are <code>Global</code> (default), <code>Condition</code> or <code>Sample</code>.</p></dd>
+
+
+<dt id="arg-aggregated-col">aggregated_col<a class="anchor" aria-label="anchor" href="#arg-aggregated-col"></a></dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> of column names from rowdata to be aggregated.</p></dd>
+
+
+<dt id="arg-max-iter">max_iter<a class="anchor" aria-label="anchor" href="#arg-max-iter"></a></dt>
+<dd><p>A <code>numeric(1)</code> setting the maximum number of iteration.</p></dd>
+
+
+<dt id="arg-peptidedata">peptideData<a class="anchor" aria-label="anchor" href="#arg-peptidedata"></a></dt>
+<dd><p>A data.frame of meta data of peptides. It is the rowData
+of the SummarizedExperiment object.</p></dd>
+
+
+<dt id="arg-matadj">matAdj<a class="anchor" aria-label="anchor" href="#arg-matadj"></a></dt>
+<dd><p>The adjacency matrix used to agregate the peptides data.</p></dd>
+
+
+<dt id="arg-columnname">columnName<a class="anchor" aria-label="anchor" href="#arg-columnname"></a></dt>
+<dd><p>The name(s) of the column in Biobase::rowData(peptides_MSnset)
+that the user wants to keep in the new protein data.frame.</p></dd>
+
+
+<dt id="arg-proteinnames">proteinNames<a class="anchor" aria-label="anchor" href="#arg-proteinnames"></a></dt>
+<dd><p>The names of the protein in the new dataset
+(i.e. rownames)</p></dd>
+
+
+<dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
+<dd><p>An instance of class <a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">QFeatures::QFeatures</a>.</p></dd>
+
+
+<dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> of column names from rowdata to be aggregated.</p></dd>
+
+
+<dt id="arg-i-agg">i.agg<a class="anchor" aria-label="anchor" href="#arg-i-agg"></a></dt>
+<dd><p>A <code>numeric(1)</code> indicating the index of the assay to which add the aggregated rowData, using the previous assay's rowData.</p></dd>
+
+
+<dt id="arg-aggregatedse">aggregatedSE<a class="anchor" aria-label="anchor" href="#arg-aggregatedse"></a></dt>
+<dd><p>An instance of class <a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment::SummarizedExperiment</a> containing the aggregated data.</p></dd>
+
+
+<dt id="arg-originalse">originalSE<a class="anchor" aria-label="anchor" href="#arg-originalse"></a></dt>
+<dd><p>An instance of class <a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment::SummarizedExperiment</a> containing the non-aggregated data.</p></dd>
+
+
+<dt id="arg-adj-mat">adj_mat<a class="anchor" aria-label="anchor" href="#arg-adj-mat"></a></dt>
+<dd><p>An adjacency matrix.</p></dd>
+
+
+<dt id="arg-protname-order">protname_order<a class="anchor" aria-label="anchor" href="#arg-protname-order"></a></dt>
+<dd><p>xxx</p></dd>
+
+
+<dt id="arg-pepdata">pepData<a class="anchor" aria-label="anchor" href="#arg-pepdata"></a></dt>
+<dd><p>A <code>matrix</code> containing the peptide intensities.
+Note that the function assume that data is already log-transformed.</p></dd>
+
+
+<dt id="arg-funpept">funpept<a class="anchor" aria-label="anchor" href="#arg-funpept"></a></dt>
+<dd><p>A function used for determining a peptide's value.
+Available functions are <code>Sum</code>, <code>Mean</code> or <code>Median</code>.</p></dd>
+
+
+<dt id="arg-mat">mat<a class="anchor" aria-label="anchor" href="#arg-mat"></a></dt>
+<dd><p>An adjacency matrix.</p></dd>
+
+
+<dt id="arg-init-method">init.method<a class="anchor" aria-label="anchor" href="#arg-init-method"></a></dt>
+<dd><p>A function used for initializing the aggregation.
+Available functions are <code>Sum</code>, <code>Mean</code>, <code>Median</code>, <code>medianPolish</code> or <code>robustSummary</code>.
+See below for details.</p></dd>
+
+
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>A function used for the aggregation.
+Available functions are <code>Sum</code>, <code>Mean</code>, <code>Median</code>, <code>medianPolish</code> or <code>robustSummary</code>.
+See below for details.</p></dd>
+
+
+<dt id="arg-uniqueiter">uniqueiter<a class="anchor" aria-label="anchor" href="#arg-uniqueiter"></a></dt>
+<dd><p>A bole</p></dd>
+
+
+<dt id="arg-topn-fun">topn_fun<a class="anchor" aria-label="anchor" href="#arg-topn-fun"></a></dt>
+<dd><p>A function used to determine how to choose the top n peptides.
+Available functions are <code>Sum</code>, <code>Mean</code> or <code>Median</code>.
+See below for details.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>QFeatures</code> object with an additional assay or a <code>SummarizedExperiment</code> object (or subclass thereof).</p>
 <p>xxxxx</p>
+<p>A <a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-class.html" class="external-link">QFeatures::QFeatures</a> with an aggregated assay added.</p>
+<p>A vector</p>
+<p>An instance of <code>QFeatures</code> class with aggregated rowData in specified assay.</p>
+<p>A <code>SummarizedExperiment</code> containing the aggregated data.</p>
+<p>An adjacency matrix with only the top n peptides selected.</p>
+<p>A list</p>
+<p>A vector of boolean which is the adjacency matrix
+but with NA values if they exist in the intensity matrix.</p>
+<p>A data.frame</p>
+<p>A list of two items</p>
+<p>A data.frame</p>
+<p>A histogram</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
+<p>A <code>matrix</code> containing the aggregated values.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function uses <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">QFeatures::aggregateFeatures()</a></code> to aggregate quantitative data.</p>
-    </div>
+<p>Aggregation of quantitative data is performed using ProtGenerics::aggregateFeatures, or inner.aggregate.iter if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code> is selected.</p>
+<p>The handling of shared peptide is as follow :</p><ul><li><p><code>Yes_As_Specific</code> : Shared peptides are used multiple times.
+Each peptide is duplicated as many times as the number of proteins in which they are present, and thus are considered as if they are specific to each protein.</p></li>
+<li><p><code>Yes_Simple_Redistribution</code> : Intensity of shared peptides are redistributed proportionally to each protein. See inner.aggregate.iter for more information.</p></li>
+<li><p><code>Yes_Iterative_Redistribution</code> : Intensity of shared peptides are redistributed proportionally to each protein. See inner.aggregate.iter for more information.</p></li>
+<li><p><code>No</code> : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample.</p></li>
+</ul><p>Available functions are :</p><ul><li><p><code>Sum</code> : <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::colSums()</a></code> or <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::rowSums()</a></code> if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
+<li><p><code>Mean</code> : <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::colMeans()</a></code> or <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">base::rowMeans()</a></code> if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
+<li><p><code>Median</code> : <code><a href="https://rdrr.io/pkg/matrixStats/man/rowMedians.html" class="external-link">matrixStats::colMedians()</a></code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowMedians.html" class="external-link">matrixStats::rowMedians()</a></code> if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
+<li><p><code>medianPolish</code> : <code><a href="https://rdrr.io/pkg/MsCoreUtils/man/medianPolish.html" class="external-link">MsCoreUtils::medianPolish()</a></code>.</p></li>
+<li><p><code>robustSummary</code> : <code><a href="https://rdrr.io/pkg/MsCoreUtils/man/robustSummary.html" class="external-link">MsCoreUtils::robustSummary()</a></code>.</p></li>
+</ul><p>Available functions are :</p><ul><li><p><code>Sum</code> : base::rowSums()</p></li>
+<li><p><code>Mean</code> : base::rowMeans()</p></li>
+<li><p><code>Median</code> : matrixStats::rowMedians()</p></li>
+<li><p><code>medianPolish</code> : MsCoreUtils::medianPolish(), not available for <code>topn_fun</code>.
+Note that this method takes significantly more time than the others, and is parallelized to be more efficient.</p></li>
+<li><p><code>robustSummary</code> : MsCoreUtils::robustSummary(), not available for <code>topn_fun</code>.
+Note that this method takes significantly more time than the others, and is parallelized to be more efficient.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="iterative-aggregation-function">Iterative aggregation function<a class="anchor" aria-label="anchor" href="#iterative-aggregation-function"></a></h2>
 
@@ -181,6 +468,14 @@ xxxxx</p>
     <div class="dont-index"><p>The <em>QFeatures</em> vignette provides an extended example and
 the <em>Aggregation</em> vignette, for a complete quantitative
 proteomics data processing pipeline.</p></div>
+    </div>
+    <div class="section level2">
+    <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
+    <p>Samuel Wieczorek, Manon Gaudin</p>
+<p>Samuel Wieczorek</p>
+<p>Manon Gaudin</p>
+<p>Alexia Dorffer</p>
+<p>Alexia Dorffer, Samuel Wieczorek</p>
     </div>
 
     <div class="section level2">
@@ -205,9 +500,9 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-aggregate.html" class="external-link">aggcounts</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">aggcounts</span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-aggregate.html" class="external-link">aggcounts</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">aggcounts</span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ft</span>, package<span class="op">=</span><span class="st">'DaparToolshed'</span><span class="op">)</span></span></span>
@@ -216,6 +511,240 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span><span class="va">level</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">typeDataset</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">conds</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">$</span><span class="va">Condition</span></span></span>
 <span class="r-in"><span><span class="va">aggQmeta</span> <span class="op">&lt;-</span> <span class="fu">aggQmetacell</span><span class="op">(</span><span class="va">qMeta</span>, <span class="va">X</span>, <span class="va">level</span>, <span class="va">conds</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Mean"</span>, <span class="st">"allPeptides"</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Mean"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"No"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"No"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_Redistribution"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">ft</span>, <span class="st">"Yes_Redistribution"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ft</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: MultiAssayExperiment</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: SummarizedExperiment</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: MatrixGenerics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: matrixStats</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘MatrixGenerics’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:matrixStats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colWeightedMeans, colWeightedMedians, colWeightedSds,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowWeightedSds, rowWeightedVars</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: GenomicRanges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: stats4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: BiocGenerics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: generics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘generics’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     setequal, union</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘BiocGenerics’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     IQR, mad, sd, var, xtabs</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.data.frame, basename, cbind, colnames, dirname, do.call,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     duplicated, eval, evalq, get, grep, grepl, is.unsorted, lapply,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     mapply, match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rank, rbind, rownames, sapply, saveRDS, table, tapply, unique,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     unsplit, which.max, which.min</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: S4Vectors</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘S4Vectors’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:utils’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     findMatches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     I, expand.grid, unname</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: IRanges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: GenomeInfoDb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: Biobase</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Welcome to Bioconductor</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     Vignettes contain introductory material; view with</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     'browseVignettes()'. To cite Bioconductor, see</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     'citation("Biobase")', and for packages 'citation("pkgname")'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘Biobase’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:MatrixGenerics’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowMedians</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:matrixStats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     anyMissing, rowMedians</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘QFeatures’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     sweep</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">protID</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">parentProtId</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">QFeatures</span><span class="fu">::</span><span class="fu">adjacencyMatrix</span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">X.split</span> <span class="op">&lt;-</span> <span class="fu">DaparToolshed</span><span class="fu">::</span><span class="fu"><a href="splitAdjacencyMat.html">splitAdjacencyMat</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X.shared</span> <span class="op">&lt;-</span> <span class="va">X.split</span><span class="op">$</span><span class="va">Xshared</span></span></span>
+<span class="r-in"><span><span class="va">X.unique</span> <span class="op">&lt;-</span> <span class="va">X.split</span><span class="op">$</span><span class="va">Xspec</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#adjacencyMatrix(obj[[2]]) &lt;- X.unique</span></span></span>
+<span class="r-in"><span><span class="co">#rowdata.pep &lt;- rowData(obj[[2]])</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># obj &lt;- aggregateFeatures4Prostar(</span></span></span>
+<span class="r-in"><span><span class="co">#   object = obj,</span></span></span>
+<span class="r-in"><span><span class="co">#   i = length(obj),</span></span></span>
+<span class="r-in"><span><span class="co">#   name = 'aggregated',</span></span></span>
+<span class="r-in"><span><span class="co">#   fcol = 'adjacencyMatrix',</span></span></span>
+<span class="r-in"><span><span class="co">#   fun = 'colSumsMat')</span></span></span>
+<span class="r-in"><span><span class="co"># </span></span></span>
+<span class="r-in"><span><span class="co"># </span></span></span>
+<span class="r-in"><span><span class="co"># .names &lt;- "Sequence"</span></span></span>
+<span class="r-in"><span><span class="co"># </span></span></span>
+<span class="r-in"><span><span class="co"># proteinNames &lt;- rownames(obj[[length(obj)]])</span></span></span>
+<span class="r-in"><span><span class="co"># data &lt;- rowData(obj[[length(obj)-1]])</span></span></span>
+<span class="r-in"><span><span class="co"># </span></span></span>
+<span class="r-in"><span><span class="co"># new.col &lt;- BuildColumnToProteinDataset(</span></span></span>
+<span class="r-in"><span><span class="co">#   peptideData = rowData(obj[[length(obj)-1]]), </span></span></span>
+<span class="r-in"><span><span class="co">#   matAdj = adjacencyMatrix(obj[[2]]), </span></span></span>
+<span class="r-in"><span><span class="co">#   columnName = "Sequence",</span></span></span>
+<span class="r-in"><span><span class="co">#   proteinNames = rownames(obj[[length(obj)]]))</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X.topn</span> <span class="op">&lt;-</span> <span class="fu">select_topn</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">obj.last</span> <span class="op">&lt;-</span> <span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj.last</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">getProteinsStats</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.pep</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">obj.pep</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">CountPep</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.pep</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">obj.pep</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">GetNbPeptidesUsed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.pep</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">obj.pep</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ll.n</span> <span class="op">&lt;-</span> <span class="fu">GetDetailedNbPeptidesUsed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.pep</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">obj.pep</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu">GetDetailedNbPeptides</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">GraphPepProt</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">last.obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">last.obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ExtractUniquePeptides</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">qdata.agg</span> <span class="op">&lt;-</span> <span class="fu">inner.aggregate.iter</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i.sum</span> <span class="op">&lt;-</span> <span class="fu">inner.sum</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.mean</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.median</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.medianpolish</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.robustSummary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
