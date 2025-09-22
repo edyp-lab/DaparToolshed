@@ -49,16 +49,12 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/classic1wayAnova.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compare-assays.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compareNormalizationD_HC.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute.selection.table.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/create-example.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/display.CC.visNet.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatHSDResults.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatLimmaResult.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatPHResults.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatPHTResults.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ft.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ft_na.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/fudge2LRT.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/get.pep.prot.cc.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getDesignLevel.html</loc></url>
@@ -95,6 +91,8 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/samLRT.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/separateAdjPval.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/splitAdjacencyMat.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/subR25pept.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/subR25prot.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/test.design.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/testAnovaModels.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/thresholdpval4fdr.html</loc></url>

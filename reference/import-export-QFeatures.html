@@ -156,82 +156,9 @@ QFeatures object. Default is 'original'</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data.file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Exp1_R25_pept.txt"</span>, package <span class="op">=</span> <span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="cn">NULL</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">data.file</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, as.is <span class="op">=</span> <span class="cn">TRUE</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">qdata.indices</span> <span class="op">&lt;-</span> <span class="fl">56</span><span class="op">:</span><span class="fl">61</span></span></span>
-<span class="r-in"><span><span class="va">qdata.names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="va">qdata.indices</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sample.file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"samples_Exp1_R25.txt"</span>, package <span class="op">=</span> <span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">sample.file</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, sep <span class="op">=</span> <span class="st">" "</span>, as.is <span class="op">=</span> <span class="cn">TRUE</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">metacell.indices</span> <span class="op">&lt;-</span> <span class="fl">43</span><span class="op">:</span><span class="fl">48</span></span></span>
-<span class="r-in"><span><span class="va">metacell.names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="va">metacell.indices</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">createQFeatures</span><span class="op">(</span>file <span class="op">=</span> <span class="va">data.file</span>,</span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>, </span></span>
-<span class="r-in"><span>  sample <span class="op">=</span> <span class="va">sample</span>,</span></span>
-<span class="r-in"><span>  indQData <span class="op">=</span> <span class="fl">56</span><span class="op">:</span><span class="fl">61</span>,</span></span>
-<span class="r-in"><span>  keyId <span class="op">=</span> <span class="st">"Sequence"</span>,</span></span>
-<span class="r-in"><span>  analysis <span class="op">=</span> <span class="st">"test"</span>,</span></span>
-<span class="r-in"><span>  logData <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  indexForMetacell <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fl">43</span><span class="op">:</span><span class="fl">48</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  typeDataset <span class="op">=</span> <span class="st">"peptide"</span>,</span></span>
-<span class="r-in"><span>  parentProtId <span class="op">=</span> <span class="st">"Protein_group_IDs"</span>,</span></span>
-<span class="r-in"><span>  force.na <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  software <span class="op">=</span> <span class="st">"maxquant"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Checking arguments.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading data as a 'SummarizedExperiment' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting sample annotations (colData).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting data as a 'QFeatures' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting assay rownames.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">createQFeatures</span><span class="op">(</span>file <span class="op">=</span> <span class="va">data.file</span>,</span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>, </span></span>
-<span class="r-in"><span>  sample <span class="op">=</span> <span class="va">sample</span>,</span></span>
-<span class="r-in"><span>  indQData <span class="op">=</span> <span class="fl">56</span><span class="op">:</span><span class="fl">61</span>,</span></span>
-<span class="r-in"><span>  keyId <span class="op">=</span> <span class="st">"Sequence"</span>,</span></span>
-<span class="r-in"><span>  analysis <span class="op">=</span> <span class="st">"test"</span>,</span></span>
-<span class="r-in"><span>  logData <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  typeDataset <span class="op">=</span> <span class="st">"peptide"</span>,</span></span>
-<span class="r-in"><span>  parentProtId <span class="op">=</span> <span class="st">"Protein_group_IDs"</span>,</span></span>
-<span class="r-in"><span>  force.na <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  software <span class="op">=</span> <span class="st">"maxquant"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Checking arguments.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading data as a 'SummarizedExperiment' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting sample annotations (colData).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting data as a 'QFeatures' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting assay rownames.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">createQFeatures</span><span class="op">(</span>file <span class="op">=</span> <span class="va">data.file</span>,</span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>, </span></span>
-<span class="r-in"><span>  sample <span class="op">=</span> <span class="va">sample</span>,</span></span>
-<span class="r-in"><span>  indQData <span class="op">=</span> <span class="va">qdata.names</span>,</span></span>
-<span class="r-in"><span>  keyId <span class="op">=</span> <span class="st">"Sequence"</span>,</span></span>
-<span class="r-in"><span>  analysis <span class="op">=</span> <span class="st">"test"</span>,</span></span>
-<span class="r-in"><span>  indexForMetacell <span class="op">=</span> <span class="va">metacell.names</span>,</span></span>
-<span class="r-in"><span>  typeDataset <span class="op">=</span> <span class="st">"peptide"</span>,</span></span>
-<span class="r-in"><span>  parentProtId <span class="op">=</span> <span class="st">"Protein_group_IDs"</span>,</span></span>
-<span class="r-in"><span>  force.na <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  software <span class="op">=</span> <span class="st">"maxquant"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Checking arguments.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading data as a 'SummarizedExperiment' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting sample annotations (colData).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Formatting data as a 'QFeatures' object.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting assay rownames.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
