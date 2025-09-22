@@ -68,6 +68,7 @@ Suggests:
     shinyalert,
     shinyjs,
     sos,
+    knitr,
     shinyBS,
     MultiAssayExperiment,
     PSMatch,
@@ -141,3 +142,4 @@ LazyData: yes
 URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
