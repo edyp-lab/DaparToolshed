@@ -94,8 +94,7 @@ Suggests:
     multcomp,
     purrr,
     gplots, 
-    tidyr,
-    DaparToolshedData
+    tidyr
 Remotes:
     git::https://github.com/edyp-lab/MagellanNTK,
     git::https://github.com/edyp-lab/omXplore
