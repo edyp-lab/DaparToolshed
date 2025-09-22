@@ -1,7 +1,0 @@
-ID	Sample_A_R1	Sample_A_R2	Sample_A_R3	Sample_B_R1	Sample_B_R2	Sample_B_R3	Proteins	Identification_Sample_A_R1	Identification_Sample_A_R2	Identification_Sample_A_R3	Identification_Sample_B_R1	Identification_Sample_B_R2	Identification_Sample_B_R3
-1	1	3	3	11	25	23	prot1;prot2;prot7;prot3	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
-2	5	30	7	22	26	13	prot3;prot2	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
-3	16	12	7	23	30	25	prot3;prot1;prot7;prot4	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
-4	18	4	21	15	11	13	prot4	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
-5	3	28	4	12	23	6	prot5;prot1;prot2;prot4	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
-6	14	13	29	10	27	19	prot6	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"	"Quant. by direct id"
