@@ -19,9 +19,9 @@ A vector composed of HEX color code for the conditions
 xxxx
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition)
-GetColorsForConditions(design.qf(Exp1_R25_pept)$Condition, ExtendPalette(2))
+data(subR25pept)
+GetColorsForConditions(design.qf(subR25pept)$Condition)
+GetColorsForConditions(design.qf(subR25pept)$Condition, ExtendPalette(2))
 
 }
 \author{

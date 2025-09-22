@@ -17,8 +17,8 @@ A boolean
 Check if the design is valid
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-check.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
+data(subR25pept)
+check.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
 
 }
 \author{

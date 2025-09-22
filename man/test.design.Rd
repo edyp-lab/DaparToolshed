@@ -16,8 +16,8 @@ A list of two items
 Check if xxxxxx
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-test.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
+data(subR25pept)
+test.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
 
 }
 \author{

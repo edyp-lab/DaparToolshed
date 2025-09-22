@@ -36,17 +36,16 @@ dataframes are identical and correspond to the description of the comparison.
 xxxxxx
 }
 \examples{
-data(Exp1_R25_prot, package = "DaparToolshedData")
-obj <- Exp1_R25_prot[seq_len(1000)]
+data(subR25prot)
 level <- 'protein'
-metacell.mask <- match.metacell(omXplore::get_metacell(obj[[1]]), 
+metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
 c("Missing POV", "Missing MEC"), level)
 # Simulate imputation
-obj <- NAIsZero(obj, 1)
-obj <- NAIsZero(obj, 2)
-ttest <- compute_t_tests(obj, 2)
+subR25prot <- NAIsZero(subR25prot, 1)
+subR25prot <- NAIsZero(subR25prot, 2)
+ttest <- compute_t_tests(subR25prot, 2)
 
-ttest <- compute_t_tests(obj, 1)
+ttest <- compute_t_tests(subR25prot, 1)
 
 }
 \author{

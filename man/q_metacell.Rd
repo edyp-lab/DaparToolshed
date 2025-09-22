@@ -193,23 +193,19 @@ TODO
 metacell.def('protein')
 metacell.def('peptide')
 
-data(Exp1_R25_prot, package = "DaparToolshedData")
-obj <- Exp1_R25_prot[[1]]
-conds <- design.qf(Exp1_R25_prot)$Condition
-df <- Set_POV_MEC_tags(obj, conds)
+library(QFeatures)
+data(subR25prot)
+conds <- design.qf(subR25prot)$Condition
+df <- Set_POV_MEC_tags(subR25prot[[2]], conds)
 
-file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
-data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", package="DaparToolshedData")
-metadata <- read.table(metadataFile, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
-conds <- metadata$Condition
-qdata <- data[seq_len(100), seq(56, 61)]
-df <- data[seq_len(100) , seq(43,48)]
+library(SummarizedExperiment)
+data(subR25pept)
+conds <- design.qf(subR25pept)$Condition
+qdata <- assay(subR25pept[[2]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
-data(Exp1_R25_pept, package = 'DaparToolshedData')
-obj <- Exp1_R25_pept[seq_len(10),]
-obj[[2]] <- UpdateMetacellAfterImputation(obj[[2]], 'Missing', 'Imputed')
+data(subR25prot)
+subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]], 'Missing', 'Imputed')
 
 search.metacell.tags('Missing POV', 'peptide')
 search.metacell.tags('Quantified', 'peptide')

@@ -1,27 +1,22 @@
 
-#' @name ft
-#' @title ft dataset
-#' @description xxx
-#' @aliases ft
+#' @name subR25prot
+#' @title subR25prot dataset
+#' @aliases subR25prot
 #' @docType data
 #' @keywords data
-#' @usage data(ft, package = 'DaparToolshed')
 #'
 #' @format An object of class `QFeatures`
 #'
 #' @keywords datasets
 NULL
 
-
-
-#' ft_na dataset
-#' @title ft_na dataset
-#' @name ft_na
-#' @aliases ft_na
+#' @name subR25pept
+#' @title subR25pept dataset
+#' @aliases subR25pept
 #' @docType data
 #' @keywords data
-#' @description
-#' xxx
+#'
+#' @format An object of class `QFeatures`
 #'
 #' @keywords datasets
 NULL

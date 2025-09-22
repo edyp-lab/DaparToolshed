@@ -26,8 +26,8 @@
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' data(Exp1_R25_prot, package="DaparToolshedData")
-#' plotCompareAssays(Exp1_R25_prot, 1, 2, n = 5)
+#' data(subR25prot)
+#' plotCompareAssays(subR25prot, 1, 2, n = 5)
 #'
 #' @import highcharter
 #' @importFrom tibble as_tibble
@@ -138,18 +138,18 @@ plotCompareAssays <- function(obj,
         )
     }
 
-    h1 <- highcharter::highchart() %>%
-      omXplore::customChart(chartType = type) %>%
-        highcharter::hc_add_series_list(series) %>%
-      highcharter::hc_colors(myColors) %>%
+    h1 <- highcharter::highchart() |>
+      omXplore::customChart(chartType = type) |>
+        highcharter::hc_add_series_list(series) |>
+      highcharter::hc_colors(myColors) |>
       omXplore::customExportMenu(fname = "compareAssays")
 
     if (!all.equal(info, rep(NA, length(info)))) {
-        h1 <- h1 %>%
+        h1 <- h1 |>
           highcharter::hc_tooltip(headerFormat = "", 
                                   pointFormat = "Id: {point.name}")
     } else {
-        h1 <- h1 %>% highcharter::hc_tooltip(enabled = FALSE)
+        h1 <- h1 |> highcharter::hc_tooltip(enabled = FALSE)
     }
 
 

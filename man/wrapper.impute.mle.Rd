@@ -22,14 +22,15 @@ package \code{imp4p} adapted to an object of class \code{MSnSet}.
 It does not impute MEC missing values.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10), ]
+utils::data(subR25pept)
 level <- 'peptide'
 # Delete whole empty lines
-metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
+metacell.mask <- DaparToolshed::match.metacell(
+qMetacell(subR25pept[[1]]), 
+c("Missing POV", "Missing MEC"), level)
 indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-grp <- design.qf(obj)$Condition
-obj.imp.na <- wrapper.impute.mle(obj[[2]], grp)
+grp <- design.qf(subR25pept)$Condition
+subR25pept <- wrapper.impute.mle(subR25pept[[2]], grp)
 
 }
 \author{

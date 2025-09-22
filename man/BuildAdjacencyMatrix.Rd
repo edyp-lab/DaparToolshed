@@ -17,11 +17,8 @@ Method to create a binary matrix with proteins in columns and peptides
 in lines on a \code{MSnSet} object (peptides)
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-protId <- "Protein_group_IDs"
-obj <- Exp1_R25_pept[[1]]
-obj.pep <- obj[seq_len(10)]
-BuildAdjacencyMatrix(obj.pep)
+data(subR25pept)
+BuildAdjacencyMatrix(subR25pept[[1]])
 
 }
 \author{

@@ -18,8 +18,8 @@ are equal to NA).
 }
 \examples{
 library(QFeatures)
-data(ft, package='DaparToolshed')
-nEmptyLines(assay(ft, 1))
+data(subR25prot)
+nEmptyLines(assay(subR25prot, 1))
 
 }
 \author{

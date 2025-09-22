@@ -21,8 +21,8 @@ with the paramter 'type'.
 }
 \examples{
 library(QFeatures)
-data(ft, package='DaparToolshed')
-obj <- ft[[1]]
+data(subR25prot)
+obj <- subR25prot[[1]]
 data <- qMetacell(obj)
 is.OfType(as.data.frame(data), "MEC")
 

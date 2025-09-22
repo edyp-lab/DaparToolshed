@@ -17,8 +17,8 @@ A design matrix
 Builds the design matrix
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-make.design(SummarizedExperiment::colData(Exp1_R25_pept))
+data(subR25pept)
+make.design(SummarizedExperiment::colData(subR25pept))
 
 }
 \author{

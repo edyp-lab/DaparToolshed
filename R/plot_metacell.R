@@ -18,33 +18,33 @@
 #' @author Florence Combes, Samuel Wieczorek
 #' 
 #' @examplesIf interactive()
-#' data(ft_na)
-#' grp <- design.qf(ft_na)$Condition
-#' metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-#' metacellPerLinesHisto_HC(ft_na[[1]])
-#' metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-#' metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-#' metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+#' data(subR25prot)
+#' grp <- design.qf(subR25prot)$Condition
+#' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+#' metacellPerLinesHisto_HC(subR25prot[[1]])
+#' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+#' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+#' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 #' pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-#' metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
+#' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = pattern)
 #' 
 #' 
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]])
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]])
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 #' pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-#' metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = pattern)
+#' metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = pattern)
 #' 
 #' 
-#' metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-#' metacellHisto_HC(ft_na[[1]])
-#' metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-#' metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-#' metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+#' metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+#' metacellHisto_HC(subR25prot[[1]])
+#' metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+#' metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+#' metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 #' pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-#' metacellHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
+#' metacellHisto_HC(subR25prot[[1]], group = grp, pattern = pattern)
 #' 
 #' 
 #' 
@@ -102,21 +102,21 @@ metacellPerLinesHisto_HC <- function(obj,
   
   myColors <- rep("lightgrey", nrow(df))
   
-  h1 <- highchart() %>%
-    hc_title(text = paste0("Nb of lines with (", paste0(pattern, collapse=', '), ") tags")) %>%
-    hc_add_series(data = df, type = "column", colorByPoint = TRUE) %>%
-    hc_colors(myColors) %>%
+  h1 <- highchart() |>
+    hc_title(text = paste0("Nb of lines with (", paste0(pattern, collapse=', '), ") tags")) |>
+    hc_add_series(data = df, type = "column", colorByPoint = TRUE) |>
+    hc_colors(myColors) |>
     hc_plotOptions(
       column = list(stacking = "normal"),
       animation = list(duration = 100)
-    ) %>%
-    hc_legend(enabled = FALSE) %>%
+    ) |>
+    hc_legend(enabled = FALSE) |>
     hc_xAxis(categories = row.names(df), 
              title = list(
                text = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags in a line")
              )
-    ) %>%
-    my_hc_ExportMenu(filename = "missingValuesPlot1") %>%
+    ) |>
+    my_hc_ExportMenu(filename = "missingValuesPlot1") |>
     hc_tooltip(
       enabled = TRUE,
       headerFormat = "",
@@ -207,28 +207,28 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
     ll.df[[i]] <- df
     }
   
-  h1 <- highchart() %>%
+  h1 <- highchart() |>
     hc_title(text = paste0("Nb of lines containing (", 
-                           paste0(pattern, collapse=', '), ") tags (condition-wise)")) %>%
-    my_hc_chart(chartType = "column") %>%
+                           paste0(pattern, collapse=', '), ") tags (condition-wise)")) |>
+    my_hc_chart(chartType = "column") |>
     hc_plotOptions(
       column = list(stacking = ""),
       dataLabels = list(enabled = FALSE),
       animation = list(duration = 100)
-    ) %>%
-    hc_colors(unique(myColors)) %>%
-    hc_legend(enabled = FALSE) %>%
+    ) |>
+    hc_colors(unique(myColors)) |>
+    hc_legend(enabled = FALSE) |>
     hc_xAxis(categories = seq.int(from = 0, to = ncolMatrix), 
              title = list(text = paste0("Nb of (", paste0(pattern, collapse=', '), 
-                                        ") tags in each line (condition-wise)"))) %>%
-    my_hc_ExportMenu(filename = "missingValuesPlot_2") %>%
+                                        ") tags in each line (condition-wise)"))) |>
+    my_hc_ExportMenu(filename = "missingValuesPlot_2") |>
     hc_tooltip(
       headerFormat = "",
       pointFormat = "{point.y} lines<br>({point.y_percent}% of all lines)"
     )
   
   for (i in seq_len(nbConds)) {
-    h1 <- h1 %>% hc_add_series(data = ll.df[[u_conds[i]]])
+    h1 <- h1 |> hc_add_series(data = ll.df[[u_conds[i]]])
   }
   
   return(h1)
@@ -244,10 +244,10 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
 #' @import omXplore
 #'
 #' @examples
-#' data(Exp1_R25_pept, package = 'DaparToolshedData')
+#' data(subR25pept)
 #' pattern <- "Missing POV"
 #' pal <- ExtendPalette(2, "Dark2")
-#' metacellHisto_HC(Exp1_R25_pept[[1]], pattern, showValues = TRUE, pal = pal)
+#' metacellHisto_HC(subR25pept[[1]], pattern, showValues = TRUE, pal = pal)
 #'
 #' @export
 #'
@@ -297,18 +297,18 @@ metacellHisto_HC <- function(obj,
   )
 
   
-  h1 <- highchart() %>%
-    my_hc_chart(chartType = "column") %>%
-    hc_title(text = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags by replicate")) %>%
-    hc_add_series(df, type = "column", colorByPoint = TRUE) %>%
-    hc_colors(myColors) %>%
+  h1 <- highchart() |>
+    my_hc_chart(chartType = "column") |>
+    hc_title(text = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags by replicate")) |>
+    hc_add_series(df, type = "column", colorByPoint = TRUE) |>
+    hc_colors(myColors) |>
     hc_plotOptions(
       column = list(stacking = "normal"),
       animation = list(duration = 100)
-    ) %>%
-    hc_legend(enabled = FALSE) %>%
-    hc_xAxis(categories = group, title = list(text = "Replicates")) %>%
-    my_hc_ExportMenu(filename = "missingValuesPlot_3") %>%
+    ) |>
+    hc_legend(enabled = FALSE) |>
+    hc_xAxis(categories = group, title = list(text = "Replicates")) |>
+    my_hc_ExportMenu(filename = "missingValuesPlot_3") |>
     hc_tooltip(
       headerFormat = "",
       pointFormat = "{point.y} lines<br>({point.y_percent}% of all lines)"
@@ -386,8 +386,8 @@ wrapper.mvImage <- function(obj,
 #' @return A heatmap
 #' @author Samuel Wieczorek, Thomas Burger
 #' @examples
-#' data(Exp1_R25_pept, package = 'DaparToolshedData')
-#' mvImage(Exp1_R25_pept[[1]], design.qf(Exp1_R25_pept)$Condition)
+#' data(subR25pept)
+#' mvImage(subR25pept[[1]], design.qf(subR25pept)$Condition)
 #'
 #' @export
 #' 
@@ -470,10 +470,12 @@ mvImage <- function(obj, group) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package = 'DaparToolshedData')
-#' pal <- ExtendPalette(length(unique(design.qf(Exp1_R25_pept)$Condition)), "Dark2")
+#' data()
+#' pal <- ExtendPalette(length(unique(design.qf(subR25pept)$Condition)), "Dark2")
 #' pattern <- "Missing MEC"
-#' hc_mvTypePlot2(Exp1_R25_pept[[1]], group = design.qf(Exp1_R25_pept)$Condition, pattern = pattern, pal = pal)
+#' hc_mvTypePlot2(subR25pept[[1]], 
+#' group = design.qf(subR25pept)$Condition, 
+#' pattern = pattern, pal = pal)
 #'
 #' @import highcharter
 #' @rdname metacell-plots
@@ -561,20 +563,20 @@ hc_mvTypePlot2 <- function(obj,
   }
   
   
-  hc <- highcharter::highchart(type = "chart") %>%
-    highcharter::hc_title(text = title) %>%
-    my_hc_chart(chartType = "spline", zoomType = "xy") %>%
+  hc <- highcharter::highchart(type = "chart") |>
+    highcharter::hc_title(text = title) |>
+    my_hc_chart(chartType = "spline", zoomType = "xy") |>
     highcharter::hc_legend(align = "left", verticalAlign = "top", layout = "vertical"
-    ) %>%
-    highcharter::hc_xAxis(title = list(text = "Mean of intensities")) %>%
+    ) |>
+    highcharter::hc_xAxis(title = list(text = "Mean of intensities")) |>
     highcharter::hc_yAxis(title = list(text = "Number of quantity values per condition"),
-             tickInterval = 0.5) %>%
+             tickInterval = 0.5) |>
     highcharter::hc_tooltip(
       headerFormat = "",
       pointFormat = "<b> {series.name} </b>: {point.y} ",
       valueDecimals = 2
-    ) %>%
-    my_hc_ExportMenu(filename = paste0(pattern, "_distribution")) %>%
+    ) |>
+    my_hc_ExportMenu(filename = paste0(pattern, "_distribution")) |>
     highcharter::hc_plotOptions(
       series = list(
         showInLegend = TRUE,

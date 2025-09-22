@@ -17,8 +17,8 @@ A design matrix
 Builds the design matrix for designs of level 2
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-make.design.2(SummarizedExperiment::colData(Exp1_R25_pept))
+data(subR25pept)
+make.design.2(SummarizedExperiment::colData(subR25pept))
 
 
 }

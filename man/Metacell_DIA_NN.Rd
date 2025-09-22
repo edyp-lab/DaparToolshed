@@ -22,18 +22,9 @@ xxxxx
 Actually, this function uses the generic function to generate metacell info
 }
 \examples{
-file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DaparToolshedData")
-data <- read.table(file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-metadataFile <- system.file("extdata", "samples_Exp1_R25.txt",
-    package = "DaparToolshedData"
-)
-metadata <- read.table(metadataFile,
-    header = TRUE, sep = "\t", as.is = TRUE,
-    stringsAsFactors = FALSE
-)
-conds <- metadata$Condition
-qdata <- data[seq_len(100), seq.int(from = 56, to = 61)]
-df <- data[seq_len(100), seq.int(from = 43, to = 48)]
+data(subR25pept)
+conds <- design.qf(subR25pept)$Condition
+qdata <- SummarizedExperiment::assay(subR25pept[[2]])
 df <- Metacell_DIA_NN(qdata, conds, df, level = "peptide")
 
 

@@ -7,8 +7,8 @@
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' test.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
+#' data(subR25pept)
+#' test.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -107,8 +107,8 @@ test.design <- function(tab) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' check.conditions(design.qf(Exp1_R25_pept)$Condition)
+#' data(subR25pept)
+#' check.conditions(design.qf(subR25pept)$Condition)
 #'
 #' @export
 #'
@@ -154,8 +154,8 @@ check.conditions <- function(conds) {
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' check.design(SummarizedExperiment::colData(Exp1_R25_pept)[, seq(3)])
+#' data(subR25pept)
+#' check.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
 #'
 #' @export
 #'
@@ -233,8 +233,8 @@ check.design <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design(SummarizedExperiment::colData(Exp1_R25_pept))
+#' data(subR25pept)
+#' make.design(SummarizedExperiment::colData(subR25pept))
 #'
 #' @export
 #' 
@@ -269,8 +269,8 @@ make.design <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.1(SummarizedExperiment::colData(Exp1_R25_pept))
+#' data(subR25pept)
+#' make.design.1(SummarizedExperiment::colData(subR25pept))
 #'
 #' @export
 make.design.1 <- function(sTab) {
@@ -320,8 +320,8 @@ make.design.1 <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' make.design.2(SummarizedExperiment::colData(Exp1_R25_pept))
+#' data(subR25pept)
+#' make.design.2(SummarizedExperiment::colData(subR25pept))
 #'
 #'
 #' @export
@@ -376,8 +376,8 @@ make.design.2 <- function(sTab) {
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- cbind(SummarizedExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
+#' data(subR25pept)
+#' sTab <- cbind(SummarizedExperiment::colData(subR25pept), Tech.Rep = 1:6)
 #' make.design.3(sTab)
 #'
 #'
@@ -430,8 +430,8 @@ make.design.3 <- function(sTab) {
 #' @param sTab xxx
 #' 
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' sTab <- SummarizedExperiment::colData(Exp1_R25_pept)
+#' data(subR25pept)
+#' sTab <- SummarizedExperiment::colData(subR25pept)
 #' getDesignLevel(sTab)
 #'
 #' @export
@@ -465,9 +465,9 @@ getDesignLevel <- function(sTab){
 #' @author Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package='DaparToolshedData')
-#' design <- make.design(SummarizedExperiment::colData(Exp1_R25_pept))
-#' conds <- design.qf(Exp1_R25_pept)$Condition
+#' data(subR25pept)
+#' design <- make.design(SummarizedExperiment::colData(subR25pept))
+#' conds <- design.qf(subR25pept)$Condition
 #' make.contrast(design, conds)
 #'
 #' @export
@@ -565,10 +565,9 @@ make.contrast <- function(design,
 #' @author Hélène Borges, Thomas Burger, Quentin Giai-Gianetto, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept
-#' qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
-#' sTab <- SummarizedExperiment::colData(obj)
+#' data(subR25pept)
+#' qData <- as.matrix(SummarizedExperiment::assay(subR25pept[[2]]))
+#' sTab <- SummarizedExperiment::colData(subR25pept)
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'
 #' @export
@@ -604,6 +603,8 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
   
   res.l <- NULL
   
+  
+  #browser()
   design.matrix <- make.design(sTab)
   
   if (!is.null(design.matrix)) {
@@ -624,13 +625,24 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
                                  design.level = getDesignLevel(sTab))
     } else if (comp.type == "anova1way") {
       # make the orthogonal contrasts
+
+      # contrasts <- tidyr::crossing(
+      #   A = colnames(design.matrix), 
+      #   B = colnames(design.matrix), 
+      #   .name_repair = "minimal") |> 
+      #   dplyr::filter(A != B)
+      
+
       contrasts <- tidyr::crossing(
         A = colnames(design.matrix), 
         B = colnames(design.matrix), 
-        .name_repair = "minimal") %>%
-        dplyr::filter(A != B)
+        .name_repair = "minimal")
+      contrasts <- contrasts[which(contrasts$A != contrasts$B),]
+      
       orthogonal_contrasts <- dplyr::filter(
-        contrasts, !duplicated(paste0(pmax(A, B), pmin(A, B)))) %>%
+        contrasts, !duplicated(
+          paste0(pmax(contrasts$A, contrasts$B), 
+            pmin(contrasts$A, contrasts$B)))) |>
         dplyr::mutate(contrasts = stringr::str_glue("{A}-{B}"))
       # make the contrasts in a format adapted for limma functions
       contrasts_limma_format <- limma::makeContrasts(
@@ -647,7 +659,10 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
         sort.by = "none", 
         number = nrow(qData)
       )
-      fit_pvalue <- dplyr::select(fit_table, "anova_1way_pval" = P.Value)
+      #fit_pvalue <- dplyr::select(fit_table, "anova_1way_pval" = P.Value)
+      fit_pvalue <- as.data.frame(fit_table$P.Value)
+      colnames(fit_pvalue) <- "anova_1way_pval"
+      
       res.l <- list(
         "logFC" = data.frame(
           "anova_1way_logFC" = matrix(NA, nrow = nrow(fit_pvalue)),
@@ -683,16 +698,15 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #'
 #' @examples
 #' library(SummarizedExperiment)
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' obj <- Exp1_R25_prot[seq(100)]
+#' data(subR25prot)
 #' level <- 'protein'
-#' metacell.mask <- match.metacell(omXplore::get_metacell(obj[[1]]), 
+#' metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
 #' c("Missing POV", "Missing MEC"), level)
 #' # Simulate imputation
-#' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
-#' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
-#' qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
-#' sTab <- SummarizedExperiment::colData(obj)
+#' assay(subR25prot[[1]])[which(is.na(assay(subR25prot[[1]])))] <- 0
+#' assay(subR25prot[[2]])[which(is.na(assay(subR25prot[[2]])))] <- 0
+#' qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[2]]))
+#' sTab <- SummarizedExperiment::colData(subR25prot)
 #' limma <- limmaCompleteTest(qData, sTab)
 #' 
 #' @importFrom MagellanNTK pkgs.require

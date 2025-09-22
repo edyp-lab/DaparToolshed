@@ -210,7 +210,7 @@ A \code{QFeatures} object with an additional assay or a \code{SummarizedExperime
 
 xxxxx
 
-A \link[QFeatures:QFeatures-class]{QFeatures::QFeatures} with an aggregated assay added.
+A QFeatures with an aggregated assay added.
 
 A vector
 
@@ -305,7 +305,7 @@ Aggregation using robustSummary method.
 \details{
 This function uses \code{\link[QFeatures:QFeatures-aggregate]{QFeatures::aggregateFeatures()}} to aggregate quantitative data.
 
-Aggregation of quantitative data is performed using \link[ProtGenerics:protgenerics]{ProtGenerics::aggregateFeatures}, or \link{inner.aggregate.iter} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
+Aggregation of quantitative data is performed using aggregateFeatures, or inner.aggregate.iter if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
 
 The handling of shared peptide is as follow :
 \itemize{
@@ -318,11 +318,11 @@ Each peptide is duplicated as many times as the number of proteins in which they
 
 Available functions are :
 \itemize{
-\item \code{Sum} : \code{\link[base:colSums]{base::colSums()}} or \code{\link[base:colSums]{base::rowSums()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
-\item \code{Mean} : \code{\link[base:colSums]{base::colMeans()}} or \code{\link[base:colSums]{base::rowMeans()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
-\item \code{Median} : \code{\link[matrixStats:rowMedians]{matrixStats::colMedians()}} or \code{\link[matrixStats:rowMedians]{matrixStats::rowMedians()}} if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
-\item \code{medianPolish} : \code{\link[MsCoreUtils:medianPolish]{MsCoreUtils::medianPolish()}}.
-\item \code{robustSummary} : \code{\link[MsCoreUtils:robustSummary]{MsCoreUtils::robustSummary()}}.
+\item \code{Sum} : base::colSums()] or base::rowSums() if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{Mean} : base::colMeans()] or base::rowMeans() if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{Median} : matrixStats::mcolMedians()] or matrixStats::rowMedians() if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}.
+\item \code{medianPolish} : MsCoreUtils::medianPolish().
+\item \code{robustSummary} : MsCoreUtils::robustSummary().
 }
 
 Available functions are :
@@ -354,12 +354,12 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}.
 ## ---------------------------------------
 \dontrun{
 library(SummarizedExperiment)
-data(ft, package='DaparToolshed')
-ft
+data(subR25prot)
+subR25prot
 
 ## Aggregate peptides into proteins
 ## using the adjacency matrix
-feat1 <- aggregateFeatures4Prostar(object = ft,
+feat1 <- aggregateFeatures4Prostar(object = subR25prot,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',
@@ -373,47 +373,51 @@ assay(feat1[[3]])
 aggcounts(feat1[[3]])
 rowData(feat1[[2]])
 }
-data(ft, package='DaparToolshed')
-qMeta <- qMetacell(ft, 1)
-X <- QFeatures::adjacencyMatrix(ft[[1]])
-level <- typeDataset(ft[[1]])
-conds <- SummarizedExperiment::colData(ft)$Condition
+data(subR25pept)
+qMeta <- qMetacell(subR25pept, 1)
+X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
+level <- typeDataset(subR25pept[[1]])
+conds <- SummarizedExperiment::colData(subR25pept)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
 \dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-ft <- Exp1_R25_pept[1:100]
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+data(subR25prot)
+obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "allPeptides", 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "topN", n = 4, 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "topN", n = 4, 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
 
-obj.agg <- RunAggregation(ft, "No", "Sum", "allPeptides")
-obj.agg <- RunAggregation(ft, "No", "Sum", "topN", n = 4)
+obj.agg <- RunAggregation(subR25prot, "No", "Sum", "allPeptides")
+obj.agg <- RunAggregation(subR25prot, "No", "Sum", "topN", n = 4)
 
-obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides", 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN", n = 4, 
+aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
 }
 
 library(QFeatures)
 
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[1:10]
-protID <- parentProtId(obj[[2]])
-X <- QFeatures::adjacencyMatrix(obj[[2]])
+data(subR25pept)
+protID <- parentProtId(subR25pept[[2]])
+X <- QFeatures::adjacencyMatrix(subR25pept[[2]])
 
 X.split <- DaparToolshed::splitAdjacencyMat(X)
 X.shared <- X.split$Xshared
 X.unique <- X.split$Xspec
 
 
-#adjacencyMatrix(obj[[2]]) <- X.unique
-#rowdata.pep <- rowData(obj[[2]])
+#adjacencyMatrix(subR25pept[[2]]) <- X.unique
+#rowdata.pep <- rowData(subR25pept[[2]])
 
 
-# obj <- aggregateFeatures4Prostar(
-#   object = obj,
-#   i = length(obj),
+# subR25pept <- aggregateFeatures4Prostar(
+#   object = subR25pept,
+#   i = length(subR25pept),
 #   name = 'aggregated',
 #   fcol = 'adjacencyMatrix',
 #   fun = 'colSumsMat')
@@ -421,121 +425,85 @@ X.unique <- X.split$Xspec
 # 
 # .names <- "Sequence"
 # 
-# proteinNames <- rownames(obj[[length(obj)]])
-# data <- rowData(obj[[length(obj)-1]])
+# proteinNames <- rownames(subR25pept[[2]])
+# data <- rowData(subR25pept[[1]])
 # 
 # new.col <- BuildColumnToProteinDataset(
-#   peptideData = rowData(obj[[length(obj)-1]]), 
-#   matAdj = adjacencyMatrix(obj[[2]]), 
+#   peptideData = rowData(subR25pept[[1]]), 
+#   matAdj = adjacencyMatrix(subR25pept[[2]]), 
 #   columnName = "Sequence",
-#   proteinNames = rownames(obj[[length(obj)]]))
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(50)]
-X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-X.topn <- select_topn(assay(obj[[length(obj)]]), X, n = 3)
-}
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(20)]
-obj.last <- obj[[length(obj)]]
-X <- BuildAdjacencyMatrix(obj.last)
+#   proteinNames = rownames(subR25pept[[2]]))
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X.topn <- select_topn(assay(subR25pept[[2]]), X, n = 3)
+
+data(subR25pept)
+obj.last <- subR25pept[[2]]
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
 getProteinsStats(X)
-}
 
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj.pep <- Exp1_R25_pept[seq_len(10)]
-last.obj <- obj.pep[[length(obj.pep)]]
-X <- BuildAdjacencyMatrix(last.obj)
+
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
 CountPep(X)
-}
 
 \dontrun{
 library(QFeatures)
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj.pep <- Exp1_R25_pept[seq_len(10)]
-last.obj <- obj.pep[[length(obj.pep)]]
-X <- BuildAdjacencyMatrix(last.obj)
-GetNbPeptidesUsed(assay(last.obj), X)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
+GetNbPeptidesUsed(assay(subR25pept), X)
 }
 
-\dontrun{
 library(SummarizedExperiment)
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj.pep <- Exp1_R25_pept[seq_len(10)]
-last.obj <- obj.pep[[length(obj.pep)]]
-X <- BuildAdjacencyMatrix(last.obj)
-ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
-}
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+ll.n <- GetDetailedNbPeptidesUsed(assay(subR25pept), X)
 
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj.pep <- Exp1_R25_pept[seq_len(10)]
-last.obj <- obj.pep[[length(obj.pep)]]
-X <- BuildAdjacencyMatrix(last.obj)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
 n <- GetDetailedNbPeptides(X)
-}
 
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
-X <- BuildAdjacencyMatrix(last.obj)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
 GraphPepProt(X)
-}
 
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
-X <- BuildAdjacencyMatrix(last.obj)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
 ExtractUniquePeptides(X)
-}
+
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+qdata.agg <- inner.aggregate.iter(assay(subR25pept[[2]]), X)
+
+library(QFeatures)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+i.sum <- inner.sum(assay(subR25pept[[2]]), X)
 
 \dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
+library(QFeatures)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept)
+i.mean <- inner.mean(assay(subR25pept), X)
 }
 
 \dontrun{
 library(QFeatures)
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-i.sum <- inner.sum(assay(obj[[length(obj)]]), X)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept)
+i.mean <- inner.median(assay(subR25pept[[2]]), X)
 }
 
 \dontrun{
-library(QFeatures)
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj)
-i.mean <- inner.mean(assay(obj), X)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept)
+i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
 }
 
 \dontrun{
-library(QFeatures)
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj)
-i.mean <- inner.median(assay(obj), X)
-}
-
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj)
-i.mean <- inner.medianpolish(assay(obj), X)
-}
-
-\dontrun{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- BuildAdjacencyMatrix(obj)
-i.mean <- inner.robustSummary(assay(obj), X)
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept)
+i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)
 }
 
 }

@@ -101,48 +101,50 @@ and the considered condition.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
-data(ft_na)
-grp <- design.qf(ft_na)$Condition
-metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-metacellPerLinesHisto_HC(ft_na[[1]])
-metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+data(subR25prot)
+grp <- design.qf(subR25prot)$Condition
+metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+metacellPerLinesHisto_HC(subR25prot[[1]])
+metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
+metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = pattern)
 
 
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]])
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]])
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellPerLinesHistoPerCondition_HC(ft_na[[1]], group = grp, pattern = pattern)
+metacellPerLinesHistoPerCondition_HC(subR25prot[[1]], group = grp, pattern = pattern)
 
 
-metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Missing POV")
-metacellHisto_HC(ft_na[[1]])
-metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quantified")
-metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by direct id")
-metacellHisto_HC(ft_na[[1]], group = grp, pattern = "Quant. by recovery")
+metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
+metacellHisto_HC(subR25prot[[1]])
+metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
+metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by direct id")
+metacellHisto_HC(subR25prot[[1]], group = grp, pattern = "Quant. by recovery")
 pattern <- c("Quantified", "Quant. by direct id", "Quant. by recovery")
-metacellHisto_HC(ft_na[[1]], group = grp, pattern = pattern)
+metacellHisto_HC(subR25prot[[1]], group = grp, pattern = pattern)
 
 
 \dontshow{\}) # examplesIf}
-data(Exp1_R25_pept, package = 'DaparToolshedData')
+data(subR25pept)
 pattern <- "Missing POV"
 pal <- ExtendPalette(2, "Dark2")
-metacellHisto_HC(Exp1_R25_pept[[1]], pattern, showValues = TRUE, pal = pal)
+metacellHisto_HC(subR25pept[[1]], pattern, showValues = TRUE, pal = pal)
 
-data(Exp1_R25_pept, package = 'DaparToolshedData')
-mvImage(Exp1_R25_pept[[1]], design.qf(Exp1_R25_pept)$Condition)
+data(subR25pept)
+mvImage(subR25pept[[1]], design.qf(subR25pept)$Condition)
 
-data(Exp1_R25_pept, package = 'DaparToolshedData')
-pal <- ExtendPalette(length(unique(design.qf(Exp1_R25_pept)$Condition)), "Dark2")
+data()
+pal <- ExtendPalette(length(unique(design.qf(subR25pept)$Condition)), "Dark2")
 pattern <- "Missing MEC"
-hc_mvTypePlot2(Exp1_R25_pept[[1]], group = design.qf(Exp1_R25_pept)$Condition, pattern = pattern, pal = pal)
+hc_mvTypePlot2(subR25pept[[1]], 
+group = design.qf(subR25pept)$Condition, 
+pattern = pattern, pal = pal)
 
 }
 \author{

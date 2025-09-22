@@ -254,13 +254,12 @@ as generaled by the \code{\link[Matrix:sparseMatrix]{Matrix::sparseMatrix()}} co
 }
 
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept
-GetMetacellTags(obj, 1, level="peptide")
-GetMetacellTags(obj, 1, level="peptide", onlyPresent=TRUE)
+data(subR25pept)
+GetMetacellTags(subR25pept, 1, level="peptide")
+GetMetacellTags(subR25pept, 1, level="peptide", onlyPresent=TRUE)
 
-data(ft, package='DaparToolshed')
-design.qf(ft)
+data(subR25pept)
+design.qf(subR25pept)
 }
 \author{
 Samuel Wieczorek

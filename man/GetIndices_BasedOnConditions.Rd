@@ -33,13 +33,13 @@ all conditions
 or at least one condition.
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-level <- typeDataset(obj[[1]])
+data(subR25pept)
+level <- typeDataset(subR25pept[[1]])
 pattern <- 'Missing'
-metacell.mask <- match.metacell(metadata=qMetacell(obj[[1]]), pattern=pattern, level=level)
+metacell.mask <- match.metacell(
+metadata=qMetacell(subR25pept[[1]]), pattern=pattern, level=level)
 type <- 'AllCond'
-conds <- design.qf(obj)$Condition
+conds <- design.qf(subR25pept)$Condition
 op <- '>='
 th <- 0.5
 percent <- TRUE

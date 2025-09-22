@@ -102,13 +102,13 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
 \dontrun{
-data(ft, package='DaparToolshed')
+data(subR25prot)
 library(SummarizedExperiment)
-ft
+subR25prot
 
 ## Aggregate peptides into proteins
 ## using the adjacency matrix
-feat1 <- aggregateRedistribution(object = ft,
+feat1 <- aggregateRedistribution(object = subR25prot,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',

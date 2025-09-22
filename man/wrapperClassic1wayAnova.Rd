@@ -36,7 +36,22 @@ Differences (specified as "TukeyHSD") and the Dunnett test
 (specified as "Dunnett").
 }
 \examples{
-\dontrun{examples/ex_wrapperClassic1wayAnova.R}
+\dontrun{
+data(subR25prot)
+obj <- subR25prot
+filter <- FunctionFilter('qMetacellOnConditions',
+  cmd = 'delete',
+  mode = 'AtLeastOneCond',
+  pattern = c("Missing POV", "Missing MEC"),
+  conds = design.qf(obj)$Condition,
+  percent = TRUE,
+  th = 0.8,
+  operator = '<')
+
+obj <- filterFeaturesOneSE(obj, filter)
+
+anovatest <- wrapperClassic1wayAnova(obj, 2)
+}
 
 }
 \seealso{

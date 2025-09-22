@@ -102,13 +102,13 @@ f3 <- FunctionFilter("topnPeptides", fun = "rowSums", top = 2)
 # IF several filters must be used, store them in a list
 #------------------------------------------------------
 
-data(ft, package='DaparToolshed')
+data(subR25pept)
 lst.filters <- list()
 lst.filters <- append(lst.filters, f1)
 lst.filters <- append(lst.filters, f3)
 
-ft <- filterFeaturesOneSE(
-    object = ft,
+subR25prot <- filterFeaturesOneSE(
+    object = subR25pept,
     i = 1,
     name = "filtered",
     filters = lst.filters

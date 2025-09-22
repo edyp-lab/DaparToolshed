@@ -25,10 +25,9 @@ are identical and correspond to the description of the comparison.
 Computes a hierarchical differential analysis
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept
-qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
-sTab <- SummarizedExperiment::colData(obj)
+data(subR25pept)
+qData <- as.matrix(SummarizedExperiment::assay(subR25pept[[2]]))
+sTab <- SummarizedExperiment::colData(subR25pept)
 limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 
 }

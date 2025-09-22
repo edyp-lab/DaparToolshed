@@ -99,12 +99,11 @@
 #' #' @examples
 #' #' library(doParallel)
 #' #' library(QFeatures)
-#' #' data(Exp1_R25_pept, package="DaparToolshedData")
-#' #' obj <- Exp1_R25_pept[seq_len(1000),]
-#' #' obj <- addListAdjacencyMatrices(obj, 2)
-#' #' X <- as.matrix(GetAdjMat(obj[[2]])$all)
+#' #' data(subR25pept)
+#' #' subR25pept <- addListAdjacencyMatrices(subR25pept, 2)
+#' #' X <- as.matrix(GetAdjMat(subR25pept[[2]])$all)
 #' #' conditions <- colData(obj)$Condition
-#' #' aggIterParallel(assay(obj,2), X, conditions)
+#' #' aggIterParallel(assay(subR25pept,2), X, conditions)
 #' #'
 #' #' @export
 #' #'

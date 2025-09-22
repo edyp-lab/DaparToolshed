@@ -12,9 +12,8 @@
 #' @author Samuel Wieczorek
 #' 
 #' @examples 
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj.pep[[length(obj.pep)]])
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' ll <- splitAdjacencyMat(X)
 #'
 #' @export
@@ -74,11 +73,8 @@ splitAdjacencyMat <- function(X) {
 #' @author Florence Combes, Samuel Wieczorek, Alexia Dorffer
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' protId <- "Protein_group_IDs"
-#' obj <- Exp1_R25_pept[[1]]
-#' obj.pep <- obj[seq_len(10)]
-#' BuildAdjacencyMatrix(obj.pep)
+#' data(subR25pept)
+#' BuildAdjacencyMatrix(subR25pept[[1]])
 #'
 #' @export
 #' @importFrom Matrix Matrix

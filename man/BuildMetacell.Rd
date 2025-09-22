@@ -25,16 +25,11 @@ xxxxx
 xxx
 }
 \examples{
-file <- system.file("extdata", "Exp1_R25_pept.txt", package="DaparToolshedData")
-data <- read.table(file, header=TRUE, sep="\t",stringsAsFactors = FALSE)
-metadataFile <- system.file("extdata", "samples_Exp1_R25.txt", package="DaparToolshedData")
-metadata <- read.table(metadataFile, header=TRUE, sep=" ", as.is=TRUE,
-stringsAsFactors = FALSE)
-conds <- metadata$Condition
-qdata <- data[,56:61]
-df <- data[ , 43:48]
-df <- BuildMetacell('maxquant', 'peptide', qdata, conds, df)
-df <- BuildMetacell('proline', 'peptide', qdata, conds, df)
+data(subR25pept)
+conds <- design.qf(subR25pept)$Condition
+qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+metacell1 <- BuildMetacell('maxquant', 'peptide', qdata, conds)
+metacell2 <- BuildMetacell('proline', 'peptide', qdata, conds)
 }
 \author{
 Samuel Wieczorek

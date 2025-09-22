@@ -52,7 +52,8 @@
 #'
 #' @author Samuel Wieczorek, Manon Gaudin
 #'
-#' @example inst/extdata/examples/ex_createQFeatures.R
+#' @examples
+#' NULL
 #'
 #' @import QFeatures
 #' @importFrom utils installed.packages read.table

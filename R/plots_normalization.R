@@ -34,11 +34,11 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_prot, package="DaparToolshedData")
-#' obj <- Exp1_R25_prot
-#' qDataBefore <- SummarizedExperiment::assay(obj[[length(obj)]])
-#' conds <- design.qf(obj)$Condition
-#' id <- SummarizedExperiment::rowData(obj[[length(obj)]])[, omXplore::get_colID(obj[[length(obj)]])]
+#' library(SummarizedExperiment)
+#' data(subR25prot)
+#' qDataBefore <- assay(subR25prot[[2]])
+#' conds <- design.qf(subR25prot)$Condition
+#' id <- rowData(subR25prot[[2]])[, idcol(subR25prot[[2]])]
 #' # pal <- ExtendPalette(2)
 #' qDataAfter <- LOESS(qDataBefore, conds, type = "overall")
 #'
@@ -162,11 +162,11 @@ compareNormalizationD_HC <- function(
     )
   }
   
-  h1 <- highchart() %>%
-    my_hc_chart(chartType = type) %>%
-    hc_add_series_list(series) %>%
-    hc_colors(myColors) %>%
-    hc_tooltip(headerFormat = "", pointFormat = "Id: {point.name}") %>%
+  h1 <- highchart() |>
+    my_hc_chart(chartType = type) |>
+    hc_add_series_list(series) |>
+    hc_colors(myColors) |>
+    hc_tooltip(headerFormat = "", pointFormat = "Id: {point.name}") |>
     my_hc_ExportMenu(filename = "compareNormalization")
   h1
 }

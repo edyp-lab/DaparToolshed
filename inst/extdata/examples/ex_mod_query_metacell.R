@@ -17,10 +17,10 @@ server <- function(input, output) {
   
   
   
-  utils::data(Exp1_R25_prot, package='DaparToolshedData')
+  utils::data(subR25prot)
   
   tmp <- mod_query_metacell_server('query', 
-                                   obj = reactive({Exp1_R25_prot}),
+                                   obj = reactive({subR25prot}),
                                    reset = reactive({input$external_reset + input$perform}),
                                    op_names = reactive({c('Push p-value', 'Keep original p-value')})
   )

@@ -74,8 +74,8 @@ conditions or at least one condition.
 \examples{
 SymFilteringOperators()
 
-data(ft, package='DaparToolshed')
-obj <- ft[[1]]
+data(subR25prot)
+obj <- subR25prot[[1]]
 level <- typeDataset(obj)
 pattern <- "Missing"
 mask <- match.metacell(
@@ -89,10 +89,10 @@ op <- ">="
 cmd <- 'delete' 
 ind <- qMetacellWholeMatrix(obj, cmd, pattern, percent, th, op)
 
-data(ft, package='DaparToolshed')
+data(subR25prot)
 ind <- qMetacellWholeLine(obj, cmd, pattern)
 
-conds <- design.qf(ft)$Condition
+conds <- design.qf(subR25prot)$Condition
 op <- ">="
 th <- 0.5
 percent <- "Percentage"
@@ -101,7 +101,7 @@ ind <- qMetacellOnConditions(obj, cmd, mode, pattern, conds, percent, op, th)
 
 qMetacellFilteringScope()
 
-data(ft_na)
-obj <- ft_na[[1]]
+data(subR25prot)
+obj <- subR25prot[[1]]
 
 }

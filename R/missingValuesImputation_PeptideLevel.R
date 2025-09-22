@@ -19,14 +19,15 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10), ]
+#' utils::data(subR25pept)
 #' level <- 'peptide'
 #' # Delete whole empty lines
-#' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
+#' metacell.mask <- DaparToolshed::match.metacell(
+#' qMetacell(subR25pept[[1]]), 
+#' c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' grp <- design.qf(obj)$Condition
-#' obj.imp.na <- wrapper.impute.mle(obj[[2]], grp)
+#' grp <- design.qf(subR25pept)$Condition
+#' subR25pept <- wrapper.impute.mle(subR25pept[[2]], grp)
 #'
 #' @export
 #' @importFrom MagellanNTK pkgs.require
@@ -119,15 +120,16 @@ wrapper.impute.mle <- function(obj, grp) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(500)]
-#' design <- design.qf(obj)
+#' \dontrun{
+#' utils::data(subR25prot)
+#' design <- design.qf(subR25prot)
 #' level <- 'protein'
-#' metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
+#' metacell.mask <- DaparToolshed::match.metacell(
+#' qMetacell(subR25prot[[1]]), c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' obj.imp.na <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = TRUE)
-#' obj.imp.pov <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = FALSE)
-#'
+#' obj.imp.na <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = TRUE)
+#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = FALSE)
+#'}
 #' @export
 #' @importFrom MagellanNTK pkgs.require
 #'
@@ -155,6 +157,7 @@ wrapper.dapar.impute.mi <- function(obj,
 
     MagellanNTK::pkgs.require('imp4p')
 
+  
     if (missing(obj))
         stop("'obj' is required.")
   stopifnot(inherits(obj, 'SummarizedExperiment'))
@@ -185,10 +188,11 @@ wrapper.dapar.impute.mi <- function(obj,
       conditions = conditions
       )
 
+
     res <- imp4p::estim.mix(
       tab = qData,
       tab.imp = dat.slsa,
-      conditions = conditions
+      conditions = sTab$Condition
       )
 
 
@@ -313,10 +317,9 @@ translatedRandomBeta <- function(
 #'
 #' @examples
 #' \dontrun{
-#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' design <- design.qf(obj)
-#' obj.imp.pa2 <- wrapper.impute.pa2(obj = obj[[1]], design = design)
+#' utils::data(subR25pept)
+#' design <- design.qf(subR25pept)
+#' subR25pept <- wrapper.impute.pa2(subR25pept[[1]], design)
 #' }
 #' 
 #' @export
@@ -404,9 +407,9 @@ wrapper.impute.pa2 <- function(
 #'
 #' @examples
 #' library(QFeatures)
-#' utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-#' qdata <- assay(Exp1_R25_pept[[1]])
-#' conds <- design.qf(Exp1_R25_pept)$Condition
+#' utils::data(subR25pept)
+#' qdata <- assay(subR25pept[[1]])
+#' conds <- design.qf(subR25pept)$Condition
 #' obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
 #'
 #' @export

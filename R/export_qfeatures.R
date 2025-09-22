@@ -38,15 +38,15 @@
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' data(ft, package='DaparToolshed')
+#' data(subR25prot)
 #'
 #' #---------------------------------------
 #' # Export the whole dataset
 #' #---------------------------------------
 #'
-#' write2excel(ft, filename = "foo")
+#' write2excel(subR25prot, filename = "foo")
 #' unlink('foo.xls')
-#' write2excel(ft, 1, "foo")
+#' write2excel(subR25prot, 1, "foo")
 #' unlink('foo.xls')
 #'
 NULL

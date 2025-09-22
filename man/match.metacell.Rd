@@ -22,9 +22,8 @@ Similar to the function \code{is.na()} but focused on the equality
 with the paramter 'type'.
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10), ]
-metadata <- qMetacell(obj[[1]])
+data(subR25pept)
+metadata <- qMetacell(subR25pept[[1]])
 m <- match.metacell(metadata, pattern = "Missing", level = "peptide")
 m <- match.metacell(metadata, pattern = 'Missing POV', level = "peptide")
 m <- match.metacell(metadata, pattern = c('Missing', 'Missing POV'), level = "peptide")

@@ -16,11 +16,10 @@ xxx
 This function looks for the lines where each element respect the query.
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq.int(from=20, to=30)]
+data(subR25pept)
 level <- 'peptide'
 pattern <- "Missing POV"
-metacell.mask <- match.metacell(metadata = qMetacell(obj[[1]]), 
+metacell.mask <- match.metacell(metadata = qMetacell(subR25pept[[1]]), 
 pattern = pattern, level = level)
 ind <- GetIndices_WholeLine(metacell.mask)
 

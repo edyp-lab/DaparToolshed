@@ -10,8 +10,8 @@
 #' @return NA
 #'
 #' @examples
-#' data(ft, package='DaparToolshed')
-#' obj <- ft[[1]]
+#' data(subR25prot)
+#' obj <- subR25prot[[1]]
 #' level <- typeDataset(obj)
 #' pattern <- "Missing"
 #' mask <- match.metacell(
@@ -25,10 +25,10 @@
 #' cmd <- 'delete' 
 #' ind <- qMetacellWholeMatrix(obj, cmd, pattern, percent, th, op)
 #'
-#' data(ft, package='DaparToolshed')
+#' data(subR25prot)
 #' ind <- qMetacellWholeLine(obj, cmd, pattern)
 #'
-#' conds <- design.qf(ft)$Condition
+#' conds <- design.qf(subR25prot)$Condition
 #' op <- ">="
 #' th <- 0.5
 #' percent <- "Percentage"
@@ -69,8 +69,8 @@ qMetacellFilteringScope <- function() {
 #' @rdname qMetacell-filter
 #' 
 #' @examples 
-#' data(ft_na)
-#' obj <- ft_na[[1]]
+#' data(subR25prot)
+#' obj <- subR25prot[[1]]
 #'
 qMetacellWholeMatrix <- function(object, 
   cmd, 

@@ -18,9 +18,8 @@ A plot
 Display a a jitter plot for CC
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(100)]
-X <- BuildAdjacencyMatrix(obj[[1]])
+data(subR25pept)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 ll <- get.pep.prot.cc(X)[1:4]
 n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
 n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))

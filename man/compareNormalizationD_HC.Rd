@@ -46,11 +46,11 @@ Plot to compare the quantitative proteomics data before and after
 normalization using the package \code{highcharter}
 }
 \examples{
-data(Exp1_R25_prot, package="DaparToolshedData")
-obj <- Exp1_R25_prot
-qDataBefore <- SummarizedExperiment::assay(obj[[length(obj)]])
-conds <- design.qf(obj)$Condition
-id <- SummarizedExperiment::rowData(obj[[length(obj)]])[, omXplore::get_colID(obj[[length(obj)]])]
+library(SummarizedExperiment)
+data(subR25prot)
+qDataBefore <- assay(subR25prot[[2]])
+conds <- design.qf(subR25prot)$Condition
+id <- rowData(subR25prot[[2]])[, idcol(subR25prot[[2]])]
 # pal <- ExtendPalette(2)
 qDataAfter <- LOESS(qDataBefore, conds, type = "overall")
 

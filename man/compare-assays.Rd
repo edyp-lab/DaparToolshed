@@ -49,8 +49,8 @@ process.
 The comparison is made with the division operator.
 }
 \examples{
-data(Exp1_R25_prot, package="DaparToolshedData")
-plotCompareAssays(Exp1_R25_prot, 1, 2, n = 5)
+data(subR25prot)
+plotCompareAssays(subR25prot, 1, 2, n = 5)
 
 }
 \author{

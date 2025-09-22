@@ -18,8 +18,8 @@ A \code{list} including :
 Check if the design is valid
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-check.conditions(design.qf(Exp1_R25_pept)$Condition)
+data(subR25pept)
+check.conditions(design.qf(subR25pept)$Condition)
 
 }
 \author{

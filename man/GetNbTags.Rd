@@ -13,7 +13,7 @@ GetNbTags(obj)
 Number of each metacell tags
 }
 \examples{
-data(Exp1_R25_prot, package = 'DaparToolshedData')
-GetNbTags(Exp1_R25_prot[[1]])
+data(subR25prot)
+GetNbTags(subR25prot[[1]])
 
 }

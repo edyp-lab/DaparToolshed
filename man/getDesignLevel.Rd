@@ -13,8 +13,8 @@ getDesignLevel(sTab)
 xxx
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-sTab <- SummarizedExperiment::colData(Exp1_R25_pept)
+data(subR25pept)
+sTab <- SummarizedExperiment::colData(subR25pept)
 getDesignLevel(sTab)
 
 }

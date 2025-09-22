@@ -17,8 +17,8 @@ Returns the number of empty lines in a matrix.
 }
 \examples{
 library(QFeatures)
-data(Exp1_R25_pept, package="DaparToolshedData")
-qData <- assay(Exp1_R25_pept[[1]])
+data(subR25prot)
+qData <- assay(subR25prot[[1]])
 getNumberOfEmptyLines(qData)
 
 }

@@ -20,14 +20,13 @@
 #'
 #' @examples
 #' library(SummarizedExperiment)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept
+#' data(subR25pept)
 #' # Simulate missing value imputation
-#' assay(obj[[1]])[which(is.na(assay(obj[[1]])))] <- 0
-#' assay(obj[[2]])[which(is.na(assay(obj[[2]])))] <- 0
+#' assay(subR25pept[[1]])[which(is.na(assay(subR25pept[[1]])))] <- 0
+#' assay(subR25pept[[2]])[which(is.na(assay(subR25pept[[2]])))] <- 0
 #' 
-#' qData <- as.matrix(assay(obj[[2]]))
-#' sTab <- SummarizedExperiment::colData(obj)
+#' qData <- as.matrix(assay(subR25pept[[2]]))
+#' sTab <- SummarizedExperiment::colData(subR25pept)
 #' limma <- limmaCompleteTest(qData, sTab)
 #' pal <- ExtendPalette(2, "Dark2")
 #' hc_logFC_DensityPlot(limma$logFC, th_logFC = 1, pal = pal)
@@ -52,10 +51,10 @@ hc_logFC_DensityPlot <- function(
   }
   
   
-  hc <- highcharter::highchart() %>%
-    hc_title(text = "log(FC) repartition") %>%
-    my_hc_chart(chartType = "spline", zoomType = "x") %>%
-    hc_legend(enabled = TRUE) %>%
+  hc <- highcharter::highchart() |>
+    hc_title(text = "log(FC) repartition") |>
+    my_hc_chart(chartType = "spline", zoomType = "x") |>
+    hc_legend(enabled = TRUE) |>
     hc_xAxis(
       title = list(text = "log(FC)"),
       plotBands = list(
@@ -72,14 +71,14 @@ hc_logFC_DensityPlot <- function(
           zIndex = 5
         )
       )
-    ) %>%
-    hc_yAxis(title = list(text = "Density")) %>%
+    ) |>
+    hc_yAxis(title = list(text = "Density")) |>
     hc_tooltip(
       headerFormat = "",
       pointFormat = "<b> {series.name} </b>: {point.y} ",
       valueDecimals = 2
-    ) %>%
-    my_hc_ExportMenu(filename = "densityplot") %>%
+    ) |>
+    my_hc_ExportMenu(filename = "densityplot") |>
     hc_plotOptions(
       series = list(
         animation = list(duration = 100),
@@ -109,7 +108,7 @@ hc_logFC_DensityPlot <- function(
   nInf <- length(which(df_logFC <= -th_logFC))
   nSup <- length(which(df_logFC >= th_logFC))
   nInside <- length(which(abs(df_logFC) < th_logFC))
-  hc <- hc %>%
+  hc <- hc |>
     hc_colors(myColors)
   
   maxY.inf <- NULL
@@ -143,7 +142,7 @@ hc_logFC_DensityPlot <- function(
   
   ## add annotations
   if (th_logFC > 0) {
-    hc <- hc %>% hc_add_annotation(
+    hc <- hc |> hc_add_annotation(
       labelOptions = list(
         shape = "connector",
         backgroundColor = "lightgrey",
@@ -173,7 +172,7 @@ hc_logFC_DensityPlot <- function(
     )
   }
   if (th_logFC >= minX) {
-    hc <- hc %>%
+    hc <- hc |>
       hc_add_annotation(
         labelOptions = list(
           shape = "connector",
@@ -204,7 +203,7 @@ hc_logFC_DensityPlot <- function(
   }
   
   if (th_logFC <= maxX) {
-    hc <- hc %>% hc_add_annotation(
+    hc <- hc |> hc_add_annotation(
       labelOptions = list(
         shape = "connector",
         backgroundColor = "blue",

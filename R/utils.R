@@ -116,8 +116,8 @@ ProstarVersions <- function() {
 #'
 #' @examples
 #' library(QFeatures)
-#' data(ft, package='DaparToolshed')
-#' nEmptyLines(assay(ft, 1))
+#' data(subR25prot)
+#' nEmptyLines(assay(subR25prot, 1))
 #'
 nEmptyLines <- function(df) {
     sum(apply(is.na(as.matrix(df)), 1, all))
@@ -141,8 +141,8 @@ nEmptyLines <- function(df) {
 #'
 #' @examples
 #' library(QFeatures)
-#' data(ft, package='DaparToolshed')
-#' obj <- ft[[1]]
+#' data(subR25prot)
+#' obj <- subR25prot[[1]]
 #' data <- qMetacell(obj)
 #' is.OfType(as.data.frame(data), "MEC")
 #'
@@ -191,8 +191,8 @@ is.subset <- function(set1, set2)
 #' @author Samuel Wieczorek, Enora Fremy
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' res <- getListNbValuesInLines(Exp1_R25_prot[[1]])
+#' data(subR25prot)
+#' res <- getListNbValuesInLines(subR25prot[[1]])
 #'
 #' @export
 #'
@@ -372,7 +372,7 @@ my_hc_ExportMenu <- function(hc, filename) {
 #' @export
 #'
 my_hc_chart <- function(hc, chartType, zoomType = "None") {
-  hc %>%
+  hc |>
     hc_chart(
       type = chartType,
       zoomType = zoomType,
@@ -433,8 +433,8 @@ CleanRowData <- function(obj, i){
 #'
 #' @examples
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' qData <- assay(Exp1_R25_pept[[1]])
+#' data(subR25prot)
+#' qData <- assay(subR25prot[[1]])
 #' getNumberOfEmptyLines(qData)
 #'
 #' @export

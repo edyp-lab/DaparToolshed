@@ -81,13 +81,13 @@
 #' # IF several filters must be used, store them in a list
 #' #------------------------------------------------------
 #'
-#' data(ft, package='DaparToolshed')
+#' data(subR25pept)
 #' lst.filters <- list()
 #' lst.filters <- append(lst.filters, f1)
 #' lst.filters <- append(lst.filters, f3)
 #'
-#' ft <- filterFeaturesOneSE(
-#'     object = ft,
+#' subR25prot <- filterFeaturesOneSE(
+#'     object = subR25pept,
 #'     i = 1,
 #'     name = "filtered",
 #'     filters = lst.filters
@@ -246,7 +246,8 @@ subAdjMat_topnPeptides <- function(X, qData, fun, top) {
         return(NULL)
     }
 
-    temp.X <- as(X * do.call(fun, list(qData)), "dgCMatrix")
+    #temp.X <- as(X * do.call(fun, list(qData)), "dgCMatrix")
+    temp.X <- as(X * do.call(fun, list(qData)), "CsparseMatrix")
 
     # Get the 'n' entities with the best score for each column
     for (c in seq_len(ncol(temp.X))) {

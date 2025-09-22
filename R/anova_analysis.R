@@ -30,9 +30,8 @@ OWAnova <- function(current_protein, conditions){
 #' @return a list of linear models
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' exdata <- Exp1_R25_prot[1:5,]
-#' applyAnovasOnProteins(exdata, 1)
+#' data(subR25prot)
+#' applyAnovasOnProteins(subR25prot[1:5,], 1)
 #'
 #' @export
 #' 
@@ -41,7 +40,7 @@ OWAnova <- function(current_protein, conditions){
 applyAnovasOnProteins <- function(obj, i){
   qData <- assay(obj[[i]])
   sTab <- design.qf(obj)
-  anova_models <- t(apply(qData, 1, OWAnova, conditions=as.factor(sTab$Condition)))
+  anova_models <- t(apply(qData, 1, OWAnova, conditions = as.factor(sTab$Condition)))
   names(anova_models) <- rownames(qData)
   return(anova_models)
 }
@@ -62,9 +61,9 @@ applyAnovasOnProteins <- function(obj, i){
 #' @return a list of 2 tables (p-values and fold-changes, respecively)
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' exdata <- Exp1_R25_prot[1:5,]
-#' testAnovaModels(applyAnovasOnProteins(exdata, 1))
+#' data(subR25prot)
+#' obj <- subR25prot[1:5,]
+#' testAnovaModels(applyAnovasOnProteins(obj, 1))
 #'
 #' @export
 #' @importFrom stats TukeyHSD
@@ -238,9 +237,11 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #' @return a proteins x contrasts table of adjusted p-values
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' exdata <- Exp1_R25_prot[1:5,]
-#' separateAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
+#' data(subR25prot)
+#' obj <- subR25prot[1:5,]
+#' separateAdjPval(
+#' testAnovaModels(
+#' applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
 #'
 #' @export
 #' 
@@ -249,6 +250,7 @@ thresholdpval4fdr <- function(x, pval.T, M){
 separateAdjPval <- function(x, 
                             pval.threshold = 1.05, 
                             method = 1){
+  
   MagellanNTK::pkgs.require('cp4p')
   if(pval.threshold > 1){
     res <- apply(x, 2, function(x) cp4p::adjust.p(x, pi0.method = method)$adjp$adjusted.p)
@@ -273,9 +275,10 @@ separateAdjPval <- function(x,
 #' @return a proteins x contrasts table of adjusted p-values
 #'
 #' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' exdata <- Exp1_R25_prot[1:5,]
-#' globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
+#' data(subR25prot)
+#' obj <- subR25prot[1:5,]
+#' globalAdjPval(testAnovaModels(
+#' applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
 #'
 #' @export
 #' @importFrom utils stack
@@ -294,37 +297,6 @@ globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
   return(res)
 }
 
-#' @title Applies an FDR threshold on a table of adjusted p-values and summarizes the results
-#'
-#' @author Thomas Burger
-#'
-#' @param x a table of adjusted p-values
-#' @param fdr.threshold an FDR threshold
-#'
-#' @return a summary of the number of significantly differentially abundant proteins, overall and per contrast
-#'
-#' @examples
-#' data(Exp1_R25_prot, package='DaparToolshedData')
-#' exdata <- Exp1_R25_prot[1:5,]
-#' adjpvaltab <- globalAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
-#' seltab <- compute.selection.table(adjpvaltab, 0.2)
-#' seltab
-#' 
-#' @export
-#' 
-compute.selection.table <- function(x, fdr.threshold){
-  selection.table <- 1*(x<fdr.threshold)
-  tt <- sum(selection.table)
-  names(tt) <- "Total Ctr"
-  pc <- sum(as.logical(rowSums(selection.table)))
-  #names(pc) <- paste("DA_prot/", dim(selection.table)[1], sep="")
-  names(pc) <- "DA prot"
-  res <- c(colSums(selection.table), tt, pc)
-}
-
-
-
-
 
 
 
@@ -342,7 +314,24 @@ compute.selection.table <- function(x, fdr.threshold){
 #' @return A named vector containing all the different values of the aov model
 #'
 #' @examples
-#' \dontrun{examples/ex_classic1wayAnova.R}
+#' \dontrun{
+#' data(subR25prot)
+#' obj <- subR25prot
+#' filter <- FunctionFilter('qMetacellOnConditions',
+#'   cmd = 'delete',
+#'   mode = 'AtLeastOneCond',
+#'   pattern = c("Missing POV", "Missing MEC"),
+#'   conds = design.qf(obj)$Condition,
+#'   percent = TRUE,
+#'   th = 0.8,
+#'   operator = '<')
+#' 
+#' obj <- filterFeaturesOneSE(obj, filter)
+#' 
+#' anova_tests <- t(apply(assay(obj[[2]]), 1, classic1wayAnova,
+#' conditions = as.factor(design.qf(obj)$Condition)
+#' ))
+#' }
 #'
 #' @export
 #' @importFrom stats aov
@@ -384,13 +373,29 @@ classic1wayAnova <- function(current_line, conditions) {
 #' corresponding p-values.
 #'
 #' @examples 
-#' \dontrun{examples/ex_wrapperClassic1wayAnova.R}
+#' \dontrun{
+#' data(subR25prot)
+#' obj <- subR25prot
+#' filter <- FunctionFilter('qMetacellOnConditions',
+#'   cmd = 'delete',
+#'   mode = 'AtLeastOneCond',
+#'   pattern = c("Missing POV", "Missing MEC"),
+#'   conds = design.qf(obj)$Condition,
+#'   percent = TRUE,
+#'   th = 0.8,
+#'   operator = '<')
+#' 
+#' obj <- filterFeaturesOneSE(obj, filter)
+#' 
+#' anovatest <- wrapperClassic1wayAnova(obj, 2)
+#' }
 #'
 #' @seealso [postHocTest()]
 #'
 #' @export
 #' 
 #' @importFrom MagellanNTK pkgs.require
+#' @import dplyr
 #'
 wrapperClassic1wayAnova <- function(obj, 
   i,
@@ -398,7 +403,6 @@ wrapperClassic1wayAnova <- function(obj,
   post_hoc_test = "No") {
   
   .Deprecated("testAnovaModels")
-  MagellanNTK::pkgs.require('dplyr')
   
   
   qData <- assay(obj[[i]])
@@ -419,7 +423,12 @@ wrapperClassic1wayAnova <- function(obj,
         )
       )
     )
-    results <- dplyr::select(anova_tests, `Pr(>F)1`)
+    
+    
+    results <- as.data.frame(anova_tests[, 'Pr(>F)1'])
+    colnames(results) <- 'Pr(>F)1'
+    
+    #results <- dplyr::select(anova_tests, `Pr(>F)1`)
     to_return <- list(
       "logFC" = data.frame(
         "anova_1way_logFC" = matrix(NA, nrow = nrow(results)), 

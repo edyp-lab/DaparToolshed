@@ -90,15 +90,16 @@ This method is a wrapper to the function \code{impute.mi()} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
 }
 \examples{
-utils::data(Exp1_R25_pept, package = "DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(500)]
-design <- design.qf(obj)
+\dontrun{
+utils::data(subR25prot)
+design <- design.qf(subR25prot)
 level <- 'protein'
-metacell.mask <- DaparToolshed::match.metacell(qMetacell(obj[[1]]), c("Missing POV", "Missing MEC"), level)
+metacell.mask <- DaparToolshed::match.metacell(
+qMetacell(subR25prot[[1]]), c("Missing POV", "Missing MEC"), level)
 indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-obj.imp.na <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = TRUE)
-obj.imp.pov <- wrapper.dapar.impute.mi(obj[[1]], design, nb.iter = 1, lapala = FALSE)
-
+obj.imp.na <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = TRUE)
+obj.imp.pov <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = FALSE)
+}
 }
 \author{
 Samuel Wieczorek

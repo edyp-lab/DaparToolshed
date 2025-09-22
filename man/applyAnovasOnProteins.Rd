@@ -19,9 +19,8 @@ a list of linear models
 iteratively applies OWAnova() on the features of an MSnSet object
 }
 \examples{
-data(Exp1_R25_prot, package='DaparToolshedData')
-exdata <- Exp1_R25_prot[1:5,]
-applyAnovasOnProteins(exdata, 1)
+data(subR25prot)
+applyAnovasOnProteins(subR25prot[1:5,], 1)
 
 }
 \author{

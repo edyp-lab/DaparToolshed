@@ -22,9 +22,8 @@
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- QFeatures::adjacencyMatrix(obj[[1]])
+#' data(subR25pept)
+#' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 #' ll <- get.pep.prot.cc(X)
 #'
 #' @export
@@ -155,9 +154,8 @@ get.pep.prot.cc <- function(X) {
 #' @author Thomas Burger
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- BuildAdjacencyMatrix(obj[[1]])
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ll <- get.pep.prot.cc(X)
 #' plotJitter(ll)
 #'
@@ -207,9 +205,8 @@ plotJitter <- function(list.of.cc = NULL) {
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- QFeatures::adjacencyMatrix(obj[[1]])
+#' data(subR25pept)
+#' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 #' ll <- get.pep.prot.cc(X)
 #' g <- buildGraph(ll[[1]], X)
 #'
@@ -276,9 +273,8 @@ buildGraph <- function(The.CC, X) {
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- QFeatures::adjacencyMatrix(obj[[1]])
+#' data(subR25pept)
+#' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 #' ll <- get.pep.prot.cc(X)
 #' g <- buildGraph(ll[[1]], X)
 #' display.CC.visNet(g)
@@ -289,7 +285,7 @@ buildGraph <- function(The.CC, X) {
 #'
 display.CC.visNet <- function(
     g,
-    layout = layout_nicely,
+    layout = NULL,
     obj = NULL,
     prot.tooltip = NULL,
     pept.tooltip = NULL) {
@@ -302,19 +298,19 @@ display.CC.visNet <- function(
   
   
   visNetwork::visNetwork(g$nodes, g$edges, width = "100%", 
-                         height = "100%") %>%
-    visNetwork::visNodes(shape = "dot") %>% # square for all nodes
+                         height = "100%") |>
+    visNetwork::visNodes(shape = "dot") |> # square for all nodes
     visNetwork::visGroups(groupname = "spec.peptide", 
-                          color = col.spec) %>% # darkblue for group "A"
+                          color = col.spec) |> # darkblue for group "A"
     visNetwork::visGroups(groupname = "shared.peptide", 
-                          color = col.shared) %>% # darkblue for group "A"
+                          color = col.shared) |> # darkblue for group "A"
     visNetwork::visGroups(groupname = "protein", 
-                          color = col.prot, shape = "dot") %>%
-    visNetwork::visOptions(highlightNearest = FALSE) %>%
+                          color = col.prot, shape = "dot") |>
+    visNetwork::visOptions(highlightNearest = FALSE) |>
     # visLegend()
-    # visPhysics(stabilization = FALSE)%>%
+    # visPhysics(stabilization = FALSE)|>
     visNetwork::visEdges(color = "#A9A9A9", width = 2)
-  # %>%
+  # |>
   # visIgraphLayout(layout = "layout_with_fr")
 }
 
@@ -333,9 +329,8 @@ display.CC.visNet <- function(
 #' @export
 #' 
 #' @examples 
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' X <- BuildAdjacencyMatrix(obj[[1]])
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ll <- get.pep.prot.cc(X)[1:4]
 #' n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
 #' n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
@@ -375,20 +370,20 @@ plotJitter_rCharts <- function(df, clickFunction = NULL) {
     )
   }
   
-  h1 <- highchart() %>%
-    hc_add_series(data = df, type = "scatter") %>%
-    my_hc_chart(zoomType = "xy", chartType = "scatter") %>%
-    hc_legend(enabled = FALSE) %>%
-    hc_yAxis(title = list(text = "Nb of proteins ic CC")) %>%
-    hc_xAxis(title = list(text = "Nb of peptides ic CC")) %>%
-    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) %>%
+  h1 <- highchart() |>
+    hc_add_series(data = df, type = "scatter") |>
+    my_hc_chart(zoomType = "xy", chartType = "scatter") |>
+    hc_legend(enabled = FALSE) |>
+    hc_yAxis(title = list(text = "Nb of proteins ic CC")) |>
+    hc_xAxis(title = list(text = "Nb of peptides ic CC")) |>
+    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
     hc_plotOptions(series = list(
       animation = list(duration = 100),
       cursor = "pointer",
       point = list(events = list(
         click = clickFunction
       ))
-    )) %>%
+    )) |>
     my_hc_ExportMenu(filename = "plotCC")
   
   

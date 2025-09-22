@@ -564,7 +564,8 @@ pepa.test <- function(X,
         A[seq_len(p), seq.int(from = (p + 1), to = (p + q))] <- as.matrix(t(X))
         A[seq.int(from = (p + 1), to = (p + q)), seq_len(p)] <- as.matrix(X)
         g <- graph::graphAM(A, edgemode = "undirected", values = NA)
-        nodes(g) <- as.character(seq_len(p + q))
+        
+        graph::nodes(g) <- as.character(seq_len(p + q))
         cc <- graph::connComp(as(g, "graphNEL"))
         
         ## Test proteins in each connected component

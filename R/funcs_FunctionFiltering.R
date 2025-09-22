@@ -161,11 +161,11 @@ SymFilteringOperators <- function() {
 #'
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
+#' data(subR25pept)
 #' level <- 'peptide'
 #' pattern <- "Missing"
-#' metacell.mask <- match.metacell(metadata = qMetacell(obj[[1]]), pattern = pattern, level = level)
+#' metacell.mask <- match.metacell(
+#' metadata = qMetacell(subR25pept[[1]]), pattern = pattern, level = level)
 #' percent <- FALSE
 #' th <- 3
 #' op <- ">="
@@ -235,11 +235,10 @@ GetIndices_WholeMatrix <- function(metacell.mask,
 #' @param metacell.mask xxx
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq.int(from=20, to=30)]
+#' data(subR25pept)
 #' level <- 'peptide'
 #' pattern <- "Missing POV"
-#' metacell.mask <- match.metacell(metadata = qMetacell(obj[[1]]), 
+#' metacell.mask <- match.metacell(metadata = qMetacell(subR25pept[[1]]), 
 #' pattern = pattern, level = level)
 #' ind <- GetIndices_WholeLine(metacell.mask)
 #'
@@ -282,13 +281,13 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' @param th The theshold to apply
 #'
 #' @examples
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' level <- typeDataset(obj[[1]])
+#' data(subR25pept)
+#' level <- typeDataset(subR25pept[[1]])
 #' pattern <- 'Missing'
-#' metacell.mask <- match.metacell(metadata=qMetacell(obj[[1]]), pattern=pattern, level=level)
+#' metacell.mask <- match.metacell(
+#' metadata=qMetacell(subR25pept[[1]]), pattern=pattern, level=level)
 #' type <- 'AllCond'
-#' conds <- design.qf(obj)$Condition
+#' conds <- design.qf(subR25pept)$Condition
 #' op <- '>='
 #' th <- 0.5
 #' percent <- TRUE

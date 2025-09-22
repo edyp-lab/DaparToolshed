@@ -16,9 +16,8 @@ A list of CC
 Build the list of connex composant of the adjacency matrix
 }
 \examples{
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept[seq_len(10)]
-X <- QFeatures::adjacencyMatrix(obj[[1]])
+data(subR25pept)
+X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 ll <- get.pep.prot.cc(X)
 
 }

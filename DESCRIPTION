@@ -16,12 +16,21 @@ Authors@R: c(person(given = "Samuel", family = "Wieczorek",
     email = "manon.gaudin@cea.fr",
     role = c("ctb"))
     )
-Description: This package contains a collection of functions for the
-    visualisation and the statistical analysis of proteomic data.
+Description: The package DaparToolshed is a Bioconductor distributed R package which 
+    provides all the necessary functions to analyze quantitative data from 
+    label-free proteomics experiments. It is an update 
+    of our previous package DAPAR and contains more 
+    functions to analyze the data and 
+    uses MultAssayExperiment and SummarizedExperiment data structures.
+    Contrarily to most other similar R packages, it is endowed with rich and 
+    user-friendly graphical interfaces, so that no programming skill is 
+    required (see `Prostar` package).
 License: Artistic-2.0
 Depends: R (>= 4.3.0)
 Imports:
     Biobase,
+    BiocGenerics,
+    matrixStats,
     MagellanNTK,
     S4Vectors,
     SummarizedExperiment,
@@ -41,7 +50,8 @@ Imports:
     stringr,
     graph,
     igraph,
-    preprocessCore
+    preprocessCore,
+    dplyr
 biocViews: 
     Proteomics,
     Normalization,
@@ -60,7 +70,6 @@ Suggests:
     sos,
     shinyBS,
     MultiAssayExperiment,
-    knitr,
     PSMatch,
     lme4,
     DT,
@@ -78,7 +87,6 @@ Suggests:
     testthat,
     FactoMineR, 
     factoextra,
-    dplyr,
     colourpicker,
     readxl,
     grDevices,
@@ -89,7 +97,6 @@ Suggests:
     tidyr,
     DaparToolshedData
 Remotes:
-    git::https://github.com/edyp-lab/DaparToolshedData,
     git::https://github.com/edyp-lab/MagellanNTK,
     git::https://github.com/edyp-lab/omXplore
 NeedsCompilation: no
@@ -111,7 +118,6 @@ Collate:
     DaparToolshed.R
     QFeatures_utils.R
     output2Excel.R
-    example-data.R
     DaparToolshed_Params_Addons.R
     metacell.R
     DaparToolshed_filter_Adjmat.R
@@ -132,8 +138,7 @@ Collate:
 RoxygenNote: 7.3.3
 Packaged: 2017-10-13 11:13:04 UTC; sw175264
 Encoding: UTF-8
-LazyData: false
+LazyData: yes
 URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
-VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

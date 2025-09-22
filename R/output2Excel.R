@@ -22,11 +22,11 @@
 #' @author Samuel Wieczorek
 #' @name output_2_Excel
 #' @examples
+#' \dontrun{
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(100)]
-#' df <- assay(obj[[1]])
-#' tags <- qMetacell(obj[[1]])
+#' data(subR25prot)
+#' df <- assay(subR25prot[[1]])
+#' tags <- qMetacell(subR25prot[[1]])
 #' colors <- list(
 #'     "Missing POV" = "lightblue",
 #'     "Missing MEC" = "orange",
@@ -34,13 +34,12 @@
 #'     "Quant. by direct id" = "white",
 #'     "Combined tags" = "red"
 #' )
-#' write.excel(obj, filename = "toto.xlsx")
+#' write.excel(subR25prot, filename = "toto.xlsx")
 #' 
 #' 
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' write.excel(obj, "foo.xlsx")
-#' 
+#' data(subR25pept)
+#' write.excel(subR25pept, "foo.xlsx")
+#' }
 #'
 #' 
 NULL

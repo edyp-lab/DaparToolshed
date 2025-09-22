@@ -4,7 +4,7 @@
 \alias{Metacell_maxquant}
 \title{Sets the metacell dataframe}
 \usage{
-Metacell_maxquant(qdata, conds, df, level = NULL)
+Metacell_maxquant(qdata, conds, df = NULL, level = NULL)
 }
 \arguments{
 \item{qdata}{An object of class \code{MsnSet}}
@@ -30,19 +30,10 @@ Initial conversion rules for maxquant
 |------------|-----------------------|--------|
 }
 \examples{
-file <- system.file("extdata", "Exp1_R25_pept.txt", package = "DaparToolshedData")
-data <- read.table(file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-metadataFile <- system.file("extdata", "samples_Exp1_R25.txt",
-    package = "DaparToolshedData"
-)
-metadata <- read.table(metadataFile,
-    header = TRUE, sep = "\t", as.is = TRUE,
-    stringsAsFactors = FALSE
-)
-conds <- metadata$Condition
-qdata <- data[seq_len(10), seq.int(from = 56, to = 61)]
-df <- data[seq_len(10), seq.int(from = 43, to = 48)]
-df2 <- Metacell_maxquant(qdata, conds, df, level = "peptide")
+data(subR25pept)
+conds <- design.qf(subR25pept)$Condition
+qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+df2 <- Metacell_maxquant(qdata, conds, level = "peptide")
 
 }
 \author{

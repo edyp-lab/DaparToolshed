@@ -93,10 +93,9 @@ by condition.
 normalizeMethods()
 
 
-data(Exp1_R25_pept, package="DaparToolshedData")
-obj <- Exp1_R25_pept
-qData <- SummarizedExperiment::assay(obj[[1]])
-conds <- design.qf(obj)$Condition
+data(subR25pept)
+qData <- SummarizedExperiment::assay(subR25pept[[1]])
+conds <- design.qf(subR25pept)$Condition
 
 
 
@@ -107,7 +106,8 @@ normalized <- SumByColumns(qData, conds,
     subset.norm = seq_len(10)
 )
 
-normalized <- QuantileCentering(SummarizedExperiment::assay(obj[[1]]), conds,
+normalized <- QuantileCentering(
+SummarizedExperiment::assay(subR25pept), conds,
 type = "within conditions", subset.norm = seq_len(10)
 )
 

@@ -7,8 +7,8 @@ server <- function(input, output, session) {
   
   rv <- reactiveValues(selected = NULL)
 
-  data(vData_ft)
-  obj <- vData_ft[[1]]
+  data(subR25prot)
+  obj <- subR25prot[[1]]
   
 
   mc <- metacell.def(obj@type)

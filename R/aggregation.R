@@ -52,12 +52,12 @@
 #' ## ---------------------------------------
 #' \dontrun{
 #' library(SummarizedExperiment)
-#' data(ft, package='DaparToolshed')
-#' ft
+#' data(subR25prot)
+#' subR25prot
 #'
 #' ## Aggregate peptides into proteins
 #' ## using the adjacency matrix
-#' feat1 <- aggregateFeatures4Prostar(object = ft,
+#' feat1 <- aggregateFeatures4Prostar(object = subR25prot,
 #' i = 1,
 #' name = 'aggregated',
 #' fcol = 'adjacencyMatrix',
@@ -284,13 +284,13 @@ setMethod(
 #' ## An example QFeatures with PSM-level data
 #' ## ---------------------------------------
 #' \dontrun{
-#' data(ft, package='DaparToolshed')
+#' data(subR25prot)
 #' library(SummarizedExperiment)
-#' ft
+#' subR25prot
 #'
 #' ## Aggregate peptides into proteins
 #' ## using the adjacency matrix
-#' feat1 <- aggregateRedistribution(object = ft,
+#' feat1 <- aggregateRedistribution(object = subR25prot,
 #' i = 1,
 #' name = 'aggregated',
 #' fcol = 'adjacencyMatrix',
@@ -452,11 +452,11 @@ setMethod(
 #' @return xxxxx
 #'
 #' @examples
-#' data(ft, package='DaparToolshed')
-#' qMeta <- qMetacell(ft, 1)
-#' X <- QFeatures::adjacencyMatrix(ft[[1]])
-#' level <- typeDataset(ft[[1]])
-#' conds <- SummarizedExperiment::colData(ft)$Condition
+#' data(subR25pept)
+#' qMeta <- qMetacell(subR25pept, 1)
+#' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
+#' level <- typeDataset(subR25pept[[1]])
+#' conds <- SummarizedExperiment::colData(subR25pept)$Condition
 #' aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 #'
 #' @rdname DaparToolshed-aggregate
@@ -547,10 +547,10 @@ aggregateMethods <- function() {
 #' @param aggregated_col A `character()` of column names from rowdata to be aggregated. 
 #' @param max_iter A `numeric(1)` setting the maximum number of iteration.
 #' 
-#' @return A [QFeatures] with an aggregated assay added.
+#' @return A QFeatures with an aggregated assay added.
 #' 
 #' @details
-#' Aggregation of quantitative data is performed using [aggregateFeatures], or [inner.aggregate.iter] if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` is selected.
+#' Aggregation of quantitative data is performed using aggregateFeatures, or inner.aggregate.iter if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` is selected.
 #' 
 #' The handling of shared peptide is as follow : 
 #' - `Yes_As_Specific` : Shared peptides are used multiple times. 
@@ -560,28 +560,33 @@ aggregateMethods <- function() {
 #' - `No` : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample. 
 #' 
 #' Available functions are : 
-#' - `Sum` : [base::colSums()] or [base::rowSums()] if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
-#' - `Mean` : [base::colMeans()] or [base::rowMeans()] if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
-#' - `Median` : [matrixStats::colMedians()] or [matrixStats::rowMedians()] if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
-#' - `medianPolish` : [MsCoreUtils::medianPolish()].
-#' - `robustSummary` : [MsCoreUtils::robustSummary()].
+#' - `Sum` : base::colSums()] or base::rowSums() if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
+#' - `Mean` : base::colMeans()] or base::rowMeans() if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
+#' - `Median` : matrixStats::mcolMedians()] or matrixStats::rowMedians() if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
+#' - `medianPolish` : MsCoreUtils::medianPolish().
+#' - `robustSummary` : MsCoreUtils::robustSummary().
 #' 
 #' @author Samuel Wieczorek, Manon Gaudin
 #' 
 #' @examples
 #' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' ft <- Exp1_R25_pept[1:100]
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_As_Specific", "Mean", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' data(subR25prot)
+#' obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+#' obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "allPeptides", 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+#' obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "topN", n = 4, 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+#' obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "topN", n = 4, 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
 #' 
-#' obj.agg <- RunAggregation(ft, "No", "Sum", "allPeptides")
-#' obj.agg <- RunAggregation(ft, "No", "Sum", "topN", n = 4)
+#' obj.agg <- RunAggregation(subR25prot, "No", "Sum", "allPeptides")
+#' obj.agg <- RunAggregation(subR25prot, "No", "Sum", "topN", n = 4)
 #' 
-#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "allPeptides", aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
-#' obj.agg <- RunAggregation(ft, "Yes_Redistribution", "Sum", "topN", n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(ft[[length(ft)]])))
+#' obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides", 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+#' obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN", n = 4, 
+#' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
 #' }
 #' 
 #' @export
@@ -958,13 +963,12 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 #' @author Manon Gaudin
 #' 
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(50)]
-#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-#' X.topn <- select_topn(assay(obj[[length(obj)]]), X, n = 3)
-#' }
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' X.topn <- select_topn(assay(subR25pept[[2]]), X, n = 3)
+#' 
 #' @import SummarizedExperiment
+#' @importFrom matrixStats rowMedians
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
@@ -974,7 +978,7 @@ select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
   switch(funpept,
          Sum =  valpept <- rowSums(pepData, na.rm = TRUE),
          Mean =  valpept <- rowMeans(pepData, na.rm = TRUE),
-         Median =  valpept <- rowMedians(pepData, na.rm = TRUE)
+         Median =  valpept <- matrixStats::rowMedians(pepData, na.rm = TRUE)
   )
   names(valpept) <- rownames(pepData)
   
@@ -1007,13 +1011,11 @@ select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
 #' @author Samuel Wieczorek, Manon Gaudin
 #'
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(20)]
-#' obj.last <- obj[[length(obj)]]
-#' X <- BuildAdjacencyMatrix(obj.last)
+#' data(subR25pept)
+#' obj.last <- subR25pept[[2]]
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' getProteinsStats(X)
-#' }
+#' 
 #'
 #' @export
 #' 
@@ -1097,13 +1099,9 @@ getProteinsStats <- function(X) {
 #' @author Alexia Dorffer
 #'
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- obj.pep[[length(obj.pep)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' CountPep(X)
-#' }
 #'
 #' @export
 #' 
@@ -1136,12 +1134,12 @@ CountPep <- function(X) {
 #' @examples 
 #' \dontrun{
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- obj.pep[[length(obj.pep)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
-#' GetNbPeptidesUsed(assay(last.obj), X)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
+#' GetNbPeptidesUsed(assay(subR25pept), X)
 #' }
+#' 
+#' @importFrom BiocGenerics t
 #' 
 GetNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1175,14 +1173,10 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' @export
 #' 
 #' @examples 
-#' \dontrun{
 #' library(SummarizedExperiment)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- obj.pep[[length(obj.pep)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
-#' ll.n <- GetDetailedNbPeptidesUsed(assay(last.obj), X)
-#' }
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' ll.n <- GetDetailedNbPeptidesUsed(assay(subR25pept), X)
 #' 
 #' @rdname DaparToolshed-aggregate
 #'
@@ -1215,13 +1209,9 @@ GetDetailedNbPeptidesUsed <- function(pepData, X) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj.pep <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- obj.pep[[length(obj.pep)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' n <- GetDetailedNbPeptides(X)
-#' }
 #'
 #' @export
 #' 
@@ -1255,13 +1245,9 @@ GetDetailedNbPeptides <- function(X) {
 #' @author Alexia Dorffer, Samuel Wieczorek
 #'
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' GraphPepProt(X)
-#' }
 #'
 #' @export
 #' 
@@ -1298,13 +1284,9 @@ GraphPepProt <- function(mat) {
 #' @param X xxx
 #' @export
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' last.obj <- Exp1_R25_pept[[length(Exp1_R25_pept)]]
-#' X <- BuildAdjacencyMatrix(last.obj)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
 #' ExtractUniquePeptides(X)
-#' }
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
@@ -1353,16 +1335,15 @@ ExtractUniquePeptides <- function(X){
 #' @author Samuel Wieczorek, Manon Gaudin
 #'
 #' @examples
-#' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-#' qdata.agg <- inner.aggregate.iter(assay(obj[[length(obj)]]), X)
-#' }
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' qdata.agg <- inner.aggregate.iter(assay(subR25pept[[2]]), X)
 #' 
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
+#' 
+#' @importFrom BiocGenerics t
 #'
 inner.aggregate.iter <- function(
     pepData,
@@ -1518,13 +1499,10 @@ inner.aggregate.iter <- function(
 #' @author Samuel Wieczorek
 #' 
 #' @examples 
-#' \dontrun{
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj[[length(obj)]])
-#' i.sum <- inner.sum(assay(obj[[length(obj)]]), X)
-#' }
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' i.sum <- inner.sum(assay(subR25pept[[2]]), X)
 #' 
 #' @export
 #' 
@@ -1556,10 +1534,9 @@ inner.sum <- function(pepData, X) {
 #' @examples 
 #' \dontrun{
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj)
-#' i.mean <- inner.mean(assay(obj), X)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept)
+#' i.mean <- inner.mean(assay(subR25pept), X)
 #' }
 #' 
 #' @export
@@ -1592,13 +1569,14 @@ inner.mean <- function(pepData, X) {
 #' @examples 
 #' \dontrun{
 #' library(QFeatures)
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj)
-#' i.mean <- inner.median(assay(obj), X)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept)
+#' i.mean <- inner.median(assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export
+#' 
+#' @importFrom matrixStats colMedians
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
@@ -1612,7 +1590,7 @@ inner.median <- function(pepData, X) {
     peptval <- pepData*coef
     peptval[peptval >= 0 & peptval < 0.5] <- NA
     peptval[peptval >= 0.5 & peptval < 1] <- 1
-    medprot <- colMedians(peptval, na.rm = TRUE)
+    medprot <- matrixStats::colMedians(peptval, na.rm = TRUE)
     protval <- rbind(protval, medprot)
   }
   rownames(protval) <- colnames(X)
@@ -1635,15 +1613,16 @@ inner.median <- function(pepData, X) {
 #' 
 #' @examples 
 #' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj)
-#' i.mean <- inner.medianpolish(assay(obj), X)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept)
+#' i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
+#' 
+#' @importFrom matrixStats colMedians
 #' 
 inner.medianpolish <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1659,7 +1638,7 @@ inner.medianpolish <- function(pepData, X) {
     if (nrow(peptvalnoNA) > 1) { # If more than 1 peptide
       if (ncol(peptvalnoNA) == 1) { # If only 1 column
         # If only 1 column, medianPolish act the same as colMedians but colMedians is faster
-        medprot <- colMedians(peptvalnoNA, na.rm = TRUE)
+        medprot <- matrixStats::colMedians(peptvalnoNA, na.rm = TRUE)
       } else { 
         medprot <- MsCoreUtils::medianPolish(peptvalnoNA, na.rm = TRUE)
       }
@@ -1708,10 +1687,9 @@ inner.medianpolish <- function(pepData, X) {
 #' 
 #' @examples 
 #' \dontrun{
-#' data(Exp1_R25_pept, package="DaparToolshedData")
-#' obj <- Exp1_R25_pept[seq_len(10)]
-#' X <- BuildAdjacencyMatrix(obj)
-#' i.mean <- inner.robustSummary(assay(obj), X)
+#' data(subR25pept)
+#' X <- BuildAdjacencyMatrix(subR25pept)
+#' i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export

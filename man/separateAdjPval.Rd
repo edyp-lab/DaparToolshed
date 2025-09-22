@@ -23,9 +23,11 @@ a proteins x contrasts table of adjusted p-values
 Computes the adjusted p-values separately on contrast using CP4P
 }
 \examples{
-data(Exp1_R25_prot, package='DaparToolshedData')
-exdata <- Exp1_R25_prot[1:5,]
-separateAdjPval(testAnovaModels(applyAnovasOnProteins(exdata, 1), "TukeyHSD")$P_Value)
+data(subR25prot)
+obj <- subR25prot[1:5,]
+separateAdjPval(
+testAnovaModels(
+applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
 
 }
 \author{

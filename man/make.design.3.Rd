@@ -17,8 +17,8 @@ A design matrix
 Builds the design matrix for designs of level 3
 }
 \examples{
-data(Exp1_R25_pept, package='DaparToolshedData')
-sTab <- cbind(SummarizedExperiment::colData(Exp1_R25_pept), Tech.Rep = 1:6)
+data(subR25pept)
+sTab <- cbind(SummarizedExperiment::colData(subR25pept), Tech.Rep = 1:6)
 make.design.3(sTab)
 
 

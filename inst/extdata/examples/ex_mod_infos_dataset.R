@@ -4,12 +4,12 @@ library(omXplore)
 library(shinyjs)
 library(shiny)
 
-data(ft_na, package='omXplore')
+data(subR25prot)
 
 ui <- fluidPage(infos_dataset_ui("mod_info"))
 
 server <- function(input, output, session) {
-  infos_dataset_server("mod_info", reactive({ft_na}))
+  infos_dataset_server("mod_info", reactive({subR25prot}))
 }
 
 shinyApp(ui, server)

@@ -93,9 +93,9 @@ of each column of an expression set, up to a scaling factor
 }
 
 \examples{
-data(Exp1_R25_prot, package="DaparToolshedData")
-obj <- Exp1_R25_prot[[1]][seq_len(100)]
-grp <- design.qf(Exp1_R25_prot)$Condition
+data(subR25prot)
+obj <- subR25prot[[2]]
+grp <- design.qf(subR25prot)$Condition
 lapala <- findMECBlock(obj, grp)
 na.type = c("Missing POV", "Missing MEC")
 obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
@@ -105,16 +105,14 @@ obj.imp.pov <- wrapper.impute.KNN(obj, grp, 3)
 
 obj.imp.pov <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing POV")
 obj.imp.mec <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing MEC")
-obj.imp.na <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = c("Missing MEC", "Missing POV"))
+obj.imp.na <- wrapper.impute.fixedValue(
+obj, grp, 0.001, 
+na.type = c("Missing MEC", "Missing POV"))
 
 obj.imp.pov <- wrapper.impute.pa(obj, grp)
 
 qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)
-
-coldata <- design.qf(Exp1_R25_prot)
-#obj.slsa.pov <- wrapper.impute.slsa(obj, grp, coldata)
-
 
 
 

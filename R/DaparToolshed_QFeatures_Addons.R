@@ -43,8 +43,8 @@
 #'
 #'
 #' @examples
-#' data(ft, package='DaparToolshed')
-#' design.qf(ft)
+#' data(subR25pept)
+#' design.qf(subR25pept)
 NULL
 
 
