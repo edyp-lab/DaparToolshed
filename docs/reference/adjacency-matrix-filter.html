@@ -15,7 +15,7 @@ QFeatures object."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +23,8 @@ QFeatures object."></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/DaparToolshed.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -44,8 +45,8 @@ QFeatures object."></head><body>
     <div class="ref-description section level2">
     <p>These functions filters (delete) peptides of an assay, applying a function
 on peptides and proteins. They can be used alone but the usual usage is to
-create an instance of a class <a href="QFeatures-filtering-oneSE.html">FunctionFilter</a> and to pass it to the function
-<a href="QFeatures-filtering-oneSE.html">filterFeaturesOneSE</a> in order to create a new assay, embedded into the
+create an instance of a class FunctionFilter and to pass it to the function
+filterFeaturesOneSE in order to create a new assay, embedded into the
 QFeatures object.</p>
     </div>
 
@@ -116,8 +117,8 @@ only the 'n' peptides which best satisfies the condition. The condition is
 represented by functions which calculates a score for each peptide among
 all samples. The list of these functions is given by <code>topnFunctions()</code>:</p></li>
 <li><p><code>rowMedians()</code>: xxx;</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code>: xxx;</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code>: xxx;</p></li>
+<li><p><code><a href="https://rdrr.io/pkg/Matrix/man/colSums-methods.html" class="external-link">rowMeans()</a></code>: xxx;</p></li>
+<li><p><code><a href="https://rdrr.io/pkg/Matrix/man/colSums-methods.html" class="external-link">rowSums()</a></code>: xxx;</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -131,7 +132,92 @@ class <code>FunctionFilter</code>.</p></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org" class="external-link">Matrix</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: MultiAssayExperiment</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: SummarizedExperiment</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: MatrixGenerics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: matrixStats</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'MatrixGenerics'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:matrixStats':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colWeightedMeans, colWeightedMedians, colWeightedSds,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowWeightedSds, rowWeightedVars</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: GenomicRanges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: stats4</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: BiocGenerics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: generics</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'generics'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:base':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     setequal, union</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'BiocGenerics'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:stats':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     IQR, mad, sd, var, xtabs</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:base':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.data.frame, basename, cbind, colnames, dirname, do.call,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     duplicated, eval, evalq, get, grep, grepl, is.unsorted, lapply,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     mapply, match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rank, rbind, rownames, sapply, saveRDS, table, tapply, unique,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     unsplit, which.max, which.min</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: S4Vectors</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'S4Vectors'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:Matrix':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     expand, unname</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from 'package:utils':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     findMatches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:base':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     I, expand.grid, unname</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: IRanges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'IRanges'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from 'package:grDevices':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     windows</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: GenomeInfoDb</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: Biobase</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Welcome to Bioconductor</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     Vignettes contain introductory material; view with</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     'browseVignettes()'. To cite Bioconductor, see</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     'citation("Biobase")', and for packages 'citation("pkgname")'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'Biobase'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from 'package:MatrixGenerics':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rowMedians</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from 'package:matrixStats':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     anyMissing, rowMedians</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: 'QFeatures'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from 'package:base':</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     sweep</span>
 <span class="r-in"><span><span class="co">#------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># This function will keep only specific peptides</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------------------------------</span></span></span>
@@ -157,13 +243,13 @@ class <code>FunctionFilter</code>.</p></div>
 <span class="r-in"><span><span class="co"># IF several filters must be used, store them in a list</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ft</span>, package<span class="op">=</span><span class="st">'DaparToolshed'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lst.filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lst.filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">lst.filters</span>, <span class="va">f1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lst.filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">lst.filters</span>, <span class="va">f3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-filtering-oneSE.html">filterFeaturesOneSE</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    object <span class="op">=</span> <span class="va">ft</span>,</span></span>
+<span class="r-in"><span><span class="va">subR25prot</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-filtering-oneSE.html">filterFeaturesOneSE</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    object <span class="op">=</span> <span class="va">subR25pept</span>,</span></span>
 <span class="r-in"><span>    i <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>    name <span class="op">=</span> <span class="st">"filtered"</span>,</span></span>
 <span class="r-in"><span>    filters <span class="op">=</span> <span class="va">lst.filters</span></span></span>

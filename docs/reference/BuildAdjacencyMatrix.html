@@ -9,7 +9,7 @@ in lines on a MSnSet object (peptides)"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,8 @@ in lines on a MSnSet object (peptides)"></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/DaparToolshed.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -64,23 +65,616 @@ in lines on a <code>MSnSet</code> object (peptides)</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_pept</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">protId</span> <span class="op">&lt;-</span> <span class="st">"Protein_group_IDs"</span></span></span>
-<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_pept</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">obj.pep</span> <span class="op">&lt;-</span> <span class="va">obj</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="fu">BuildAdjacencyMatrix</span><span class="op">(</span><span class="va">obj.pep</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 x 9 sparse Matrix of class "dgCMatrix"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                           1210 1987 2232 254 364 379 534 599 858</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR    1    .    .   .   .   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                 .    .    .   1   .   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK              .    .    .   1   .   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                    .    .    .   .   .   .   1   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK        .    .    .   .   1   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR    .    .    .   .   .   1   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK              .    .    1   .   .   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR        .    1    .   .   .   .   .   .   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK            .    .    .   .   .   .   .   1   .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK          .    .    .   .   .   .   .   .   1</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">BuildAdjacencyMatrix</span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100 x 96 sparse Matrix of class "dgCMatrix"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   [[ suppressing 96 column names '1005', '1017', '103' ... ]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                . . . . . . . . . . . . . 1 . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 . . . . . . . . . . 1 1 . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              . . . . . 1 . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 . . . 1 . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               . . . . . . . . . . . . . . . . . . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   . . . . . . . . . . . . 1 . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 . . . . . . . . . 1 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             . . . . 1 . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          1 . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   . . . . . . . . . . . . . . . . 1 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          . . . . . . . . . . . . . . . . . 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             . . . . . . . . . . . . . . . 1 . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    . . . 1 . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        . . . . . . . . . . . . 1 . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               1 . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       . . . . . 1 . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            . . . . 1 . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         . . . . . . . . . . . . . . . . . . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  . . . . . . . . . . . . . . . . . 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               . . . . . . . . . . . . . . . 1 . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             . . . . . . . . . 1 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                . . . . . . . . . . . . . 1 . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        . . . . . . . . . . 1 . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           . . . . . . . . . . . 1 . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          . . . . . . . . . . . . . . . . 1 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          . . . . . . . . . . . . 1 . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    1 . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                . . . . . . . . . . . . . 1 . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             . . . . . . . . . . . . . . . . . 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          . . . . . . . . . . 1 . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    . . . . 1 . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      . . . . . . . . . . . . . . . . 1 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             . . . . . . . . . 1 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         . . . 1 . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            . . . . . . . . . . . . . . . . . . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        . . . . . . . . . . . 1 . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        . . . . . 1 . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              . . . . . . . . . . . . . . . 1 . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    . . . . . . . . . . . . 1 . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   . . . . . . . . . . . . . . . . . . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            . . . . 1 . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         . . . . . . . . . 1 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 . . . . . . . . . . . . . . . 1 . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 . . . . . . . . . . . . . . . . 1 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            . . . . . . . . . . . . . . . . . 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                . . . . . . . . . . . . . 1 . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            . . . . . . . . . . . 1 . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             . . . . . 1 . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               1 . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            . . . 1 . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           . . . . . . . . . . 1 . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                . . . . . . 1 . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        . . . . . . . . . 1 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      . . . . . . . . . . . . . . . . . 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            . . . . . . . . . . . . 1 . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           . . . . . . . . . . . . . . . 1 . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK . . . . . . . . 1 . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     . . . . . . . 1 . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               . . . . . . . . . . . . . 1 . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         . . . . . . . . . . 1 . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 . . . . . . . . . . . . . . . . . . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       . . . . 1 . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             . 1 . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               . . . . . 1 . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        . . 1 . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  . . . 1 . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          1 . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             . . . . . . . . . . . . . . . . 1 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               . . . . . . . . . . . 1 . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               . . . . . . . . . . . . . . 1 . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        . . . . . . . . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAAQDEITGDGTTTVVCIVGEIIR                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAADAISDIEIKDSK                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEEQAKR                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEGVANIHIDEATGEMVSK                    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAEYEKGEYETAISTINDAVEQGR                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAHSSIKEYDQAVK                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPGIQIVAGEGFQSPIEDR                    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAAPTVVFIDEIDSIAK                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AACIVQNGIATWFPIAVTK                      .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADAIIIK                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADETAAAFYPSK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIINIAK                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADIPVVGNAAGHSNDWFDIK                    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AADTPETSDAVHTEQKPEEEKETIQEE              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAATTDITYR                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDK              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEAGETGAATSATEGDNNNNTAAGDKK             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEEADADAEIADEEDAIHDEI                   .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIDVINDPK                              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIIENR                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAEIIISDQDNVIPK                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAENASNAIAETR                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAESIISIANVPDGDSR                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFDEDGNISNVK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFISAIVGK                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNGVTFK                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFNYQFDSIIEHSEK                         .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTECCQAADK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFTYIINDPEIAK                           .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQK  .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAFVAIGNTYGFITPNIWAEQPIPVSPIDIYSDEASAQKK .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGANVDNVWADVYAK                         .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGFIIEK                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGGVVEIIA                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIFVSTSSYGGGQESTVK                     .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGITAAYAR                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGIVDIATVISTSAYIIESK                    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAGKEIGDFEDISTENEK                       .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIANVYEYR                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIDFYTK                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEAGAFEAVTSNHWAEGGK                    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGPVTAENISSETAR                      .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEDGWVPGK                              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIEEIVK                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGCIESIIIAQDAQAWNNTYDINVTPK            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIGSSPINFPSSSQR                         .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIACAAEYIQK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIIGSIGSIFK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIINQYFAQAYK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIISSGNVK                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAINDPAKAPIIINNIIDSGIR                   .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIQTYIPK                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAISFGAKPEEQK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITDFER                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAITIIQFDGTGTR                           .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIVQIDATPFR                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAIYAIHSIGCK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAIKDIYGWTQTSIDDYPIK                   .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANAPVYVTR                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIAHDNQTTVEAYK                         .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANIGGVAVSGIEMAQNSQR                     .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQGAIPPDISIIVK                         .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANQTASSIVDFYNAIGDDEEEK                  .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AANSHRIIDIQESQANCSHFFIEPIK               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPIVDDEETEFDIYNSK                       .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAPSPISHVAEIR                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQDVWNR                                 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGFNTACVEK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQIGSSFIAQIK                            .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAQQQWGNDFYK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASDAIPPASPK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASIIYGIGFSTEAQQQPTNSFSGGWR              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASKPFIETFICGR                           .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSIDPIVTDYAVGYFNHISGITFDAVQSK          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASSINRVDTIR                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AASYADKINTPEIWSQIGTAQIDGIR               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIIPQFVGIK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATIISNII                                .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AATVVATSDCIIWAIDR                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVDCECEFQNIEHNEK                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVEEGIIPGGGTAIVK                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVPFNREQIESVIR                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAVSGKPYFFFGSDSAPHPVQNK                  .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAWWSPTGDYIAFIK                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEK                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYAIGGIGSGFANNEKEIVDICNVAFSSSPQVIVEK    .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYGDISDEEEK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AAYSYMFDSIR                              .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACAAQTNATFIK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACDTSNDNFPIQYDGSK                        .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIFSGYPDTFK                            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGIIISEER                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACGVSRPVIAASITTNDASAIK                   .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACNFQFPEIAYPGK                           .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACPVGNEAGVTTSIR                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVIVVSDIK                               .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ACVVYGGSPIGNQIR                          .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        .</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

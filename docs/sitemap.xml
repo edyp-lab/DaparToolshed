@@ -1,9 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/404.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/articles/DaparToolshed.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/articles/index.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/authors.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/index.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/news/index.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Add_Aggregated_rowData.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Add_Item_to_Dataset.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/aggIter.html</loc></url>
@@ -21,7 +22,6 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Base_Palette.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/boxPlotD_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildAdjacencyMatrix.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildColumnToProteinDataset.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/buildGraph.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildMetaCell.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/BuildqMetadata.html</loc></url>
@@ -45,7 +45,6 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ConvertListToHtml.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/corrMatrixD_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/corrmatrix_plot.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/CountPep.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/create-example.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/createQFeatures.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/customChart.html</loc></url>
@@ -72,7 +71,6 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/display.CC.visNet.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Example_Palette.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ExtendPalette.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ExtractUniquePeptides.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/filterFeaturesSam.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/find_MEC_matrix.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatHSDResults.html</loc></url>
@@ -87,8 +85,6 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetColorsForConditions.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetConnectedComps.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getDesignLevel.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetDetailedNbPeptides.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetDetailedNbPeptidesUsed.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getExtension.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndicesForPrefix.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_BasedOnConditions.html</loc></url>
@@ -97,18 +93,15 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeLine.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeMatrix.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getListNbValuesInLines.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetNbPeptidesUsed.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetNbTags.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getNumberOfEmptyLines.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetProstarVersions.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getProteinsStats.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetSoftAvailables.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GetTypeDataset.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_AllComparisons.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_qMetadata.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Get_qMetadata_names.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/globalAdjPval.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GraphPepProt.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/GraphPepProt_hc.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/groupttest.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.html</loc></url>
@@ -135,13 +128,7 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_POV_Methods.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute_slsa.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/index.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.aggregate.iter.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.aggregate.topn.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.mean.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.median.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.medianpolish.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.robustsummary.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/inner.sum.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/intensity_plots.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.MV.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.OfType.html</loc></url>
@@ -163,7 +150,6 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/match.qMetadata.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/MetacellFilteringScope.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/metacell_agg.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_DIA_NN.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_maxquant.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/Metacell_proline.html</loc></url>
@@ -259,10 +245,8 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/ReplaceSpecialChars.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/restore_MEC_matrix.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/rowdata_stats_Aggregation_sam.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/RunAggregation.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/samLRT.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/search.qMetadata.tags.html</loc></url>
-<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/select_topn.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/separateAdjPval.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SetAdjMat.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SetConnectedComps.html</loc></url>
@@ -270,6 +254,8 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/splitAdjacencyMat.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/standardise.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/standardiseMeanIntensities.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/subR25pept.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/subR25prot.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/SymFilteringOperators.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/test.design.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/testAnovaModels.html</loc></url>

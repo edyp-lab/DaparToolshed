@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Tools for the Differential Analysis of Proteins Abundance with R">
-<meta name="description" content="This package contains a collection of functions for the visualisation and the statistical analysis of proteomic data.">
-<meta property="og:description" content="This package contains a collection of functions for the visualisation and the statistical analysis of proteomic data.">
+<meta name="description" content="The package DaparToolshed is a Bioconductor distributed R package which provides all the necessary functions to analyze quantitative data from label-free proteomics experiments. It is an update of our previous package DAPAR and contains more functions to analyze the data and uses MultAssayExperiment and SummarizedExperiment data structures. Contrarily to most other similar R packages, it is endowed with rich and user-friendly graphical interfaces, so that no programming skill is required (see `Prostar` package).">
+<meta property="og:description" content="The package DaparToolshed is a Bioconductor distributed R package which provides all the necessary functions to analyze quantitative data from label-free proteomics experiments. It is an update of our previous package DAPAR and contains more functions to analyze the data and uses MultAssayExperiment and SummarizedExperiment data structures. Contrarily to most other similar R packages, it is endowed with rich and user-friendly graphical interfaces, so that no programming skill is required (see `Prostar` package).">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/DaparToolshed.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
@@ -51,8 +52,38 @@
 </h2>
 <!-- badges: start -->
 
-<p><code>DaparToolshed</code> is a package that provides functions for the visualization and the statistical analysis of proteomic data.</p>
+<p><code>DaparToolshed</code> is a package which provides all the necessary functions to analyze quantitative data from label-free proteomics experiments bases on the MultiAssayExperiment data structure. Contrarily to most other similar R packages, it is endowed with rich and user-friendly graphical interfaces, so that no programming skill is required (see <code>Prostar</code> package).</p>
+<div class="section level3">
+<h3 id="what-is-dapartoolshed">What is DaparToolshed?<a class="anchor" aria-label="anchor" href="#what-is-dapartoolshed"></a>
+</h3>
+<p><code>DaparToolshed</code> is a <a href="http://bioconductor.org/packages/omXplore" class="external-link">Bioconductor package</a> that provides all the necessary functions to analyze quantitative data from label-free proteomics experiments bases on the <code>MultiAssayExperiment</code> data structure. Contrarily to most other similar R packages, it is endowed with rich and user-friendly graphical interfaces, so that no programming skill is required (see <code>Prostar</code> package).</p>
 </div>
+<div class="section level3">
+<h3 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h3>
+<p>See the <a href="https://edyp-lab.github.io/DaparToolshed/articles/DaparToolshed.html">DaparToolshed introduction</a> to get started.</p>
+</div>
+<div class="section level3">
+<h3 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h3>
+<p>The <code>DaparToolshed</code> code is provided under a permissive <a href="https://opensource.org/licenses/Artistic-2.0" class="external-link">Artistic 2.0 license</a>. The documentation, including the manual pages and the vignettes, are distributed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC BY-SA license</a>.</p>
+</div>
+</div>
+<div class="section level1">
+<div class="page-header"><h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1></div>
+<p>To install this package, start R (version “4.3”) and enter:</p>
+<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.github.io/BiocManager/" class="external-link">"BiocManager"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"DaparToolshed"</span><span class="op">)</span></span></code></pre>
+<p>This will also install dependencies.</p>
+<p>It is also possible to install <code>DaparToolshed</code> from Github:</p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'edyp-lab/DaparToolshed'</span><span class="op">)</span></span></code></pre>
+<p>For older versions of R, please refer to the appropriate Bioconductor release.</p>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

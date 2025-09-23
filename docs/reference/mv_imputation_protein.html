@@ -47,7 +47,7 @@ imp4p adapted to an object of class MSnSet.
 
     <a class="navbar-brand me-2" href="../index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,8 @@ imp4p adapted to an object of class MSnSet.
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/DaparToolshed.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -185,9 +186,9 @@ of each column of an expression set, up to a scaling factor</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Exp1_R25_prot</span>, package<span class="op">=</span><span class="st">"DaparToolshedData"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">Exp1_R25_prot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">Exp1_R25_prot</span><span class="op">)</span><span class="op">$</span><span class="va">Condition</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span><span class="op">$</span><span class="va">Condition</span></span></span>
 <span class="r-in"><span><span class="va">lapala</span> <span class="op">&lt;-</span> <span class="fu">findMECBlock</span><span class="op">(</span><span class="va">obj</span>, <span class="va">grp</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">na.type</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Missing POV"</span>, <span class="st">"Missing MEC"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">obj.imp.pov</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.detQuant</span><span class="op">(</span><span class="va">obj</span>, na.type <span class="op">=</span> <span class="va">na.type</span><span class="op">)</span></span></span>
@@ -201,16 +202,14 @@ of each column of an expression set, up to a scaling factor</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">obj.imp.pov</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.fixedValue</span><span class="op">(</span><span class="va">obj</span>, <span class="va">grp</span>, <span class="fl">0.001</span>, na.type <span class="op">=</span> <span class="st">"Missing POV"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">obj.imp.mec</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.fixedValue</span><span class="op">(</span><span class="va">obj</span>, <span class="va">grp</span>, <span class="fl">0.001</span>, na.type <span class="op">=</span> <span class="st">"Missing MEC"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">obj.imp.na</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.fixedValue</span><span class="op">(</span><span class="va">obj</span>, <span class="va">grp</span>, <span class="fl">0.001</span>, na.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Missing MEC"</span>, <span class="st">"Missing POV"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.imp.na</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.fixedValue</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">obj</span>, <span class="va">grp</span>, <span class="fl">0.001</span>, </span></span>
+<span class="r-in"><span>na.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Missing MEC"</span>, <span class="st">"Missing POV"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">obj.imp.pov</span> <span class="op">&lt;-</span> <span class="fu">wrapper.impute.pa</span><span class="op">(</span><span class="va">obj</span>, <span class="va">grp</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">qdata</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">quant</span> <span class="op">&lt;-</span> <span class="fu">getQuantile4Imp</span><span class="op">(</span><span class="va">qdata</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">coldata</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">Exp1_R25_prot</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co">#obj.slsa.pov &lt;- wrapper.impute.slsa(obj, grp, coldata)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>

@@ -33,7 +33,7 @@ xxx"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,8 @@ xxx"></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/DaparToolshed.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -61,12 +62,12 @@ xxx"></head><body>
 
     <div class="ref-description section level2">
     <p>This function exports an instance of the class <code>QFeatures</code> to a Excel file.
-The resulting file is composed of four sheets:</p><ul><li><p><code>quantitative data</code> which contains the content of <code>assay()</code> object with a
+The resulting file is composed of four sheets:</p><ul><li><p><code>quantitative data</code> which contains the content of <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a></code> object with a
 color code for each cell w.r.t. to cell quantitative metadata.</p></li>
-<li><p><code>metadata</code> which is the content of <code>rowData()</code> with only one-dimensionnal
+<li><p><code>metadata</code> which is the content of <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> with only one-dimensionnal
 data (i.e. the adjacencyMatrix and the qMetacell slots are not part of
 the sheet),</p></li>
-<li><p><code>exp. design</code> which is the content of <code>colData()</code>. Each condition in the
+<li><p><code>exp. design</code> which is the content of <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a></code>. Each condition in the
 table is colored with a different color,</p></li>
 <li><p><code>quantitative metadata</code> which is the content of <code><a href="QFeatures-accessors.html">qMetacell()</a></code>. There is a
 color code for the different tags.</p></li>
@@ -148,16 +149,16 @@ The size of this vector must be the same as the number of tags.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ft</span>, package<span class="op">=</span><span class="st">'DaparToolshed'</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Export the whole dataset</span></span></span>
 <span class="r-in"><span><span class="co">#---------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">write2excel</span><span class="op">(</span><span class="va">ft</span>, filename <span class="op">=</span> <span class="st">"foo"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">write2excel</span><span class="op">(</span><span class="va">subR25prot</span>, filename <span class="op">=</span> <span class="st">"foo"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'foo.xls'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">write2excel</span><span class="op">(</span><span class="va">ft</span>, <span class="fl">1</span>, <span class="st">"foo"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">write2excel</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="fl">1</span>, <span class="st">"foo"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "foo.xlsx"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">'foo.xls'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

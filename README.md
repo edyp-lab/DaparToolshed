@@ -8,6 +8,7 @@
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 [![CRAN status](https://www.r-pkg.org/badges/version/DaparToolshed)](https://CRAN.R-project.org/package=DaparToolshed)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/edyp-lab/DaparToolshed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edyp-lab/DaparToolshed/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 > Evolving `DAPAR` package towards Shiny modules and data structures from the 
 packages MultiAssayExperiment and SummarizedExperiment
