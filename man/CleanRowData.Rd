@@ -11,6 +11,9 @@ CleanRowData(obj, i)
 
 \item{i}{xxx}
 }
+\value{
+An instance of the SummarizedExperiment structure
+}
 \description{
 Customised resetZoomButton of highcharts plots
 }

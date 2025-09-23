@@ -36,7 +36,7 @@ Differences (specified as "TukeyHSD") and the Dunnett test
 (specified as "Dunnett").
 }
 \examples{
-\dontrun{
+\donttest{
 data(subR25prot)
 obj <- subR25prot
 filter <- FunctionFilter('qMetacellOnConditions',
@@ -55,7 +55,7 @@ anovatest <- wrapperClassic1wayAnova(obj, 2)
 
 }
 \seealso{
-\code{\link[=postHocTest]{postHocTest()}}
+postHocTest()
 }
 \author{
 Hélène Borges

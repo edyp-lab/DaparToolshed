@@ -44,7 +44,7 @@
 #' - `rowSums()`: xxx;
 #'
 #'
-#' @seealso The [QFeatures-filtering-oneSE] man page for the 
+#' @seealso The QFeatures-filtering-oneSE man page for the 
 #' class `FunctionFilter`.
 #'
 #' @name adjacency-matrix-filter

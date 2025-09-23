@@ -13,7 +13,7 @@ GetColorsForConditions(conds, pal = NULL)
 to build the complete color vector for the conditions.}
 }
 \value{
-A vector composed of HEX color code for the conditions
+A vector composed of HEX color code for the conditions.
 }
 \description{
 xxxx

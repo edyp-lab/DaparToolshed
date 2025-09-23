@@ -210,7 +210,7 @@ subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]], 'Missing', 'Im
 search.metacell.tags('Missing POV', 'peptide')
 search.metacell.tags('Quantified', 'peptide')
 
-\dontrun{
+\donttest{
 ll <- omXplore::metacell.def('peptide')$node
 for (i in 1:length(ll))
 test <- lapply(combn(ll, i, simplify = FALSE), 

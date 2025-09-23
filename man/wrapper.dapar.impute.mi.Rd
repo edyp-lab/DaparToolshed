@@ -90,7 +90,7 @@ This method is a wrapper to the function \code{impute.mi()} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
 }
 \examples{
-\dontrun{
+\donttest{
 utils::data(subR25prot)
 design <- design.qf(subR25prot)
 level <- 'protein'

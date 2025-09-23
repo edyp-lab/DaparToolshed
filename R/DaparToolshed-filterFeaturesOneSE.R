@@ -18,7 +18,7 @@
 #' @section Function filters:
 #'
 #' The function filters are filters as defined in the
-#' [DaparToolshed] package. Each filter is defined by a name (which is the 
+#' `DaparToolshed` package. Each filter is defined by a name (which is the 
 #' name of a function) and a list which contains the parameters passed to the 
 #' function. Those filters can be created with the `FunctionFilter` 
 #' constructor.

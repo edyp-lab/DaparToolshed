@@ -284,6 +284,7 @@ nonzero <- function(x) {
 #' 
 #' @examples 
 #' ConvertListToHtml(list('foo1', 'foo2', 'foo3'))
+#' @return HTML
 #' 
 ConvertListToHtml <- function(ll) {
     if (length(ll) == 0) {
@@ -407,6 +408,8 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #'
 #' @export
 #' @import SummarizedExperiment
+#' 
+#' @return An instance of the SummarizedExperiment structure
 #'
 CleanRowData <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))

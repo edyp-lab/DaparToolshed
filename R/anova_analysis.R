@@ -5,7 +5,7 @@
 #' @param current_protein a real vector
 #' @param conditions the list of groups the protein belongs to
 #'
-#' @return see aov()
+#' @return See aov()
 #'
 #' @examples
 #' protein_abundance <- rep(rnorm(3, mean= 18, sd=2), each=3) + rnorm(9)
@@ -284,7 +284,11 @@ separateAdjPval <- function(x,
 #' @importFrom utils stack
 #' @importFrom MagellanNTK pkgs.require
 #' 
-globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
+globalAdjPval <- function(
+    x, 
+  pval.threshold=  1.05, 
+  method = 1, 
+  display = TRUE){
   MagellanNTK::pkgs.require('cp4p')
   res <- x
   vec <- utils::stack(x)$values
@@ -314,7 +318,7 @@ globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
 #' @return A named vector containing all the different values of the aov model
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(subR25prot)
 #' obj <- subR25prot
 #' filter <- FunctionFilter('qMetacellOnConditions',
@@ -337,7 +341,7 @@ globalAdjPval <- function(x, pval.threshold=1.05, method=1, display = T){
 #' @importFrom stats aov
 #'
 classic1wayAnova <- function(current_line, conditions) {
-  .Deprecated("OWAnova")
+  #.Deprecated("OWAnova")
   
   
   # vector containing the protein/peptide intensities
@@ -373,7 +377,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #' corresponding p-values.
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' data(subR25prot)
 #' obj <- subR25prot
 #' filter <- FunctionFilter('qMetacellOnConditions',
@@ -390,7 +394,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #' anovatest <- wrapperClassic1wayAnova(obj, 2)
 #' }
 #'
-#' @seealso [postHocTest()]
+#' @seealso postHocTest()
 #'
 #' @export
 #' 
@@ -402,7 +406,7 @@ wrapperClassic1wayAnova <- function(obj,
   with_post_hoc = "No", 
   post_hoc_test = "No") {
   
-  .Deprecated("testAnovaModels")
+  #.Deprecated("testAnovaModels")
   
   
   qData <- assay(obj[[i]])
@@ -483,13 +487,13 @@ wrapperClassic1wayAnova <- function(obj,
 #' @author Helene Borges
 #'
 #' @examples
-#' \dontrun{examples/ex_formatPHResults.R}
+#' \donttest{examples/ex_formatPHResults.R}
 #'
 #' @export
 #' @importFrom MagellanNTK pkgs.require
 #'
 formatPHResults <- function(post_hoc_models_summaries) {
-  .Deprecated("formatPHTResults")
+  #.Deprecated("formatPHTResults")
   MagellanNTK::pkgs.require(c('purrr', 'stringr'))
   
   
@@ -563,7 +567,7 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #' @author Hélène Borges
 #'
 #' @examples
-#' \dontrun{examples/ex_postHocTest.R}
+#' \donttest{examples/ex_postHocTest.R}
 #'
 #' @export
 #' 
@@ -571,7 +575,7 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #'
 #'
 postHocTest <- function(aov_fits, post_hoc_test = "TukeyHSD") {
-  .Deprecated("The other functions present in the file anova_analysis.R")
+  #.Deprecated("The other functions present in the file anova_analysis.R")
   MagellanNTK::pkgs.require('multcomp')
   
   

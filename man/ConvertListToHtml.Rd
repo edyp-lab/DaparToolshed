@@ -9,10 +9,12 @@ ConvertListToHtml(ll)
 \arguments{
 \item{ll}{A \code{list()} of \code{character()}}
 }
+\value{
+HTML
+}
 \description{
 xxx
 }
 \examples{
 ConvertListToHtml(list('foo1', 'foo2', 'foo3'))
-
 }

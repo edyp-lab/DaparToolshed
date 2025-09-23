@@ -22,7 +22,7 @@
 #' @author Samuel Wieczorek
 #' @name output_2_Excel
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(QFeatures)
 #' data(subR25prot)
 #' df <- assay(subR25prot[[1]])

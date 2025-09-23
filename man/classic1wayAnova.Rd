@@ -22,7 +22,7 @@ Function to perform a One-way Anova statistical test on a MsnBase
 dataset
 }
 \examples{
-\dontrun{
+\donttest{
 data(subR25prot)
 obj <- subR25prot
 filter <- FunctionFilter('qMetacellOnConditions',

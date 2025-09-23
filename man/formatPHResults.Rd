@@ -17,7 +17,7 @@ each comparison.
 Extract logFC and raw pvalues from multiple post-hoc models summaries
 }
 \examples{
-\dontrun{examples/ex_formatPHResults.R}
+\donttest{examples/ex_formatPHResults.R}
 
 }
 \author{

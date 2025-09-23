@@ -55,7 +55,7 @@ the. The filters can be provided as instances of class \code{AnnotationFilter}
 
 
 The function filters are filters as defined in the
-\link{DaparToolshed} package. Each filter is defined by a name (which is the
+\code{DaparToolshed} package. Each filter is defined by a name (which is the
 name of a function) and a list which contains the parameters passed to the
 function. Those filters can be created with the \code{FunctionFilter}
 constructor.

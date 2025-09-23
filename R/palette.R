@@ -70,8 +70,6 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #' @param pal A vector of HEX color code that form the basis palette from which
 #' to build the complete color vector for the conditions.
 #'
-#' @return A vector composed of HEX color code for the conditions
-#'
 #' @author Samuel Wieczorek
 #'
 #' @examples
@@ -83,6 +81,8 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #' 
 #' @importFrom MagellanNTK pkgs.require
 #'
+#' @return A vector composed of HEX color code for the conditions.
+#' 
 #'
 GetColorsForConditions <- function(conds, pal = NULL) {
   

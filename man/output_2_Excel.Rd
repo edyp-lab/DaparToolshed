@@ -53,7 +53,7 @@ The colored cells in the experimental data correspond to the original
 missing values which have been imputed.
 }
 \examples{
-\dontrun{
+\donttest{
 library(QFeatures)
 data(subR25prot)
 df <- assay(subR25prot[[1]])

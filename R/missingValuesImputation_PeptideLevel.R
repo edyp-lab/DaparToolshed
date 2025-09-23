@@ -120,7 +120,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #' @author Samuel Wieczorek
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' utils::data(subR25prot)
 #' design <- design.qf(subR25prot)
 #' level <- 'protein'
@@ -316,7 +316,7 @@ translatedRandomBeta <- function(
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' utils::data(subR25pept)
 #' design <- design.qf(subR25pept)
 #' subR25pept <- wrapper.impute.pa2(subR25pept[[1]], design)

@@ -12,7 +12,7 @@ OWAnova(current_protein, conditions)
 \item{conditions}{the list of groups the protein belongs to}
 }
 \value{
-see aov()
+See aov()
 }
 \description{
 Applies aov() on a vector of protein abundances using the design derived from the sample names (simple aov wrapper)

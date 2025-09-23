@@ -248,6 +248,10 @@ Parent <- function(level, node=NULL){
 #' Children('protein', c('Missing POV', 'Missing MEC'))
 #' Children('protein', c('Missing', 'Missing POV', 'Missing MEC'))
 #' @export
+#' 
+#' @return A vector
+#' 
+#' 
 Children <- function(level, parent = NULL){
   childrens <- NULL
   tags <- metacell.def(level)
@@ -1062,7 +1066,7 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' @param level xxx
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ll <- omXplore::metacell.def('peptide')$node
 #' for (i in 1:length(ll))
 #' test <- lapply(combn(ll, i, simplify = FALSE), 
@@ -1184,7 +1188,7 @@ metacombine <- function(met, level) {
 #' #' @author Samuel Wieczorek
 #' #'
 #' #' @examples
-#' #' \dontrun{
+#' #' \donttest{
 #' #' data(subR25pept)
 #' #' obj.pep <- Exp1_R25_pept[seq_len(10)]
 #' #' protID <- parentProtId(obj.pep[[length(obj.pep)]])

@@ -5,11 +5,11 @@
 #' applying a summarization function (`fun`) to sets of features.
 #' The `fcol` variable name points to a rowData column that defines
 #' how to group the features during aggregate. This variable has to 
-#' be an adjacency matrix. This function uses [QFeatures::aggregateFeatures()]
+#' be an adjacency matrix. This function uses `QFeatures::aggregateFeatures()`
 #' to aggregate quantitative data.
 #'
 #' The list of agregation methods can be obtained with the function
-#' [aggregateMethods()]. This function compiles both methods from the
+#' `aggregateMethods()`. This function compiles both methods from the
 #' packages `DaparToolshed` and `QFeatures`.
 #'
 #' @param object An instance of class `QFeatures` or `SummarizedExperiment`
@@ -50,7 +50,7 @@
 #' ## ---------------------------------------
 #' ## An example QFeatures with PSM-level data
 #' ## ---------------------------------------
-#' \dontrun{
+#' \donttest{
 #' library(SummarizedExperiment)
 #' data(subR25prot)
 #' subR25prot
@@ -231,11 +231,11 @@ setMethod(
 #' applying a summarization function (`fun`) to sets of features.
 #' The `fcol` variable name points to a rowData column that defines
 #' how to group the features during aggregate. This variable has to 
-#' be an adjacency matrix. This function uses [DaparToolshed::inner.aggregate.iter()]
+#' be an adjacency matrix. This function uses `DaparToolshed::inner.aggregate.iter()`
 #' to aggregate quantitative data.
 #'
 #' The list of agregation methods can be obtained with the function
-#' [aggregateMethods()]. This function compiles both methods from the
+#' `aggregateMethods()`. This function compiles both methods from the
 #' packages `DaparToolshed` and `QFeatures`.
 #'
 #' @param object An instance of class `QFeatures` or `SummarizedExperiment`
@@ -247,10 +247,10 @@ setMethod(
 #'             Note that the function will fail if there's already an assay with `name`.
 #' @param init.method A function used for initializing the aggregation. 
 #'                    Available functions are `Sum`, `Mean`, `Median`, `medianPolish` or `robustSummary`. 
-#'                    See [DaparToolshed::inner.aggregate.iter()] for details.
+#'                    See `DaparToolshed::inner.aggregate.iter()` for details.
 #' @param method A function used for the aggregation. 
 #'               Available functions are `Sum`, `Mean`, `Median` or `medianPolish`. 
-#'               See [DaparToolshed::inner.aggregate.iter()] for details.
+#'               See `DaparToolshed::inner.aggregate.iter()` for details.
 #' @param ponderation A `character(1)` defining what to consider to create the coefficient for redistribution of shared peptides. 
 #'                    Available values are `Global` (default), `Condition` or `Sample`. 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
@@ -262,7 +262,7 @@ setMethod(
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).
 #'
 #' @details 
-#' This function uses [DaparToolshed::inner.aggregate.iter()] to aggregate quantitative data.
+#' This function uses `DaparToolshed::inner.aggregate.iter()` to aggregate quantitative data.
 #'
 #' @section Iterative aggregation function:
 #' xxxxxx
@@ -283,7 +283,7 @@ setMethod(
 #' ## ---------------------------------------
 #' ## An example QFeatures with PSM-level data
 #' ## ---------------------------------------
-#' \dontrun{
+#' \donttest{
 #' data(subR25prot)
 #' library(SummarizedExperiment)
 #' subR25prot
@@ -550,14 +550,23 @@ aggregateMethods <- function() {
 #' @return A QFeatures with an aggregated assay added.
 #' 
 #' @details
-#' Aggregation of quantitative data is performed using aggregateFeatures, or inner.aggregate.iter if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` is selected.
+#' Aggregation of quantitative data is performed using aggregateFeatures, or inner.
+#' aggregate.iter if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` 
+#' is selected.
 #' 
 #' The handling of shared peptide is as follow : 
 #' - `Yes_As_Specific` : Shared peptides are used multiple times. 
-#'   Each peptide is duplicated as many times as the number of proteins in which they are present, and thus are considered as if they are specific to each protein. 
-#' - `Yes_Simple_Redistribution` : Intensity of shared peptides are redistributed proportionally to each protein. See [inner.aggregate.iter] for more information.
-#' - `Yes_Iterative_Redistribution` : Intensity of shared peptides are redistributed proportionally to each protein. See [inner.aggregate.iter] for more information.
-#' - `No` : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample. 
+#'   Each peptide is duplicated as many times as the number of proteins in 
+#'   which they are present, and thus are considered as if they are specific 
+#'   to each protein. 
+#' - `Yes_Simple_Redistribution` : Intensity of shared peptides are 
+#' redistributed proportionally to each protein. See `inner.aggregate.iter` 
+#' for more information.
+#' - `Yes_Iterative_Redistribution` : Intensity of shared peptides are 
+#' redistributed proportionally to each protein. See `inner.aggregate.iter` 
+#' for more information.
+#' - `No` : No shared peptides are used. If a peptide contained only shared 
+#' peptides, its intensity is set as 0 for every sample. 
 #' 
 #' Available functions are : 
 #' - `Sum` : base::colSums()] or base::rowSums() if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`.
@@ -569,7 +578,7 @@ aggregateMethods <- function() {
 #' @author Samuel Wieczorek, Manon Gaudin
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(subR25prot)
 #' obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
 #' aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
@@ -1132,7 +1141,7 @@ CountPep <- function(X) {
 #' @rdname DaparToolshed-aggregate
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
@@ -1474,7 +1483,7 @@ inner.aggregate.iter <- function(
       convN <- conv
       conv_coef <- abs(val.prot-val.prot.new)/val.prot.new
       conv_coef[which(conv_coef == Inf)] <- NA
-      conv <- mean(conv_coef, na.rm = T) 
+      conv <- mean(conv_coef, na.rm = TRUE) 
       if ((convN - conv) == 0){
         conv <- 0
       }
@@ -1532,7 +1541,7 @@ inner.sum <- function(pepData, X) {
 #' @author Samuel Wieczorek
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept)
@@ -1567,7 +1576,7 @@ inner.mean <- function(pepData, X) {
 #' @author Manon Gaudin
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept)
@@ -1612,7 +1621,7 @@ inner.median <- function(pepData, X) {
 #' @author Manon Gaudin
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept)
 #' i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
@@ -1686,7 +1695,7 @@ inner.medianpolish <- function(pepData, X) {
 #' @author Manon Gaudin
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept)
 #' i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)

@@ -40,7 +40,7 @@ The Dunnett's test compares a single control group to all other groups.
 Make sure the factor levels are properly ordered.
 }
 \examples{
-\dontrun{examples/ex_postHocTest.R}
+\donttest{examples/ex_postHocTest.R}
 
 }
 \author{

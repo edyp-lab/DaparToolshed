@@ -7,10 +7,6 @@
   #library(QFeatures)
 }
 
-.onUnload <- function(libname, pkgname) {
-    shiny::removeResourcePath("images")
-}
-
 
 
 #' @title xxx

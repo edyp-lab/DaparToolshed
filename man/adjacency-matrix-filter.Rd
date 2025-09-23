@@ -116,7 +116,7 @@ subR25prot <- filterFeaturesOneSE(
 
 }
 \seealso{
-The \link{QFeatures-filtering-oneSE} man page for the
+The QFeatures-filtering-oneSE man page for the
 class \code{FunctionFilter}.
 }
 \author{

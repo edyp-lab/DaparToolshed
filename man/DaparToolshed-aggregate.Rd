@@ -250,11 +250,11 @@ This function aggregates the quantitative features of an assay,
 applying a summarization function (\code{fun}) to sets of features.
 The \code{fcol} variable name points to a rowData column that defines
 how to group the features during aggregate. This variable has to
-be an adjacency matrix. This function uses \code{\link[QFeatures:QFeatures-aggregate]{QFeatures::aggregateFeatures()}}
+be an adjacency matrix. This function uses \code{QFeatures::aggregateFeatures()}
 to aggregate quantitative data.
 
 The list of agregation methods can be obtained with the function
-\code{\link[=aggregateMethods]{aggregateMethods()}}. This function compiles both methods from the
+\code{aggregateMethods()}. This function compiles both methods from the
 packages \code{DaparToolshed} and \code{QFeatures}.
 
 xxx
@@ -305,15 +305,24 @@ Aggregation using robustSummary method.
 \details{
 This function uses \code{\link[QFeatures:QFeatures-aggregate]{QFeatures::aggregateFeatures()}} to aggregate quantitative data.
 
-Aggregation of quantitative data is performed using aggregateFeatures, or inner.aggregate.iter if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution} is selected.
+Aggregation of quantitative data is performed using aggregateFeatures, or inner.
+aggregate.iter if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}
+is selected.
 
 The handling of shared peptide is as follow :
 \itemize{
 \item \code{Yes_As_Specific} : Shared peptides are used multiple times.
-Each peptide is duplicated as many times as the number of proteins in which they are present, and thus are considered as if they are specific to each protein.
-\item \code{Yes_Simple_Redistribution} : Intensity of shared peptides are redistributed proportionally to each protein. See \link{inner.aggregate.iter} for more information.
-\item \code{Yes_Iterative_Redistribution} : Intensity of shared peptides are redistributed proportionally to each protein. See \link{inner.aggregate.iter} for more information.
-\item \code{No} : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample.
+Each peptide is duplicated as many times as the number of proteins in
+which they are present, and thus are considered as if they are specific
+to each protein.
+\item \code{Yes_Simple_Redistribution} : Intensity of shared peptides are
+redistributed proportionally to each protein. See \code{inner.aggregate.iter}
+for more information.
+\item \code{Yes_Iterative_Redistribution} : Intensity of shared peptides are
+redistributed proportionally to each protein. See \code{inner.aggregate.iter}
+for more information.
+\item \code{No} : No shared peptides are used. If a peptide contained only shared
+peptides, its intensity is set as 0 for every sample.
 }
 
 Available functions are :
@@ -352,7 +361,7 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}.
 ## ---------------------------------------
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
-\dontrun{
+\donttest{
 library(SummarizedExperiment)
 data(subR25prot)
 subR25prot
@@ -380,7 +389,7 @@ level <- typeDataset(subR25pept[[1]])
 conds <- SummarizedExperiment::colData(subR25pept)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
-\dontrun{
+\donttest{
 data(subR25prot)
 obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
 aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
@@ -447,7 +456,7 @@ data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
 CountPep(X)
 
-\dontrun{
+\donttest{
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
@@ -480,27 +489,27 @@ data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
 i.sum <- inner.sum(assay(subR25pept[[2]]), X)
 
-\dontrun{
+\donttest{
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept)
 i.mean <- inner.mean(assay(subR25pept), X)
 }
 
-\dontrun{
+\donttest{
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept)
 i.mean <- inner.median(assay(subR25pept[[2]]), X)
 }
 
-\dontrun{
+\donttest{
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept)
 i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
 }
 
-\dontrun{
+\donttest{
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept)
 i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)
