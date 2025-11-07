@@ -39,68 +39,69 @@ GetIndices_FunFiltering <- function(obj,
   percent, 
   op, 
   th) {
-    if (missing(obj))
-        stop("'obj' is required.")
-    
-    if (missing(level))
-        stop("'level' is required.")
-
-    if (missing(pattern))
-        stop("'pattern' is required.")
-
-    if (missing(type))
-        stop("'type' is required.")
-
-    if (missing(percent))
-        stop("'percent' is required.")
-
-    if (missing(op))
-        stop("'op' is required.")
-
-    if (missing(th))
-        stop("'th' is required.")
-
-
-
-    indices <- NULL
-    is.subset <- sum(pattern == intersect(pattern,  metacell.def(level)$node))==length(pattern)
-    if (!is.subset) {
-        warning("Available values for pattern are: ", paste0(metacell.def(level)$node, collapse=', ' ))
-        return(NULL)
-    }
-
-    mask <- match.metacell(metadata = omXplore::get_metacell(obj),
-                           pattern = pattern,
-                           level = level
-                           )
-
-    indices <- switch(type,
-        WholeLine = GetIndices_WholeLine(metacell.mask = mask),
-        WholeMatrix = GetIndices_WholeMatrix(
-            metacell.mask = mask,
-            op = op,
-            percent = percent,
-            th = th
-        ),
-        AllCond = GetIndices_BasedOnConditions(
-            metacell.mask = mask,
-            type = type,
-            conds = conds,
-            percent = percent,
-            op = op,
-            th = th
-        ),
-        AtLeastOneCond = GetIndices_BasedOnConditions(
-            metacell.mask = mask,
-            type = type,
-            conds = conds,
-            percent = percent,
-            op = op,
-            th = th
-        )
+  if (missing(obj))
+    stop("'obj' is required.")
+  
+  if (missing(level))
+    stop("'level' is required.")
+  
+  if (missing(pattern))
+    stop("'pattern' is required.")
+  
+  if (missing(type))
+    stop("'type' is required.")
+  
+  if (missing(percent))
+    stop("'percent' is required.")
+  
+  if (missing(op))
+    stop("'op' is required.")
+  
+  if (missing(th))
+    stop("'th' is required.")
+  
+  
+  
+  indices <- NULL
+  is.subset <- sum(pattern == intersect(pattern,  metacell.def(level)$node))==length(pattern)
+  if (!is.subset) {
+    warning("Available values for pattern are: ", paste0(metacell.def(level)$node, collapse=', ' ))
+    return(NULL)
+  }
+  
+  mask <- match.metacell(metadata = omXplore::get_metacell(obj),
+    pattern = pattern,
+    level = level
+  )
+  percent <- percent == "Percentage"
+  
+  indices <- switch(type,
+    WholeLine = GetIndices_WholeLine(metacell.mask = mask),
+    WholeMatrix = GetIndices_WholeMatrix(
+      metacell.mask = mask,
+      op = op,
+      percent = percent,
+      th = th
+    ),
+    AllCond = GetIndices_BasedOnConditions(
+      metacell.mask = mask,
+      type = type,
+      conds = conds,
+      percent = percent,
+      op = op,
+      th = th
+    ),
+    AtLeastOneCond = GetIndices_BasedOnConditions(
+      metacell.mask = mask,
+      type = type,
+      conds = conds,
+      percent = percent,
+      op = op,
+      th = th
     )
-
-    return(unname(indices))
+  )
+  
+  return(unname(indices))
 }
 
 
@@ -116,7 +117,7 @@ GetIndices_FunFiltering <- function(obj,
 #' MetacellFilteringScope()
 #'
 MetacellFilteringScope <- function() {
-    c("None", "WholeLine", "WholeMatrix", "AllCond", "AtLeastOneCond")
+  c("None", "WholeLine", "WholeMatrix", "AllCond", "AtLeastOneCond")
 }
 
 
@@ -176,53 +177,53 @@ SymFilteringOperators <- function() {
 #' @return xxx
 #'
 GetIndices_WholeMatrix <- function(metacell.mask,
-    op = "==",
-    percent = FALSE,
-    th = 0) {
-
-    # Check parameters
-    if (missing(metacell.mask)) {
-        stop("'metacell.mask' is required.")
-    }
-    if (isTRUE(percent)) {
-        if (th < 0 || th > 1) {
-            warning("With percent=TRUE, the threshold 'th' must be in the 
+  op = "==",
+  percent = FALSE,
+  th = 0) {
+  
+  # Check parameters
+  if (missing(metacell.mask)) {
+    stop("'metacell.mask' is required.")
+  }
+  if (percent) {
+    if (th < 0 || th > 1) {
+      warning("With percent=TRUE, the threshold 'th' must be in the 
                 interval [0, 1].")
-            return(NULL)
-        }
-    } else {
-        th.upbound <- ncol(metacell.mask)
-        if (th > th.upbound) {
-            warn.txt <- paste0(
-                "Param `th` is not correct. It must be an integer greater 
+      return(NULL)
+    }
+  } else {
+    th.upbound <- ncol(metacell.mask)
+    if (th > th.upbound) {
+      warn.txt <- paste0(
+        "Param `th` is not correct. It must be an integer greater 
                 than or equal to 0 and less or equal than ",
-                th.upbound
-            )
-            warning(warn.txt)
-            return(NULL)
-        }
+        th.upbound
+      )
+      warning(warn.txt)
+      return(NULL)
     }
-
-    if (!(op %in% SymFilteringOperators())) {
-        warning(paste0(
-            "'op' must be one of the following values: ",
-            paste0(SymFilteringOperators(), collapse = " ")
-        ))
-        return(NULL)
-    }
-
-    indices <- NULL
-    if (isTRUE(percent)) {
-        inter <- rowSums(metacell.mask) / ncol(metacell.mask)
-        indices <- which(eval(parse(text = paste0("inter", op, th))))
-    } else {
-        inter <- apply(metacell.mask, 1, sum)
-        indices <- which(eval(parse(text = paste0("inter", op, th))))
-    }
-
-
-    if (length(indices) == 0) indices <- NULL
-    return(indices)
+  }
+  
+  if (!(op %in% SymFilteringOperators())) {
+    warning(paste0(
+      "'op' must be one of the following values: ",
+      paste0(SymFilteringOperators(), collapse = " ")
+    ))
+    return(NULL)
+  }
+  
+  indices <- NULL
+  if (percent) {
+    inter <- rowSums(metacell.mask, na.rm = TRUE) / rowSums(!is.na(metacell.mask))
+    indices <- which(eval(parse(text = paste0("inter", op, th))))
+  } else {
+    inter <- apply(metacell.mask, 1, sum, na.rm = TRUE)
+    indices <- which(eval(parse(text = paste0("inter", op, th))))
+  }
+  
+  
+  if (length(indices) == 0) indices <- NULL
+  return(indices)
 }
 
 
@@ -247,13 +248,13 @@ GetIndices_WholeMatrix <- function(metacell.mask,
 #' @return xxx
 #'
 GetIndices_WholeLine <- function(metacell.mask) {
-    if (missing(metacell.mask)) {
-        stop("'metacell.mask' is missing.")
-    }
-
-    indices <- which(rowSums(metacell.mask) == ncol(metacell.mask))
-    if (length(indices) == 0) indices <- NULL
-    return(indices)
+  if (missing(metacell.mask)) {
+    stop("'metacell.mask' is missing.")
+  }
+  
+  indices <- which(rowSums(metacell.mask) == ncol(metacell.mask))
+  if (length(indices) == 0) indices <- NULL
+  return(indices)
 }
 
 
@@ -298,82 +299,82 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' @export
 #'
 GetIndices_BasedOnConditions <- function(metacell.mask,
-    type,
-    conds,
-    percent,
-    op,
-    th) {
-
-    # Check parameters
-    if (missing(metacell.mask)) {
-        stop("'metacell.mask' is missing.")
-    }
-    if (missing(conds)) {
-        stop("'conds' is missing.")
-    }
-    if (missing(type)) {
-        stop("'type' is missing.")
-    } else if (!(type %in% c("AllCond", "AtLeastOneCond"))) {
-        stop("'type' must be one of the following: AllCond, AtLeastOneCond.")
-    }
-    if (missing(percent)) {
-        stop("'percent' is missing.")
-    }
-    if (missing(op)) {
-        stop("'op' is missing.")
-    }
-    if (missing(th)) {
-        stop("'th' is missing.")
-    } else if (!(op %in% SymFilteringOperators())) {
-        stop(paste0(
-            "'op' must be one of the following values: ",
-            paste0(SymFilteringOperators(), collapse = " ")
-        ))
-    }
-
-    u_conds <- unique(conds)
-    nbCond <- length(u_conds)
-
-    if (isTRUE(percent)) {
-        if (th < 0 || th > 1) {
-            warning("With percent=TRUE, the threshold 'th' must be in the 
+  type,
+  conds,
+  percent,
+  op,
+  th) {
+  
+  # Check parameters
+  if (missing(metacell.mask)) {
+    stop("'metacell.mask' is missing.")
+  }
+  if (missing(conds)) {
+    stop("'conds' is missing.")
+  }
+  if (missing(type)) {
+    stop("'type' is missing.")
+  } else if (!(type %in% c("AllCond", "AtLeastOneCond"))) {
+    stop("'type' must be one of the following: AllCond, AtLeastOneCond.")
+  }
+  if (missing(percent)) {
+    stop("'percent' is missing.")
+  }
+  if (missing(op)) {
+    stop("'op' is missing.")
+  }
+  if (missing(th)) {
+    stop("'th' is missing.")
+  } else if (!(op %in% SymFilteringOperators())) {
+    stop(paste0(
+      "'op' must be one of the following values: ",
+      paste0(SymFilteringOperators(), collapse = " ")
+    ))
+  }
+  
+  u_conds <- unique(conds)
+  nbCond <- length(u_conds)
+  
+  if (percent) {
+    if (th < 0 || th > 1) {
+      warning("With percent=TRUE, the threshold 'th' must be in the 
                 interval [0, 1].")
-            return(NULL)
-        }
-    } else {
-        th.upbound <- min(unlist(lapply(u_conds, 
-            function(x) length(which(conds == x)))))
-        if (th > th.upbound) {
-            warn.txt <- paste0(
-                "Param `th` is not correct. It must be an integer greater 
+      return(NULL)
+    }
+  } else {
+    th.upbound <- min(unlist(lapply(u_conds, 
+      function(x) length(which(conds == x)))))
+    if (th > th.upbound) {
+      warn.txt <- paste0(
+        "Param `th` is not correct. It must be an integer greater 
                 than or equal to 0 and less or equal than ",
-                th.upbound
-            )
-            warning(warn.txt)
-            return(NULL)
-        }
+        th.upbound
+      )
+      warning(warn.txt)
+      return(NULL)
     }
-
-    indices <- NULL
-    s <- matrix(rep(0, nrow(metacell.mask) * nbCond),
-        nrow = nrow(metacell.mask),
-        ncol = nbCond
-    )
-
-    for (c in seq_len(nbCond)) {
-        ind.cond <- which(conds == u_conds[c])
-        inter <- rowSums(metacell.mask[, ind.cond])
-        if (isTRUE(percent)) {
-            inter <- inter / length(ind.cond)
-        }
-
-        s[, c] <- eval(parse(text = paste0("inter", op, th)))
+  }
+  
+  indices <- NULL
+  s <- matrix(rep(0, nrow(metacell.mask) * nbCond),
+    nrow = nrow(metacell.mask),
+    ncol = nbCond
+  )
+  
+  for (c in seq_len(nbCond)) {
+    ind.cond <- which(conds == u_conds[c])
+    inter <- rowSums(metacell.mask[, ind.cond], na.rm = TRUE)
+    if (percent) {
+      inter <- inter / rowSums(!is.na(metacell.mask[, ind.cond]))
     }
-
-    indices <- switch(type,
-        AllCond = which(rowSums(s) == nbCond),
-        AtLeastOneCond = which(rowSums(s) >= 1)
-    )
-
-    return(indices)
+    
+    s[, c] <- eval(parse(text = paste0("inter", op, th)))
+  }
+  
+  indices <- switch(type,
+    AllCond = which(rowSums(s) == nbCond),
+    AtLeastOneCond = which(rowSums(s) >= 1)
+  )
+  
+  return(indices)
 }

@@ -17,6 +17,9 @@ Parent('protein', 'Missing POV')
 Parent('protein', c('Missing POV', 'Missing MEC'))
 Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
 }
+\value{
+NA
+}
 \description{
 xxx
 }

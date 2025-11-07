@@ -14,7 +14,7 @@ LH0(X, y1, y2)
 \item{y2}{n.pep*n.samples matrice giving the observed counts for}
 }
 \value{
-xxxxxxxxxx..
+NA
 }
 \description{
 xxxxxx

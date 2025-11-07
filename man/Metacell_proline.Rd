@@ -16,7 +16,7 @@ Metacell_proline(qdata, conds, df = NULL, level = NULL)
 \item{level}{xxx}
 }
 \value{
-xxxxx
+NA
 }
 \description{
 In the quantitative columns, a missing value is identified by no value rather

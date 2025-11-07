@@ -81,7 +81,7 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #' 
 #' @importFrom MagellanNTK pkgs.require
 #'
-#' @return A vector composed of HEX color code for the conditions.
+#' @return NA
 #' 
 #'
 GetColorsForConditions <- function(conds, pal = NULL) {

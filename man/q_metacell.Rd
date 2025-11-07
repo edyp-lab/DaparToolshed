@@ -60,9 +60,11 @@ metacombine(met, level)
 A data.frame containing the different tags and corresponding colors for the level
 given in parameter
 
+A list
+
 An instance of class \code{QFeatures}.
 
-xxxxx
+NA
 
 NA
 

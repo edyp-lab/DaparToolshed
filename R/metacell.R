@@ -87,6 +87,7 @@ NULL
 #'
 #' @rdname q_metacell
 #' 
+#' 
 metacell.def <- function(level){
   if(missing(level))
     stop("'level' is required.")
@@ -173,6 +174,8 @@ metacell.def <- function(level){
 
 #' @export
 #' @rdname q_metacell
+#' @return A list
+#'
 custom_metacell_colors <- function()
   list("Any" = "white",
        "Missing" = "#CF8205",
@@ -196,6 +199,8 @@ custom_metacell_colors <- function()
 #' 
 #' @export
 #' @import omXplore
+#' 
+#' @return An integer
 #' 
 GetNbTags <- function(obj){
   df <- omXplore::get_metacell(obj)
@@ -221,6 +226,7 @@ GetNbTags <- function(obj){
 #' 
 #' 
 #' @export
+#' @return NA
 Parent <- function(level, node=NULL){
   parents <- NULL
   tags <- metacell.def(level)
@@ -321,6 +327,7 @@ setMethod("GetMetacellTags", "SummarizedExperiment",
 
 
 #' @rdname QFeatures-accessors
+#' @return NA
 setMethod("GetMetacellTags", "data.frame",
           function(object, ...) {
             .GetMetacellTags(object, ...)
@@ -518,7 +525,7 @@ GetSoftAvailables <- function(){
 #' @param df A data.frame which contains the type of identification of the
 #' entities. It must have the same dimensions as `qData`.
 #' 
-#' @return xxxxx
+#' @return NA
 #' 
 #' @author Samuel Wieczorek
 #' 
@@ -585,7 +592,7 @@ BuildMetacell <- function(from = NULL,
 #' @param conds xxx
 #' @param level xxx
 #' 
-#' @return xxxxx
+#' @return NA
 #' 
 #' @author Samuel Wieczorek
 #' 
@@ -646,7 +653,7 @@ Metacell_generic <- function(qdata, conds, level) {
 #'
 #' @param level xxx
 #'
-#' @return xxxxx
+#' @return NA
 #'
 #' @author Samuel Wieczorek
 #'
@@ -702,7 +709,7 @@ Metacell_DIA_NN <- function(qdata, conds, df, level = NULL) {
 #'
 #' @param level xxx
 #'
-#' @return xxxxx
+#' @return NA
 #'
 #' @author Samuel Wieczorek
 #'
@@ -777,7 +784,7 @@ Metacell_proline <- function(qdata, conds, df = NULL, level = NULL) {
 #'
 #' @param level xxx
 #'
-#' @return xxxxx
+#' @return NA
 #'
 #' @author Samuel Wieczorek
 #'

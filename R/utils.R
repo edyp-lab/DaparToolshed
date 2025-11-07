@@ -319,7 +319,6 @@ ConvertListToHtml <- function(ll) {
 #'
 #' @param filename The filename under which the plot has to be saved
 #'
-#' @return A contextual menu for highcharts plots
 #'
 #' @author Samuel Wieczorek
 #'
@@ -331,6 +330,7 @@ ConvertListToHtml <- function(ll) {
 #' my_hc_ExportMenu(hc, filename = "foo")
 #'
 #' @export
+#' @return A contextual menu for highcharts plots.
 #'
 my_hc_ExportMenu <- function(hc, filename) {
   hc_exporting(hc,
@@ -429,9 +429,6 @@ CleanRowData <- function(obj, i){
 #' @title Returns the number of empty lines in the data
 #'
 #' @param qData A matrix corresponding to the quantitative data.
-#'
-#' @return An integer
-#'
 #' @author Samuel Wieczorek
 #'
 #' @examples
@@ -441,6 +438,9 @@ CleanRowData <- function(obj, i){
 #' getNumberOfEmptyLines(qData)
 #'
 #' @export
+#'
+#' @return An integer
+#'
 #'
 #'
 getNumberOfEmptyLines <- function(qData) {

@@ -19,7 +19,7 @@ BuildMetacell(from = NULL, level, qdata = NULL, conds = NULL, df = NULL)
 entities. It must have the same dimensions as \code{qData}.}
 }
 \value{
-xxxxx
+NA
 }
 \description{
 xxx

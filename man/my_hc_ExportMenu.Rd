@@ -12,7 +12,7 @@ my_hc_ExportMenu(hc, filename)
 \item{filename}{The filename under which the plot has to be saved}
 }
 \value{
-A contextual menu for highcharts plots
+A contextual menu for highcharts plots.
 }
 \description{
 Customised contextual menu of highcharts plots

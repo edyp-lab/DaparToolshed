@@ -449,7 +449,7 @@ setMethod(
 #' @param conds A `character()` vector which is the names of conditions
 #' for each sample in the dataset.
 #'
-#' @return xxxxx
+#' @return NA
 #'
 #' @examples
 #' data(subR25pept)

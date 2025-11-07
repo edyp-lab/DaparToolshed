@@ -16,7 +16,7 @@ LH1.lm(X, y1, y2, j)
 \item{j}{the index of the protein being tested, ie which has different}
 }
 \value{
-xxxxxxxxxx..
+NA
 }
 \description{
 xxxxxx

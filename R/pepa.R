@@ -178,7 +178,7 @@ fudge2LRT <- function(lmm.res.h0,
 ## each peptide in each sample from the condition 1
 #' @param y2  n.pep*n.samples matrice giving the observed counts for
 ## each peptide in each sample from the condition 2
-#' @return xxxxxxxxxx..
+#' @return NA
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
@@ -207,7 +207,7 @@ LH0 <- function(X, y1, y2) {
 ## each peptide in each sample from the condition 2
 #' @param j the index of the protein being tested, ie which has different
 ## expression in the two conditions under H1
-#' @return xxxxxxxxxx..
+#' @return NA
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
@@ -239,7 +239,7 @@ LH1 <- function(X, y1, y2, j) {
 #' each peptide in each sample from the condition 1
 #' @param y2  n.pep*n.samples matrice giving the observed counts for
 #' each peptide in each sample from the condition 2
-#' @return xxxxxxxxxx..
+#' @return NA
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export
@@ -305,7 +305,7 @@ LH0.lm <- function(X, y1, y2) {
 ## each peptide in each sample from the condition 2
 #' @param j the index of the protein being tested, ie which has different
 ## expression in the two conditions under H1.
-#' @return xxxxxxxxxx..
+#' @return NA
 #' @author Thomas Burger, Laurent Jacob
 #'
 #' @export

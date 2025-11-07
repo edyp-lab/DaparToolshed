@@ -1,7 +1,7 @@
 Package: DaparToolshed
 Type: Package
 Title: Tools for the Differential Analysis of Proteins Abundance with R
-Version: 0.99.10
+Version: 0.99.11
 Date: 2025-08-09
 Authors@R: c(person(given = "Samuel", family = "Wieczorek",
     email = "samuel.wieczorek@cea.fr",
@@ -27,7 +27,7 @@ Description: The package DaparToolshed is a Bioconductor distributed R package w
     user-friendly graphical interfaces, so that no programming skill is 
     required (see `Prostar` package).
 License: Artistic-2.0
-Depends: R (>= 4.3.0)
+Depends: R (>= 4.5.0)
 Imports:
     Biobase,
     BiocGenerics,
@@ -133,9 +133,8 @@ Collate:
     get_pep_prot_cc.R
     aggregation.R
 RoxygenNote: 7.3.3
-Packaged: 2017-10-13 11:13:04 UTC; sw175264
+Packaged: 2025-09-23 11:13:04 UTC; sw175264
 Encoding: UTF-8
-LazyData: yes
 URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 Roxygen: list(markdown = TRUE)

@@ -16,7 +16,7 @@ each peptide in each sample from the condition 1}
 each peptide in each sample from the condition 2}
 }
 \value{
-xxxxxxxxxx..
+NA
 }
 \description{
 xxxxxx

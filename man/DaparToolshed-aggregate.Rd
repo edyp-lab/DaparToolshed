@@ -208,7 +208,7 @@ See below for details.}
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).
 
-xxxxx
+NA
 
 A QFeatures with an aggregated assay added.
 

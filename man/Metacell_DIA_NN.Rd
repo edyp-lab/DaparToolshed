@@ -16,7 +16,7 @@ Metacell_DIA_NN(qdata, conds, df, level = NULL)
 \item{level}{xxx}
 }
 \value{
-xxxxx
+NA
 }
 \description{
 Actually, this function uses the generic function to generate metacell info

@@ -84,7 +84,7 @@ Differences (specified as "TukeyHSD") and the Dunnett test
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="postHocTest.html">postHocTest()</a></code></p></div>
+    <div class="dont-index"><p>postHocTest()</p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -93,7 +93,7 @@ Differences (specified as "TukeyHSD") and the Dunnett test
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">subR25prot</span></span></span>
 <span class="r-in"><span><span class="va">filter</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-filtering-oneSE.html">FunctionFilter</a></span><span class="op">(</span><span class="st">'qMetacellOnConditions'</span>,</span></span>
@@ -108,7 +108,8 @@ Differences (specified as "TukeyHSD") and the Dunnett test
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-filtering-oneSE.html">filterFeaturesOneSE</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">filter</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">anovatest</span> <span class="op">&lt;-</span> <span class="fu">wrapperClassic1wayAnova</span><span class="op">(</span><span class="va">obj</span>, <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'as.data.frame': error in evaluating the argument 'x' in selecting a method for function 't': contrasts can be applied only to factors with 2 or more levels</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

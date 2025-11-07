@@ -9,6 +9,9 @@ GetNbTags(obj)
 \arguments{
 \item{obj}{A instance of the class \code{SummarizedExperiment}}
 }
+\value{
+An integer
+}
 \description{
 Number of each metacell tags
 }

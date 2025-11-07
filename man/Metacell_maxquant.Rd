@@ -16,7 +16,7 @@ Metacell_maxquant(qdata, conds, df = NULL, level = NULL)
 \item{level}{xxx}
 }
 \value{
-xxxxx
+NA
 }
 \description{
 Initial conversion rules for maxquant

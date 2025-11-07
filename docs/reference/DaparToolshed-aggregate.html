@@ -431,12 +431,21 @@ but with NA values if they exist in the intensity matrix.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function uses <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">QFeatures::aggregateFeatures()</a></code> to aggregate quantitative data.</p>
-<p>Aggregation of quantitative data is performed using aggregateFeatures, or inner.aggregate.iter if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code> is selected.</p>
+<p>Aggregation of quantitative data is performed using aggregateFeatures, or inner.
+aggregate.iter if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>
+is selected.</p>
 <p>The handling of shared peptide is as follow :</p><ul><li><p><code>Yes_As_Specific</code> : Shared peptides are used multiple times.
-Each peptide is duplicated as many times as the number of proteins in which they are present, and thus are considered as if they are specific to each protein.</p></li>
-<li><p><code>Yes_Simple_Redistribution</code> : Intensity of shared peptides are redistributed proportionally to each protein. See inner.aggregate.iter for more information.</p></li>
-<li><p><code>Yes_Iterative_Redistribution</code> : Intensity of shared peptides are redistributed proportionally to each protein. See inner.aggregate.iter for more information.</p></li>
-<li><p><code>No</code> : No shared peptides are used. If a peptide contained only shared peptides, its intensity is set as 0 for every sample.</p></li>
+Each peptide is duplicated as many times as the number of proteins in
+which they are present, and thus are considered as if they are specific
+to each protein.</p></li>
+<li><p><code>Yes_Simple_Redistribution</code> : Intensity of shared peptides are
+redistributed proportionally to each protein. See <code>inner.aggregate.iter</code>
+for more information.</p></li>
+<li><p><code>Yes_Iterative_Redistribution</code> : Intensity of shared peptides are
+redistributed proportionally to each protein. See <code>inner.aggregate.iter</code>
+for more information.</p></li>
+<li><p><code>No</code> : No shared peptides are used. If a peptide contained only shared
+peptides, its intensity is set as 0 for every sample.</p></li>
 </ul><p>Available functions are :</p><ul><li><p><code>Sum</code> : base::colSums()] or base::rowSums() if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
 <li><p><code>Mean</code> : base::colMeans()] or base::rowMeans() if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
 <li><p><code>Median</code> : matrixStats::mcolMedians()] or matrixStats::rowMedians() if <code>Yes_Iterative_Redistribution</code> or <code>Yes_Simple_Redistribution</code>.</p></li>
@@ -484,10 +493,13 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span><span class="co">## ---------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## An example QFeatures with PSM-level data</span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">subR25prot</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures containing 2 set(s):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] original: SummarizedExperiment with 100 rows and 6 columns </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] logAssay: SummarizedExperiment with 100 rows and 6 columns </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Aggregate peptides into proteins</span></span></span>
 <span class="r-in"><span><span class="co">## using the adjacency matrix</span></span></span>
@@ -496,15 +508,24 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span>name <span class="op">=</span> <span class="st">'aggregated'</span>,</span></span>
 <span class="r-in"><span>fcol <span class="op">=</span> <span class="st">'adjacencyMatrix'</span>,</span></span>
 <span class="r-in"><span>fun <span class="op">=</span> <span class="st">'colSumsMat'</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span><span class="va">feat1</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'feat1' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-aggregate.html" class="external-link">aggcounts</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'object' in selecting a method for function 'aggcounts': object 'feat1' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/QFeatures/man/QFeatures-aggregate.html" class="external-link">aggcounts</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'object' in selecting a method for function 'aggcounts': object 'feat1' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">feat1</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'rowData': object 'feat1' not found</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">qMeta</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">qMetacell</a></span><span class="op">(</span><span class="va">subR25pept</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">QFeatures</span><span class="fu">::</span><span class="fu">adjacencyMatrix</span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
@@ -512,25 +533,45 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span><span class="va">conds</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span><span class="op">$</span><span class="va">Condition</span></span></span>
 <span class="r-in"><span><span class="va">aggQmeta</span> <span class="op">&lt;-</span> <span class="fu">aggQmetacell</span><span class="op">(</span><span class="va">qMeta</span>, <span class="va">X</span>, <span class="va">level</span>, <span class="va">conds</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Mean"</span>, <span class="st">"allPeptides"</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_As_Specific"</span>, <span class="st">"Mean"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"No"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"No"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Aggregating data</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...):</span> 'fcol' must refer to a matrix. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>                                                     You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_Redistribution"</span>, <span class="st">"Sum"</span>, <span class="st">"allPeptides"</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides",     aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]]))):</span> Yes_Redistribution is not an option for 'includeSharedPeptides'.</span>
 <span class="r-in"><span><span class="va">obj.agg</span> <span class="op">&lt;-</span> <span class="fu">RunAggregation</span><span class="op">(</span><span class="va">subR25prot</span>, <span class="st">"Yes_Redistribution"</span>, <span class="st">"Sum"</span>, <span class="st">"topN"</span>, n <span class="op">=</span> <span class="fl">4</span>, </span></span>
 <span class="r-in"><span>aggregated_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN",     n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]]))):</span> Yes_Redistribution is not an option for 'includeSharedPeptides'.</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -1216,12 +1257,208 @@ proteomics data processing pipeline.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ADAEWVQSTASK                             .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ADASGEGVEDEASGVHK                        .</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data(subR25pept)[[2]]:</span> subscript out of bounds</span>
 <span class="r-in"><span><span class="fu">GetNbPeptidesUsed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 96 x 6 Matrix of class "dgeMatrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Intensity_C_R1 Intensity_C_R2 Intensity_C_R3 Intensity_D_R1 Intensity_D_R2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1005              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1017              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 103               1              1              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 106               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1060              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1073              1              1              0              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1079              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1101              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 111               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1121              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 115               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 116               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1172              1              1              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1210              1              1              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1238              0              0              1              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1246              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1261              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1268              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 129               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1315              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1421              0              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1433              2              2              1              1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1437              1              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1469              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 152               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1652              0              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1685              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1731              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1733              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1745              1              1              1              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1781              1              0              1              1              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1791              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 182               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1845              0              1              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 186               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1941              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 198               0              0              0              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1987              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 199               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2008              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 204               1              1              1              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2081              0              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 210               2              2              2              2              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2112              2              2              2              2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 212               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2165              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2169              1              0              1              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 220               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2232              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 225               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2258              2              2              2              2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2260              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2287              0              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2292              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 231               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2312              1              0              1              1              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2342              1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2347              1              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 237               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 239               0              1              0              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 240               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 254               2              2              2              2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 272               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 292               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 311               0              1              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 359               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 364               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 378               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 379               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 397               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                0              0              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400               1              1              1              0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 414               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 423               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 426               2              2              2              2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 439               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 440               0              1              1              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 471               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 484               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 534               0              1              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 558               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 573               2              2              2              2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 599               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 660               1              0              0              1              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 662               0              0              0              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 683               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 704               1              0              1              1              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 706               1              0              1              1              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 800               1              1              1              0              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 828               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 858               1              1              0              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 944               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 973               1              1              1              1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Intensity_D_R3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1005              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1017              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 103               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 106               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1060              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1073              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1079              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1101              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 111               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1121              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 115               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 116               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1172              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1210              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1238              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1246              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1261              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1268              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 129               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1315              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1421              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1433              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1437              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1469              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 152               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1652              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1685              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1731              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1733              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1745              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1781              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1791              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 182               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1845              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 186               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1941              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 198               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1987              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 199               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2008              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 204               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2081              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 210               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2112              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 212               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2165              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2169              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 220               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2232              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 225               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2258              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2260              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2287              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2292              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 231               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2312              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2342              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2347              0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 237               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 239               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 240               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 254               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 272               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 292               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 311               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 359               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 364               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 378               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 379               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 397               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 414               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 423               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 426               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 439               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 440               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 471               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 484               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 534               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 558               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 573               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 599               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 660               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 662               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 683               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 704               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 706               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 800               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 828               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 858               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 944               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 973               1</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
@@ -1858,31 +2095,36 @@ proteomics data processing pipeline.</p></div>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">i.sum</span> <span class="op">&lt;-</span> <span class="fu">inner.sum</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in BuildAdjacencyMatrix(subR25pept):</span> inherits(obj.pep, "SummarizedExperiment") is not TRUE</span>
 <span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.mean</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/QFeatures" class="external-link">QFeatures</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in BuildAdjacencyMatrix(subR25pept):</span> inherits(obj.pep, "SummarizedExperiment") is not TRUE</span>
 <span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.median</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in BuildAdjacencyMatrix(subR25pept):</span> inherits(obj.pep, "SummarizedExperiment") is not TRUE</span>
 <span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.medianpolish</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="BuildAdjacencyMatrix.html">BuildAdjacencyMatrix</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in BuildAdjacencyMatrix(subR25pept):</span> inherits(obj.pep, "SummarizedExperiment") is not TRUE</span>
 <span class="r-in"><span><span class="va">i.mean</span> <span class="op">&lt;-</span> <span class="fu">inner.robustSummary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inner.robustSummary(assay(subR25pept[[2]]), X):</span> could not find function "inner.robustSummary"</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
