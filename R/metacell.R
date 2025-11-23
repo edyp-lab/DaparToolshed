@@ -161,7 +161,7 @@ metacell.def <- function(level){
   
   colors <- custom_metacell_colors()
   
-  def <- cbind(def, color = rep("white", nrow(def)))
+  def <- cbind(def, color = rep("#FFFFFF", nrow(def)))
   
   for (n in seq_len(nrow(def))) {
     def[n, "color"] <- colors[[def[n, "node"]]]
@@ -177,7 +177,7 @@ metacell.def <- function(level){
 #' @return A list
 #'
 custom_metacell_colors <- function()
-  list("Any" = "white",
+  list("Any" = "#FFFFFF",
        "Missing" = "#CF8205",
        "Missing POV" = "#E5A947",
        "Missing MEC" = "#F1CA8A",

@@ -185,7 +185,7 @@ setMethod(
    
         for (x in filters) {
           if (inherits(x, "AnnotationFilter")) {
-            new.se <- filterFeatures(object, x, i)[[i]]
+            new.se <- filterFeatures(object, x, i, na.rm = TRUE)[[i]]
           } else if (inherits(x, "FunctionFilter")) {
             new.se <- do.call(x@name, append(list(object = object[[i]]), x@params))
           }

@@ -28,3 +28,26 @@ last_assay <- function(object) {
 n_assays_in_qf <- function(object) {
     length(object)
 }
+
+
+#' @param obj An instance of the class `QFeatures`
+#' @param range A vector of integers
+#' @rdname QFeatures-utils
+#' @return description An instance of QFeatures class
+#' @export
+SubQFeatures <- function(obj, range){
+  
+  stopifnot(inherist(obj, "QFeatures"))
+  new.obj <- QFeatures::readQFeatures(
+    assayData = assay(obj[[range]]),
+    colData = colData(obj),
+    metadata = metadata(obj)
+  )
+  
+  for (i in range){
+    rowData(new.obj[[i]]) <- rowData(obj[[i]])
+    metadata(new.obj[[i]]) <- metadata(obj[[i]])
+  }
+  
+  return(new.obj)
+}
