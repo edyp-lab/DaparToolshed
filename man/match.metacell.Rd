@@ -12,7 +12,8 @@ match.metacell(metadata, pattern = NULL, level)
 
 \item{pattern}{The value to search in the dataframe}
 
-\item{level}{xxx}
+\item{level}{A string designing the type of entity/pipeline.
+Available values are: \code{peptide}, \code{protein}}
 }
 \value{
 A boolean dataframe

@@ -9,11 +9,12 @@ Metacell_proline(qdata, conds, df = NULL, level = NULL)
 \arguments{
 \item{qdata}{An object of class \code{MsnSet}}
 
-\item{conds}{xxx}
+\item{conds}{A 1-col dataframe with the condition associated to each sample.}
 
-\item{df}{A list of integer xxxxxxx}
+\item{df}{A dataframe with the same dimension as qdata containing the metacell.}
 
-\item{level}{xxx}
+\item{level}{A string designing the type of entity/pipeline.
+Available values are: \code{peptide}, \code{protein}}
 }
 \value{
 NA

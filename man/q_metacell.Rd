@@ -32,19 +32,20 @@ search.metacell.tags(pattern, level, depth = "1")
 metacombine(met, level)
 }
 \arguments{
-\item{level}{xxx}
+\item{level}{A string designing the type of entity/pipeline.
+Available values are: \code{peptide}, \code{protein}}
 
-\item{obj}{xxx}
+\item{obj}{An object of class \code{SummarizedExperiment}}
 
-\item{conds}{xxx}
+\item{conds}{A 1-col dataframe with the condition associated to each sample.}
 
 \item{df}{An object of class \code{SummarizedExperiment}}
 
 \item{qdata}{A matrix of quantitative data}
 
-\item{object}{xxx}
+\item{object}{An object of class \code{SummarizedExperiment}}
 
-\item{...}{xxx}
+\item{...}{Additional parameters}
 
 \item{from}{xxx}
 
@@ -52,9 +53,9 @@ metacombine(met, level)
 
 \item{pattern}{The string to search.}
 
-\item{depth}{xxx}
+\item{depth}{Either "0", "1" or "*".}
 
-\item{met}{xxx}
+\item{met}{Metacells}
 }
 \value{
 A data.frame containing the different tags and corresponding colors for the level

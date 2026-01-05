@@ -7,18 +7,17 @@
 wrapper.impute.mle(obj, grp)
 }
 \arguments{
-\item{obj}{An object of class \code{MSnSet}.}
+\item{obj}{An object of class \code{SummarizedExperiment}.}
 
-\item{grp}{xxx}
+\item{grp}{A vector of conditions in the dataset.}
 }
 \value{
 The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead
-of missing
-values.
+of missing values.
 }
 \description{
 This method is a wrapper to the function \code{impute.mle()} of the
-package \code{imp4p} adapted to an object of class \code{MSnSet}.
+package \code{imp4p} adapted to an object of class \code{SummarizedExperiment}.
 It does not impute MEC missing values.
 }
 \examples{

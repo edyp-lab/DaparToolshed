@@ -87,7 +87,7 @@ instead of missing values.
 }
 \description{
 This method is a wrapper to the function \code{impute.mi()} of the package
-\code{imp4p} adapted to an object of class \code{MSnSet}.
+\code{imp4p} adapted to an object of class \code{SummarizedExperiment}.
 }
 \examples{
 \donttest{

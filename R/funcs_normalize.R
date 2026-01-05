@@ -3,7 +3,7 @@
 #' 
 #' @description 
 #' Provides several methods to normalize quantitative data from
-#' a \code{MSnSet} object.
+#' a \code{SummarizedExperiment} object.
 #' They are organized in six main families : GlobalQuantileAlignement,
 #' sumByColumns, QuantileCentering, MeanCentering, LOESS, vsn
 #' For the first family, there is no type.
@@ -14,18 +14,20 @@
 #' (ie line in the \code{SummarizedExperiment::assay()} data tab) is computed condition
 #' by condition.
 #'
-#' @param target xxx
+#' @param target Category of normalization method to show. 
+#' Either "all", "withTracking" or "withoutTracking".
 #'
-#' @param qData xxx
+#' @param qData A data.frame with quantitative data to normalize. 
 #'
-#' @param conds xxx
+#' @param conds A `character()` vector which is the names of conditions
+#' for each sample in the dataset.
 #'
 #' @param type "overall" (shift all the sample distributions at once) or
 #' "within conditions" (shift the sample distributions within each
 #' condition at a time).
 #'
 #' @param subset.norm A vector of index indicating rows to be used for
-#' normalization
+#' normalization.
 #'
 #' @param quantile A float that corresponds to the quantile used to
 #' align the data.
@@ -33,7 +35,7 @@
 #' @param scaling A boolean that indicates if the variance of the data have to
 #' be forced to unit (variance reduction) or not.
 #' 
-#' @param span xxx
+#' @param span A float between 0 and 1 indicating the span of loess smoothing window.
 #' 
 #' @author Samuel Wieczorek, Thomas Burger, Helene Borges, Anais Courtier,
 #' Enora Fremy
@@ -343,4 +345,137 @@ LOESS <- function(qData,
     }
   }
   return(qData)
+}
+
+
+
+
+#' @title Normalisation for QFeatures
+#' 
+#' @description 
+#' This method is a wrapper that provides several methods to normalize quantitative 
+#' data from objects of class \code{QFeatures} or \code{SummarizedExperiment}.
+#' 
+#' They are organized in six main families : GlobalQuantileAlignement,
+#' sumByColumns, QuantileCentering, MeanCentering, LOESS, vsn
+#' For the first family, there is no type.
+#' For the five other families, two type categories are available :
+#' "Overall" which means that the value for each protein
+#' (ie line in the expression data tab) is computed over all the samples ;
+#' "within conditions" which means that the value for each protein
+#' (ie line in the \code{SummarizedExperiment::assay()} data tab) is computed condition
+#' by condition.
+#' The available methods are described in [DaparToolshed::normalizeMethods()].
+#'
+#' @param obj An object of class \code{QFeatures} or \code{SummarizedExperiment}.
+#'            If data is of class \code{QFeatures}, the last assay will be normalized.
+#' @param method Define the normalization method used : `"GlobalQuantileAlignment"``, 
+#'               `"QuantileCentering"`, `"MeanCentering"`, `"SumByColumns"`, `"LOESS"` or `"vsn"`.
+#' @param conditions A vector of conditions in the dataset. 
+#'                   If not provided, the vector `"Condition"` from the column metadata will be used.
+#' @param type "overall" (shift all the sample distributions at once) or
+#'             "within conditions" (shift the sample distributions within each condition at a time).
+#' @param subset.norm A vector of index indicating rows to be used for normalization
+#' @param quantile A float that corresponds to the quantile used to align the data.
+#' @param scaling A boolean that indicates if the variance of the data have to
+#'                be forced to unit (variance reduction) or not.
+#' @param span xxx
+#'
+#' @return \code{QFeatures} including a new assay with normalized data or 
+#'         \code{SummarizedExperiment} with normalized data.
+#'
+#' @author Manon Gaudin
+#'
+#' @examples
+#' data(subR25pept)
+#' normalized <- normalizeFunction(subR25pept, )
+#' 
+#' @export
+#'
+
+normalizeFunction <- function(obj,
+                              method,
+                              conditions = NULL,
+                              type = "overall",
+                              subset.norm = NULL,
+                              quantile = 0.15,
+                              scaling = FALSE,
+                              span = 0.7
+                              ){
+  if (missing(obj))
+    stop("'obj' is required.")
+  if (missing(method))
+    stop("'method' is required.")
+  
+  if (inherits(obj, 'QFeatures')){
+    i <- length(obj)
+    obj.se <- obj[[i]]
+    SummarizedExperiment::colData(obj.se) <- SummarizedExperiment::colData(obj)
+  } else if (inherits(obj, 'SummarizedExperiment')){
+    obj.se <- obj
+  } else { stop("'obj' must be of class 'SummarizedExperiment' or 'QFeatures'.") }
+  
+  if (is.null(conditions)){
+    conditions <- SummarizedExperiment::colData(obj.se)$Condition
+  }
+  qdata <- SummarizedExperiment::assay(obj.se)
+  
+  normalized_assay <- switch(method,
+                             GlobalQuantileAlignment = {
+                               DaparToolshed::GlobalQuantileAlignment(qdata)
+                             },
+                             QuantileCentering ={
+                               DaparToolshed::QuantileCentering(
+                                 qData = qdata, 
+                                 conds = conditions, 
+                                 type = type, 
+                                 subset.norm = subset.norm, 
+                                 quantile = quantile
+                               )
+                             },
+                             MeanCentering = {
+                               DaparToolshed::MeanCentering(
+                                 qData = qdata, 
+                                 conds = conditions,
+                                 type = type,
+                                 scaling = scaling,
+                                 subset.norm = subset.norm
+                               )
+                             },
+                             SumByColumns = {
+                               DaparToolshed::SumByColumns(
+                                 qData = qdata,
+                                 conds = conditions,
+                                 type = type,
+                                 subset.norm = subset.norm
+                               )
+                             }, 
+                             LOESS = {
+                               DaparToolshed::LOESS(
+                                 qData = qdata,
+                                 conds = conditions,
+                                 type = type,
+                                 span = span
+                               )
+                             },
+                             vsn = {
+                               DaparToolshed::vsn(
+                                 qData = qdata,
+                                 conds = conditions,
+                                 type = type
+                               )
+                             })
+  
+  
+  if (inherits(obj, 'QFeatures')){
+    new.assay <- obj[[i]]
+    SummarizedExperiment::assay(new.assay) <- normalized_assay
+    
+    new.dataset <- QFeatures::addAssay(obj, new.assay, 'Normalization')
+  } else if (inherits(obj, 'SummarizedExperiment')){
+    new.dataset <- data
+    SummarizedExperiment::assay(new.dataset) <- normalized_assay
+  }
+  
+  return(new.dataset)
 }

@@ -37,7 +37,7 @@ aggregateRedistribution(object, ...)
 \arguments{
 \item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
 
-\item{...}{xxx}
+\item{...}{Additional parameters.}
 
 \item{i}{The index or name of the assay which features will be aggregated the create the new assay.}
 
@@ -61,11 +61,11 @@ Available values are \code{Global} (default), \code{Condition} or \code{Sample}.
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
 
-\item{uniqueiter}{xxx}
+\item{uniqueiter}{A \code{boolean} indication if there should be only 1 iteration or not.}
 
 \item{max_iter}{A \code{numeric(1)} setting the maximum number of iteration.}
 
-\item{conds}{xxx}
+\item{conds}{A \code{character()} vector which is the names of conditions.}
 }
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).

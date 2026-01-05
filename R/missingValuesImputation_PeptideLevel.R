@@ -5,16 +5,15 @@
 #' 
 #' @description 
 #' This method is a wrapper to the function \code{impute.mle()} of the 
-#' package \code{imp4p} adapted to an object of class \code{MSnSet}.
+#' package \code{imp4p} adapted to an object of class \code{SummarizedExperiment}.
 #' It does not impute MEC missing values.
 #'
 #'
-#' @param obj An object of class \code{MSnSet}.
-#' @param grp xxx
+#' @param obj An object of class \code{SummarizedExperiment}.
+#' @param grp A vector of conditions in the dataset.
 #'
 #' @return The \code{SummarizedExperiment::assay(obj)} matrix with imputed values instead 
-#' of missing
-#' values.
+#' of missing values.
 #'
 #' @author Samuel Wieczorek
 #'
@@ -60,7 +59,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #' 
 #' @description 
 #' This method is a wrapper to the function \code{impute.mi()} of the package
-#' \code{imp4p} adapted to an object of class \code{MSnSet}.
+#' \code{imp4p} adapted to an object of class \code{SummarizedExperiment}.
 #'
 #'
 #' @param obj An object of class \code{SummarizedExperiment}.
@@ -217,9 +216,9 @@ wrapper.dapar.impute.mi <- function(obj,
                                  eps = eps,
                                  distribution = distribution
                                  )
-        } else {
-          data.final <- data.mi
-          }
+    } else {
+      data.final <- data.mi
+    }
 
 
     # restore previous order
@@ -285,14 +284,15 @@ translatedRandomBeta <- function(
 
 
 #'
-#' @title Missing values imputation from a \code{MSnSet} object
+#' @title Missing values imputation from a \code{SummarizedExperiment} object
 #' 
 #' @description 
 #' This method is a wrapper to the function \code{impute.pa2()} adapted to
-#' objects of class \code{MSnSet}.
+#' objects of class \code{SummarizedExperiment}.
 #'
 #' @param obj An object of class \code{SummarizedExperiment}.
-#' @param design xxx
+#' @param design A data.frame containing the columns "quantCols" corresponding 
+#' to the samples name and "Condition" to the condition of each sample. 
 #'
 #' @param q.min A quantile value of the observed values allowing defining the
 #' maximal value which can be generated. This maximal value is defined by the
@@ -469,4 +469,82 @@ impute.pa2 <- function(tab,
     }
 
     return(tab_imp)
+}
+
+
+
+
+
+#' @title Missing values imputation using Pirat
+#'
+#' @description
+#' This method is a wrapper to the function \code{pipeline_llkimpute()} of the
+#' package \code{Pirat} adapted to an object of class \code{QFeatures} of \code{SummarizedExperiment}.
+#'
+#'
+#' @param data An object of class \code{QFeatures} or \code{SummarizedExperiment}.
+#'             If data is of class \code{QFeatures}, the last assay will be imputed.
+#' @param adjmat Adjacency matrix corresponding to the \code{SummarizedExperiment} or the last assay of \code{QFeatures}. 
+#' @param rnas_ab Transcriptomic data with sample as row, used only if extension = 'T'.
+#' @param adj_rna_pg Adjacency matrix of rna (rows) and peptides or precursors (columns), used only if extension = 'T'.
+#' @param ... Additional arguments to pass to `my_pipeline_llkimpute()`
+#'
+#' @return \code{QFeatures} including a new assay with imputed data or \code{SummarizedExperiment} with imputed data.
+#'
+#' @author Manon Gaudin
+#'
+#' @examples
+#' data(subR25pept)
+#' 
+#' # Delete whole empty lines
+#' filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
+#' subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered", 
+#'               filters = list(filter_emptyline))
+#' 
+#' subR25pept <- wrapper.pirat(data = subR25pept, i = length(subR25pept), extension = "base")
+#'
+#' @export
+#' @importFrom MagellanNTK pkgs.require
+#'
+wrapper.pirat <- function(data,
+                          adjmat,
+                          rnas_ab = NULL,
+                          adj_rna_pg = NULL,
+                          ...) {
+
+  MagellanNTK::pkgs.require('Pirat')
+
+  if (missing(data))
+    stop("'data' is required.")
+  if (missing(adjmat))
+    stop("'adjmat' is required.")
+  
+  if (inherits(data, 'QFeatures')){
+    i <- length(data)
+    data.se <- data[[i]]
+  } else if (inherits(data, 'SummarizedExperiment')){
+    data.se <- data
+  } else { stop("'data' must be of class 'SummarizedExperiment' or 'QFeatures'.") }
+  
+  data.pirat <- list(peptides_ab = t(SummarizedExperiment::assay(data.se)), 
+                     adj = as.matrix(adjmat),
+                     rnas_ab = rnas_ab,
+                     adj_rna_pg = adj_rna_pg)
+  
+  res <- Pirat::my_pipeline_llkimpute(data.pep.rna.mis = data.pirat,
+                                      ...)
+  
+  if (inherits(data, 'QFeatures')){
+    new.assay <- data[[i]]
+    SummarizedExperiment::assay(new.assay) <- t(res$data.imputed)
+    new.assay <- UpdateMetacellAfterImputation(new.assay)
+  
+    new.dataset <- QFeatures::addAssay(data, new.assay, 'Imputation')
+  } else if (inherits(data, 'SummarizedExperiment')){
+    new.dataset <- data
+    SummarizedExperiment::assay(new.dataset) <- t(res$data.imputed)
+    new.dataset <- UpdateMetacellAfterImputation(new.dataset)
+  }
+  
+  return(new.dataset)
 }

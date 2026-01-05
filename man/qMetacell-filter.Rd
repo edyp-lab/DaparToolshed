@@ -37,22 +37,25 @@ qMetacellOnConditions(
 )
 }
 \arguments{
-\item{object}{xxx}
+\item{object}{An instance of the class \code{SummarizedExperiment}}
 
-\item{cmd}{Available values are:}
+\item{cmd}{A \code{character(1)} indicating the action to perform.
+Either "keep" or "delete".}
 
-\item{pattern}{ss}
+\item{pattern}{A \code{character()} indicating the tag pattern of interest.}
 
-\item{percent}{xxx}
+\item{percent}{A \code{character(1)} indicating whether the threshold represent an
+absolute value ("Count") or a percentage ("Percentage").}
 
 \item{th}{The threshold to apply}
 
 \item{operator}{String for operator to use. List of operators is available
 with 'SymFilteringOperators()'.}
 
-\item{mode}{xxx}
+\item{mode}{A \code{character(1)} indicating how the task is performed.
+Either "AllCond" or "AtLeastOneCond".}
 
-\item{conds}{xxx}
+\item{conds}{A vector of conditions in the dataset.}
 }
 \value{
 A vector of operators

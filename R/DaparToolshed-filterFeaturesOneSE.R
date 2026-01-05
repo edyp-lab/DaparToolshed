@@ -179,15 +179,16 @@ setMethod(
         if (missing(filters)) {
             return(object)
         }
+      
         ## Create the filtered assay
-        
         new.se <- object[[i]]
    
         for (x in filters) {
           if (inherits(x, "AnnotationFilter")) {
-            new.se <- filterFeatures(object, x, i, na.rm = TRUE)[[i]]
+            tmp.obj <- QFeatures(list(tmp = new.se))
+            new.se <- filterFeatures(tmp.obj, x, 1, na.rm = TRUE)[[1]]
           } else if (inherits(x, "FunctionFilter")) {
-            new.se <- do.call(x@name, append(list(object = object[[i]]), x@params))
+            new.se <- do.call(x@name, append(list(object = new.se), x@params))
           }
         }
 

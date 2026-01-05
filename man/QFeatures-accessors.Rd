@@ -185,7 +185,7 @@ names_metacell(object, i, slotName = "names_metacell") <- value
 \arguments{
 \item{object}{xxx}
 
-\item{...}{xxx}
+\item{...}{Additional parameters}
 
 \item{i}{The index or name of the assays to extract the quantitative
 metadata from. All must have a rowdata variable named as \code{slotName}}
@@ -195,7 +195,7 @@ metadata from. All must have a rowdata variable named as \code{slotName}}
 \item{value}{xxx}
 }
 \value{
-A vector of tags..
+A vector of tags.
 
 NA
 

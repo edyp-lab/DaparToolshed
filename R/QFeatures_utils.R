@@ -33,21 +33,28 @@ n_assays_in_qf <- function(object) {
 #' @param obj An instance of the class `QFeatures`
 #' @param range A vector of integers
 #' @rdname QFeatures-utils
-#' @return description An instance of QFeatures class
+#' @return An instance of QFeatures class
+#' 
+#' @examples
+#' # example code
+#' 
 #' @export
-SubQFeatures <- function(obj, range){
+#'
+QFeaturesFromSE <- function(obj.se, 
+  colData = data.frame(), 
+  metadata.qf = data.frame(),
+  name = 'myname'){
   
-  stopifnot(inherist(obj, "QFeatures"))
+  stopifnot(inherits(obj.se, "SummarizedExperiment"))
   new.obj <- QFeatures::readQFeatures(
-    assayData = assay(obj[[range]]),
-    colData = colData(obj),
-    metadata = metadata(obj)
+    assayData = assay(obj.se),
+    colData = colData,
+    metadata = metadata.qf
   )
   
-  for (i in range){
-    rowData(new.obj[[i]]) <- rowData(obj[[i]])
-    metadata(new.obj[[i]]) <- metadata(obj[[i]])
-  }
+  rowData(new.obj[[1]]) <- rowData(obj.se)
+  metadata(new.obj[[1]]) <- metadata(obj.se)
   
+  names(new.obj)[1] <- name
   return(new.obj)
 }

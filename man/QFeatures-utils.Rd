@@ -4,14 +4,19 @@
 \alias{QFeatures-utils}
 \alias{last_assay}
 \alias{n_assays_in_qf}
-\alias{SubQFeatures}
+\alias{QFeaturesFromSE}
 \title{Utility funcitons to dela with QFeatures objects.}
 \usage{
 last_assay(object)
 
 n_assays_in_qf(object)
 
-SubQFeatures(obj, range)
+QFeaturesFromSE(
+  obj.se,
+  colData = data.frame(),
+  metadata.qf = data.frame(),
+  name = "myname"
+)
 }
 \arguments{
 \item{object}{An instance of the class \code{QFeatures}}
@@ -23,7 +28,7 @@ SubQFeatures(obj, range)
 \value{
 NA
 
-description An instance of QFeatures class
+An instance of QFeatures class
 }
 \description{
 xxxxx
@@ -31,5 +36,7 @@ xxxxx
 \examples{
 
 NULL
+
+# example code
 
 }

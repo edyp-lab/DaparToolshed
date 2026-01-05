@@ -130,9 +130,10 @@ See details for examples.}
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
 
-\item{conds}{xxx}
+\item{conds}{A \code{character()} vector which is the names of conditions
+for each sample in the dataset.}
 
-\item{qMeta}{An object of class 'SummarizedExperiment'}
+\item{qMeta}{A \code{matrix} with quantitative metadata tag.}
 
 \item{X}{A \code{matrix} acting as an adjacency matrix.}
 
@@ -181,7 +182,7 @@ that the user wants to keep in the new protein data.frame.}
 
 \item{adj_mat}{An adjacency matrix.}
 
-\item{protname_order}{xxx}
+\item{protname_order}{A \code{character()} vector with the protein name in order.}
 
 \item{pepData}{A \code{matrix} containing the peptide intensities.
 Note that the function assume that data is already log-transformed.}
@@ -257,7 +258,7 @@ The list of agregation methods can be obtained with the function
 \code{aggregateMethods()}. This function compiles both methods from the
 packages \code{DaparToolshed} and \code{QFeatures}.
 
-xxx
+Aggregate the quantitative metadata tag.
 
 This function aggregate both quantitative and rowdata from the last assay contained in a \code{QFeatures}.
 Note that the function assumes that the intensities in the QFeatures are already log-transformed.
@@ -267,7 +268,7 @@ by using the previous peptide dataset.
 
 Aggregation of rowData of a \code{QFeatures} assay.
 
-xxx
+Aggregate the metadata
 
 xxx
 

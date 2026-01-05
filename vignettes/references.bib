@@ -1,0 +1,109 @@
+@article{giai_gianetto_calibration_2016,
+	title = {Calibration plot for proteomics: {A} graphical tool to visually check the assumptions underlying {FDR} control in quantitative experiments},
+	volume = {16},
+	issn = {1615-9853, 1615-9861},
+	shorttitle = {Calibration plot for proteomics},
+	url = {https://analyticalsciencejournals.onlinelibrary.wiley.com/doi/10.1002/pmic.201500189},
+	doi = {10.1002/pmic.201500189},
+	abstract = {In MS‐based quantitative proteomics, the FDR control (i.e. the limitation of the number of proteins that are wrongly claimed as differentially abundant between several conditions) is a major postanalysis step. It is classically achieved thanks to a specific statistical procedure that computes the adjusted p‐values of the putative differentially abundant proteins. Unfortunately, such adjustment is conservative only if the p‐values are well-calibrated; the false discovery control being spuriously underestimated otherwise. However, well‐calibration is a property that can be violated in some practical cases. To overcome this limitation, we propose a graphical method to straightforwardly and visually assess the p‐value well‐calibration, as well as the R codes to embed it in any pipeline. All MS data have been deposited in the ProteomeXchange with identifier PXD002370 (http://proteomecentral.proteomexchange.org/dataset/PXD002370).},
+	language = {en},
+	number = {1},
+	urldate = {2025-12-17},
+	journal = {PROTEOMICS},
+	author = {Giai Gianetto, Quentin and Combes, Florence and Ramus, Claire and Bruley, Christophe and Couté, Yohann and Burger, Thomas},
+	month = jan,
+	year = {2016},
+	pages = {29--32}
+}
+
+
+@article{cleveland_robust_1979,
+	title = {Robust {Locally} {Weighted} {Regression} and {Smoothing} {Scatterplots}},
+	volume = {74},
+	issn = {0162-1459, 1537-274X},
+	url = {http://www.tandfonline.com/doi/abs/10.1080/01621459.1979.10481038},
+	doi = {10.1080/01621459.1979.10481038},
+	language = {en},
+	number = {368},
+	urldate = {2025-12-17},
+	journal = {Journal of the American Statistical Association},
+	author = {Cleveland, William S.},
+	month = dec,
+	year = {1979},
+	pages = {829--836}
+}
+
+
+@incollection{gentleman_limma:_2005,
+	address = {New York},
+	title = {limma: {Linear} {Models} for {Microarray} {Data}},
+	isbn = {9780387251462},
+	shorttitle = {limma},
+	url = {http://link.springer.com/10.1007/0-387-29362-0_23},
+	language = {en},
+	urldate = {2025-12-17},
+	booktitle = {Bioinformatics and {Computational} {Biology} {Solutions} {Using} {R} and {Bioconductor}},
+	publisher = {Springer-Verlag},
+	author = {Smyth, G. K.},
+	editor = {Gentleman, Robert and Carey, Vincent J. and Huber, Wolfgang and Irizarry, Rafael A. and Dudoit, Sandrine},
+	year = {2005},
+	doi = {10.1007/0-387-29362-0_23},
+	pages = {397--420}
+}
+
+
+@article{huber_variance_2002,
+	title = {Variance stabilization applied to microarray data calibration and to the quantification of differential expression},
+	volume = {18},
+	issn = {1367-4811, 1367-4803},
+	url = {https://academic.oup.com/bioinformatics/article/18/suppl_1/S96/231881},
+	doi = {10.1093/bioinformatics/18.suppl_1.S96},
+	abstract = {Abstract
+            We introduce a statistical model for microarray gene expression data that comprises data calibration, the quantification of differential expression, and the quantification of measurement error. In particular, we derive a transformation h for intensity measurements, and a difference statistic Δh whose variance is approximately constant along the whole intensity range. This forms a basis for statistical inference from microarray data, and provides a rational data pre-processing strategy for multivariate analyses. For the transformation h, the parametric form h(x)=arsinh(a+bx) is derived from a model of the variance-versus-mean dependence for microarray intensity data, using the method of variance stabilizing transformations. For large intensities, h coincides with the logarithmic transformation, and Δh with the log-ratio. The parameters of h together with those of the calibration between experiments are estimated with a robust variant of maximum-likelihood estimation. We demonstrate our approach on data sets from different experimental platforms, including two-colour cDNA arrays and a series of Affymetrix oligonucleotide arrays.
+            Availability: Software is freely available for academic use as an R package at http://www.dkfz.de/abt0840/whuber
+            Contact: w.huber@dkfz.de},
+	language = {en},
+	number = {suppl\_1},
+	urldate = {2025-12-17},
+	journal = {Bioinformatics},
+	author = {Huber, Wolfgang and Von Heydebreck, Anja and Sültmann, Holger and Poustka, Annemarie and Vingron, Martin},
+	month = jul,
+	year = {2002},
+	pages = {S96--S104}
+}
+
+
+@article{etourneau_penalized_2024,
+	title = {Penalized likelihood optimization for censored missing value imputation in proteomics},
+	volume = {26},
+	copyright = {https://academic.oup.com/pages/standard-publication-reuse-rights},
+	issn = {1468-4357},
+	url = {https://academic.oup.com/biostatistics/article/doi/10.1093/biostatistics/kxaf006/8090402},
+	doi = {10.1093/biostatistics/kxaf006},
+	abstract = {SUMMARY
+            Label-free bottom-up proteomics using mass spectrometry and liquid chromatography has long been established as one of the most popular high-throughput analysis workflows for proteome characterization. However, it produces data hindered by complex and heterogeneous missing values, which imputation has long remained problematic. To cope with this, we introduce Pirat, an algorithm that harnesses this challenge using an original likelihood maximization strategy. Notably, it models the instrument limit by learning a global censoring mechanism from the data available. Moreover, it estimates the covariance matrix between enzymatic cleavage products (ie peptides or precursor ions), while offering a natural way to integrate complementary transcriptomic information when multi-omic assays are available. Our benchmarking on several datasets covering a variety of experimental designs (number of samples, acquisition mode, missingness patterns, etc.) and using a variety of metrics (differential analysis ground truth or imputation errors) shows that Pirat outperforms all pre-existing imputation methods. Beyond the interest of Pirat as an imputation tool, these results pinpoint the need for a paradigm change in proteomics imputation, as most pre-existing strategies could be boosted by incorporating similar models to account for the instrument censorship or for the correlation structures, either grounded to the analytical pipeline or arising from a multi-omic approach.},
+	language = {en},
+	number = {1},
+	urldate = {2025-12-17},
+	journal = {Biostatistics},
+	author = {Etourneau, Lucas and Fancello, Laura and Wieczorek, Samuel and Varoquaux, Nelle and Burger, Thomas},
+	month = dec,
+	year = {2024},
+	pages = {kxaf006}
+}
+
+
+@article{wieczorek_five_2019,
+	title = {Five simple yet essential steps to correctly estimate the rate of false differentially abundant proteins in mass spectrometry analyses},
+	volume = {207},
+	issn = {18743919},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S1874391919302131},
+	doi = {10.1016/j.jprot.2019.103441},
+	language = {en},
+	urldate = {2025-12-17},
+	journal = {Journal of Proteomics},
+	author = {Wieczorek, Samuel and Giai Gianetto, Quentin and Burger, Thomas},
+	month = sep,
+	year = {2019},
+	pages = {103441}
+}

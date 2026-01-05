@@ -2,18 +2,19 @@
 % Please edit documentation in R/metacell.R
 \name{BuildMetacell}
 \alias{BuildMetacell}
-\title{metacell function which xxx}
+\title{Metacell function}
 \usage{
 BuildMetacell(from = NULL, level, qdata = NULL, conds = NULL, df = NULL)
 }
 \arguments{
-\item{from}{xxx}
+\item{from}{A string designing the software used, either "maxquant", "proline" or "DIA-NN"}
 
-\item{level}{xxx}
+\item{level}{A string designing the type of entity/pipeline.
+Available values are: \code{peptide}, \code{protein}}
 
 \item{qdata}{A matrix of quantitative data}
 
-\item{conds}{xxx}
+\item{conds}{A 1-col dataframe with the condition associated to each sample.}
 
 \item{df}{A data.frame which contains the type of identification of the
 entities. It must have the same dimensions as \code{qData}.}
@@ -22,7 +23,7 @@ entities. It must have the same dimensions as \code{qData}.}
 NA
 }
 \description{
-xxx
+Create metacell
 }
 \examples{
 data(subR25pept)

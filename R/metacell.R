@@ -215,7 +215,8 @@ GetNbTags <- function(obj){
 
 #' @title Parent name of a node
 #' @description xxx
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' @param node xxx
 #' 
 #' #' @examples 
@@ -245,7 +246,8 @@ Parent <- function(level, node=NULL){
 
 #' @title Names of all chidren of a node
 #' @description xxx
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' @param parent xxx
 #' 
 #' @examples 
@@ -284,10 +286,10 @@ Children <- function(level, parent = NULL){
 #' present, then the tag corresponding to this node is added.
 #'
 #' @param object An object of class `QFeatures`
-#' @param i xxx
-#' @param ... xxx
+#' @param i An integer indicating the assay to use
+#' @param ... Additional parameters
 #'
-#' @return A vector of tags..
+#' @return A vector of tags.
 #'
 #' @author Samuel Wieczorek
 #'
@@ -394,7 +396,7 @@ setMethod("GetMetacellTags", "data.frame",
 #' values (used to update an initial dataset) or imputed values (used when
 #' post processing protein qMetacell after aggregation)
 #' 
-#' @param obj xxx
+#' @param obj An object of class `SummarizedExperiment`
 #' @param conds A 1-col dataframe with the condition associated to each sample.
 #' @param df An object of class `SummarizedExperiment`
 #' @param level Type of entity/pipeline
@@ -514,14 +516,15 @@ GetSoftAvailables <- function(){
 
 
 
-#' @title metacell function which xxx
+#' @title Metacell function
 #' 
-#' @description xxx
+#' @description Create metacell
 #' 
-#' @param from xxx
-#' @param level xxx
+#' @param from A string designing the software used, either "maxquant", "proline" or "DIA-NN"
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' @param qdata A matrix of quantitative data
-#' @param conds xxx
+#' @param conds A 1-col dataframe with the condition associated to each sample.
 #' @param df A data.frame which contains the type of identification of the
 #' entities. It must have the same dimensions as `qData`.
 #' 
@@ -589,8 +592,9 @@ BuildMetacell <- function(from = NULL,
 #'
 #' 
 #' @param qdata A matrix of quantitative data
-#' @param conds xxx
-#' @param level xxx
+#' @param conds A 1-col dataframe with the condition associated to each sample.
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' 
 #' @return NA
 #' 
@@ -647,11 +651,12 @@ Metacell_generic <- function(qdata, conds, level) {
 #' 
 #' @param qdata An object of class `MsnSet`
 #'
-#' @param conds xxx
+#' @param conds A 1-col dataframe with the condition associated to each sample.
 #'
-#' @param df A list of integer xxxxxxx
+#' @param df A dataframe with the same dimension as qdata containing the metacell.
 #'
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #'
 #' @return NA
 #'
@@ -703,11 +708,12 @@ Metacell_DIA_NN <- function(qdata, conds, df, level = NULL) {
 #'
 #' @param qdata An object of class `MsnSet`
 #'
-#' @param conds xxx
+#' @param conds A 1-col dataframe with the condition associated to each sample.
 #'
-#' @param df A list of integer xxxxxxx
+#' @param df A dataframe with the same dimension as qdata containing the metacell.
 #'
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #'
 #' @return NA
 #'
@@ -778,11 +784,12 @@ Metacell_proline <- function(qdata, conds, df = NULL, level = NULL) {
 #'
 #' @param qdata An object of class `MsnSet`
 #'
-#' @param conds xxx
+#' @param conds A 1-col dataframe with the condition associated to each sample.
 #'
-#' @param df A list of integer xxxxxxx
+#' @param df A dataframe with the same dimension as qdata containing the metacell.
 #'
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #'
 #' @return NA
 #'
@@ -819,8 +826,9 @@ Metacell_maxquant <- function(qdata, conds, df = NULL, level = NULL) {
     ),
     stringsAsFactors = FALSE
     )
+  } else {
+    df[] <- lapply(df, \(x) tolower(gsub(" ", "", x)))
   }
-  
   
   # Rule 1
   qdata[qdata == 0] <- NA
@@ -851,7 +859,8 @@ Metacell_maxquant <- function(qdata, conds, df = NULL, level = NULL) {
 #'
 #' @param pattern The value to search in the dataframe
 #'
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #'
 #' @return A boolean dataframe
 #'
@@ -910,10 +919,10 @@ setGeneric("UpdateMetacellAfterImputation",
 #' @description
 #' Update the quantitative metadata information of missing values that were imputed
 #' 
-#' @param object xxx
+#' @param object An object of class `SummarizedExperiment`
 #' @param from xxx
 #' @param to xxx
-#' @param ... xxx
+#' @param ... Additional parameters
 #' 
 #' @examples
 #' data(subR25prot)
@@ -972,9 +981,10 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
 #' 
 #' @param pattern The string to search.
 #' 
-#' @param level The available levels are : names()
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' 
-#' @param depth xxx
+#' @param depth Either "0", "1" or "*".
 #' 
 #' @author Samuel Wieczorek
 #' 
@@ -1068,9 +1078,10 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' Update metacell with POV/MEC status for the categories 2.0 and 3.0
 #' TODO
 #' 
-#' @param met xxx
+#' @param met Metacells
 #' 
-#' @param level xxx
+#' @param level A string designing the type of entity/pipeline. 
+#' Available values are: `peptide`, `protein`
 #' 
 #' @examples
 #' \donttest{

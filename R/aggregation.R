@@ -192,7 +192,7 @@ setMethod(
     missprot <- colnames(matadj)[which(colnames(matadj) %ni% rownames(assay(aggAssay)))]
     
     # Add missing proteins to assay
-    missprot_mat_a <- matrix(0, nrow = length(missprot), ncol = ncol(assay(aggAssay))) 
+    missprot_mat_a <- matrix(NA, nrow = length(missprot), ncol = ncol(assay(aggAssay))) 
     rownames(missprot_mat_a) <- missprot
     colnames(missprot_mat_a) <- colnames(assay(aggAssay))
     assay_missprot <- rbind(assay(aggAssay), missprot_mat_a)
@@ -218,7 +218,7 @@ setMethod(
   
   ## Enrich the new assay
   typeDataset(aggAssay) <- "protein"
-  idcol(aggAssay) <- NULL
+  idcol(aggAssay) <- "proteinId"
   
   return(aggAssay)
 }
@@ -255,9 +255,9 @@ setMethod(
 #'                    Available values are `Global` (default), `Condition` or `Sample`. 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
 #' @param max_iter A `numeric(1)` setting the maximum number of iteration.
-#' @param uniqueiter xxx
-#' @param conds xxx
-#' @param ... xxx
+#' @param uniqueiter A `boolean` indication if there should be only 1 iteration or not.
+#' @param conds A `character()` vector which is the names of conditions.
+#' @param ... Additional parameters.
 #' 
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).
 #'
@@ -431,20 +431,22 @@ setMethod(
   # Add rowdata
   protname_order <- rownames(aggAssay)
   aggSE <- metacell_agg(aggSE, object, SummarizedExperiment::rowData(object)[[fcol]], conds, protname_order)
+  protNA <- which(rowSums(is.na(SummarizedExperiment::assay(aggSE))) == ncol(SummarizedExperiment::assay(aggSE)))
+  SummarizedExperiment::rowData(aggSE)$qMetacell[protNA, ] <- rep("Missing MEC", ncol(SummarizedExperiment::rowData(aggSE)$qMetacell))
   
   ## Enrich the new assay
   typeDataset(aggSE) <- "protein"
-  idcol(aggSE) <- NULL
+  idcol(aggSE) <- "proteinId"
   
   return(aggSE)
 }
 
 
-#' @title Get the type of dataset
-#' @description xxx
+#' @title Aggregate metacell
+#' @description Aggregate the quantitative metadata tag. 
 #'
-#' @param qMeta  An object of class 'SummarizedExperiment'
-#' @param X xxxx
+#' @param qMeta  A `matrix` with quantitative metadata tag.
+#' @param X A `matrix` acting as an adjacency matrix. 
 #' @param level A `character(1)` which is the type of dataset
 #' @param conds A `character()` vector which is the names of conditions
 #' for each sample in the dataset.
@@ -466,7 +468,6 @@ setMethod(
 #' @export
 #'
 aggQmetacell <- function(qMeta, X, level, conds) {
-  # stopifnot(inherits(object, "SummarizedExperiment"))
   
   res <- list(
     metacell = data.frame(stringsAsFactors = TRUE),
@@ -890,13 +891,14 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 
 #' @title Metacell aggregation
 #' 
-#' @description  xxx
+#' @description  Aggregate the metadata 
 #' 
 #' @param aggregatedSE An instance of class [SummarizedExperiment] containing the aggregated data.
 #' @param originalSE An instance of class [SummarizedExperiment] containing the non-aggregated data. 
 #' @param adj_mat An adjacency matrix.
-#' @param conds xxx
-#' @param protname_order  xxx
+#' @param conds A `character()` vector which is the names of conditions
+#' for each sample in the dataset.
+#' @param protname_order A `character()` vector with the protein name in order.
 #' 
 #' @return A `SummarizedExperiment` containing the aggregated data.
 #' 
@@ -1289,8 +1291,8 @@ GraphPepProt <- function(mat) {
 }
 
 
-#' @title Test
-#' @param X xxx
+#' @title Get unique peptide
+#' @param X A `matrix` acting as an adjacency matrix. 
 #' @export
 #' @examples
 #' data(subR25pept)

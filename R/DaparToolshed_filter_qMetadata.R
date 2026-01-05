@@ -54,8 +54,9 @@ qMetacellFilteringScope <- function() {
 
 
 #' @param object An instance of the class `SummarizedExperiment`
-#' @param cmd A `character(1)` xxx
-#' @param pattern A `character(1)` xxx
+#' @param cmd A `character(1)` indicating the action to perform.
+#' Either "keep" or "delete".
+#' @param pattern A `character()` indicating the tag pattern of interest. 
 #' @param percent A boolean to indicate whether the threshold represent an 
 #' absolute value (percent = FALSE) or a percentage (percent=TRUE).
 #' @param th A floating number which is in the interval -0, 1-
@@ -149,9 +150,10 @@ qMetacellWholeMatrix <- function(object,
 
 
 
-#' @param object xxx
-#' @param cmd xxx
-#' @param pattern xxx
+#' @param object An instance of the class `SummarizedExperiment`
+#' @param cmd A `character(1)` indicating the action to perform.
+#' Either "keep" or "delete".
+#' @param pattern A `character()` indicating the tag pattern of interest.
 #'
 #' @return NA
 #' @export
@@ -204,15 +206,18 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
 
 
 
-#' @param object xxx
+#' @param object An instance of the class `SummarizedExperiment`
 #'
-#' @param cmd Available values are:
+#' @param cmd A `character(1)` indicating the action to perform.
+#' Either "keep" or "delete".
 #'
-#' @param mode xxx
-#' @param pattern ss
-#' @param conds xxx
+#' @param mode A `character(1)` indicating how the task is performed.
+#' Either "AllCond" or "AtLeastOneCond".
+#' @param pattern A `character()` indicating the tag pattern of interest. 
+#' @param conds A vector of conditions in the dataset. 
 #'
-#' @param percent xxx
+#' @param percent A `character(1)` indicating whether the threshold represent an 
+#' absolute value ("Count") or a percentage ("Percentage").
 #'
 #' @param operator  String for operator to use. List of operators is available 
 #' with 'SymFilteringOperators()'.

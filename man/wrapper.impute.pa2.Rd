@@ -2,7 +2,7 @@
 % Please edit documentation in R/missingValuesImputation_PeptideLevel.R
 \name{wrapper.impute.pa2}
 \alias{wrapper.impute.pa2}
-\title{Missing values imputation from a \code{MSnSet} object}
+\title{Missing values imputation from a \code{SummarizedExperiment} object}
 \usage{
 wrapper.impute.pa2(
   obj,
@@ -16,7 +16,8 @@ wrapper.impute.pa2(
 \arguments{
 \item{obj}{An object of class \code{SummarizedExperiment}.}
 
-\item{design}{xxx}
+\item{design}{A data.frame containing the columns "quantCols" corresponding
+to the samples name and "Condition" to the condition of each sample.}
 
 \item{q.min}{A quantile value of the observed values allowing defining the
 maximal value which can be generated. This maximal value is defined by the
@@ -40,7 +41,7 @@ The object \code{obj} which has been imputed
 }
 \description{
 This method is a wrapper to the function \code{impute.pa2()} adapted to
-objects of class \code{MSnSet}.
+objects of class \code{SummarizedExperiment}.
 }
 \examples{
 \donttest{

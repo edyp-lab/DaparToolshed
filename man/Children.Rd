@@ -7,7 +7,8 @@
 Children(level, parent = NULL)
 }
 \arguments{
-\item{level}{xxx}
+\item{level}{A string designing the type of entity/pipeline.
+Available values are: \code{peptide}, \code{protein}}
 
 \item{parent}{xxx}
 }

@@ -1,50 +1,479 @@
 ---
-title: "Package DaparToolshed"
+title: "Peptide workflow with DaparToolshed"
 author: 
+- name: Manon Gaudin
 - name: Samuel Wieczorek
 - name: Thomas Burger
 package: DaparToolshed
 date: "`r Sys.Date()`"
 output:
     BiocStyle::html_document:
+        self_contained: false
         highlight: tango
+        toc_float: true
+bibliography: references.bib
 vignette: >
-    %\VignetteIndexEntry{DaparToolshed}
+    %\VignetteIndexEntry{Peptide workflow with DaparToolshed}
     %\VignetteEngine{knitr::rmarkdown}
     %%\VignetteKeywords{Mass Spectrometry, Quantitative}
     %\VignetteEncoding{UTF-8}
 ---
 
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
 
-```{r setup, include=FALSE}
+```{r setups, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+set.seed(123)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Introduction
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+`DaparToolshed` is a package for analyzing quantitative data from label-free bottom-up proteomics experiments. It uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures.
 
-```{r cars}
-summary(cars)
+Starting from a table of abundance values and associated metdata, `DaparToolshed` proposes functions to build a complete statistical analysis workflow up to the selection of differentially expressed proteins in the contratsted conditions. `DaparToolshed` makes it possible to import data at different levels: precursor, peptide or protein, each requiring specific processing.
+
+This vignette describes a complete precursor- or peptide-level workflow.
+
+This package is used by the `Prostar2` package, which provides a user-friendly graphical interfaces, so that programming skill is not required to achieve the data analysis.
+
+
+```{r setup, message = FALSE}
+library(DaparToolshed)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Import dataset
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+For testing purposes, the `DaparToolshedData` package is accompanied with several example datasets.
+
+The dataset used in this vignette is an extract from the `Exp1_R25_pept` dataset in the `DaparToolshedData` package (@giai_gianetto_calibration_2016). It comprises 500 peptides and 6 samples, divided into 2 conditions ("25fmol" and "10fmol"). 
+
+```{r dataset}
+data.file <- system.file("extdata/data", "Exp1_R25_pept_500.txt", package="DaparToolshed")
+data <- read.table(data.file, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
+  
+sample.file <- system.file("extdata/data", "samples_Exp1_R25.txt", package="DaparToolshed")
+sample <- read.table(sample.file, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+`DaparToolshed` uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures.
+
+The function `createQFeatures()` allows for the importation of a given dataset to a `QFeatures` format. The dataset can come from any tabulated-like file containing quantitative data and metadata, accompanied by another dataframe for the sample description. The `QFeatures` format allows you to keep track of the various transformations made at each step.
+
+For each peptide (or precursor) in each sample of the dataset, it is possible to tag the evidence that links the abundance to the molecule identified: for instance, if the abundance value is missing or imputed, if the quantification-identification match result from a transfer between samples or if there has been a fragmentation spectrum identified in relation to the quantified elution profile, etc. If such metadata is available, then the corresponding column indexes can be indicated in `indexForMetacell`. This allows the information to be leveraged during the workflow. 
+The quantitative data do not need to be logged beforehand, as setting `logData = TRUE` will yield automatic log-transform. Similarly, with `force.na = TRUE`, any quantitative data with a null value or a NaN will be converted to NA. It is necessary to specify the column of the table where the mother proteins are indicated (`'parentProtId'` parameter) as an adjacency matrix is created when the function is executed. This matrix provides easy access to peptide-protein relationships, including shared peptides, i.e., when the same peptide belongs to several proteins. To run a peptidomics analysis (i.e., peptides are analysed irrespective of their mother proteins), as no peptide-to-protein aggregation is necessary, it is more suited to rely on the same workflow as for protein-level analysis.
+
+```{r importdata, message = FALSE}
+obj <- createQFeatures(data = data,
+                       sample = sample,
+                       indQData = 56:61,
+                       keyId = "Sequence",
+                       indexForMetacell = 43:48,
+                       logData = TRUE,
+                       force.na = TRUE,
+                       typeDataset = "peptide",
+                       parentProtId = "Protein_group_IDs",
+                       analysis = "Pept_Data",
+                       software = "maxquant",
+                       name = "original")
+
+obj
+```
+
+The data obtained includes two assays: `original` and `logAssay`. The original, non-logged data is contained in `original`, while the logged data is in `logAssay`. This shows how the `QFeatures` format allows for recording the state of the dataset after each step. 
 
 
-## Session info
+# Filtering
 
-```{r sessionInfo, echo=TRUE}
+The first step in this workflow is peptide filtering.  Not all peptides in the dataset are relevant for analysis. Some may be contaminants, for example, while others may have too many missing values to be taken into account.
+This filtering can be done using information contained in quantitative data tags (see above) or metadata, i.e., all the variables from the original dataset that were not quantitative data and can be accessed through the `SummarizedExperiment::rowData()` function. 
+
+```{r metadataaccess, message = FALSE}
+ #quantitative data tags
+head(qMetacell(obj[[2]]))
+
+ #metadata
+head(SummarizedExperiment::rowData(obj[[2]]), n = 3)
+```
+
+To apply a filter based on tags, the `FunctionFilter()` function should be used. The functions `QFeatures::filterFeature()` and `QFeatures::VariableFilter()` can be used to create filters from metadata.
+
+```{r filters, message = FALSE}
+ #create filter to remove empty lines
+filter_emptyline <- FunctionFilter("qMetacellWholeLine",
+                                  cmd = 'delete',
+                                  pattern = 'Missing MEC')
+  
+ #create filter to remove contaminant
+filter_contaminant <- QFeatures::VariableFilter(field = "Potential_contaminant",
+                                                value = "+",
+                                                condition = "==",
+                                                not = TRUE)
+```
+
+Doing so creates the filter but does not apply them to the data. All created filters can be applied at once using the `filterFeaturesOneSE()` function, which will perform filtering on the assay indicated by `i` and create a new assay with the filtered peptides.
+
+```{r filtering, message = FALSE}
+ #apply all filters and create new assay
+obj <- filterFeaturesOneSE(object = obj,
+                           i = length(obj),
+                           name = "Filtered",
+                           filters = list(filter_emptyline, filter_contaminant))
+```
+
+It is advised to remove proteins that no longer have an associated peptide following this filtering from the adjacency matrix in order to facilitate the subsequent aggregation step.
+
+```{r removeprot, message = FALSE}
+ #remove proteins with no associated peptides
+X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
+SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix <- X[, -which(Matrix::colSums(X) == 0)]
+
+obj
+```
+
+
+# Normalization
+
+The normalization step reduces biases introduced at any preliminary stage, as to make samples more comparable. Though not a full batch effect correction method (which can be required depending on the experimental design), it can limit some simple batch effects. During this step, peptide abundances are essentially rescaled between samples of the same conditions or of all conditions.
+
+Several algorithms are implemented in `DaparToolshed` and the list of available methods can be accessed by using `normalizeMethods()` :
+
+```{r normalizationmethods}
+ #list of available methods
+normalizeMethods()
+```
+
+The methods proposed acts as described below:
+- `GlobalQuantileAlignment` : Aligns the quantiles of intensity distributions across all samples. (This method should be used cautiously, as it imposes a high-impact normalization. Broadly speaking, the abundances are replaced by their order statistics).
+- `SumByColumns` : Normalizes each abundance value by the total abundance of its corresponding sample. Un-logged intensities are used for processing. This method assumes the total amount of biological material is equal in all the samples .
+- `QuantileCentering` : Aligns the intensity distributions to a specific quantile, e.g., the median or a lower quantile, either across all samples or within each condition.
+- `MeanCentering` : Aligns the intensity distributions to their means, either across all samples or within each condition. Optionally, unit variance can be enforced.
+- `LOESS` : Applies a cyclic LOESS normalization, either across all samples or within each condition. The intensity values are normalized by means of a local regression model of the difference of intensities as function of the median intensity value (@cleveland_robust_1979) (see @gentleman_limma:_2005 for implementation details).
+- `vsn` : Applies the Variance Stabilization Normalization method, either across all samples or within each condition (@huber_variance_2002).
+
+
+The `normalizeFunction()` function allows you to normalize data using any of the methods described above and create a new assay with normalized data. The parameters to be defined depend on the chosen method. The `type` argument allows to indicate whether the method is applied to the entire dataset at once (`"overall"`) or whether each condition is normalized independently (`"within conditions"`).
+
+```{r normalization}
+obj <- normalizeFunction(obj,
+                         method = "MeanCentering",
+                         scaling = TRUE,
+                         type = "overall")
+
+obj
+```
+
+The `compareNormalizationD_HC()` function provides a way to visually compare the quantitative data before and after normalization. This plot shows the influence of the normalization method.
+
+```{r normalizationplot, message = FALSE, warning=FALSE}
+obj1 <- obj[[length(obj)]]
+obj2 <- obj[[length(obj)-1]]
+protId <- DaparToolshed::idcol(obj1)
+
+.n <- floor(0.02 * nrow(obj1))
+.subset <- seq(nrow(obj1))
+
+compareNormalizationD_HC(
+  qDataBefore = SummarizedExperiment::assay(obj1),
+  qDataAfter = SummarizedExperiment::assay(obj2),
+  keyId = SummarizedExperiment::rowData(obj1)[, protId],
+  conds = DaparToolshed::design.qf(obj)$Condition,
+  n = .n,
+  subset.view = .subset
+)
+```
+
+
+# Imputation
+
+It is common to face a significant number of missing values. To overcome this problem, it is often necessary to resort to imputation. However, it is important to note that data imputation amount to creating experimental measurements out of thin air (and of a bit of mathematics too). It is thus recommended to avoid imputation whenever possible. However, most algorithms required subsequently cannot deal with missing values, and the few that claim to be robust to missing values either relies on implicit or explicit imputation, which makes them no better.
+
+First, it is interesting to look at the quantity and distribution of missing values. The `metacellPerLinesHisto_HC()` and `metacellPerLinesHistoPerCondition_HC()` functions give access to the number of rows containing a given number of missing values, respectively for all samples and within each condition. These functions use the quantitative data tags described above.
+
+```{r missingvalueplots, warning=FALSE}
+pal <- unique(GetColorsForConditions(design.qf(obj)$Condition))
+pattern <- c("Missing MEC", "Missing POV")
+grp <- design.qf(obj)$Condition
+
+ #number of line with different amount of NA
+metacellPerLinesHisto_HC(obj[[length(obj)]], group = grp, pattern = pattern)
+ #number of line with different amount of NA per condition
+metacellPerLinesHistoPerCondition_HC(obj[[length(obj)]], group = grp, pattern = pattern)
+```
+
+The `hc_mvTypePlot2()` function displays density plots showing the distribution of partially observed values for each condition. The x-axis corresponds to the mean intensity of a peptide in a condition, while the y-axis indicates the number of observed values for that peptide under the same condition.
+
+It can be observed that the distribution tends to shift towards higher values when fewer missing values are present. This is a sign that at least some of the missing values originate from peptides that are below the lower limit of the mass spectrometer.
+
+```{r missingvaluedistribplots}
+hc_mvTypePlot2(obj[[length(obj)]], group = grp, pattern = pattern, pal = pal)
+```
+
+Numerous imputation methods exist. Here, data imputation is performed using the `wrapper.pirat()` function, which is a wrapper for the `Pirat` method. `Pirat` is an imputation method that uses a penalized maximum likelihood strategy and accounts for sibling peptide correlations (@etourneau_penalized_2024). It does not require any parameter tuning. For more information on this method, see the [Pirat](https://www.bioconductor.org/packages/release/bioc/html/Pirat.html) package.
+
+```{r imputation, message = FALSE}
+obj <- wrapper.pirat(data = obj,
+                     adjmat = SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix,
+                     extension = "base")
+
+obj
+```
+
+
+# Aggregation
+
+The next step is to aggregate the peptide-level data into protein-level data. For optimal results in the subsequent differential analysis, it is important to aggregate only after imputation. 
+
+Beforhand, it may be useful to look at the dataset in more details and to choose the most appropriate aggregation method accordingly. The `getProteinsStats()` function displays various information about peptides and associated proteins from the adjacency matrix.
+
+```{r aggregationadjmatrix}
+X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
+info_pept <- getProteinsStats(X)
+
+cat("Total number of peptides : ", info_pept$nbPeptides, "\n",
+    "Number of specific peptides : ", info_pept$nbSpecificPeptides, "\n",
+    "Number of shared peptides : ", info_pept$nbSharedPeptides, "\n")
+
+cat("Total number of proteins : ", info_pept$nbProt, "\n",
+    "Number of protein with only specific peptides : ", length(info_pept$protOnlyUniquePep), "\n",
+    "Number of protein with only shared peptides : ", length(info_pept$protOnlySharedPep), "\n",
+    "Number of protein with both : ", length(info_pept$protMixPep), "\n")
+```
+
+There are predominantly specific peptides, but several proteins contain shared peptides. The question of how to manage these shared peptides may arise. Contrarily to most aggregation functions, `RunAggregation()` allows shared peptides to be taken into account in various ways --to be specified using the `includeSharedPeptides` argument. First, they can be handled as specific peptides (`Yes_As_Specific`), in which case they will be duplicated for each protein they belong to. Second, they can have their intensity redistributed proportionally across the different proteins (`Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution`). Finally, shared peptides can be ignored (`No`). If `Yes_Iterative_Redistribution`, `Yes_Simple_Redistribution` or `No` is chosen, proteins containing only shared peptides will have no associated value. 
+In addition, there is the choice of aggregation function, used for quantitative feature aggregation, with `operator`. This can be either `Sum`, `Mean`, `Median`, `medianPolish` or `robustSummary`.
+
+```{r aggregation, message = FALSE}
+obj <- RunAggregation(obj,
+                      adjMatrix = 'adjacencyMatrix',
+                      includeSharedPeptides = 'Yes_Iterative_Redistribution',
+                      operator = 'Mean',
+                      considerPeptides = 'allPeptides',
+                      ponderation = "Global",
+                      max_iter = 500
+                      )
+
+obj
+```
+
+After aggregation, it can be seen that there are still some missing values. These come from proteins that only have shared peptides, which have been left out using this method, as explained above. 
+
+```{r aggregationsummary}
+summary(SummarizedExperiment::assay(obj[["aggregated"]]))
+```
+
+A new filter can thus be applied to these protein-level data to remove them.
+
+```{r filteringprot}
+ #apply the filter to remove empty lines created
+obj <- filterFeaturesOneSE(object = obj,
+                           i = length(obj),
+                           name = "FilterProt",
+                           filters = list(filter_emptyline))
+
+obj
+```
+
+
+# Differential Analysis
+
+Differential protein expression analysis compares the relative abundance of the same protein between two conditions. The comparison between two conditions results in what is called a contrast, for example “A vs. B.” 
+The dataset used here contains only two conditions, hence there is only one contrast to be considered. 
+
+For additional advice on this step, see @wieczorek_five_2019.
+
+
+## Hypothesis test
+
+The first step in differential analysis is null hypothesis testing, which provides a p-value for each protein. These p-values will then enable the selection of the proteins which are significantly differentially abundant between the conditions contrasted. Limma can be used to do so with the `limmaCompleteTest()` function. This function returns a list of p-values and logarithmized fold-change (logFC) for each contrast.
+
+```{r limma}
+res_pval_FC <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), 
+                                 design.qf(obj), 
+                                 comp.type = "OnevsOne")
+
+str(res_pval_FC)
+```
+
+## Fold-change
+
+The next step is to define the logFC threshold. This threshold should be set relatively low to avoid discarding too many proteins, as the subsequent False Discovery Rate (FDR) control is more reliable when applied to a sufficiently large protein set. Because FDR is a percentage-based measure, it becomes unstable when too few proteins are retained.
+
+The plot obtained through `hc_logFC_DensityPlot()` can help tuning the logFC threshold. It shows the distribution of logFCs and indicates the percentage of discarded proteins based on the specified threshold. Here, with a threshold of 0.04, almost 39% of proteins are discarded.
+
+```{r foldchange, message = FALSE, warning=FALSE}
+ #logFC threshold
+Foldchange_thlogFC <- 0.04
+        
+hc_logFC_DensityPlot(
+  df_logFC = as.data.frame(res_pval_FC$logFC),
+  th_logFC = Foldchange_thlogFC
+  )
+```
+
+## Push p-value 
+
+Some protein abundances may result from peptides that have been largely imputed. When imputation occurs in both conditions, it is likely that these proteins lack reliability and should therefore not be considered differentially abundant, even if their p-values appear significant. More generally, proteins with excellent p-values but a high proportion of imputed petpide's intensities should be treated with caution, as their quantification is unreliable.
+
+To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the `pushpvalue()` function. The settings are the same as when applying a filter using quantitative data tags. 
+
+With 6 samples divided into 2 conditions, proteins with only a single observed value can easily be discarded. Even if their p-values appear promising, these proteins may not be informative for the analysis. 
+
+
+```{r pushpvalue}
+pval <- unlist(res_pval_FC$P_Value)
+
+ #push p-values for proteins with more than 60% of values derived from imputation
+pval <- pushpvalue(obj,
+                   pval,
+                   scope = "WholeMatrix",
+                   pattern = c("Imputed POV", "Imputed MEC"),
+                   percent = FALSE,
+                   threshold = 5,
+                   operator = ">=")
+
+cat("Number of pushed p-values : ", length(which(pval == 1)), "\n")
+```
+
+## P-value calibration
+
+At this point, it is possible to check the validity of the p-values ad to tune the FDR control method accordingly.  
+
+To do so, we can use a calibration plot to verify that the distribution of p-values is compliant with FDR computation theory. Taking into account a supposedly known proportion of non-differentially abundant proteins, denoted π0, a calibration plot should dispaly a curve that follows a straight line of slope π0, until a sharp increase on the right hand side. This increase indicates a good discrimination between differentially abundant proteins and those that are not. If the curve is above the straight line before this increase, it is, on the contrary, a sign of poor calibration. More information about p-value calibration can be found in the [cp4p](https://cran.r-project.org/web/packages/cp4p/index.html) package and @giai_gianetto_calibration_2016.
+
+The `wrapperCalibrationPlot()` function is a wrapper using functions from the `cp4p` package to create calibration plots (@giai_gianetto_calibration_2016). Several methods for estimating π0 are implemented in this package. The `pi0Method` argument allows selecting a specific method, displaying all methods on the same plot using `"ALL"`, or specifying any numerical value of π0 between 0 and 1. The π0 value of each calibration method can be accessed from the created object via `pi0`.
+
+Pushed p-values should not be taken into account during calibration in order to avoid skewing the p-value distribution.
+
+```{r pvalcalibration}
+ #remove protein with logFC under threshold
+pval_logfc_ind <- which(abs(res_pval_FC$logFC) >= Foldchange_thlogFC)
+ #remove pushed p-values
+pushedpval_ind <- which(pval == 1)
+pval_logfc_ind <- setdiff(pval_logfc_ind, pushedpval_ind)
+pval_logfc <- pval[pval_logfc_ind]
+
+ #calibration plot with all methods 
+calibration_all <- wrapperCalibrationPlot(vPVal = pval_logfc, 
+                                          pi0Method  = "ALL")
+calibration_all$pi0
+```
+
+In some situations, the curve may not show a sufficiently sharp increase, or the entire distribution may be ill-calibrated. In this case, the issue may stem from earlier preprocessing steps, such as removing too many proteins when setting the logFC threshold.
+
+If the increase is not strong enough but remains acceptable, it is possible to compensate for poor calibration by overestimating π0. 
+
+In the worst case, the Benjamini–Hochberg option can always be selected. This correspond to the safer case of π0=1, which is not shown on the previous plot as it always corresponds to a diagonal line.
+
+The `histPValue_HC()` function provides an alternative graphical representation of the distribution of p-values and π0, while conveying the same information. It is more intuitive to understand, but more difficult to use it to precisely assess the calibration quality. Both graphics are thus complementary.
+
+```{r pvalcalibrationmethod}
+ #chosen pi0
+pi0 <- 1
+
+ #calibration plot with chosen method
+wrapperCalibrationPlot(vPVal = pval_logfc, 
+                       pi0Method  = pi0)
+
+ #histogram of p-values density
+histPValue_HC(pval_logfc,
+              bins = 50,
+              pi0 = pi0
+)
+
+ #calculate adjusted p-values
+adjusted_pvalues <- diffAnaComputeAdjustedPValues(
+  pval_logfc,
+  pi0)
+
+adjusted_pvalues_comp <- unlist(res_pval_FC$P_Value)
+adjusted_pvalues_comp[pval_logfc_ind] <- adjusted_pvalues
+```
+
+## FDR control
+
+The final step is FDR control, which aims to limit the proportion of false positives among proteins identified as differentially abundant. 
+
+A p-value threshold is first defined to select the proteins deemed differentially abundant. Any protein with a p-value below this threshold is retained. The associated FDR level is then provided, based on the p-value adjustment procedure. 
+
+The number of expected false discovery can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happend in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously. 
+
+```{r FDRcontrol}
+ #define p-value threshold
+pval_threshold <- 0.01
+FDRcontrol_thpval <- -log10(pval_threshold)
+
+ #get FDR
+logpval <- -log10(pval)
+logpval_thpval_ind <- which(logpval >= FDRcontrol_thpval)
+fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
+
+ #determine differentially abundant proteins
+isDifferential <- is.differential(pvalue = pval,
+                                 logFC = res_pval_FC$logFC,
+                                 thpvalue = FDRcontrol_thpval,
+                                 thlogFC = Foldchange_thlogFC)
+NbSignificant <- length(which(isDifferential == 1))
+
+cat("pvalue threshold : ", pval_threshold, "\n",
+    "logpvalue threshold : ", FDRcontrol_thpval, "\n",
+    "FDR : ", round(100*fdr, 2), "%\n",
+    "Number significant proteins : ", NbSignificant, "\n",
+    "Number of expected false discovery : ", fdr*NbSignificant, "\n")
+```
+
+The `diffAnaVolcanoplot_rCharts()` function provides a volcano plot to visualize the differentially abundant proteins according to the logFC and p-value thresholds. It requires a `data.frame` containing the logFC, log-transformed p-values, protein index, and any additional information to be displayed in the tooltip when hovering over a point in the plot. The FDR threshold corresponds to the horizontal dashed line, and the logFC threshold to the vertical dashed line.
+
+```{r volcanoplot}
+ #create dataframe for volcano plot
+df <- data.frame(
+  x = unlist(res_pval_FC$logFC),
+  y = logpval,
+  index = as.character(rownames(obj[[length(obj)]]))
+  )
+tooltip <- "proteinId"
+df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = F])
+colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+if (ncol(df) > 3) {
+  colnames(df)[4:ncol(df)] <- paste0("tooltip_",
+                                      colnames(df)[4:ncol(df)])
+}
+cond <- unique(design.qf(obj)$Condition)
+
+ #volcano plot
+diffAnaVolcanoplot_rCharts(
+  df,
+  th_pval = FDRcontrol_thpval,
+  th_logfc = Foldchange_thlogFC,
+  conditions = cond
+)
+```
+
+A new assay can be created to keep all values of interest, such as all p-values, logFCs, or the differential or non-differential status of each protein. This allows you to keep this data organized in a single object and reuse it later if necessary for further processing or visualization. 
+
+```{r DAassay}
+ #create new assay with all values of interest
+obj <- QFeatures::addAssay(obj, obj[[length(obj)]], 'DifferentialAnalysis')
+SummarizedExperiment::rowData(obj[[length(obj)]])$pval <- unlist(res_pval_FC$P_Value)
+SummarizedExperiment::rowData(obj[[length(obj)]])$logpval <- logpval
+SummarizedExperiment::rowData(obj[[length(obj)]])$logFC <- unlist(res_pval_FC$logFC)
+
+SummarizedExperiment::rowData(obj[[length(obj)]])$adjusted_pval <- adjusted_pvalues_comp
+
+SummarizedExperiment::rowData(obj[[length(obj)]])$isDifferential <- isDifferential
+
+obj
+```
+
+
+# Session information {-}
+
+```{r sessioninfo, echo=FALSE}
 sessionInfo()
 ```
 
 
+# References {-}

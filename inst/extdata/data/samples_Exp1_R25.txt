@@ -1,0 +1,7 @@
+Sample.name	Condition	Bio.Rep
+Intensity_C_R1	25fmol	1
+Intensity_C_R2	25fmol	2
+Intensity_C_R3	25fmol	3
+Intensity_D_R1	10fmol	4
+Intensity_D_R2	10fmol	5
+Intensity_D_R3	10fmol	6

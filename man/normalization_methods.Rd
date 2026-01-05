@@ -38,18 +38,20 @@ vsn(qData, conds, type = NULL)
 LOESS(qData, conds, type = "overall", span = 0.7)
 }
 \arguments{
-\item{target}{xxx}
+\item{target}{Category of normalization method to show.
+Either "all", "withTracking" or "withoutTracking".}
 
-\item{qData}{xxx}
+\item{qData}{A data.frame with quantitative data to normalize.}
 
-\item{conds}{xxx}
+\item{conds}{A \code{character()} vector which is the names of conditions
+for each sample in the dataset.}
 
 \item{type}{"overall" (shift all the sample distributions at once) or
 "within conditions" (shift the sample distributions within each
 condition at a time).}
 
 \item{subset.norm}{A vector of index indicating rows to be used for
-normalization}
+normalization.}
 
 \item{quantile}{A float that corresponds to the quantile used to
 align the data.}
@@ -57,7 +59,7 @@ align the data.}
 \item{scaling}{A boolean that indicates if the variance of the data have to
 be forced to unit (variance reduction) or not.}
 
-\item{span}{xxx}
+\item{span}{A float between 0 and 1 indicating the span of loess smoothing window.}
 }
 \value{
 xxx
@@ -76,7 +78,7 @@ A normalized numeric matrix
 }
 \description{
 Provides several methods to normalize quantitative data from
-a \code{MSnSet} object.
+a \code{SummarizedExperiment} object.
 They are organized in six main families : GlobalQuantileAlignement,
 sumByColumns, QuantileCentering, MeanCentering, LOESS, vsn
 For the first family, there is no type.
