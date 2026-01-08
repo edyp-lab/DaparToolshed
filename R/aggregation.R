@@ -52,12 +52,12 @@
 #' ## ---------------------------------------
 #' \donttest{
 #' library(SummarizedExperiment)
-#' data(subR25prot)
-#' subR25prot
+#' data(subR25pept)
+#' subR25pept
 #'
 #' ## Aggregate peptides into proteins
 #' ## using the adjacency matrix
-#' feat1 <- aggregateFeatures4Prostar(object = subR25prot,
+#' feat1 <- aggregateFeatures4Prostar(object = subR25pept,
 #' i = 1,
 #' name = 'aggregated',
 #' fcol = 'adjacencyMatrix',
@@ -141,7 +141,7 @@ setMethod(
 .aggregateFeatures4Prostar <- function(object, fcol, fun, conds, shared = TRUE, n = NULL, ...) {
   
   if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
-                                                    You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.")}
+      You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.")}
   funname <- fun
   if (funname != "robustSummary"){
     SummarizedExperiment::assay(object) <-  2^(SummarizedExperiment::assay(object))

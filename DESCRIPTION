@@ -95,7 +95,9 @@ Suggests:
     multcomp,
     purrr,
     gplots, 
-    tidyr
+    tidyr,
+    Pirat,
+    shinyjqui
 NeedsCompilation: no
 Collate:
     plots_volcano.R

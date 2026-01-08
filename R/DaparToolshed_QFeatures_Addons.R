@@ -797,10 +797,10 @@ setMethod(
 
 #' @title xxx
 #' @description xxx
-#' @param obj xxx
+#' @param obj An instance of QFeatures class
 #' @param i xxx
 #' @export
-#' @return NULL
+#' @return An instance of QFeatures class
 #' 
 #' @import omXplore
 #' @import SummarizedExperiment

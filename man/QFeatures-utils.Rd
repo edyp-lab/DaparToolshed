@@ -21,9 +21,13 @@ QFeaturesFromSE(
 \arguments{
 \item{object}{An instance of the class \code{QFeatures}}
 
-\item{obj}{An instance of the class \code{QFeatures}}
+\item{obj.se}{An instance of the class \code{QFeatures}}
 
-\item{range}{A vector of integers}
+\item{colData}{ssss,}
+
+\item{metadata.qf}{dddd}
+
+\item{name}{xxx}
 }
 \value{
 NA

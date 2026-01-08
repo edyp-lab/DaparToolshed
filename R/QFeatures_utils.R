@@ -30,8 +30,10 @@ n_assays_in_qf <- function(object) {
 }
 
 
-#' @param obj An instance of the class `QFeatures`
-#' @param range A vector of integers
+#' @param obj.se An instance of the class `QFeatures`
+#' @param colData ssss,
+#' @param metadata.qf dddd
+#' @param name xxx
 #' @rdname QFeatures-utils
 #' @return An instance of QFeatures class
 #' 

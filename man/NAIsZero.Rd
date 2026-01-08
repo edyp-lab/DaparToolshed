@@ -7,9 +7,12 @@
 NAIsZero(obj, i)
 }
 \arguments{
-\item{obj}{xxx}
+\item{obj}{An instance of QFeatures class}
 
 \item{i}{xxx}
+}
+\value{
+An instance of QFeatures class
 }
 \description{
 xxx

@@ -141,8 +141,7 @@ plotCompareAssays <- function(obj,
     h1 <- highcharter::highchart() |>
       omXplore::customChart(chartType = type) |>
         highcharter::hc_add_series_list(series) |>
-      highcharter::hc_colors(myColors) |>
-      omXplore::customExportMenu(fname = "compareAssays")
+      highcharter::hc_colors(myColors)
 
     if (!all.equal(info, rep(NA, length(info)))) {
         h1 <- h1 |>

@@ -364,12 +364,12 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}.
 ## ---------------------------------------
 \donttest{
 library(SummarizedExperiment)
-data(subR25prot)
-subR25prot
+data(subR25pept)
+subR25pept
 
 ## Aggregate peptides into proteins
 ## using the adjacency matrix
-feat1 <- aggregateFeatures4Prostar(object = subR25prot,
+feat1 <- aggregateFeatures4Prostar(object = subR25pept,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',
