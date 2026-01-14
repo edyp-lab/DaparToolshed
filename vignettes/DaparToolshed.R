@@ -180,3 +180,101 @@ pval <- pushpvalue(obj,
 
 cat("Number of pushed p-values : ", length(which(pval == 1)), "\n")
 
+## ----pvalcalibration----------------------------------------------------------
+ #remove protein with logFC under threshold
+pval_logfc_ind <- which(abs(res_pval_FC$logFC) >= Foldchange_thlogFC)
+ #remove pushed p-values
+pushedpval_ind <- which(pval == 1)
+pval_logfc_ind <- setdiff(pval_logfc_ind, pushedpval_ind)
+pval_logfc <- pval[pval_logfc_ind]
+
+ #calibration plot with all methods 
+calibration_all <- wrapperCalibrationPlot(vPVal = pval_logfc, 
+                                          pi0Method  = "ALL")
+calibration_all$pi0
+
+## ----pvalcalibrationmethod----------------------------------------------------
+ #chosen pi0
+pi0 <- 1
+
+ #calibration plot with chosen method
+wrapperCalibrationPlot(vPVal = pval_logfc, 
+                       pi0Method  = pi0)
+
+ #histogram of p-values density
+histPValue_HC(pval_logfc,
+              bins = 50,
+              pi0 = pi0
+)
+
+ #calculate adjusted p-values
+adjusted_pvalues <- diffAnaComputeAdjustedPValues(
+  pval_logfc,
+  pi0)
+
+adjusted_pvalues_comp <- unlist(res_pval_FC$P_Value)
+adjusted_pvalues_comp[pval_logfc_ind] <- adjusted_pvalues
+
+## ----FDRcontrol---------------------------------------------------------------
+ #define p-value threshold
+pval_threshold <- 0.01
+FDRcontrol_thpval <- -log10(pval_threshold)
+
+ #get FDR
+logpval <- -log10(pval)
+logpval_thpval_ind <- which(logpval >= FDRcontrol_thpval)
+fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
+
+ #determine differentially abundant proteins
+isDifferential <- is.differential(pvalue = pval,
+                                 logFC = res_pval_FC$logFC,
+                                 thpvalue = FDRcontrol_thpval,
+                                 thlogFC = Foldchange_thlogFC)
+NbSignificant <- length(which(isDifferential == 1))
+
+cat("pvalue threshold : ", pval_threshold, "\n",
+    "logpvalue threshold : ", FDRcontrol_thpval, "\n",
+    "FDR : ", round(100*fdr, 2), "%\n",
+    "Number significant proteins : ", NbSignificant, "\n",
+    "Number of expected false discovery : ", fdr*NbSignificant, "\n")
+
+## ----volcanoplot--------------------------------------------------------------
+ #create dataframe for volcano plot
+df <- data.frame(
+  x = unlist(res_pval_FC$logFC),
+  y = logpval,
+  index = as.character(rownames(obj[[length(obj)]]))
+  )
+tooltip <- "proteinId"
+df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = FALSE])
+colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
+if (ncol(df) > 3) {
+  colnames(df)[4:ncol(df)] <- paste0("tooltip_",
+                                      colnames(df)[4:ncol(df)])
+}
+cond <- unique(design.qf(obj)$Condition)
+
+ #volcano plot
+diffAnaVolcanoplot_rCharts(
+  df,
+  th_pval = FDRcontrol_thpval,
+  th_logfc = Foldchange_thlogFC,
+  conditions = cond
+)
+
+## ----DAassay------------------------------------------------------------------
+ #create new assay with all values of interest
+obj <- QFeatures::addAssay(obj, obj[[length(obj)]], 'DifferentialAnalysis')
+SummarizedExperiment::rowData(obj[[length(obj)]])$pval <- unlist(res_pval_FC$P_Value)
+SummarizedExperiment::rowData(obj[[length(obj)]])$logpval <- logpval
+SummarizedExperiment::rowData(obj[[length(obj)]])$logFC <- unlist(res_pval_FC$logFC)
+
+SummarizedExperiment::rowData(obj[[length(obj)]])$adjusted_pval <- adjusted_pvalues_comp
+
+SummarizedExperiment::rowData(obj[[length(obj)]])$isDifferential <- isDifferential
+
+obj
+
+## ----sessioninfo, echo=FALSE--------------------------------------------------
+sessionInfo()
+

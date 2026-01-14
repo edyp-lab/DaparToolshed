@@ -31,9 +31,9 @@ set.seed(123)
 
 # Introduction
 
-`DaparToolshed` is a package for analyzing quantitative data from label-free bottom-up proteomics experiments. It uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures.
+`DaparToolshed` is a package for analyzing quantitative data from label-free bottom-up proteomics experiments. It uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures (@gatto_qfeatures_2025).
 
-Starting from a table of abundance values and associated metdata, `DaparToolshed` proposes functions to build a complete statistical analysis workflow up to the selection of differentially expressed proteins in the contratsted conditions. `DaparToolshed` makes it possible to import data at different levels: precursor, peptide or protein, each requiring specific processing.
+Starting from a table of abundance values and associated metdata, `DaparToolshed` proposes functions to build a complete statistical analysis workflow up to the selection of differentially expressed proteins in the contrasted conditions. `DaparToolshed` makes it possible to import data at different levels: precursor, peptide or protein, each requiring specific processing.
 
 This vignette describes a complete precursor- or peptide-level workflow.
 
@@ -147,6 +147,7 @@ normalizeMethods()
 ```
 
 The methods proposed acts as described below:
+
 - `GlobalQuantileAlignment` : Aligns the quantiles of intensity distributions across all samples. (This method should be used cautiously, as it imposes a high-impact normalization. Broadly speaking, the abundances are replaced by their order statistics).
 - `SumByColumns` : Normalizes each abundance value by the total abundance of its corresponding sample. Un-logged intensities are used for processing. This method assumes the total amount of biological material is equal in all the samples .
 - `QuantileCentering` : Aligns the intensity distributions to a specific quantile, e.g., the median or a lower quantile, either across all samples or within each condition.
@@ -227,7 +228,7 @@ obj
 
 The next step is to aggregate the peptide-level data into protein-level data. For optimal results in the subsequent differential analysis, it is important to aggregate only after imputation. 
 
-Beforhand, it may be useful to look at the dataset in more details and to choose the most appropriate aggregation method accordingly. The `getProteinsStats()` function displays various information about peptides and associated proteins from the adjacency matrix.
+Beforehand, it may be useful to look at the dataset in more details and to choose the most appropriate aggregation method accordingly. The `getProteinsStats()` function displays various information about peptides and associated proteins from the adjacency matrix.
 
 ```{r aggregationadjmatrix}
 X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
@@ -342,7 +343,7 @@ cat("Number of pushed p-values : ", length(which(pval == 1)), "\n")
 
 At this point, it is possible to check the validity of the p-values ad to tune the FDR control method accordingly.  
 
-To do so, we can use a calibration plot to verify that the distribution of p-values is compliant with FDR computation theory. Taking into account a supposedly known proportion of non-differentially abundant proteins, denoted π0, a calibration plot should dispaly a curve that follows a straight line of slope π0, until a sharp increase on the right hand side. This increase indicates a good discrimination between differentially abundant proteins and those that are not. If the curve is above the straight line before this increase, it is, on the contrary, a sign of poor calibration. More information about p-value calibration can be found in the [cp4p](https://cran.r-project.org/web/packages/cp4p/index.html) package and @giai_gianetto_calibration_2016.
+To do so, we can use a calibration plot to verify that the distribution of p-values is compliant with FDR computation theory. Taking into account a supposedly known proportion of non-differentially abundant proteins, denoted π0, a calibration plot should display a curve that follows a straight line of slope π0, until a sharp increase on the right hand side. This increase indicates a good discrimination between differentially abundant proteins and those that are not. If the curve is above the straight line before this increase, it is, on the contrary, a sign of poor calibration. More information about p-value calibration can be found in the [cp4p](https://cran.r-project.org/web/packages/cp4p/index.html) package and @giai_gianetto_calibration_2016.
 
 The `wrapperCalibrationPlot()` function is a wrapper using functions from the `cp4p` package to create calibration plots (@giai_gianetto_calibration_2016). Several methods for estimating π0 are implemented in this package. The `pi0Method` argument allows selecting a specific method, displaying all methods on the same plot using `"ALL"`, or specifying any numerical value of π0 between 0 and 1. The π0 value of each calibration method can be accessed from the created object via `pi0`.
 
@@ -399,7 +400,7 @@ The final step is FDR control, which aims to limit the proportion of false posit
 
 A p-value threshold is first defined to select the proteins deemed differentially abundant. Any protein with a p-value below this threshold is retained. The associated FDR level is then provided, based on the p-value adjustment procedure. 
 
-The number of expected false discovery can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happend in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously. 
+The number of expected false discovery can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happen in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously. 
 
 ```{r FDRcontrol}
  #define p-value threshold
@@ -435,7 +436,7 @@ df <- data.frame(
   index = as.character(rownames(obj[[length(obj)]]))
   )
 tooltip <- "proteinId"
-df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = FALSE])
+df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = F])
 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_",
