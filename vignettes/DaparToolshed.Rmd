@@ -319,10 +319,9 @@ hc_logFC_DensityPlot(
 
 Some protein abundances may result from peptides that have been largely imputed. When imputation occurs in both conditions, it is likely that these proteins lack reliability and should therefore not be considered differentially abundant, even if their p-values appear significant. More generally, proteins with excellent p-values but a high proportion of imputed petpide's intensities should be treated with caution, as their quantification is unreliable.
 
-To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the `pushpvalue()` function. The settings are the same as when applying a filter using quantitative data tags. 
+To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the `pushpvalue()` function. The settings are the same as when applying a filter using quantitative data tags. By default, the `pushpvalue()` function assign a value sligthly above 1 to be able to identify p-values set to 1 by this step versus those originally equal to 1.
 
 With 6 samples divided into 2 conditions, proteins with only a single observed value can easily be discarded. Even if their p-values appear promising, these proteins may not be informative for the analysis. 
-
 
 ```{r pushpvalue}
 pval <- unlist(res_pval_FC$P_Value)
@@ -336,7 +335,7 @@ pval <- pushpvalue(obj,
                    threshold = 5,
                    operator = ">=")
 
-cat("Number of pushed p-values : ", length(which(pval == 1)), "\n")
+cat("Number of pushed p-values : ", length(which(pval > 1)), "\n")
 ```
 
 ## P-value calibration
@@ -350,20 +349,17 @@ The `wrapperCalibrationPlot()` function is a wrapper using functions from the `c
 Pushed p-values should not be taken into account during calibration in order to avoid skewing the p-value distribution.
 
 ```{r pvalcalibration}
- #remove protein with logFC under threshold
-pval_logfc_ind <- which(abs(res_pval_FC$logFC) >= Foldchange_thlogFC)
  #remove pushed p-values
-pushedpval_ind <- which(pval == 1)
-pval_logfc_ind <- setdiff(pval_logfc_ind, pushedpval_ind)
-pval_logfc <- pval[pval_logfc_ind]
+pushedpval_ind <- which(pval > 1)
+pval_nopush <- pval[-pushedpval_ind]
 
  #calibration plot with all methods 
-calibration_all <- wrapperCalibrationPlot(vPVal = pval_logfc, 
+calibration_all <- wrapperCalibrationPlot(vPVal = pval_nopush, 
                                           pi0Method  = "ALL")
 calibration_all$pi0
 ```
 
-In some situations, the curve may not show a sufficiently sharp increase, or the entire distribution may be ill-calibrated. In this case, the issue may stem from earlier preprocessing steps, such as removing too many proteins when setting the logFC threshold.
+In some situations, the curve may not show a sufficiently sharp increase, or the entire distribution may be ill-calibrated. In some cases, the issue may stem from earlier preprocessing steps.
 
 If the increase is not strong enough but remains acceptable, it is possible to compensate for poor calibration by overestimating π0. 
 
@@ -376,22 +372,35 @@ The `histPValue_HC()` function provides an alternative graphical representation 
 pi0 <- 1
 
  #calibration plot with chosen method
-wrapperCalibrationPlot(vPVal = pval_logfc, 
+wrapperCalibrationPlot(vPVal = pval_nopush, 
                        pi0Method  = pi0)
 
  #histogram of p-values density
-histPValue_HC(pval_logfc,
+histPValue_HC(pval_nopush,
               bins = 50,
               pi0 = pi0
 )
+```
+
+The `diffAnaComputeAdjustedPValues()` function returns the adjusted p-values corresponding to the p-values of the differential analysis. Proteins with a logFC below the previously defined threshold are taken into account when calculating adjusted p-values. However, their p-value is pushed to 1, as they are considered ‘discarded’.
+
+```{r pvalcalibrationadjpval}
+ #push to 1 proteins with logFC under threshold
+pval_pushfc <- pval
+pval_logfc_inf_ind <- which(abs(res_pval_FC$logFC) < Foldchange_thlogFC)
+pval_logfc_inf_ind <- setdiff(pval_logfc_inf_ind, pushedpval_ind)
+pval_pushfc[pval_logfc_inf_ind] <- 1
+ #remove pushed p-values
+pval_pushfc <- pval_pushfc[-pushedpval_ind]
+
 
  #calculate adjusted p-values
 adjusted_pvalues <- diffAnaComputeAdjustedPValues(
-  pval_logfc,
+  pval_pushfc,
   pi0)
 
 adjusted_pvalues_comp <- unlist(res_pval_FC$P_Value)
-adjusted_pvalues_comp[pval_logfc_ind] <- adjusted_pvalues
+adjusted_pvalues_comp[-pushedpval_ind] <- adjusted_pvalues
 ```
 
 ## FDR control
@@ -408,8 +417,10 @@ pval_threshold <- 0.01
 FDRcontrol_thpval <- -log10(pval_threshold)
 
  #get FDR
+pval[pushedpval_ind] <- 1
 logpval <- -log10(pval)
 logpval_thpval_ind <- which(logpval >= FDRcontrol_thpval)
+logpval_thpval_ind <- setdiff(logpval_thpval_ind, pval_logfc_inf_ind)
 fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
 
  #determine differentially abundant proteins

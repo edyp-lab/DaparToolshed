@@ -221,6 +221,8 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
 #'                 Available operators are "<=", "<", ">=", ">", "==" and "!=".
 #' @param level A string for dataset type. Either "peptide" or "protein"
 #'              If not provided, the string obtained from `typeDataset(obj)` will be used.
+#' @param value A float, value to assign to the pushed p-value. 
+#'              By default, the value is set slightly above 1 to be able to differentiate the pushed value.
 #' 
 #' @return A vector with pushed p-values.
 #'
@@ -245,7 +247,8 @@ pushpvalue <- function(obj,
                        threshold = 1,
                        conditions = NULL,
                        operator = ">=",
-                       level = NULL){
+                       level = NULL,
+                       value = 1.00000000001){
   if (missing(obj))
     stop("'obj' is required.")
   if (missing(pvalue))
@@ -284,7 +287,7 @@ pushpvalue <- function(obj,
                                      th = threshold)
   
   # Push p-values
-  pvalue[indices] <- 1
+  pvalue[indices] <- value
   return(pvalue)
 }
 

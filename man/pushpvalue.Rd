@@ -13,7 +13,8 @@ pushpvalue(
   threshold = 1,
   conditions = NULL,
   operator = ">=",
-  level = NULL
+  level = NULL,
+  value = 1.00000000001
 )
 }
 \arguments{
@@ -41,6 +42,9 @@ Available operators are "<=", "<", ">=", ">", "==" and "!=".}
 
 \item{level}{A string for dataset type. Either "peptide" or "protein"
 If not provided, the string obtained from \code{typeDataset(obj)} will be used.}
+
+\item{value}{A float, value to assign to the pushed p-value.
+By default, the value is set slightly above 1 to be able to differentiate the pushed value.}
 }
 \value{
 A vector with pushed p-values.
