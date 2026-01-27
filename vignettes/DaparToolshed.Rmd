@@ -319,7 +319,7 @@ hc_logFC_DensityPlot(
 
 Some protein abundances may result from peptides that have been largely imputed. When imputation occurs in both conditions, it is likely that these proteins lack reliability and should therefore not be considered differentially abundant, even if their p-values appear significant. More generally, proteins with excellent p-values but a high proportion of imputed petpide's intensities should be treated with caution, as their quantification is unreliable.
 
-To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the `pushpvalue()` function. The settings are the same as when applying a filter using quantitative data tags. By default, the `pushpvalue()` function assign a value sligthly above 1 to be able to identify p-values set to 1 by this step versus those originally equal to 1.
+To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the `pushpvalue()` function. The settings are the same as when applying a filter using quantitative data tags. By default, the `pushpvalue()` function assigns a value sligthly above 1 to be able to identify p-values set to 1 by this step versus those originally equal to 1.
 
 With 6 samples divided into 2 conditions, proteins with only a single observed value can easily be discarded. Even if their p-values appear promising, these proteins may not be informative for the analysis. 
 
@@ -340,7 +340,7 @@ cat("Number of pushed p-values : ", length(which(pval > 1)), "\n")
 
 ## P-value calibration
 
-At this point, it is possible to check the validity of the p-values ad to tune the FDR control method accordingly.  
+At this point, it is possible to check the validity of the p-values and to tune the FDR control method accordingly.  
 
 To do so, we can use a calibration plot to verify that the distribution of p-values is compliant with FDR computation theory. Taking into account a supposedly known proportion of non-differentially abundant proteins, denoted π0, a calibration plot should display a curve that follows a straight line of slope π0, until a sharp increase on the right hand side. This increase indicates a good discrimination between differentially abundant proteins and those that are not. If the curve is above the straight line before this increase, it is, on the contrary, a sign of poor calibration. More information about p-value calibration can be found in the [cp4p](https://cran.r-project.org/web/packages/cp4p/index.html) package and @giai_gianetto_calibration_2016.
 
@@ -409,7 +409,7 @@ The final step is FDR control, which aims to limit the proportion of false posit
 
 A p-value threshold is first defined to select the proteins deemed differentially abundant. Any protein with a p-value below this threshold is retained. The associated FDR level is then provided, based on the p-value adjustment procedure. 
 
-The number of expected false discovery can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happen in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously. 
+The expected number of false discoveries can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happen in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously. 
 
 ```{r FDRcontrol}
  #define p-value threshold

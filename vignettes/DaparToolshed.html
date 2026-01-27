@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2026-01-26" />
+<meta name="date" content="2026-01-27" />
 
 <title>Peptide workflow with DaparToolshed</title>
 
@@ -395,7 +395,7 @@ function toggle_visibility(id1) {
 
 <h1 class="title toc-ignore">Peptide workflow with DaparToolshed</h1>
 <p class="author-name">Manon Gaudin, Samuel Wieczorek and Thomas Burger</p>
-<h4 class="date">2026-01-26</h4>
+<h4 class="date">2026-01-27</h4>
 <h4 class="package">Package</h4>
 <p>DaparToolshed 0.99.21</p>
 
@@ -836,7 +836,7 @@ The dataset used here contains only two conditions, hence there is only one cont
 <div id="push-p-value" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Push p-value</h2>
 <p>Some protein abundances may result from peptides that have been largely imputed. When imputation occurs in both conditions, it is likely that these proteins lack reliability and should therefore not be considered differentially abundant, even if their p-values appear significant. More generally, proteins with excellent p-values but a high proportion of imputed petpide’s intensities should be treated with caution, as their quantification is unreliable.</p>
-<p>To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the <code>pushpvalue()</code> function. The settings are the same as when applying a filter using quantitative data tags. By default, the <code>pushpvalue()</code> function assign a value sligthly above 1 to be able to identify p-values set to 1 by this step versus those originally equal to 1.</p>
+<p>To prevent these proteins from being falsely considered differentially abundant, they can be discarded by forcing their p-value to 1. This can be done using the <code>pushpvalue()</code> function. The settings are the same as when applying a filter using quantitative data tags. By default, the <code>pushpvalue()</code> function assigns a value sligthly above 1 to be able to identify p-values set to 1 by this step versus those originally equal to 1.</p>
 <p>With 6 samples divided into 2 conditions, proteins with only a single observed value can easily be discarded. Even if their p-values appear promising, these proteins may not be informative for the analysis.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>pval <span class="ot">&lt;-</span> <span class="fu">unlist</span>(res_pval_FC<span class="sc">$</span>P_Value)</span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a></span>
@@ -854,7 +854,7 @@ The dataset used here contains only two conditions, hence there is only one cont
 </div>
 <div id="p-value-calibration" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> P-value calibration</h2>
-<p>At this point, it is possible to check the validity of the p-values ad to tune the FDR control method accordingly.</p>
+<p>At this point, it is possible to check the validity of the p-values and to tune the FDR control method accordingly.</p>
 <p>To do so, we can use a calibration plot to verify that the distribution of p-values is compliant with FDR computation theory. Taking into account a supposedly known proportion of non-differentially abundant proteins, denoted π0, a calibration plot should display a curve that follows a straight line of slope π0, until a sharp increase on the right hand side. This increase indicates a good discrimination between differentially abundant proteins and those that are not. If the curve is above the straight line before this increase, it is, on the contrary, a sign of poor calibration. More information about p-value calibration can be found in the <a href="https://cran.r-project.org/web/packages/cp4p/index.html">cp4p</a> package and <span class="citation">Giai Gianetto et al. (<a href="#ref-giai_gianetto_calibration_2016">2016</a>)</span>.</p>
 <p>The <code>wrapperCalibrationPlot()</code> function is a wrapper using functions from the <code>cp4p</code> package to create calibration plots (<span class="citation">Giai Gianetto et al. (<a href="#ref-giai_gianetto_calibration_2016">2016</a>)</span>). Several methods for estimating π0 are implemented in this package. The <code>pi0Method</code> argument allows selecting a specific method, displaying all methods on the same plot using <code>"ALL"</code>, or specifying any numerical value of π0 between 0 and 1. The π0 value of each calibration method can be accessed from the created object via <code>pi0</code>.</p>
 <p>Pushed p-values should not be taken into account during calibration in order to avoid skewing the p-value distribution.</p>
@@ -919,7 +919,7 @@ The dataset used here contains only two conditions, hence there is only one cont
 <h2><span class="header-section-number">7.5</span> FDR control</h2>
 <p>The final step is FDR control, which aims to limit the proportion of false positives among proteins identified as differentially abundant.</p>
 <p>A p-value threshold is first defined to select the proteins deemed differentially abundant. Any protein with a p-value below this threshold is retained. The associated FDR level is then provided, based on the p-value adjustment procedure.</p>
-<p>The number of expected false discovery can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happen in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously.</p>
+<p>The expected number of false discoveries can be estimated by multiplying the FDR with the number significant proteins. Because the FDR is a percentage-based measure, it becomes difficult to interpret when the expected number of falsely discovered proteins falls below 1, as it corresponds to strictly less than one expected false discovery. This is likely to happen in small datasets. However, an FDR that becomes meaningless does not invalidate the proteomics experiment itself. It only means that the FDR should be used cautiously.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a> <span class="co">#define p-value threshold</span></span>
 <span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>pval_threshold <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
 <span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>FDRcontrol_thpval <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log10</span>(pval_threshold)</span>
