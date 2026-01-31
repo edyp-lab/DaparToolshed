@@ -61,7 +61,7 @@
 #' i = 1,
 #' name = 'aggregated',
 #' fcol = 'adjacencyMatrix',
-#' fun = 'colSumsMat')
+#' fun = 'MsCoreUtils::colSumsMat')
 #' feat1
 #'
 #' assay(feat1[[1]])

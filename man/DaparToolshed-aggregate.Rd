@@ -373,7 +373,7 @@ feat1 <- aggregateFeatures4Prostar(object = subR25pept,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',
-fun = 'colSumsMat')
+fun = 'MsCoreUtils::colSumsMat')
 feat1
 
 assay(feat1[[1]])

@@ -42,6 +42,8 @@
 #' @param typePipeline A `character(1)` The type of pipeline used with this 
 #' dataset. The list of predefined pipelines in DaparToolshed can be obtained 
 #' with the function `pipelines()`. Default value is NULL
+#' 
+#' @param name.pipeline A string
 #'
 #' @param software A `character(1)`
 #'
@@ -79,6 +81,7 @@ createQFeatures <- function(
   description = NULL,
   processes = NULL,
   typePipeline = NULL,
+  name.pipeline = NULL,
   software = NULL,
   name = "original") {
 
@@ -219,7 +222,8 @@ createQFeatures <- function(
     S4Vectors::metadata(obj)$filename <- file
     S4Vectors::metadata(obj)$analysis <- list(
         analysis = analysis,
-        description = description
+        description = description,
+        name.pipeline = name.pipeline
         #typePipeline = typePipeline
         #processes = c("original", processes)
     )

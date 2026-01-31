@@ -246,7 +246,7 @@ df <- data.frame(
   index = as.character(rownames(obj[[length(obj)]]))
   )
 tooltip <- "proteinId"
-df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = FALSE])
+df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = F])
 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_",

@@ -19,6 +19,7 @@ createQFeatures(
   description = NULL,
   processes = NULL,
   typePipeline = NULL,
+  name.pipeline = NULL,
   software = NULL,
   name = "original"
 )
@@ -61,6 +62,8 @@ processes which has already been run on the data. Default is 'original'.}
 \item{typePipeline}{A \code{character(1)} The type of pipeline used with this
 dataset. The list of predefined pipelines in DaparToolshed can be obtained
 with the function \code{pipelines()}. Default value is NULL}
+
+\item{name.pipeline}{A string}
 
 \item{software}{A \code{character(1)}}
 

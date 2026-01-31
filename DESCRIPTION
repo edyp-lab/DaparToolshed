@@ -1,8 +1,8 @@
 Package: DaparToolshed
 Type: Package
 Title: Tools for the Differential Analysis of Proteins Abundance with R
-Version: 0.99.21
-Date: 2026-01-05
+Version: 0.99.24
+Date: 2026-01-30
 Authors@R: c(person(given = "Samuel", family = "Wieczorek",
     email = "samuel.wieczorek@cea.fr",
     role = c("aut","cre"),
@@ -98,6 +98,8 @@ Suggests:
     tidyr,
     Pirat,
     shinyjqui
+Remotes:
+    git::https://github.com/edyp-lab/MagellanNTK
 NeedsCompilation: no
 Collate:
     plots_volcano.R
