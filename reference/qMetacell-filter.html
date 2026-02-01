@@ -9,7 +9,7 @@ conditions or at least one condition."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">DaparToolshed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.24</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,19 +75,21 @@ conditions or at least one condition.</p>
 
 
 <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
-<dd><p>xxx</p></dd>
+<dd><p>An instance of the class <code>SummarizedExperiment</code></p></dd>
 
 
 <dt id="arg-cmd">cmd<a class="anchor" aria-label="anchor" href="#arg-cmd"></a></dt>
-<dd><p>Available values are:</p></dd>
+<dd><p>A <code>character(1)</code> indicating the action to perform.
+Either "keep" or "delete".</p></dd>
 
 
 <dt id="arg-pattern">pattern<a class="anchor" aria-label="anchor" href="#arg-pattern"></a></dt>
-<dd><p>ss</p></dd>
+<dd><p>A <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> indicating the tag pattern of interest.</p></dd>
 
 
 <dt id="arg-percent">percent<a class="anchor" aria-label="anchor" href="#arg-percent"></a></dt>
-<dd><p>xxx</p></dd>
+<dd><p>A <code>character(1)</code> indicating whether the threshold represent an
+absolute value ("Count") or a percentage ("Percentage").</p></dd>
 
 
 <dt id="arg-th">th<a class="anchor" aria-label="anchor" href="#arg-th"></a></dt>
@@ -100,11 +102,12 @@ with 'SymFilteringOperators()'.</p></dd>
 
 
 <dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
-<dd><p>xxx</p></dd>
+<dd><p>A <code>character(1)</code> indicating how the task is performed.
+Either "AllCond" or "AtLeastOneCond".</p></dd>
 
 
 <dt id="arg-conds">conds<a class="anchor" aria-label="anchor" href="#arg-conds"></a></dt>
-<dd><p>xxx</p></dd>
+<dd><p>A vector of conditions in the dataset.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -166,7 +169,7 @@ with 'SymFilteringOperators()'.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

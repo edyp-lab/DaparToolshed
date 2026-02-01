@@ -50,6 +50,9 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compare-assays.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compareNormalizationD_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeAdjustedPValues.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeFDR.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaVolcanoplot_rCharts.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/display.CC.visNet.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatHSDResults.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/formatLimmaResult.html</loc></url>
@@ -62,10 +65,12 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getNumberOfEmptyLines.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/globalAdjPval.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/histPValue_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/import-export-QFeatures.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute.pa2.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/index.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.OfType.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.differential.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/is.subset.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/limmaCompleteTest.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/make.contrast.html</loc></url>
@@ -81,11 +86,13 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/nEmptyLines.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/nonzero.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/normalizeFunction.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pepa.test.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitter.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/plotJitter_rCharts.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/postHocTest.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/pushpvalue.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/samLRT.html</loc></url>
@@ -100,6 +107,8 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.dapar.impute.mi.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.mle.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.pa2.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapper.pirat.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapperCalibrationPlot.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/wrapperClassic1wayAnova.html</loc></url>
 </urlset>
 

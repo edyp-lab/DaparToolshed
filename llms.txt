@@ -1,0 +1,504 @@
+# Installation
+
+## Dapar Toolshed
+
+`DaparToolshed` is a package which provides all the necessary functions
+to analyze quantitative data from label-free proteomics experiments
+bases on the MultiAssayExperiment data structure. Contrarily to most
+other similar R packages, it is endowed with rich and user-friendly
+graphical interfaces, so that no programming skill is required (see
+`Prostar` package).
+
+### What is DaparToolshed?
+
+`DaparToolshed` is a [Bioconductor
+package](http://bioconductor.org/packages/omXplore) that provides all
+the necessary functions to analyze quantitative data from label-free
+proteomics experiments bases on the `MultiAssayExperiment` data
+structure. Contrarily to most other similar R packages, it is endowed
+with rich and user-friendly graphical interfaces, so that no programming
+skill is required (see `Prostar` package).
+
+### Getting started
+
+See the [DaparToolshed
+introduction](https://edyp-lab.github.io/DaparToolshed/articles/DaparToolshed.html)
+to get started.
+
+### License
+
+The `DaparToolshed` code is provided under a permissive [Artistic 2.0
+license](https://opensource.org/licenses/Artistic-2.0). The
+documentation, including the manual pages and the vignettes, are
+distributed under a [CC BY-SA
+license](https://creativecommons.org/licenses/by-sa/4.0/).
+
+To install this package, start R (version “4.3”) and enter:
+
+    if (!require("BiocManager", quietly = TRUE))
+        install.packages("BiocManager")
+
+    BiocManager::install("DaparToolshed")
+
+This will also install dependencies.
+
+It is also possible to install `DaparToolshed` from Github:
+
+    library(devtools)
+    install_github('edyp-lab/DaparToolshed')
+
+For older versions of R, please refer to the appropriate Bioconductor
+release.
+
+# Package index
+
+## All functions
+
+- [`Add_Item_to_Dataset()`](https://edyp-lab.github.io/DaparToolshed/reference/Add_Item_to_Dataset.md)
+  : xxx
+
+- [`BuildAdjacencyMatrix()`](https://edyp-lab.github.io/DaparToolshed/reference/BuildAdjacencyMatrix.md)
+  : Function matrix of appartenance group
+
+- [`BuildMetacell()`](https://edyp-lab.github.io/DaparToolshed/reference/BuildMetacell.md)
+  : Metacell function
+
+- [`Children()`](https://edyp-lab.github.io/DaparToolshed/reference/Children.md)
+  : Names of all chidren of a node
+
+- [`CleanRowData()`](https://edyp-lab.github.io/DaparToolshed/reference/CleanRowData.md)
+  : Customised resetZoomButton of highcharts plots
+
+- [`ConvertListToHtml()`](https://edyp-lab.github.io/DaparToolshed/reference/ConvertListToHtml.md)
+  : Convert a list to unnumbered HTML list
+
+- [`aggregateFeatures4Prostar()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`aggQmetacell()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`aggregateMethods()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`RunAggregation()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`BuildColumnToProteinDataset()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`Add_Aggregated_rowData()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`metacell_agg()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`select_topn()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`getProteinsStats()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`CountPep()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`GetNbPeptidesUsed()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`GetDetailedNbPeptidesUsed()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`GetDetailedNbPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`GraphPepProt()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`ExtractUniquePeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.aggregate.iter()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.sum()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.mean()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.median()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.medianpolish()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  [`inner.robustsummary()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregate.md)
+  : Aggregate an assay's quantitative features
+
+- [`aggregateRedistribution()`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed-aggregateRedistribution.md)
+  : Aggregate an assay's quantitative features with shared peptide
+  redistribution
+
+- [`DaparToolshed`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed.md)
+  : DaparToolshed: A package for computating the notorious bar statistic
+
+- [`ExtendPalette()`](https://edyp-lab.github.io/DaparToolshed/reference/ExtendPalette.md)
+  : Extends a base-palette of the package RColorBrewer to n colors.
+
+- [`GetColorsForConditions()`](https://edyp-lab.github.io/DaparToolshed/reference/GetColorsForConditions.md)
+  : Builds a complete color palette for the conditions given in argument
+
+- [`GetIndices_BasedOnConditions()`](https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_BasedOnConditions.md)
+  : Search lines which respects request on one or more conditions.
+
+- [`GetIndices_FunFiltering()`](https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_FunFiltering.md)
+  : Delete the lines in the matrix of intensities and the metadata table
+  given their indices.
+
+- [`GetIndices_WholeLine()`](https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeLine.md)
+  : Search lines which respects query on all their elements.
+
+- [`GetIndices_WholeMatrix()`](https://edyp-lab.github.io/DaparToolshed/reference/GetIndices_WholeMatrix.md)
+  : Search lines which respects request on one or more conditions.
+
+- [`GetNbTags()`](https://edyp-lab.github.io/DaparToolshed/reference/GetNbTags.md)
+  : Number of each metacell tags
+
+- [`GetSoftAvailables()`](https://edyp-lab.github.io/DaparToolshed/reference/GetSoftAvailables.md)
+  : The set of available softwares to convert from
+
+- [`Keep_Items_from_Dataset()`](https://edyp-lab.github.io/DaparToolshed/reference/Keep_Items_from_Dataset.md)
+  : xxx
+
+- [`LH0()`](https://edyp-lab.github.io/DaparToolshed/reference/LH0.md) :
+  xxxxxx
+
+- [`LH0.lm()`](https://edyp-lab.github.io/DaparToolshed/reference/LH0.lm.md)
+  : xxxxxx
+
+- [`LH1()`](https://edyp-lab.github.io/DaparToolshed/reference/LH1.md) :
+  xxxxxx
+
+- [`LH1.lm()`](https://edyp-lab.github.io/DaparToolshed/reference/LH1.lm.md)
+  : xxxxxx
+
+- [`MetacellFilteringScope()`](https://edyp-lab.github.io/DaparToolshed/reference/MetacellFilteringScope.md)
+  : Lists the metacell scopes for filtering
+
+- [`Metacell_DIA_NN()`](https://edyp-lab.github.io/DaparToolshed/reference/Metacell_DIA_NN.md)
+  : Sets the metacell dataframe for datasets which are from Dia-NN
+  software
+
+- [`Metacell_maxquant()`](https://edyp-lab.github.io/DaparToolshed/reference/Metacell_maxquant.md)
+  : Sets the metacell dataframe
+
+- [`Metacell_proline()`](https://edyp-lab.github.io/DaparToolshed/reference/Metacell_proline.md)
+  : Sets the metacell dataframe for datasets which are from Proline
+  software
+
+- [`NAIsZero()`](https://edyp-lab.github.io/DaparToolshed/reference/NAIsZero.md)
+  : xxx
+
+- [`OWAnova()`](https://edyp-lab.github.io/DaparToolshed/reference/OWAnova.md)
+  : Applies aov() on a vector of protein abundances using the design
+  derived from the sample names (simple aov wrapper)
+
+- [`Parent()`](https://edyp-lab.github.io/DaparToolshed/reference/Parent.md)
+  : Parent name of a node
+
+- [`Pipelines()`](https://edyp-lab.github.io/DaparToolshed/reference/Pipelines.md)
+  : xxx
+
+- [`ProstarVersions()`](https://edyp-lab.github.io/DaparToolshed/reference/ProstarVersions.md)
+  : Version number of Prostar suite
+
+- [`paramshistory()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `paramshistory<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`GetMetacellTags()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`qMetacell()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `qMetacell<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`GetUniqueTags()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`.GetMetadataSlot()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`.GetRowdataSlot()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`ConnectedComp()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `ConnectedComp<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`typeDataset()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `typeDataset<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`idcol()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `idcol<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`parentProtId()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `parentProtId<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`filename()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `filename<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`analysis()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `analysis<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`version()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `version<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`design.qf()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `design.qf<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`mainAssay()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`HypothesisTest()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `HypothesisTest<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`DifferentialAnalysis()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `DifferentialAnalysis<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`names_metacell()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  [`` `names_metacell<-`() ``](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-accessors.md)
+  : List of metacell tags
+
+- [`write2excel()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-excel.md)
+  [`.write2excel()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-excel.md)
+  [`addColors()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-excel.md)
+  :
+
+  Exports a `QFeatures` object to a Excel file.
+
+- [`FunctionFilter()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-filtering-oneSE.md)
+  [`filterFeaturesOneSE()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-filtering-oneSE.md)
+  : Filter features of one SE based on their rowData
+
+- [`last_assay()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-utils.md)
+  [`n_assays_in_qf()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-utils.md)
+  [`QFeaturesFromSE()`](https://edyp-lab.github.io/DaparToolshed/reference/QFeatures-utils.md)
+  : Utility funcitons to dela with QFeatures objects.
+
+- [`ReplaceSpecialChars()`](https://edyp-lab.github.io/DaparToolshed/reference/ReplaceSpecialChars.md)
+  : Standardize names
+
+- [`AdjMatFilters()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`allPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`specPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`subAdjMat_specificPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`sharedPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`subAdjMat_sharedPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`topnFunctions()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`topnPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  [`subAdjMat_topnPeptides()`](https://edyp-lab.github.io/DaparToolshed/reference/adjacency-matrix-filter.md)
+  : Filter a peptide assay on the basis of its adjacency matrix.
+
+- [`applyAnovasOnProteins()`](https://edyp-lab.github.io/DaparToolshed/reference/applyAnovasOnProteins.md)
+  : iteratively applies OWAnova() on the features of an MSnSet object
+
+- [`buildGraph()`](https://edyp-lab.github.io/DaparToolshed/reference/buildGraph.md)
+  : Display a CC
+
+- [`check.conditions()`](https://edyp-lab.github.io/DaparToolshed/reference/check.conditions.md)
+  : Check if the design is valid
+
+- [`check.design()`](https://edyp-lab.github.io/DaparToolshed/reference/check.design.md)
+  : Check if the design is valid
+
+- [`classic1wayAnova()`](https://edyp-lab.github.io/DaparToolshed/reference/classic1wayAnova.md)
+  : Function to perform a One-way Anova statistical test on a MsnBase
+  dataset
+
+- [`plotCompareAssays()`](https://edyp-lab.github.io/DaparToolshed/reference/compare-assays.md)
+  : Compare two assays
+
+- [`compareNormalizationD_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/compareNormalizationD_HC.md)
+  :
+
+  Builds a plot from a dataframe. Same as compareNormalizationD but uses
+  the library `highcharter`
+
+- [`compute_t_tests()`](https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.md)
+  : xxxxxx
+
+- [`diffAnaComputeAdjustedPValues()`](https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeAdjustedPValues.md)
+  : Computes the adjusted p-values
+
+- [`diffAnaComputeFDR()`](https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeFDR.md)
+  : Computes the FDR corresponding to the p-values of the differential
+  analysis
+
+- [`diffAnaVolcanoplot_rCharts()`](https://edyp-lab.github.io/DaparToolshed/reference/diffAnaVolcanoplot_rCharts.md)
+  : Volcanoplot of the differential analysis
+
+- [`display.CC.visNet()`](https://edyp-lab.github.io/DaparToolshed/reference/display.CC.visNet.md)
+  : Display a CC
+
+- [`formatHSDResults()`](https://edyp-lab.github.io/DaparToolshed/reference/formatHSDResults.md)
+  : xxx
+
+- [`formatLimmaResult()`](https://edyp-lab.github.io/DaparToolshed/reference/formatLimmaResult.md)
+  : xxxx
+
+- [`formatPHResults()`](https://edyp-lab.github.io/DaparToolshed/reference/formatPHResults.md)
+  : Extract logFC and raw pvalues from multiple post-hoc models
+  summaries
+
+- [`formatPHTResults()`](https://edyp-lab.github.io/DaparToolshed/reference/formatPHTResults.md)
+  : xxx
+
+- [`fudge2LRT()`](https://edyp-lab.github.io/DaparToolshed/reference/fudge2LRT.md)
+  : Heuristic to choose the value of the hyperparameter (fudge factor)
+  used to regularize the variance estimator in the likelihood ratio
+  statistic
+
+- [`get.pep.prot.cc()`](https://edyp-lab.github.io/DaparToolshed/reference/get.pep.prot.cc.md)
+  : Build the list of connex composant of the adjacency matrix
+
+- [`getDesignLevel()`](https://edyp-lab.github.io/DaparToolshed/reference/getDesignLevel.md)
+  : xxx
+
+- [`getListNbValuesInLines()`](https://edyp-lab.github.io/DaparToolshed/reference/getListNbValuesInLines.md)
+  : Returns the possible number of values in lines in the data
+
+- [`getNumberOfEmptyLines()`](https://edyp-lab.github.io/DaparToolshed/reference/getNumberOfEmptyLines.md)
+  : Returns the number of empty lines in the data
+
+- [`globalAdjPval()`](https://edyp-lab.github.io/DaparToolshed/reference/globalAdjPval.md)
+  : Computes the adjusted p-values on all the stacked contrasts using
+  CP4P
+
+- [`hc_logFC_DensityPlot()`](https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.md)
+  : Density plots of logFC values
+
+- [`histPValue_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/histPValue_HC.md)
+  : Plots a histogram of p-values
+
+- [`createQFeatures()`](https://edyp-lab.github.io/DaparToolshed/reference/import-export-QFeatures.md)
+  :
+
+  Creates an object of class `QFeatures` from text file.
+
+- [`impute.pa2()`](https://edyp-lab.github.io/DaparToolshed/reference/impute.pa2.md)
+  :
+
+  Missing values imputation from a `MSnSet` object
+
+- [`is.OfType()`](https://edyp-lab.github.io/DaparToolshed/reference/is.OfType.md)
+  :
+
+  Similar to the function [`is.na()`](https://rdrr.io/r/base/NA.html)
+  but focused on the equality with the paramter 'type'.
+
+- [`is.differential()`](https://edyp-lab.github.io/DaparToolshed/reference/is.differential.md)
+  : Identification of differentially abundant peptide/protein
+
+- [`is.subset()`](https://edyp-lab.github.io/DaparToolshed/reference/is.subset.md)
+  : xxx
+
+- [`limmaCompleteTest()`](https://edyp-lab.github.io/DaparToolshed/reference/limmaCompleteTest.md)
+  : Computes a hierarchical differential analysis
+
+- [`make.contrast()`](https://edyp-lab.github.io/DaparToolshed/reference/make.contrast.md)
+  : Builds the contrast matrix
+
+- [`make.design.1()`](https://edyp-lab.github.io/DaparToolshed/reference/make.design.1.md)
+  : Builds the design matrix for designs of level 1
+
+- [`make.design.2()`](https://edyp-lab.github.io/DaparToolshed/reference/make.design.2.md)
+  : Builds the design matrix for designs of level 2
+
+- [`make.design.3()`](https://edyp-lab.github.io/DaparToolshed/reference/make.design.3.md)
+  : Builds the design matrix for designs of level 3
+
+- [`make.design()`](https://edyp-lab.github.io/DaparToolshed/reference/make.design.md)
+  : Builds the design matrix
+
+- [`match.metacell()`](https://edyp-lab.github.io/DaparToolshed/reference/match.metacell.md)
+  :
+
+  Similar to the function [`is.na()`](https://rdrr.io/r/base/NA.html)
+  but focused on the equality with the paramter 'type'.
+
+- [`metacellPerLinesHisto_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  [`metacellPerLinesHistoPerCondition_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  [`metacellHisto_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  [`wrapper.mvImage()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  [`mvImage()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  [`hc_mvTypePlot2()`](https://edyp-lab.github.io/DaparToolshed/reference/metacell-plots.md)
+  : Bar plot of missing values per lines using highcharter
+
+- [`findMECBlock()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`reIntroduceMEC()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`wrapper.impute.KNN()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`wrapper.impute.fixedValue()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`wrapper.impute.pa()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`wrapper.impute.detQuant()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`getQuantile4Imp()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  [`wrapper.impute.slsa()`](https://edyp-lab.github.io/DaparToolshed/reference/mv_imputation_protein.md)
+  : Finds the LAPALA
+
+- [`my_hc_ExportMenu()`](https://edyp-lab.github.io/DaparToolshed/reference/my_hc_ExportMenu.md)
+  : Customised contextual menu of highcharts plots
+
+- [`my_hc_chart()`](https://edyp-lab.github.io/DaparToolshed/reference/my_hc_chart.md)
+  : Customised resetZoomButton of highcharts plots
+
+- [`nEmptyLines()`](https://edyp-lab.github.io/DaparToolshed/reference/nEmptyLines.md)
+  : Number of empty lines in the data
+
+- [`nonzero()`](https://edyp-lab.github.io/DaparToolshed/reference/nonzero.md)
+  : Retrieve the indices of non-zero elements in sparse matrices
+
+- [`normalizeMethods()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`GlobalQuantileAlignment()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`SumByColumns()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`QuantileCentering()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`MeanCentering()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`vsn()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  [`LOESS()`](https://edyp-lab.github.io/DaparToolshed/reference/normalization_methods.md)
+  : Normalisation
+
+- [`normalizeFunction()`](https://edyp-lab.github.io/DaparToolshed/reference/normalizeFunction.md)
+  : Normalisation for QFeatures
+
+- [`readExcel()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`listSheets()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`write_Assay_To_Excel()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`WriteHistory()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`Write_SamplesData_to_Excel()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`Write_RowData()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  [`write.excel()`](https://edyp-lab.github.io/DaparToolshed/reference/output_2_Excel.md)
+  : This function exports a data.frame to a Excel file.
+
+- [`pepa.test()`](https://edyp-lab.github.io/DaparToolshed/reference/pepa.test.md)
+  : PEptide based Protein differential Abundance test
+
+- [`plotJitter()`](https://edyp-lab.github.io/DaparToolshed/reference/plotJitter.md)
+  : Jitter plot of CC
+
+- [`plotJitter_rCharts()`](https://edyp-lab.github.io/DaparToolshed/reference/plotJitter_rCharts.md)
+  : Display a a jitter plot for CC
+
+- [`postHocTest()`](https://edyp-lab.github.io/DaparToolshed/reference/postHocTest.md)
+  : Post-hoc tests for classic 1-way ANOVA
+
+- [`pushpvalue()`](https://edyp-lab.github.io/DaparToolshed/reference/pushpvalue.md)
+  : Push p-values based on metacell tags
+
+- [`SymFilteringOperators()`](https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.md)
+  [`qMetacellFilteringScope()`](https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.md)
+  [`qMetacellWholeMatrix()`](https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.md)
+  [`qMetacellWholeLine()`](https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.md)
+  [`qMetacellOnConditions()`](https://edyp-lab.github.io/DaparToolshed/reference/qMetacell-filter.md)
+  : Search lines which respects request on one or more conditions.
+
+- [`metacell.def()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`custom_metacell_colors()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`Set_POV_MEC_tags()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`Set_POV_MEC_tags2()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`Metacell_generic()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`UpdateMetacellAfterImputation()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`search.metacell.tags()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  [`metacombine()`](https://edyp-lab.github.io/DaparToolshed/reference/q_metacell.md)
+  : Quantitative metadata vocabulary for entities
+
+- [`samLRT()`](https://edyp-lab.github.io/DaparToolshed/reference/samLRT.md)
+  : xxxxxx
+
+- [`separateAdjPval()`](https://edyp-lab.github.io/DaparToolshed/reference/separateAdjPval.md)
+  : Computes the adjusted p-values separately on contrast using CP4P
+
+- [`splitAdjacencyMat()`](https://edyp-lab.github.io/DaparToolshed/reference/splitAdjacencyMat.md)
+  : splits an adjacency matrix into specific and shared
+
+- [`subR25pept`](https://edyp-lab.github.io/DaparToolshed/reference/subR25pept.md)
+  : subR25pept dataset
+
+- [`subR25prot`](https://edyp-lab.github.io/DaparToolshed/reference/subR25prot.md)
+  : subR25prot dataset
+
+- [`test.design()`](https://edyp-lab.github.io/DaparToolshed/reference/test.design.md)
+  : Check if xxxxxx
+
+- [`testAnovaModels()`](https://edyp-lab.github.io/DaparToolshed/reference/testAnovaModels.md)
+  : Applies a statistical test on each element of a list of linear
+  models
+
+- [`thresholdpval4fdr()`](https://edyp-lab.github.io/DaparToolshed/reference/thresholdpval4fdr.md)
+  : xxx
+
+- [`translatedRandomBeta()`](https://edyp-lab.github.io/DaparToolshed/reference/translatedRandomBeta.md)
+  : Generator of simulated values
+
+- [`wrapper.dapar.impute.mi()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapper.dapar.impute.mi.md)
+  : Missing values imputation using the LSimpute algorithm.
+
+- [`wrapper.impute.mle()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.mle.md)
+  : Imputation of peptides having no values in a biological condition.
+
+- [`wrapper.impute.pa2()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapper.impute.pa2.md)
+  :
+
+  Missing values imputation from a `SummarizedExperiment` object
+
+- [`wrapper.pirat()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapper.pirat.md)
+  : Missing values imputation using Pirat
+
+- [`wrapperCalibrationPlot()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapperCalibrationPlot.md)
+  :
+
+  Performs a calibration plot on an `SummarizedExperiment` object,
+  calling the `cp4p` package functions.
+
+- [`wrapperClassic1wayAnova()`](https://edyp-lab.github.io/DaparToolshed/reference/wrapperClassic1wayAnova.md)
+  : Wrapper for One-way Anova statistical test
+
+# Articles
+
+### All vignettes
+
+- [Peptide workflow with
+  DaparToolshed](https://edyp-lab.github.io/DaparToolshed/articles/DaparToolshed.md):

@@ -1,0 +1,55 @@
+# xxxx
+
+xxxx
+
+## Usage
+
+``` r
+formatLimmaResult(fit, conds, contrast, design.level)
+```
+
+## Arguments
+
+- fit:
+
+  xxxx
+
+- conds:
+
+  xxxx
+
+- contrast:
+
+  xxxx
+
+- design.level:
+
+  xxx
+
+## Value
+
+A list of two dataframes : logFC and P_Value. The first one contains the
+logFC values of all the comparisons (one column for one comparison), the
+second one contains the pvalue of all the comparisons (one column for
+one comparison). The names of the columns for those two dataframes are
+identical and correspond to the description of the comparison.
+
+## Author
+
+Samuel Wieczorek
+
+## Examples
+
+``` r
+library(SummarizedExperiment)
+data(subR25prot)
+level <- 'protein'
+metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
+c("Missing POV", "Missing MEC"), level)
+# Simulate imputation
+assay(subR25prot[[1]])[which(is.na(assay(subR25prot[[1]])))] <- 0
+assay(subR25prot[[2]])[which(is.na(assay(subR25prot[[2]])))] <- 0
+qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[2]]))
+sTab <- SummarizedExperiment::colData(subR25prot)
+limma <- limmaCompleteTest(qData, sTab)
+```

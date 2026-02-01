@@ -1,37 +1,51 @@
-## Welcome to GitHub Pages
+# Installation
 
-You can use the [editor on GitHub](https://github.com/samWieczorek/DaparToolshed/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Dapar Toolshed
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+`DaparToolshed` is a package which provides all the necessary functions
+to analyze quantitative data from label-free proteomics experiments
+bases on the MultiAssayExperiment data structure. Contrarily to most
+other similar R packages, it is endowed with rich and user-friendly
+graphical interfaces, so that no programming skill is required (see
+`Prostar` package).
 
-### Markdown
+### What is DaparToolshed?
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+`DaparToolshed` is a [Bioconductor
+package](http://bioconductor.org/packages/omXplore) that provides all
+the necessary functions to analyze quantitative data from label-free
+proteomics experiments bases on the `MultiAssayExperiment` data
+structure. Contrarily to most other similar R packages, it is endowed
+with rich and user-friendly graphical interfaces, so that no programming
+skill is required (see `Prostar` package).
 
-```markdown
-Syntax highlighted code block
+### Getting started
 
-# Header 1
-## Header 2
-### Header 3
+See the [DaparToolshed
+introduction](https://edyp-lab.github.io/DaparToolshed/articles/DaparToolshed.html)
+to get started.
 
-- Bulleted
-- List
+### License
 
-1. Numbered
-2. List
+The `DaparToolshed` code is provided under a permissive [Artistic 2.0
+license](https://opensource.org/licenses/Artistic-2.0). The
+documentation, including the manual pages and the vignettes, are
+distributed under a [CC BY-SA
+license](https://creativecommons.org/licenses/by-sa/4.0/).
 
-**Bold** and _Italic_ and `Code` text
+To install this package, start R (version “4.3”) and enter:
 
-[Link](url) and ![Image](src)
-```
+    if (!require("BiocManager", quietly = TRUE))
+        install.packages("BiocManager")
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+    BiocManager::install("DaparToolshed")
 
-### Jekyll Themes
+This will also install dependencies.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/samWieczorek/DaparToolshed/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+It is also possible to install `DaparToolshed` from Github:
 
-### Support or Contact
+    library(devtools)
+    install_github('edyp-lab/DaparToolshed')
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+For older versions of R, please refer to the appropriate Bioconductor
+release.
