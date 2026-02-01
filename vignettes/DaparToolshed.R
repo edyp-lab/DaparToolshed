@@ -178,18 +178,15 @@ pval <- pushpvalue(obj,
                    threshold = 5,
                    operator = ">=")
 
-cat("Number of pushed p-values : ", length(which(pval == 1)), "\n")
+cat("Number of pushed p-values : ", length(which(pval > 1)), "\n")
 
 ## ----pvalcalibration----------------------------------------------------------
- #remove protein with logFC under threshold
-pval_logfc_ind <- which(abs(res_pval_FC$logFC) >= Foldchange_thlogFC)
  #remove pushed p-values
-pushedpval_ind <- which(pval == 1)
-pval_logfc_ind <- setdiff(pval_logfc_ind, pushedpval_ind)
-pval_logfc <- pval[pval_logfc_ind]
+pushedpval_ind <- which(pval > 1)
+pval_nopush <- pval[-pushedpval_ind]
 
  #calibration plot with all methods 
-calibration_all <- wrapperCalibrationPlot(vPVal = pval_logfc, 
+calibration_all <- wrapperCalibrationPlot(vPVal = pval_nopush, 
                                           pi0Method  = "ALL")
 calibration_all$pi0
 
@@ -198,22 +195,32 @@ calibration_all$pi0
 pi0 <- 1
 
  #calibration plot with chosen method
-wrapperCalibrationPlot(vPVal = pval_logfc, 
+wrapperCalibrationPlot(vPVal = pval_nopush, 
                        pi0Method  = pi0)
 
  #histogram of p-values density
-histPValue_HC(pval_logfc,
+histPValue_HC(pval_nopush,
               bins = 50,
               pi0 = pi0
 )
 
+## ----pvalcalibrationadjpval---------------------------------------------------
+ #push to 1 proteins with logFC under threshold
+pval_pushfc <- pval
+pval_logfc_inf_ind <- which(abs(res_pval_FC$logFC) < Foldchange_thlogFC)
+pval_logfc_inf_ind <- setdiff(pval_logfc_inf_ind, pushedpval_ind)
+pval_pushfc[pval_logfc_inf_ind] <- 1
+ #remove pushed p-values
+pval_pushfc <- pval_pushfc[-pushedpval_ind]
+
+
  #calculate adjusted p-values
 adjusted_pvalues <- diffAnaComputeAdjustedPValues(
-  pval_logfc,
+  pval_pushfc,
   pi0)
 
 adjusted_pvalues_comp <- unlist(res_pval_FC$P_Value)
-adjusted_pvalues_comp[pval_logfc_ind] <- adjusted_pvalues
+adjusted_pvalues_comp[-pushedpval_ind] <- adjusted_pvalues
 
 ## ----FDRcontrol---------------------------------------------------------------
  #define p-value threshold
@@ -221,8 +228,10 @@ pval_threshold <- 0.01
 FDRcontrol_thpval <- -log10(pval_threshold)
 
  #get FDR
+pval[pushedpval_ind] <- 1
 logpval <- -log10(pval)
 logpval_thpval_ind <- which(logpval >= FDRcontrol_thpval)
+logpval_thpval_ind <- setdiff(logpval_thpval_ind, pval_logfc_inf_ind)
 fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
 
  #determine differentially abundant proteins

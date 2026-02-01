@@ -228,6 +228,9 @@ createQFeatures <- function(
         #processes = c("original", processes)
     )
 
+    S4Vectors::metadata(obj)$name.pipeline <- name.pipeline
+    
+    
     # Fill the metadata for the first assay
     typeDataset(obj[["original"]]) <- typeDataset
     idcol(obj[["original"]]) <- keyId
