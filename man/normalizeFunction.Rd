@@ -57,7 +57,7 @@ The available methods are described in \code{\link[=normalizeMethods]{normalizeM
 }
 \examples{
 data(subR25pept)
-normalized <- normalizeFunction(subR25pept, )
+normalized <- normalizeFunction(subR25pept, method = 'GlobalQuantileAlignment')
 
 }
 \author{

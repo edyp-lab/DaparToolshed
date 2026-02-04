@@ -429,6 +429,8 @@ make.design.3 <- function(sTab) {
 #' 
 #' @param sTab xxx
 #' 
+#' @return An integer
+#' 
 #' @examples
 #' data(subR25pept)
 #' sTab <- SummarizedExperiment::colData(subR25pept)

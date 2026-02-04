@@ -43,7 +43,6 @@ Imports:
     AnnotationFilter,
     RColorBrewer,
     highcharter,
-    shiny,
     stats,
     utils,
     tibble,

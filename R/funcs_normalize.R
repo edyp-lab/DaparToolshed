@@ -388,7 +388,7 @@ LOESS <- function(qData,
 #'
 #' @examples
 #' data(subR25pept)
-#' normalized <- normalizeFunction(subR25pept, )
+#' normalized <- normalizeFunction(subR25pept, method = 'GlobalQuantileAlignment')
 #' 
 #' @export
 #'
@@ -473,7 +473,7 @@ normalizeFunction <- function(obj,
     
     new.dataset <- QFeatures::addAssay(obj, new.assay, 'Normalization')
   } else if (inherits(obj, 'SummarizedExperiment')){
-    new.dataset <- data
+    new.dataset <- obj
     SummarizedExperiment::assay(new.dataset) <- normalized_assay
   }
   

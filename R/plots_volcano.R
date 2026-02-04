@@ -40,7 +40,10 @@
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+#' allComp <- limmaCompleteTest(
+#' SummarizedExperiment::assay(obj[[length(obj)]]), 
+#' design.qf(obj), 
+#' comp.type="OnevsOne")
 #' df <- data.frame(
 #' x = allComp$logFC[[1]],
 #' y = -log10(allComp$P_Value[[1]]),
@@ -74,6 +77,9 @@ diffAnaVolcanoplot_rCharts <- function(
     clickFunction = NULL,
     pal = NULL) {
   
+  
+  x <- y <- NULL
+  
   xtitle <- paste("log2 ( mean(", conditions[2], ") / mean(",
                   conditions[1], ") )",
                   sep = ""
@@ -98,6 +104,7 @@ diffAnaVolcanoplot_rCharts <- function(
     }
   }
   
+  g <- character(0)
   df <- cbind(df,
               g = ifelse(df$y >= th_pval & abs(df$x) >= th_logfc, "g1", "g2")
   )
@@ -115,6 +122,7 @@ diffAnaVolcanoplot_rCharts <- function(
     )
   }
   
+  
   leftBorder <- data.frame(
     x = c(min(df$x), -th_logfc, -th_logfc),
     y = c(th_pval, th_pval, max(df$y))
@@ -127,18 +135,18 @@ diffAnaVolcanoplot_rCharts <- function(
   title <- NULL
   title <- paste0(conditions[1], "_vs_", conditions[2])
   
-  h1 <- highchart() |>
-    hc_add_series(data = df, type = "scatter", hcaes(x, y, group = g)) |>
-    hc_colors(c(pal$In, pal$Out)) |>
+  h1 <- highcharter::highchart() |>
+    highcharter::hc_add_series(data = df, type = "scatter", highcharter::hcaes(x = x, y = y, group = g)) |>
+    highcharter::hc_colors(c(pal$In, pal$Out)) |>
     my_hc_chart(zoomType = "xy", chartType = "scatter") |>
-    hc_legend(enabled = FALSE) |>
-    hc_title(
+    highcharter::hc_legend(enabled = FALSE) |>
+    highcharter::hc_title(
       text = title,
       margin = 20, align = "center",
       style = list(size = 20, color = "black", useHTML = TRUE)
     ) |>
-    hc_yAxis(title = list(text = "-log10(pValue)")) |>
-    hc_xAxis(
+    highcharter::hc_yAxis(title = list(text = "-log10(pValue)")) |>
+    highcharter::hc_xAxis(
       title = list(text = "logFC"),
       plotLines = list(
         list(
@@ -149,8 +157,8 @@ diffAnaVolcanoplot_rCharts <- function(
         )
       )
     ) |>
-    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
-    hc_plotOptions(
+    highcharter::hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
+    highcharter::hc_plotOptions(
       line = list(
         marker = list(enabled = FALSE),
         dashStyle = "Dash"
@@ -164,8 +172,8 @@ diffAnaVolcanoplot_rCharts <- function(
       )
     ) |>
     my_hc_ExportMenu(filename = "volcanoplot") |>
-    hc_add_series(data = leftBorder, type = "line", color = "grey") |>
-    hc_add_series(data = rightBorder, type = "line", color = "grey")
+    highcharter::hc_add_series(data = leftBorder, type = "line", color = "grey") |>
+    highcharter::hc_add_series(data = rightBorder, type = "line", color = "grey")
   
   return(h1)
 }

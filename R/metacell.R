@@ -498,7 +498,9 @@ Set_POV_MEC_tags2 <- function(conds, df, level){
 #' @examples 
 #' GetSoftAvailables()
 #' @export
-
+#' 
+#' @return A vecotr of charatcer
+#' 
 GetSoftAvailables <- function(){
   
   

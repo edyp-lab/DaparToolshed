@@ -46,7 +46,9 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+#' allComp <- limmaCompleteTest(
+#' SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
+#' comp.type="OnevsOne")
 #' diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 #'
 #' @export
@@ -81,7 +83,10 @@ diffAnaComputeAdjustedPValues <- function(pval,
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+#' allComp <- limmaCompleteTest(
+#' SummarizedExperiment::assay(obj[[length(obj)]]), 
+#' design.qf(obj), 
+#' comp.type="OnevsOne")
 #' wrapperCalibrationPlot(allComp$P_Value[, 1])
 #'
 #' @export
@@ -118,7 +123,10 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+#' allComp <- limmaCompleteTest(
+#' SummarizedExperiment::assay(obj[[length(obj)]]), 
+#' design.qf(obj), 
+#' comp.type="OnevsOne")
 #' histPValue_HC(allComp$P_Value[1])
 #'
 #' @export
@@ -234,8 +242,17 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
-#' pushpvalue(obj, allComp$P_Value[, 1], scope = "WholeMatrix", pattern = c("Missing MEC", "Missing POV"), percent = TRUE, threshold = 0.5, operator = ">=",)
+#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(
+#' obj[[length(obj)]]), 
+#' design.qf(obj), 
+#' comp.type="OnevsOne")
+#' pushpvalue(obj, 
+#' allComp$P_Value[, 1], 
+#' scope = "WholeMatrix", 
+#' pattern = c("Missing MEC", "Missing POV"), 
+#' percent = TRUE, 
+#' threshold = 0.5, 
+#' operator = ">=",)
 #'
 #' @export
 #'
@@ -301,7 +318,8 @@ pushpvalue <- function(obj,
 #' @param thpvalue A float indicating the p-value threshold.
 #' @param thlogFC A float indicating the logFC threshold.
 #' 
-#' @return A vector indicating which peptide/protein is differentially abundant (1) or not (0). 
+#' @return A vector indicating which peptide/protein is differentially 
+#' abundant (1) or not (0). 
 #'
 #' @author Manon Gaudin
 #'
@@ -311,7 +329,10 @@ pushpvalue <- function(obj,
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' obj <- NAIsZero(obj, 2)
-#' allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+#' allComp <- limmaCompleteTest(
+#' SummarizedExperiment::assay(obj[[length(obj)]]), 
+#' design.qf(obj), 
+#' comp.type="OnevsOne")
 #' is.differential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
 #'
 #' @export
@@ -321,8 +342,8 @@ is.differential <- function(pvalue,
                            logFC,
                            thpvalue,
                            thlogFC){
-  differentialList <- rep(0, length(pval))
-  logpval <- -log10(pval)
+  differentialList <- rep(0, length(pvalue))
+  logpval <- -log10(pvalue)
   
   signifItems <- intersect(which(logpval >= thpvalue),
                            which(abs(logFC) >= thlogFC))

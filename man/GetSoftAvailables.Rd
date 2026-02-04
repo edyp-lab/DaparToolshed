@@ -6,6 +6,9 @@
 \usage{
 GetSoftAvailables()
 }
+\value{
+A vecotr of charatcer
+}
 \description{
 The set of available softwares to convert from
 }

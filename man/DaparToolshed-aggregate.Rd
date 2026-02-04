@@ -358,31 +358,7 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}.
 }
 
 \examples{
-
-## ---------------------------------------
-## An example QFeatures with PSM-level data
-## ---------------------------------------
-\donttest{
-library(SummarizedExperiment)
-data(subR25pept)
-subR25pept
-
-## Aggregate peptides into proteins
-## using the adjacency matrix
-feat1 <- aggregateFeatures4Prostar(object = subR25pept,
-i = 1,
-name = 'aggregated',
-fcol = 'adjacencyMatrix',
-fun = 'MsCoreUtils::colSumsMat')
-feat1
-
-assay(feat1[[1]])
-assay(feat1[[2]])
-aggcounts(feat1[[2]])
-assay(feat1[[3]])
-aggcounts(feat1[[3]])
-rowData(feat1[[2]])
-}
+NULL
 data(subR25pept)
 qMeta <- qMetacell(subR25pept, 1)
 X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
@@ -390,25 +366,32 @@ level <- typeDataset(subR25pept[[1]])
 conds <- SummarizedExperiment::colData(subR25pept)$Condition
 aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 
-\donttest{
-data(subR25prot)
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
+data(subR25pept)
 
-obj.agg <- RunAggregation(subR25prot, "No", "Sum", "allPeptides")
-obj.agg <- RunAggregation(subR25prot, "No", "Sum", "topN", n = 4)
+# Remove empty lines
+filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
+subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
+              filters = list(filter_emptyline))
+# Remove proteins with no peptide associated in adjacency matrix
+indx <- which(Matrix::colSums(SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
+SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix <- SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
+  
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Mean", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Mean", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
 
-obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-}
+obj.agg <- RunAggregation(subR25pept, "No", "Sum", "allPeptides")
+obj.agg <- RunAggregation(subR25pept, "No", "Sum", "topN", n = 4)
+
+obj.agg <- RunAggregation(subR25pept, "Yes_Simple_Redistribution", "Sum", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+obj.agg <- RunAggregation(subR25pept, "Yes_Iterative_Redistribution", "Sum", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
 
 library(QFeatures)
 

@@ -498,10 +498,13 @@ impute.pa2 <- function(tab,
 #' 
 #' # Delete whole empty lines
 #' filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
-#' subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered", 
+#' subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
 #'               filters = list(filter_emptyline))
 #' 
-#' subR25pept <- wrapper.pirat(data = subR25pept, i = length(subR25pept), extension = "base")
+#' subR25pept <- wrapper.pirat(data = subR25pept,
+#' adjmat = SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix,
+#' extension = "base")
+
 #'
 #' @export
 #' @importFrom MagellanNTK pkgs.require

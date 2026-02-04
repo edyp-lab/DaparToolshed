@@ -224,8 +224,6 @@ createQFeatures <- function(
         analysis = analysis,
         description = description,
         name.pipeline = name.pipeline
-        #typePipeline = typePipeline
-        #processes = c("original", processes)
     )
 
     S4Vectors::metadata(obj)$name.pipeline <- name.pipeline

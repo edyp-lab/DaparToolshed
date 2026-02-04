@@ -16,7 +16,8 @@ is.differential(pvalue, logFC, thpvalue, thlogFC)
 \item{thlogFC}{A float indicating the logFC threshold.}
 }
 \value{
-A vector indicating which peptide/protein is differentially abundant (1) or not (0).
+A vector indicating which peptide/protein is differentially
+abundant (1) or not (0).
 }
 \description{
 This function allows to identify differentially abundant peptide/protein
@@ -27,7 +28,10 @@ obj <- subR25prot
 # Simulate imputation
 obj <- NAIsZero(obj, 1)
 obj <- NAIsZero(obj, 2)
-allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+allComp <- limmaCompleteTest(
+SummarizedExperiment::assay(obj[[length(obj)]]), 
+design.qf(obj), 
+comp.type="OnevsOne")
 is.differential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
 
 }
