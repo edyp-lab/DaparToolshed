@@ -79,13 +79,12 @@ colors <- list(
     "Quant. by direct id" = "white",
     "Combined tags" = "red"
 )
-write.excel(subR25prot, filename = "toto.xlsx")
-#> [1] "toto.xlsx"
-
+write.excel(subR25prot, filename = tempfile('toto.xlsx'))
+#> [1] "/tmp/RtmpBdNXRg/toto.xlsx1e053acf2388"
 
 data(subR25pept)
-write.excel(subR25pept, "foo.xlsx")
-#> [1] "foo.xlsx"
+write.excel(subR25pept, tempfile('foo.xlsx'))
+#> [1] "/tmp/RtmpBdNXRg/foo.xlsx1e053cf47d5a"
 # }
 
 ```

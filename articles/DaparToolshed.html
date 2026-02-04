@@ -60,7 +60,7 @@ Wieczorek</h4>
                                     <h4 data-toc-skip class="author">Thomas
 Burger</h4>
                         
-            <h4 data-toc-skip class="date">2026-02-01</h4>
+            <h4 data-toc-skip class="date">2026-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/edyp-lab/DaparToolshed/blob/master/vignettes/DaparToolshed.Rmd" class="external-link"><code>vignettes/DaparToolshed.Rmd</code></a></small>
       <div class="d-none name"><code>DaparToolshed.Rmd</code></div>
@@ -498,15 +498,7 @@ package.</p>
 <code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wrapper.pirat.html">wrapper.pirat</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">obj</span>,</span>
 <span>                     adjmat <span class="op">=</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">adjacencyMatrix</span>,</span>
 <span>                     extension <span class="op">=</span> <span class="st">"base"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Installing pyenv ...</span></span>
-<span><span class="co">## Done! pyenv has been installed to '/home/runner/.local/share/r-reticulate/pyenv/bin/pyenv'.</span></span>
-<span><span class="co">## Using Python: /home/runner/.pyenv/versions/3.10.19/bin/python3.10</span></span>
-<span><span class="co">## Creating virtual environment '/home/runner/.cache/R/basilisk/1.22.0/Pirat/1.4.4/envPirat' ...</span></span></code></pre>
-<pre><code><span><span class="co">## Done!</span></span>
-<span><span class="co">## Installing packages: pip, wheel, setuptools</span></span></code></pre>
-<pre><code><span><span class="co">## Installing packages: 'torch==2.0.0', 'numpy==1.24'</span></span></code></pre>
-<pre><code><span><span class="co">## Virtual environment '/home/runner/.cache/R/basilisk/1.22.0/Pirat/1.4.4/envPirat' successfully created.</span></span>
-<span><span class="co">## </span></span>
+<pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Call:</span></span>
 <span><span class="co">## stats::lm(formula = log(probs) ~ m_ab_sorted[seq(length(probs))])</span></span>
 <span><span class="co">## </span></span>
@@ -524,7 +516,7 @@ package.</p>
 <span><span class="co">## Residual standard error: 0.6937 on 368 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.5079, Adjusted R-squared:  0.5066 </span></span>
 <span><span class="co">## F-statistic: 379.8 on 1 and 368 DF,  p-value: &lt; 2.2e-16</span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span></span></code></pre></div>
 <pre><code><span><span class="co">## An instance of class QFeatures (type: bulk) with 5 sets:</span></span>
 <span><span class="co">## </span></span>
@@ -544,7 +536,7 @@ analysis, it is important to aggregate only after imputation.</p>
 and to choose the most appropriate aggregation method accordingly. The
 <code><a href="../reference/DaparToolshed-aggregate.html">getProteinsStats()</a></code> function displays various information
 about peptides and associated proteins from the adjacency matrix.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">adjacencyMatrix</span></span>
 <span><span class="va">info_pept</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DaparToolshed-aggregate.html">getProteinsStats</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
 <span></span>
@@ -554,7 +546,7 @@ about peptides and associated proteins from the adjacency matrix.</p>
 <pre><code><span><span class="co">## Total number of peptides :  480 </span></span>
 <span><span class="co">##  Number of specific peptides :  464 </span></span>
 <span><span class="co">##  Number of shared peptides :  16</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total number of proteins : "</span>, <span class="va">info_pept</span><span class="op">$</span><span class="va">nbProt</span>, <span class="st">"\n"</span>,</span>
 <span>    <span class="st">"Number of protein with only specific peptides : "</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">info_pept</span><span class="op">$</span><span class="va">protOnlyUniquePep</span><span class="op">)</span>, <span class="st">"\n"</span>,</span>
 <span>    <span class="st">"Number of protein with only shared peptides : "</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">info_pept</span><span class="op">$</span><span class="va">protOnlySharedPep</span><span class="op">)</span>, <span class="st">"\n"</span>,</span>
@@ -581,7 +573,7 @@ In addition, there is the choice of aggregation function, used for
 quantitative feature aggregation, with <code>operator</code>. This can
 be either <code>Sum</code>, <code>Mean</code>, <code>Median</code>,
 <code>medianPolish</code> or <code>robustSummary</code>.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DaparToolshed-aggregate.html">RunAggregation</a></span><span class="op">(</span><span class="va">obj</span>,</span>
 <span>                      adjMatrix <span class="op">=</span> <span class="st">'adjacencyMatrix'</span>,</span>
 <span>                      includeSharedPeptides <span class="op">=</span> <span class="st">'Yes_Iterative_Redistribution'</span>,</span>
@@ -603,7 +595,7 @@ be either <code>Sum</code>, <code>Mean</code>, <code>Median</code>,
 <p>After aggregation, it can be seen that there are still some missing
 values. These come from proteins that only have shared peptides, which
 have been left out using this method, as explained above.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="st">"aggregated"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  Intensity_C_R1  Intensity_C_R2  Intensity_C_R3  Intensity_D_R1 </span></span>
 <span><span class="co">##  Min.   :22.24   Min.   :21.83   Min.   :22.54   Min.   :22.24  </span></span>
@@ -623,7 +615,7 @@ have been left out using this method, as explained above.</p>
 <span><span class="co">##  NA's   :21      NA's   :21</span></span></code></pre>
 <p>A new filter can thus be applied to these protein-level data to
 remove them.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#apply the filter to remove empty lines created</span></span>
 <span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/QFeatures-filtering-oneSE.html">filterFeaturesOneSE</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">obj</span>,</span>
 <span>                           i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>,</span>
@@ -660,7 +652,7 @@ differentially abundant between the conditions contrasted. Limma can be
 used to do so with the <code><a href="../reference/limmaCompleteTest.html">limmaCompleteTest()</a></code> function. This
 function returns a list of p-values and logarithmized fold-change
 (logFC) for each contrast.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_pval_FC</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/limmaCompleteTest.html">limmaCompleteTest</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>                                 <span class="fu"><a href="../reference/QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>, </span>
 <span>                                 comp.type <span class="op">=</span> <span class="st">"OnevsOne"</span><span class="op">)</span></span>
@@ -686,7 +678,7 @@ help tuning the logFC threshold. It shows the distribution of logFCs and
 indicates the percentage of discarded proteins based on the specified
 threshold. Here, with a threshold of 0.04, almost 39% of proteins are
 discarded.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#logFC threshold</span></span>
 <span><span class="va">Foldchange_thlogFC</span> <span class="op">&lt;-</span> <span class="fl">0.04</span></span>
 <span>        </span>
@@ -717,7 +709,7 @@ versus those originally equal to 1.</p>
 <p>With 6 samples divided into 2 conditions, proteins with only a single
 observed value can easily be discarded. Even if their p-values appear
 promising, these proteins may not be informative for the analysis.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res_pval_FC</span><span class="op">$</span><span class="va">P_Value</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co">#push p-values for proteins with more than 60% of values derived from imputation</span></span>
@@ -760,7 +752,7 @@ each calibration method can be accessed from the created object via
 <code>pi0</code>.</p>
 <p>Pushed p-values should not be taken into account during calibration
 in order to avoid skewing the p-value distribution.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#remove pushed p-values</span></span>
 <span><span class="va">pushedpval_ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">pval</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">pval_nopush</span> <span class="op">&lt;-</span> <span class="va">pval</span><span class="op">[</span><span class="op">-</span><span class="va">pushedpval_ind</span><span class="op">]</span></span>
@@ -769,7 +761,7 @@ in order to avoid skewing the p-value distribution.</p>
 <span><span class="va">calibration_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wrapperCalibrationPlot.html">wrapperCalibrationPlot</a></span><span class="op">(</span>vPVal <span class="op">=</span> <span class="va">pval_nopush</span>, </span>
 <span>                                          pi0Method  <span class="op">=</span> <span class="st">"ALL"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DaparToolshed_files/figure-html/pvalcalibration-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">calibration_all</span><span class="op">$</span><span class="va">pi0</span></span></code></pre></div>
 <pre><code><span><span class="co">##   pi0.Storey.Spline pi0.Storey.Boot pi0.Jiang pi0.Histo pi0.Langaas pi0.Pounds</span></span>
 <span><span class="co">## 1         0.6383234       0.6035503 0.6679852 0.6973795   0.6122122  0.7489547</span></span>
@@ -788,7 +780,7 @@ graphical representation of the distribution of p-values and π0, while
 conveying the same information. It is more intuitive to understand, but
 more difficult to use it to precisely assess the calibration quality.
 Both graphics are thus complementary.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#chosen pi0</span></span>
 <span><span class="va">pi0</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span></span>
@@ -804,7 +796,7 @@ Both graphics are thus complementary.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## $unif.under</span></span>
 <span><span class="co">## [1] 0.006418716</span></span></code></pre>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#histogram of p-values density</span></span>
 <span><span class="fu"><a href="../reference/histPValue_HC.html">histPValue_HC</a></span><span class="op">(</span><span class="va">pval_nopush</span>,</span>
 <span>              bins <span class="op">=</span> <span class="fl">50</span>,</span>
@@ -816,7 +808,7 @@ adjusted p-values corresponding to the p-values of the differential
 analysis. Proteins with a logFC below the previously defined threshold
 are taken into account when calculating adjusted p-values. However,
 their p-value is pushed to 1, as they are considered ‘discarded’.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#push to 1 proteins with logFC under threshold</span></span>
 <span><span class="va">pval_pushfc</span> <span class="op">&lt;-</span> <span class="va">pval</span></span>
 <span><span class="va">pval_logfc_inf_ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">res_pval_FC</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">Foldchange_thlogFC</span><span class="op">)</span></span>
@@ -831,7 +823,7 @@ their p-value is pushed to 1, as they are considered ‘discarded’.</p>
 <span>  <span class="va">pval_pushfc</span>,</span>
 <span>  <span class="va">pi0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Procedure of Benjamini-Hochberg is used. pi0 is fixed to 1.</span></span></code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adjusted_pvalues_comp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res_pval_FC</span><span class="op">$</span><span class="va">P_Value</span><span class="op">)</span></span>
 <span><span class="va">adjusted_pvalues_comp</span><span class="op">[</span><span class="op">-</span><span class="va">pushedpval_ind</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adjusted_pvalues</span></span></code></pre></div>
 </div>
@@ -853,7 +845,7 @@ as it corresponds to strictly less than one expected false discovery.
 This is likely to happen in small datasets. However, an FDR that becomes
 meaningless does not invalidate the proteomics experiment itself. It
 only means that the FDR should be used cautiously.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#define p-value threshold</span></span>
 <span><span class="va">pval_threshold</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
 <span><span class="va">FDRcontrol_thpval</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">pval_threshold</span><span class="op">)</span></span>
@@ -890,7 +882,7 @@ protein index, and any additional information to be displayed in the
 tooltip when hovering over a point in the plot. The FDR threshold
 corresponds to the horizontal dashed line, and the logFC threshold to
 the vertical dashed line.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#create dataframe for volcano plot</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res_pval_FC</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span>,</span>
@@ -898,7 +890,7 @@ the vertical dashed line.</p>
 <span>  index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">tooltip</span> <span class="op">&lt;-</span> <span class="st">"proteinId"</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span>, <span class="va">tooltip</span>, drop <span class="op">=</span> <span class="cn">F</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span>, <span class="va">tooltip</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"."</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tooltip_"</span>,</span>
@@ -919,7 +911,7 @@ all p-values, logFCs, or the differential or non-differential status of
 each protein. This allows you to keep this data organized in a single
 object and reuse it later if necessary for further processing or
 visualization.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co">#create new assay with all values of interest</span></span>
 <span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">QFeatures</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html" class="external-link">addAssay</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>, <span class="st">'DifferentialAnalysis'</span><span class="op">)</span></span>
 <span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">obj</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">pval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res_pval_FC</span><span class="op">$</span><span class="va">P_Value</span><span class="op">)</span></span>
@@ -992,14 +984,14 @@ visualization.</p>
 <span><span class="co">##  [41] limma_3.66.0                TTR_0.24.4                 </span></span>
 <span><span class="co">##  [43] impute_1.84.0               visNetwork_2.1.4           </span></span>
 <span><span class="co">##  [45] generics_0.1.4              gtools_3.9.5               </span></span>
-<span><span class="co">##  [47] dplyr_1.1.4                 zip_2.3.3                  </span></span>
+<span><span class="co">##  [47] dplyr_1.2.0                 zip_2.3.3                  </span></span>
 <span><span class="co">##  [49] dendextend_1.19.1           leaps_3.2                  </span></span>
 <span><span class="co">##  [51] Matrix_1.7-4                MALDIquant_1.22.3          </span></span>
 <span><span class="co">##  [53] S4Vectors_0.48.0            clipr_0.8.0                </span></span>
 <span><span class="co">##  [55] abind_1.4-8                 lifecycle_1.0.5            </span></span>
 <span><span class="co">##  [57] scatterplot3d_0.3-44        multcomp_1.4-29            </span></span>
 <span><span class="co">##  [59] yaml_2.3.12                 SummarizedExperiment_1.40.0</span></span>
-<span><span class="co">##  [61] qvalue_2.42.0               gplots_3.3.0               </span></span>
+<span><span class="co">##  [61] gplots_3.3.0                qvalue_2.42.0              </span></span>
 <span><span class="co">##  [63] SparseArray_1.10.8          grid_4.5.2                 </span></span>
 <span><span class="co">##  [65] promises_1.5.0              crayon_1.5.3               </span></span>
 <span><span class="co">##  [67] PSMatch_1.14.0              dir.expiry_1.18.0          </span></span>
@@ -1031,42 +1023,41 @@ visualization.</p>
 <span><span class="co">## [119] bookdown_0.46               mosaicCore_0.9.5           </span></span>
 <span><span class="co">## [121] scales_1.4.0                caTools_1.18.3             </span></span>
 <span><span class="co">## [123] affy_1.88.0                 multcompView_0.1-10        </span></span>
-<span><span class="co">## [125] rappdirs_0.3.4              stringr_1.6.0              </span></span>
-<span><span class="co">## [127] digest_0.6.39               ggformula_1.0.1            </span></span>
-<span><span class="co">## [129] shinyBS_0.63.0              rmarkdown_2.30             </span></span>
-<span><span class="co">## [131] basilisk_1.22.0             XVector_0.50.0             </span></span>
-<span><span class="co">## [133] htmltools_0.5.9             pkgconfig_2.0.3            </span></span>
-<span><span class="co">## [135] highcharter_0.9.4           geeM_0.10.1                </span></span>
-<span><span class="co">## [137] MatrixGenerics_1.22.0       FactoMineR_2.13            </span></span>
-<span><span class="co">## [139] fastmap_1.2.0               rlang_1.1.7                </span></span>
-<span><span class="co">## [141] htmlwidgets_1.6.4           quantmod_0.4.28            </span></span>
-<span><span class="co">## [143] shiny_1.12.1                farver_2.1.2               </span></span>
-<span><span class="co">## [145] jquerylib_0.1.4             zoo_1.8-15                 </span></span>
-<span><span class="co">## [147] jsonlite_2.0.0              BiocParallel_1.44.0        </span></span>
-<span><span class="co">## [149] mzID_1.48.0                 rlist_0.4.6.2              </span></span>
-<span><span class="co">## [151] magrittr_2.0.4              Rcpp_1.1.1                 </span></span>
-<span><span class="co">## [153] geepack_1.3.13              viridis_0.6.5              </span></span>
-<span><span class="co">## [155] gdtools_0.4.4               MsCoreUtils_1.22.1         </span></span>
-<span><span class="co">## [157] reticulate_1.44.1           vsn_3.78.1                 </span></span>
-<span><span class="co">## [159] stringi_1.8.7               MASS_7.3-65                </span></span>
-<span><span class="co">## [161] plyr_1.8.9                  shinyFiles_0.9.3           </span></span>
-<span><span class="co">## [163] parallel_4.5.2              ggrepel_0.9.6              </span></span>
-<span><span class="co">## [165] forcats_1.0.1               splines_4.5.2              </span></span>
-<span><span class="co">## [167] multtest_2.66.0             hms_1.1.4                  </span></span>
-<span><span class="co">## [169] Spectra_1.20.1              igraph_2.2.1               </span></span>
-<span><span class="co">## [171] QFeatures_1.20.0            reshape2_1.4.5             </span></span>
-<span><span class="co">## [173] stats4_4.5.2                XML_3.99-0.20              </span></span>
-<span><span class="co">## [175] evaluate_1.0.5              cp4p_0.3.6                 </span></span>
-<span><span class="co">## [177] BiocManager_1.30.27         foreach_1.5.2              </span></span>
-<span><span class="co">## [179] httpuv_1.6.16               tidyr_1.3.2                </span></span>
-<span><span class="co">## [181] purrr_1.2.1                 clue_0.3-66                </span></span>
-<span><span class="co">## [183] ggplot2_4.0.1               BiocBaseUtils_1.12.0       </span></span>
-<span><span class="co">## [185] broom_1.0.12                xtable_1.8-4               </span></span>
-<span><span class="co">## [187] AnnotationFilter_1.34.0     later_1.4.5                </span></span>
-<span><span class="co">## [189] viridisLite_0.4.2           ragg_1.5.0                 </span></span>
-<span><span class="co">## [191] tibble_3.3.1                IRanges_2.44.0             </span></span>
-<span><span class="co">## [193] cluster_2.1.8.1             timechange_0.4.0           </span></span>
-<span><span class="co">## [195] omXplore_1.4.2</span></span></code></pre>
+<span><span class="co">## [125] stringr_1.6.0               digest_0.6.39              </span></span>
+<span><span class="co">## [127] ggformula_1.0.1             shinyBS_0.63.0             </span></span>
+<span><span class="co">## [129] rmarkdown_2.30              basilisk_1.22.0            </span></span>
+<span><span class="co">## [131] XVector_0.50.0              htmltools_0.5.9            </span></span>
+<span><span class="co">## [133] pkgconfig_2.0.3             highcharter_0.9.4          </span></span>
+<span><span class="co">## [135] geeM_0.10.1                 MatrixGenerics_1.22.0      </span></span>
+<span><span class="co">## [137] FactoMineR_2.13             fastmap_1.2.0              </span></span>
+<span><span class="co">## [139] rlang_1.1.7                 htmlwidgets_1.6.4          </span></span>
+<span><span class="co">## [141] quantmod_0.4.28             shiny_1.12.1               </span></span>
+<span><span class="co">## [143] farver_2.1.2                jquerylib_0.1.4            </span></span>
+<span><span class="co">## [145] zoo_1.8-15                  jsonlite_2.0.0             </span></span>
+<span><span class="co">## [147] BiocParallel_1.44.0         mzID_1.48.0                </span></span>
+<span><span class="co">## [149] rlist_0.4.6.2               magrittr_2.0.4             </span></span>
+<span><span class="co">## [151] Rcpp_1.1.1                  geepack_1.3.13             </span></span>
+<span><span class="co">## [153] viridis_0.6.5               gdtools_0.4.4              </span></span>
+<span><span class="co">## [155] MsCoreUtils_1.22.1          reticulate_1.44.1          </span></span>
+<span><span class="co">## [157] vsn_3.78.1                  stringi_1.8.7              </span></span>
+<span><span class="co">## [159] MASS_7.3-65                 plyr_1.8.9                 </span></span>
+<span><span class="co">## [161] shinyFiles_0.9.3            parallel_4.5.2             </span></span>
+<span><span class="co">## [163] ggrepel_0.9.6               forcats_1.0.1              </span></span>
+<span><span class="co">## [165] splines_4.5.2               multtest_2.66.0            </span></span>
+<span><span class="co">## [167] hms_1.1.4                   Spectra_1.20.1             </span></span>
+<span><span class="co">## [169] igraph_2.2.1                QFeatures_1.20.0           </span></span>
+<span><span class="co">## [171] reshape2_1.4.5              stats4_4.5.2               </span></span>
+<span><span class="co">## [173] XML_3.99-0.20               evaluate_1.0.5             </span></span>
+<span><span class="co">## [175] cp4p_0.3.6                  BiocManager_1.30.27        </span></span>
+<span><span class="co">## [177] foreach_1.5.2               httpuv_1.6.16              </span></span>
+<span><span class="co">## [179] tidyr_1.3.2                 purrr_1.2.1                </span></span>
+<span><span class="co">## [181] clue_0.3-66                 ggplot2_4.0.2              </span></span>
+<span><span class="co">## [183] BiocBaseUtils_1.12.0        broom_1.0.12               </span></span>
+<span><span class="co">## [185] xtable_1.8-4                AnnotationFilter_1.34.0    </span></span>
+<span><span class="co">## [187] later_1.4.5                 viridisLite_0.4.2          </span></span>
+<span><span class="co">## [189] ragg_1.5.0                  tibble_3.3.1               </span></span>
+<span><span class="co">## [191] IRanges_2.44.0              cluster_2.1.8.1            </span></span>
+<span><span class="co">## [193] timechange_0.4.0            omXplore_1.4.2</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

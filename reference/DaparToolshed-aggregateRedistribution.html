@@ -188,9 +188,9 @@ for a complete quantitative proteomics data processing pipeline.</p></div>
 <span class="r-in"><span><span class="co">## An example QFeatures with PSM-level data</span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">subR25prot</span></span></span>
+<span class="r-in"><span><span class="va">subR25pept</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An instance of class QFeatures (type: bulk) with 2 sets:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] original: SummarizedExperiment with 100 rows and 6 columns </span>
@@ -198,13 +198,13 @@ for a complete quantitative proteomics data processing pipeline.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Aggregate peptides into proteins</span></span></span>
 <span class="r-in"><span><span class="co">## using the adjacency matrix</span></span></span>
-<span class="r-in"><span><span class="va">feat1</span> <span class="op">&lt;-</span> <span class="fu">aggregateRedistribution</span><span class="op">(</span>object <span class="op">=</span> <span class="va">subR25prot</span>,</span></span>
+<span class="r-in"><span><span class="va">feat1</span> <span class="op">&lt;-</span> <span class="fu">aggregateRedistribution</span><span class="op">(</span>object <span class="op">=</span> <span class="va">subR25pept</span>,</span></span>
 <span class="r-in"><span>i <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>name <span class="op">=</span> <span class="st">'aggregated'</span>,</span></span>
 <span class="r-in"><span>fcol <span class="op">=</span> <span class="st">'adjacencyMatrix'</span>,</span></span>
 <span class="r-in"><span>init.method <span class="op">=</span> <span class="st">'Mean'</span>,</span></span>
 <span class="r-in"><span>method <span class="op">=</span> <span class="st">'Mean'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .aggregateRedistribution(object, fcol, init.method, method, ponderation,     n, uniqueiter, conds, max_iter):</span> 'fcol' must refer to a sparse matrix.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if ((convN - conv) == 0) {    conv &lt;- 0}:</span> missing value where TRUE/FALSE needed</span>
 <span class="r-in"><span><span class="va">feat1</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'feat1' not found</span>
 <span class="r-in"><span></span></span>

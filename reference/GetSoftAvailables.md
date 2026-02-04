@@ -8,6 +8,10 @@ The set of available softwares to convert from
 GetSoftAvailables()
 ```
 
+## Value
+
+A vecotr of charatcer
+
 ## Examples
 
 ``` r

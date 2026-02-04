@@ -142,9 +142,9 @@ processing pipeline.
 ## An example QFeatures with PSM-level data
 ## ---------------------------------------
 # \donttest{
-data(subR25prot)
+data(subR25pept)
 library(SummarizedExperiment)
-subR25prot
+subR25pept
 #> An instance of class QFeatures (type: bulk) with 2 sets:
 #> 
 #>  [1] original: SummarizedExperiment with 100 rows and 6 columns 
@@ -152,13 +152,13 @@ subR25prot
 
 ## Aggregate peptides into proteins
 ## using the adjacency matrix
-feat1 <- aggregateRedistribution(object = subR25prot,
+feat1 <- aggregateRedistribution(object = subR25pept,
 i = 1,
 name = 'aggregated',
 fcol = 'adjacencyMatrix',
 init.method = 'Mean',
 method = 'Mean')
-#> Error in .aggregateRedistribution(object, fcol, init.method, method, ponderation,     n, uniqueiter, conds, max_iter): 'fcol' must refer to a sparse matrix.
+#> Error in if ((convN - conv) == 0) {    conv <- 0}: missing value where TRUE/FALSE needed
 feat1
 #> Error: object 'feat1' not found
 

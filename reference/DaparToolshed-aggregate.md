@@ -472,11 +472,77 @@ Alexia Dorffer, Samuel Wieczorek
 ## Examples
 
 ``` r
-## ---------------------------------------
-## An example QFeatures with PSM-level data
-## ---------------------------------------
-# \donttest{
-library(SummarizedExperiment)
+NULL
+#> NULL
+data(subR25pept)
+qMeta <- qMetacell(subR25pept, 1)
+X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
+level <- typeDataset(subR25pept[[1]])
+conds <- SummarizedExperiment::colData(subR25pept)$Condition
+aggQmeta <- aggQmetacell(qMeta, X, level, conds)
+
+data(subR25pept)
+
+# Remove empty lines
+filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
+subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
+              filters = list(filter_emptyline))
+# Remove proteins with no peptide associated in adjacency matrix
+indx <- which(Matrix::colSums(SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
+SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix <- SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
+  
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+#> Adding aggregated metadata
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Mean", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+#> Adding aggregated metadata
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+#> Adding aggregated metadata
+obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Mean", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+#> Adding aggregated metadata
+
+obj.agg <- RunAggregation(subR25pept, "No", "Sum", "allPeptides")
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+obj.agg <- RunAggregation(subR25pept, "No", "Sum", "topN", n = 4)
+#> Aggregating data
+#> Your quantitative data contain missing values. Please read the relevant
+#> section(s) in the aggregateFeatures manual page regarding the effects
+#> of missing values on data aggregation.
+
+obj.agg <- RunAggregation(subR25pept, "Yes_Simple_Redistribution", "Sum", "allPeptides",
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Adding aggregated metadata
+obj.agg <- RunAggregation(subR25pept, "Yes_Iterative_Redistribution", "Sum", "topN", n = 4,
+aggregated_col = c("Sequence", "Mass"))
+#> Aggregating data
+#> Adding aggregated metadata
+
+library(QFeatures)
+#> Loading required package: MultiAssayExperiment
+#> Loading required package: SummarizedExperiment
 #> Loading required package: MatrixGenerics
 #> Loading required package: matrixStats
 #> 
@@ -546,89 +612,6 @@ library(SummarizedExperiment)
 #> The following objects are masked from ‘package:matrixStats’:
 #> 
 #>     anyMissing, rowMedians
-data(subR25pept)
-subR25pept
-#> An instance of class QFeatures (type: bulk) with 2 sets:
-#> 
-#>  [1] original: SummarizedExperiment with 100 rows and 6 columns 
-#>  [2] logAssay: SummarizedExperiment with 100 rows and 6 columns 
-
-## Aggregate peptides into proteins
-## using the adjacency matrix
-feat1 <- aggregateFeatures4Prostar(object = subR25pept,
-i = 1,
-name = 'aggregated',
-fcol = 'adjacencyMatrix',
-fun = 'MsCoreUtils::colSumsMat')
-#> Your quantitative data contain missing values. Please read the relevant
-#> section(s) in the aggregateFeatures manual page regarding the effects
-#> of missing values on data aggregation.
-#> Error in get(as.character(FUN), mode = "function", envir = envir): object 'MsCoreUtils::colSumsMat' of mode 'function' was not found
-feat1
-#> Error: object 'feat1' not found
-
-assay(feat1[[1]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-assay(feat1[[2]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-aggcounts(feat1[[2]])
-#> Error in aggcounts(feat1[[2]]): could not find function "aggcounts"
-assay(feat1[[3]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-aggcounts(feat1[[3]])
-#> Error in aggcounts(feat1[[3]]): could not find function "aggcounts"
-rowData(feat1[[2]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'rowData': object 'feat1' not found
-# }
-data(subR25pept)
-qMeta <- qMetacell(subR25pept, 1)
-X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-level <- typeDataset(subR25pept[[1]])
-conds <- SummarizedExperiment::colData(subR25pept)$Condition
-aggQmeta <- aggQmetacell(qMeta, X, level, conds)
-
-# \donttest{
-data(subR25prot)
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Sum", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-obj.agg <- RunAggregation(subR25prot, "Yes_As_Specific", "Mean", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-
-obj.agg <- RunAggregation(subR25prot, "No", "Sum", "allPeptides")
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-obj.agg <- RunAggregation(subR25prot, "No", "Sum", "topN", n = 4)
-#> Aggregating data
-#> Error in .aggregateFeatures4Prostar(object, fcol, fun, conds, shared,     n, ...): 'fcol' must refer to a matrix. 
-#>       You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.
-
-obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides", 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Error in RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "allPeptides",     aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]]))): Yes_Redistribution is not an option for 'includeSharedPeptides'.
-obj.agg <- RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN", n = 4, 
-aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]])))
-#> Error in RunAggregation(subR25prot, "Yes_Redistribution", "Sum", "topN",     n = 4, aggregated_col = colnames(SummarizedExperiment::rowData(subR25prot[[2]]))): Yes_Redistribution is not an option for 'includeSharedPeptides'.
-# }
-
-library(QFeatures)
-#> Loading required package: MultiAssayExperiment
 #> 
 #> Attaching package: ‘QFeatures’
 #> The following object is masked from ‘package:base’:

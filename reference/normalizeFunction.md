@@ -84,6 +84,5 @@ Manon Gaudin
 
 ``` r
 data(subR25pept)
-normalized <- normalizeFunction(subR25pept, )
-#> Error in normalizeFunction(subR25pept, ): 'method' is required.
+normalized <- normalizeFunction(subR25pept, method = 'GlobalQuantileAlignment')
 ```

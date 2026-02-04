@@ -462,17 +462,6 @@ obj <- wrapper.pirat(data = obj,
                      extension = "base")
 ```
 
-    ## Installing pyenv ...
-    ## Done! pyenv has been installed to '/home/runner/.local/share/r-reticulate/pyenv/bin/pyenv'.
-    ## Using Python: /home/runner/.pyenv/versions/3.10.19/bin/python3.10
-    ## Creating virtual environment '/home/runner/.cache/R/basilisk/1.22.0/Pirat/1.4.4/envPirat' ...
-
-    ## Done!
-    ## Installing packages: pip, wheel, setuptools
-
-    ## Installing packages: 'torch==2.0.0', 'numpy==1.24'
-
-    ## Virtual environment '/home/runner/.cache/R/basilisk/1.22.0/Pirat/1.4.4/envPirat' successfully created.
     ## 
     ## Call:
     ## stats::lm(formula = log(probs) ~ m_ab_sorted[seq(length(probs))])
@@ -931,7 +920,7 @@ df <- data.frame(
   index = as.character(rownames(obj[[length(obj)]]))
   )
 tooltip <- "proteinId"
-df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = F])
+df <- cbind(df, SummarizedExperiment::rowData(obj[[length(obj)]])[, tooltip, drop = FALSE])
 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_",
@@ -1026,14 +1015,14 @@ obj
     ##  [41] limma_3.66.0                TTR_0.24.4                 
     ##  [43] impute_1.84.0               visNetwork_2.1.4           
     ##  [45] generics_0.1.4              gtools_3.9.5               
-    ##  [47] dplyr_1.1.4                 zip_2.3.3                  
+    ##  [47] dplyr_1.2.0                 zip_2.3.3                  
     ##  [49] dendextend_1.19.1           leaps_3.2                  
     ##  [51] Matrix_1.7-4                MALDIquant_1.22.3          
     ##  [53] S4Vectors_0.48.0            clipr_0.8.0                
     ##  [55] abind_1.4-8                 lifecycle_1.0.5            
     ##  [57] scatterplot3d_0.3-44        multcomp_1.4-29            
     ##  [59] yaml_2.3.12                 SummarizedExperiment_1.40.0
-    ##  [61] qvalue_2.42.0               gplots_3.3.0               
+    ##  [61] gplots_3.3.0                qvalue_2.42.0              
     ##  [63] SparseArray_1.10.8          grid_4.5.2                 
     ##  [65] promises_1.5.0              crayon_1.5.3               
     ##  [67] PSMatch_1.14.0              dir.expiry_1.18.0          
@@ -1065,42 +1054,41 @@ obj
     ## [119] bookdown_0.46               mosaicCore_0.9.5           
     ## [121] scales_1.4.0                caTools_1.18.3             
     ## [123] affy_1.88.0                 multcompView_0.1-10        
-    ## [125] rappdirs_0.3.4              stringr_1.6.0              
-    ## [127] digest_0.6.39               ggformula_1.0.1            
-    ## [129] shinyBS_0.63.0              rmarkdown_2.30             
-    ## [131] basilisk_1.22.0             XVector_0.50.0             
-    ## [133] htmltools_0.5.9             pkgconfig_2.0.3            
-    ## [135] highcharter_0.9.4           geeM_0.10.1                
-    ## [137] MatrixGenerics_1.22.0       FactoMineR_2.13            
-    ## [139] fastmap_1.2.0               rlang_1.1.7                
-    ## [141] htmlwidgets_1.6.4           quantmod_0.4.28            
-    ## [143] shiny_1.12.1                farver_2.1.2               
-    ## [145] jquerylib_0.1.4             zoo_1.8-15                 
-    ## [147] jsonlite_2.0.0              BiocParallel_1.44.0        
-    ## [149] mzID_1.48.0                 rlist_0.4.6.2              
-    ## [151] magrittr_2.0.4              Rcpp_1.1.1                 
-    ## [153] geepack_1.3.13              viridis_0.6.5              
-    ## [155] gdtools_0.4.4               MsCoreUtils_1.22.1         
-    ## [157] reticulate_1.44.1           vsn_3.78.1                 
-    ## [159] stringi_1.8.7               MASS_7.3-65                
-    ## [161] plyr_1.8.9                  shinyFiles_0.9.3           
-    ## [163] parallel_4.5.2              ggrepel_0.9.6              
-    ## [165] forcats_1.0.1               splines_4.5.2              
-    ## [167] multtest_2.66.0             hms_1.1.4                  
-    ## [169] Spectra_1.20.1              igraph_2.2.1               
-    ## [171] QFeatures_1.20.0            reshape2_1.4.5             
-    ## [173] stats4_4.5.2                XML_3.99-0.20              
-    ## [175] evaluate_1.0.5              cp4p_0.3.6                 
-    ## [177] BiocManager_1.30.27         foreach_1.5.2              
-    ## [179] httpuv_1.6.16               tidyr_1.3.2                
-    ## [181] purrr_1.2.1                 clue_0.3-66                
-    ## [183] ggplot2_4.0.1               BiocBaseUtils_1.12.0       
-    ## [185] broom_1.0.12                xtable_1.8-4               
-    ## [187] AnnotationFilter_1.34.0     later_1.4.5                
-    ## [189] viridisLite_0.4.2           ragg_1.5.0                 
-    ## [191] tibble_3.3.1                IRanges_2.44.0             
-    ## [193] cluster_2.1.8.1             timechange_0.4.0           
-    ## [195] omXplore_1.4.2
+    ## [125] stringr_1.6.0               digest_0.6.39              
+    ## [127] ggformula_1.0.1             shinyBS_0.63.0             
+    ## [129] rmarkdown_2.30              basilisk_1.22.0            
+    ## [131] XVector_0.50.0              htmltools_0.5.9            
+    ## [133] pkgconfig_2.0.3             highcharter_0.9.4          
+    ## [135] geeM_0.10.1                 MatrixGenerics_1.22.0      
+    ## [137] FactoMineR_2.13             fastmap_1.2.0              
+    ## [139] rlang_1.1.7                 htmlwidgets_1.6.4          
+    ## [141] quantmod_0.4.28             shiny_1.12.1               
+    ## [143] farver_2.1.2                jquerylib_0.1.4            
+    ## [145] zoo_1.8-15                  jsonlite_2.0.0             
+    ## [147] BiocParallel_1.44.0         mzID_1.48.0                
+    ## [149] rlist_0.4.6.2               magrittr_2.0.4             
+    ## [151] Rcpp_1.1.1                  geepack_1.3.13             
+    ## [153] viridis_0.6.5               gdtools_0.4.4              
+    ## [155] MsCoreUtils_1.22.1          reticulate_1.44.1          
+    ## [157] vsn_3.78.1                  stringi_1.8.7              
+    ## [159] MASS_7.3-65                 plyr_1.8.9                 
+    ## [161] shinyFiles_0.9.3            parallel_4.5.2             
+    ## [163] ggrepel_0.9.6               forcats_1.0.1              
+    ## [165] splines_4.5.2               multtest_2.66.0            
+    ## [167] hms_1.1.4                   Spectra_1.20.1             
+    ## [169] igraph_2.2.1                QFeatures_1.20.0           
+    ## [171] reshape2_1.4.5              stats4_4.5.2               
+    ## [173] XML_3.99-0.20               evaluate_1.0.5             
+    ## [175] cp4p_0.3.6                  BiocManager_1.30.27        
+    ## [177] foreach_1.5.2               httpuv_1.6.16              
+    ## [179] tidyr_1.3.2                 purrr_1.2.1                
+    ## [181] clue_0.3-66                 ggplot2_4.0.2              
+    ## [183] BiocBaseUtils_1.12.0        broom_1.0.12               
+    ## [185] xtable_1.8-4                AnnotationFilter_1.34.0    
+    ## [187] later_1.4.5                 viridisLite_0.4.2          
+    ## [189] ragg_1.5.0                  tibble_3.3.1               
+    ## [191] IRanges_2.44.0              cluster_2.1.8.1            
+    ## [193] timechange_0.4.0            omXplore_1.4.2
 
 ## References
 

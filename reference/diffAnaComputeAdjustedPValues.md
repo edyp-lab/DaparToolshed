@@ -37,7 +37,9 @@ obj <- subR25prot
 # Simulate imputation
 obj <- NAIsZero(obj, 1)
 obj <- NAIsZero(obj, 2)
-allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
+allComp <- limmaCompleteTest(
+SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
+comp.type="OnevsOne")
 diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 #> Procedure of Benjamini-Hochberg is used. pi0 is fixed to 1.
 #>   [1] 5.257966e-01 9.697768e-01 1.447386e-05 7.396754e-02 9.495707e-01

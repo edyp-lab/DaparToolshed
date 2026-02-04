@@ -85,8 +85,17 @@ obj <- subR25prot
 # Simulate imputation
 obj <- NAIsZero(obj, 1)
 obj <- NAIsZero(obj, 2)
-allComp <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), comp.type="OnevsOne")
-pushpvalue(obj, allComp$P_Value[, 1], scope = "WholeMatrix", pattern = c("Missing MEC", "Missing POV"), percent = TRUE, threshold = 0.5, operator = ">=",)
+allComp <- limmaCompleteTest(SummarizedExperiment::assay(
+obj[[length(obj)]]), 
+design.qf(obj), 
+comp.type="OnevsOne")
+pushpvalue(obj, 
+allComp$P_Value[, 1], 
+scope = "WholeMatrix", 
+pattern = c("Missing MEC", "Missing POV"), 
+percent = TRUE, 
+threshold = 0.5, 
+operator = ">=",)
 #>   [1] 3.943475e-01 9.212880e-01 1.592125e-06 3.994247e-02 8.736050e-01
 #>   [6] 6.701855e-02 2.268774e-01 1.418284e-02 9.136290e-01 7.068714e-06
 #>  [11] 1.463797e-06 4.786901e-04 2.715090e-05 6.943010e-05 6.776124e-07

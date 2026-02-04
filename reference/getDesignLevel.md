@@ -14,6 +14,10 @@ getDesignLevel(sTab)
 
   xxx
 
+## Value
+
+An integer
+
 ## Examples
 
 ``` r

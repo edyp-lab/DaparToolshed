@@ -47,9 +47,6 @@
   : Aggregate an assay's quantitative features with shared peptide
   redistribution
 
-- [`DaparToolshed`](https://edyp-lab.github.io/DaparToolshed/reference/DaparToolshed.md)
-  : DaparToolshed: A package for computating the notorious bar statistic
-
 - [`ExtendPalette()`](https://edyp-lab.github.io/DaparToolshed/reference/ExtendPalette.md)
   : Extends a base-palette of the package RColorBrewer to n colors.
 
