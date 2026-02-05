@@ -32,7 +32,6 @@ Imports:
     Biobase,
     BiocGenerics,
     matrixStats,
-    MagellanNTK,
     S4Vectors,
     SummarizedExperiment,
     omXplore,

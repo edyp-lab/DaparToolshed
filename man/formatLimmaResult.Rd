@@ -38,6 +38,7 @@ qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[2]]))
 sTab <- SummarizedExperiment::colData(subR25prot)
 limma <- limmaCompleteTest(qData, sTab)
 
+
 }
 \author{
 Samuel Wieczorek

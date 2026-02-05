@@ -35,7 +35,6 @@
 #' 
 #' @import highcharter
 #' @importFrom stats density
-#' @importFrom MagellanNTK pkgs.require
 #' 
 #'
 hc_logFC_DensityPlot <- function(
@@ -43,7 +42,7 @@ hc_logFC_DensityPlot <- function(
     th_logFC = 0,
     pal = NULL) {
   
-  MagellanNTK::pkgs.require(c("RColorBrewer", "grDevices"))
+  pkgs.require(c("RColorBrewer", "grDevices"))
   
   if (th_logFC < 0) {
     warning("The parameter 'th_logFC' must be positive or equal to zero.")

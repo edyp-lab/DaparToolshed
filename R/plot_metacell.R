@@ -394,13 +394,12 @@ wrapper.mvImage <- function(obj,
 #' @import omXplore
 #' @import QFeatures
 #' @importFrom stats setNames
-#' @importFrom MagellanNTK pkgs.require
 #' @rdname metacell-plots
 #' 
 #'
 mvImage <- function(obj, group) {
   
-  MagellanNTK::pkgs.require(c('grDevices'))
+  pkgs.require(c('grDevices'))
   
   ### build indices of conditions
   indCond <- list()

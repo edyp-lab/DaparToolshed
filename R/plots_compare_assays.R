@@ -34,7 +34,6 @@
 #' @importFrom utils str
 #' @import omXplore
 #' @import QFeatures
-#' @importFrom MagellanNTK pkgs.require
 #'
 #' @export
 #'
@@ -50,7 +49,7 @@ plotCompareAssays <- function(obj,
                               type = "scatter",
                               FUN = NULL) {
   
-  MagellanNTK::pkgs.require('highcharter')
+  pkgs.require('highcharter')
     if (missing(obj)) {
         stop("'obj' is missing")
     }

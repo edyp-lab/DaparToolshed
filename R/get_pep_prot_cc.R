@@ -281,7 +281,6 @@ buildGraph <- function(The.CC, X) {
 #'
 #' @export
 #'
-#' @importFrom MagellanNTK pkgs.require
 #'
 display.CC.visNet <- function(
     g,
@@ -290,7 +289,7 @@ display.CC.visNet <- function(
     prot.tooltip = NULL,
     pept.tooltip = NULL) {
   
-  MagellanNTK::pkgs.require('visNetwork')
+  pkgs.require('visNetwork')
   
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"

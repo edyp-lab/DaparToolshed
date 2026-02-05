@@ -60,7 +60,6 @@
 #' @import QFeatures
 #' @importFrom utils installed.packages read.table
 #' @import SummarizedExperiment
-#' @importFrom MagellanNTK pkgs.require
 #'
 #' @export
 #'
@@ -234,7 +233,7 @@ createQFeatures <- function(
     idcol(obj[["original"]]) <- keyId
 
     if (tolower(typeDataset) == "peptide" && !is.null(parentProtId)) {
-      MagellanNTK::pkgs.require('PSMatch')
+      pkgs.require('PSMatch')
       parentProtId(obj[["original"]]) <- parentProtId
       
       # Create the adjacency matrix

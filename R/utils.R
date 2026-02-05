@@ -56,7 +56,7 @@ ReplaceSpecialChars <- function(x) {
 #' @export
 #'
 ProstarVersions <- function() {
-    v.Prostar <- v.DaparToolshed <- v.DaparToolshedData <- v.MagellanNTK <- NA
+    v.Prostar <- v.DaparToolshed <- v.DaparToolshedData <- NA
 
     # tryCatch(
     #     {
@@ -446,4 +446,34 @@ CleanRowData <- function(obj, i){
 getNumberOfEmptyLines <- function(qData) {
   n <- sum(apply(is.na(as.matrix(qData)), 1, all))
   return(n)
+}
+
+
+
+
+
+#' @title Loads packages
+#' 
+#' @description Checks if a package is available to load it
+#' 
+#' @param ll.deps A `character()` vector which contains packages names
+#' 
+#' @examples 
+#' NULL
+#' 
+#' @export
+#' 
+#' @author Samuel Wieczorek
+#' 
+pkgs.require <- function(ll.deps){
+  
+  if (!requireNamespace('BiocManager', quietly = TRUE)) {
+    stop(paste0("Please run install.packages('BiocManager')"))
+  }
+  
+  lapply(ll.deps, function(x) {
+    if (!requireNamespace(x, quietly = TRUE)) {
+      stop(paste0("Please install ", x, ": BiocManager::install('", x, "')"))
+    }
+  })
 }

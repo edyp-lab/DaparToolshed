@@ -310,13 +310,12 @@ LH0.lm <- function(X, y1, y2) {
 #'
 #' @export
 #' @importFrom stats formula lm logLik
-#' @importFrom MagellanNTK pkgs.require
 #' 
 #' @examples 
 #' NULL
 #'
 LH1.lm <- function(X, y1, y2, j) {
-  MagellanNTK::pkgs.require("stats") 
+  pkgs.require("stats") 
     
     n1 <- ncol(y1)
     n2 <- ncol(y2)
@@ -409,14 +408,13 @@ LH1.lm <- function(X, y1, y2, j) {
 #'
 #' @export
 #' @importFrom stats residuals
-#' @importFrom MagellanNTK pkgs.require
 #' 
 #' @examples 
 #' NULL
 #'
 samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
     
-  MagellanNTK::pkgs.require(c("lme4")) 
+  pkgs.require(c("lme4")) 
     
     s <- lh1.sam <- llr.sam <- rep(NA, p)
     lh0.sam <- rep(NA, length(cc))

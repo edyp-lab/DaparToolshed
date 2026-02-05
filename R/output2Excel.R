@@ -53,10 +53,9 @@ NULL
 #'
 #' @export
 #' 
-#' @importFrom MagellanNTK pkgs.require
 #'
 readExcel <- function(file, sheet = NULL) {
-  MagellanNTK::pkgs.require('readxl')
+  pkgs.require('readxl')
   
   if(is.null(sheet))
     return(NULL)
@@ -79,10 +78,9 @@ readExcel <- function(file, sheet = NULL) {
 
 #' @rdname output_2_Excel
 #' @export
-#' @importFrom MagellanNTK pkgs.require
 #'
 listSheets <- function(file) {
-  MagellanNTK::pkgs.require('openxlsx')
+  pkgs.require('openxlsx')
   return(openxlsx::getSheetNames(file))
 }
 

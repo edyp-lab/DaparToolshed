@@ -23,12 +23,10 @@
 #' }
 #'
 #' @export
-#' 
-#' @importFrom MagellanNTK pkgs.require
 #'
 ExtendPalette <- function(n = 0, base = "Set1") {
   
-  MagellanNTK::pkgs.require(c('grDevices', 'RColorBrewer', "utils"))
+  pkgs.require(c('grDevices', 'RColorBrewer', "utils"))
   
   if(is.null(base))
     base <- "Set1"
@@ -79,14 +77,13 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #'
 #' @export
 #' 
-#' @importFrom MagellanNTK pkgs.require
 #'
 #' @return NA
 #' 
 #'
 GetColorsForConditions <- function(conds, pal = NULL) {
   
-  MagellanNTK::pkgs.require('RColorBrewer')
+  pkgs.require('RColorBrewer')
   
   
   if (missing(conds)) {

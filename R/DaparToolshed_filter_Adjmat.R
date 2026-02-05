@@ -184,10 +184,9 @@ subAdjMat_sharedPeptides <- function(X) {
 
 #'
 #' @noRd
-#' @importFrom MagellanNTK pkgs.require
 .UpdateSEBasedOnAdjmat <- function(object, X) {
   
-  MagellanNTK::pkgs.require('PSMatch')
+  pkgs.require('PSMatch')
   
   SummarizedExperiment::rowData(object)$adjacencyMatrix <- X
     # Identify and delete the empty lines in the dataset

@@ -18,6 +18,7 @@ xxx
 \examples{
 NULL
 
+
 }
 \author{
 Thomas Burger

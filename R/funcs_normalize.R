@@ -284,12 +284,11 @@ MeanCentering <- function(qData,
 #' @export
 #' @rdname normalization_methods
 #' 
-#' @importFrom MagellanNTK pkgs.require
 #'
 vsn <- function(qData, 
   conds, 
   type = NULL) {
-  MagellanNTK::pkgs.require('vsn')
+  pkgs.require('vsn')
   
   
   if (missing(conds)) {
@@ -314,14 +313,13 @@ vsn <- function(qData,
 #' @export
 #' 
 #' @rdname normalization_methods
-#' @importFrom MagellanNTK pkgs.require
 #'
 LOESS <- function(qData, 
   conds, 
   type = "overall", 
   span = 0.7) {
   
-  MagellanNTK::pkgs.require('limma')
+  pkgs.require('limma')
   
   
   if (missing(conds)) {

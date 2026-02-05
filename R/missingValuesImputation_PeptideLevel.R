@@ -29,11 +29,10 @@
 #' subR25pept <- wrapper.impute.mle(subR25pept[[2]], grp)
 #'
 #' @export
-#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.impute.mle <- function(obj, grp) {
     
-    MagellanNTK::pkgs.require('imp4p')
+    pkgs.require('imp4p')
     
     if (missing(obj))
         stop("'obj' is required.")
@@ -126,7 +125,6 @@ wrapper.impute.mle <- function(obj, grp) {
 #' obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = FALSE)
 #'}
 #' @export
-#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.dapar.impute.mi <- function(obj,
   design,
@@ -150,7 +148,7 @@ wrapper.dapar.impute.mi <- function(obj,
   lapala = TRUE,
   distribution = "unif") {
 
-    MagellanNTK::pkgs.require('imp4p')
+    pkgs.require('imp4p')
 
   
     if (missing(obj))
@@ -499,7 +497,6 @@ impute.pa2 <- function(tab,
 
 #'
 #' @export
-#' @importFrom MagellanNTK pkgs.require
 #'
 wrapper.pirat <- function(data,
                           adjmat,
@@ -507,7 +504,7 @@ wrapper.pirat <- function(data,
                           adj_rna_pg = NULL,
                           ...) {
 
-  MagellanNTK::pkgs.require('Pirat')
+  pkgs.require('Pirat')
 
   if (missing(data))
     stop("'data' is required.")
