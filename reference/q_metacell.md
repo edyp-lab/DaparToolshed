@@ -237,7 +237,7 @@ search.metacell.tags('Quantified', 'peptide')
 #> [1] "Quantified"          "Quant. by direct id" "Quant. by recovery" 
 
 # \donttest{
-ll <- omXplore::metacell.def('peptide')$node
+ll <- metacell.def('peptide')$node
 for (i in 1:length(ll))
 test <- lapply(combn(ll, i, simplify = FALSE), 
 function(x) tag <- metacombine(x, 'peptide'))

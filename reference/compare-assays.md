@@ -26,7 +26,7 @@ plotCompareAssays(
 
 - obj:
 
-  An instance of the class `omXplore`.
+  An instance of the class
 
 - i:
 

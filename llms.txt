@@ -260,6 +260,9 @@ release.
 - [`compute_t_tests()`](https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.md)
   : xxxxxx
 
+- [`customChart()`](https://edyp-lab.github.io/DaparToolshed/reference/customChart.md)
+  : Customised resetZoom Button of highcharts plots
+
 - [`diffAnaComputeAdjustedPValues()`](https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeAdjustedPValues.md)
   : Computes the adjusted p-values
 
@@ -309,6 +312,9 @@ release.
 
 - [`hc_logFC_DensityPlot()`](https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.md)
   : Density plots of logFC values
+
+- [`heatmapForMissingValues()`](https://edyp-lab.github.io/DaparToolshed/reference/heatmap.md)
+  : xxx
 
 - [`histPValue_HC()`](https://edyp-lab.github.io/DaparToolshed/reference/histPValue_HC.md)
   : Plots a histogram of p-values

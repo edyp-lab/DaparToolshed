@@ -49,6 +49,7 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compare-assays.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compareNormalizationD_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/compute_t_tests.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/customChart.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeAdjustedPValues.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaComputeFDR.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/diffAnaVolcanoplot_rCharts.html</loc></url>
@@ -64,6 +65,7 @@
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/getNumberOfEmptyLines.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/globalAdjPval.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/hc_logFC_DensityPlot.html</loc></url>
+<url><loc>https://edyp-lab.github.io/DaparToolshed/reference/heatmap.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/histPValue_HC.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/import-export-QFeatures.html</loc></url>
 <url><loc>https://edyp-lab.github.io/DaparToolshed/reference/impute.pa2.html</loc></url>
