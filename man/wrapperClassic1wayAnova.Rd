@@ -39,17 +39,8 @@ Differences (specified as "TukeyHSD") and the Dunnett test
 \donttest{
 data(subR25prot)
 obj <- subR25prot
-filter <- FunctionFilter('qMetacellOnConditions',
-  cmd = 'delete',
-  mode = 'AtLeastOneCond',
-  pattern = c("Missing POV", "Missing MEC"),
-  conds = design.qf(obj)$Condition,
-  percent = TRUE,
-  th = 0.8,
-  operator = '<')
-
-obj <- filterFeaturesOneSE(obj, filter)
-
+obj <- NAIsZero(obj, 1)
+obj <- NAIsZero(obj, 2) 
 anovatest <- wrapperClassic1wayAnova(obj, 2)
 }
 

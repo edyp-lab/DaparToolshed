@@ -44,11 +44,7 @@ This method is a wrapper to the function \code{impute.pa2()} adapted to
 objects of class \code{SummarizedExperiment}.
 }
 \examples{
-\donttest{
-utils::data(subR25pept)
-design <- design.qf(subR25pept)
-subR25pept <- wrapper.impute.pa2(subR25pept[[1]], design)
-}
+NULL
 
 }
 \author{

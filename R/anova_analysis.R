@@ -383,17 +383,8 @@ classic1wayAnova <- function(current_line, conditions) {
 #' \donttest{
 #' data(subR25prot)
 #' obj <- subR25prot
-#' filter <- FunctionFilter('qMetacellOnConditions',
-#'   cmd = 'delete',
-#'   mode = 'AtLeastOneCond',
-#'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
-#'   percent = TRUE,
-#'   th = 0.8,
-#'   operator = '<')
-#' 
-#' obj <- filterFeaturesOneSE(obj, filter)
-#' 
+#' obj <- NAIsZero(obj, 1)
+#' obj <- NAIsZero(obj, 2) 
 #' anovatest <- wrapperClassic1wayAnova(obj, 2)
 #' }
 #'
@@ -595,7 +586,21 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #' @author Hélène Borges
 #'
 #' @examples
-#' \donttest{examples/ex_postHocTest.R}
+#' \donttest{
+#' #' library(SummarizedExperiment)
+#' data(subR25prot)
+#' obj <- subR25prot
+#' 
+#' obj <- NAIsZero(obj, 1)
+#' obj <- NAIsZero(obj, 2)
+#' qdata <- SummarizedExperiment::assay(obj[[2]])
+#' conds <- design.qf(obj)$Condition
+#' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
+#' anova_tests <- t(anova_tests)
+#' 
+#' names(anova_tests) <- rownames(qdata)
+#' pht <- postHocTest(aov_fits = anova_tests)
+#' }
 #'
 #' @export
 #' 

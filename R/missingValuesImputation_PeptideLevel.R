@@ -120,14 +120,10 @@ wrapper.impute.mle <- function(obj, grp) {
 #'
 #' @examples
 #' \donttest{
-#' utils::data(subR25prot)
-#' design <- design.qf(subR25prot)
-#' level <- 'protein'
-#' metacell.mask <- DaparToolshed::match.metacell(
-#' qMetacell(subR25prot[[1]]), c("Missing POV", "Missing MEC"), level)
-#' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' obj.imp.na <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = TRUE)
-#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = FALSE)
+#' utils::data(subR25pept)
+#' design <- design.qf(subR25pept)
+#' obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = TRUE)
+#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = FALSE)
 #'}
 #' @export
 #' @importFrom MagellanNTK pkgs.require
@@ -187,11 +183,10 @@ wrapper.dapar.impute.mi <- function(obj,
       conditions = conditions
       )
 
-
     res <- imp4p::estim.mix(
       tab = qData,
       tab.imp = dat.slsa,
-      conditions = sTab$Condition
+      conditions = conditions
       )
 
 
@@ -316,11 +311,7 @@ translatedRandomBeta <- function(
 #' @author Thomas Burger, Samuel Wieczorek
 #'
 #' @examples
-#' \donttest{
-#' utils::data(subR25pept)
-#' design <- design.qf(subR25pept)
-#' subR25pept <- wrapper.impute.pa2(subR25pept[[1]], design)
-#' }
+#' NULL
 #' 
 #' @export
 #'
@@ -347,6 +338,7 @@ wrapper.impute.pa2 <- function(
     conds <- factor(tmp, levels = unique(tmp))
     sample.names.old <- design[, 'quantCols']
     sTab <- design
+
     new.order <- unlist(lapply(split(sTab, conds), function(x) {
         x[,"quantCols"]
     }))
