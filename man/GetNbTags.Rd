@@ -17,7 +17,7 @@ Number of each metacell tags
 }
 \examples{
 library(DaparToolshed)
-data(subR25prot, package = 'DaparToolshed')
-GetNbTags(subR25prot[[1]])
+data(subR25pept, package = 'DaparToolshed')
+GetNbTags(subR25pept[[1]])
 
 }

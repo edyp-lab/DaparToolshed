@@ -195,8 +195,8 @@ custom_metacell_colors <- function()
 #' @param obj A instance of the class `SummarizedExperiment`
 #' @examples
 #' library(DaparToolshed)
-#' data(subR25prot, package = 'DaparToolshed')
-#' GetNbTags(subR25prot[[1]])
+#' data(subR25pept, package = 'DaparToolshed')
+#' GetNbTags(subR25pept[[1]])
 #' 
 #' @export
 #' 
