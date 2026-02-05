@@ -127,13 +127,13 @@ missing values which have been imputed.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">'toto.xlsx'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">write.excel</span><span class="op">(</span><span class="va">subR25prot</span>, filename <span class="op">=</span> <span class="va">file</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpM5qzXX/toto.xlsx1d85562a2fd1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpFUlNIy/toto.xlsx1dda37a41b49"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">'foo.xlsx'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">write.excel</span><span class="op">(</span><span class="va">subR25pept</span>, <span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in write.excel(subR25pept, ):</span> argument "filename" is missing, with no default</span>
+<span class="r-in"><span><span class="fu">write.excel</span><span class="op">(</span><span class="va">subR25pept</span>, <span class="va">file</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpFUlNIy/foo.xlsx1dda5dc7c9a4"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

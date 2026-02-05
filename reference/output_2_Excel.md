@@ -81,13 +81,13 @@ colors <- list(
 )
 file <- tempfile('toto.xlsx')
 write.excel(subR25prot, filename = file)
-#> [1] "/tmp/RtmpM5qzXX/toto.xlsx1d85562a2fd1"
+#> [1] "/tmp/RtmpFUlNIy/toto.xlsx1dda37a41b49"
 unlink(file)
 
 data(subR25pept)
 file <- tempfile('foo.xlsx')
-write.excel(subR25pept, )
-#> Error in write.excel(subR25pept, ): argument "filename" is missing, with no default
+write.excel(subR25pept, file)
+#> [1] "/tmp/RtmpFUlNIy/foo.xlsx1dda5dc7c9a4"
 unlink(file)
 # }
 

@@ -179,18 +179,36 @@ instead of missing values.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">level</span> <span class="op">&lt;-</span> <span class="st">'protein'</span></span></span>
-<span class="r-in"><span><span class="va">metacell.mask</span> <span class="op">&lt;-</span> <span class="fu">DaparToolshed</span><span class="fu">::</span><span class="fu"><a href="match.metacell.html">match.metacell</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="QFeatures-accessors.html">qMetacell</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Missing POV"</span>, <span class="st">"Missing MEC"</span><span class="op">)</span>, <span class="va">level</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">indices</span> <span class="op">&lt;-</span> <span class="fu"><a href="GetIndices_WholeMatrix.html">GetIndices_WholeMatrix</a></span><span class="op">(</span><span class="va">metacell.mask</span>, op <span class="op">=</span> <span class="st">"&gt;="</span>, th <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">obj.imp.na</span> <span class="op">&lt;-</span> <span class="fu">wrapper.dapar.impute.mi</span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">design</span>, nb.iter <span class="op">=</span> <span class="fl">1</span>, lapala <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj.imp.na</span> <span class="op">&lt;-</span> <span class="fu">wrapper.dapar.impute.mi</span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">design</span>, nb.iter <span class="op">=</span> <span class="fl">1</span>, lapala <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>tab.imp contains missing values</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in new_tab[, (k:(k + nb_rep - 1))] &lt;- tab[, which(conditions ==     levels(conditions)[j])]:</span> replacement has length zero</span>
-<span class="r-in"><span><span class="va">obj.imp.pov</span> <span class="op">&lt;-</span> <span class="fu">wrapper.dapar.impute.mi</span><span class="op">(</span><span class="va">subR25prot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">design</span>, nb.iter <span class="op">=</span> <span class="fl">1</span>, lapala <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R3</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Iterations: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1 / 1  - Imputation MNAR OK - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imputation MCAR in progress - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 % - 6 % - 9 % - 12 % - 15 % - 18 % - 21 % - 24 % - 27 % - 30 % - 33 % - 36 % - 39 % - 42 % - 45 % - 48 % - 51 % - 54 % - 57 % - 60 % - 63 % - 66 % - 69 % - 72 % - 75 % - 78 % - 81 % - 84 % - 87 % - 90 % - 93 % - 96 % - 99 % - </span>
+<span class="r-in"><span><span class="va">obj.imp.pov</span> <span class="op">&lt;-</span> <span class="fu">wrapper.dapar.impute.mi</span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">design</span>, nb.iter <span class="op">=</span> <span class="fl">1</span>, lapala <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>tab.imp contains missing values</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in new_tab[, (k:(k + nb_rep - 1))] &lt;- tab[, which(conditions ==     levels(conditions)[j])]:</span> replacement has length zero</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_C_R3</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Few missing values are found as imputed in the input imputed matrix (&lt;20) in sample Intensity_D_R3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Iterations: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1 / 1  - Imputation MNAR OK - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imputation MCAR in progress - </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 % - 6 % - 9 % - 12 % - 15 % - 18 % - 21 % - 24 % - 27 % - 30 % - 33 % - 36 % - 39 % - 42 % - 45 % - 48 % - 51 % - 54 % - 57 % - 60 % - 63 % - 66 % - 69 % - 72 % - 75 % - 78 % - 81 % - 84 % - 87 % - 90 % - 93 % - 96 % - 99 % - </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

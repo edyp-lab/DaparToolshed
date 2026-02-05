@@ -130,17 +130,35 @@ Samuel Wieczorek
 
 ``` r
 # \donttest{
-utils::data(subR25prot)
-design <- design.qf(subR25prot)
-level <- 'protein'
-metacell.mask <- DaparToolshed::match.metacell(
-qMetacell(subR25prot[[1]]), c("Missing POV", "Missing MEC"), level)
-indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-obj.imp.na <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = TRUE)
+utils::data(subR25pept)
+design <- design.qf(subR25pept)
+obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = TRUE)
 #> Warning: tab.imp contains missing values
-#> Error in new_tab[, (k:(k + nb_rep - 1))] <- tab[, which(conditions ==     levels(conditions)[j])]: replacement has length zero
-obj.imp.pov <- wrapper.dapar.impute.mi(subR25prot[[1]], design, nb.iter = 1, lapala = FALSE)
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R1
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R2
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R3
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R1
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R2
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R3
+#> 
+#>  Iterations: 
+#> 
+#>  1 / 1  - Imputation MNAR OK - 
+#> Imputation MCAR in progress - 
+#> 3 % - 6 % - 9 % - 12 % - 15 % - 18 % - 21 % - 24 % - 27 % - 30 % - 33 % - 36 % - 39 % - 42 % - 45 % - 48 % - 51 % - 54 % - 57 % - 60 % - 63 % - 66 % - 69 % - 72 % - 75 % - 78 % - 81 % - 84 % - 87 % - 90 % - 93 % - 96 % - 99 % - 
+obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = FALSE)
 #> Warning: tab.imp contains missing values
-#> Error in new_tab[, (k:(k + nb_rep - 1))] <- tab[, which(conditions ==     levels(conditions)[j])]: replacement has length zero
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R1
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R2
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_C_R3
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R1
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R2
+#> Warning: Few missing values are found as imputed in the input imputed matrix (<20) in sample Intensity_D_R3
+#> 
+#>  Iterations: 
+#> 
+#>  1 / 1  - Imputation MNAR OK - 
+#> Imputation MCAR in progress - 
+#> 3 % - 6 % - 9 % - 12 % - 15 % - 18 % - 21 % - 24 % - 27 % - 30 % - 33 % - 36 % - 39 % - 42 % - 45 % - 48 % - 51 % - 54 % - 57 % - 60 % - 63 % - 66 % - 69 % - 72 % - 75 % - 78 % - 81 % - 84 % - 87 % - 90 % - 93 % - 96 % - 99 % - 
 # }
 ```

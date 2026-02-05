@@ -994,7 +994,7 @@ obj
     ## loaded via a namespace (and not attached):
     ##   [1] fs_1.6.6                    ProtGenerics_1.42.0        
     ##   [3] matrixStats_1.5.0           bitops_1.0-9               
-    ##   [5] lubridate_1.9.4             RColorBrewer_1.1-3         
+    ##   [5] lubridate_1.9.5             RColorBrewer_1.1-3         
     ##   [7] doParallel_1.0.17           tools_4.5.2                
     ##   [9] MSnbase_2.36.0              backports_1.5.0            
     ##  [11] R6_2.6.1                    DT_0.34.0                  
@@ -1031,7 +1031,7 @@ obj
     ##  [73] pillar_1.11.1               knitr_1.51                 
     ##  [75] GenomicRanges_1.62.1        estimability_1.5.1         
     ##  [77] codetools_0.2-20            glue_1.8.0                 
-    ##  [79] ggiraph_0.9.3               fontLiberation_0.1.0       
+    ##  [79] ggiraph_0.9.4               fontLiberation_0.1.0       
     ##  [81] pcaMethods_2.2.0            data.table_1.18.2.1        
     ##  [83] MultiAssayExperiment_1.36.1 vctrs_0.7.1                
     ##  [85] png_0.1-8                   gtable_0.3.6               
@@ -1085,7 +1085,7 @@ obj
     ## [181] clue_0.3-66                 ggplot2_4.0.2              
     ## [183] BiocBaseUtils_1.12.0        broom_1.0.12               
     ## [185] xtable_1.8-4                AnnotationFilter_1.34.0    
-    ## [187] later_1.4.5                 viridisLite_0.4.2          
+    ## [187] later_1.4.5                 viridisLite_0.4.3          
     ## [189] ragg_1.5.0                  tibble_3.3.1               
     ## [191] IRanges_2.44.0              cluster_2.1.8.1            
     ## [193] timechange_0.4.0            omXplore_1.4.2
