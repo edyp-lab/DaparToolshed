@@ -51,16 +51,19 @@ Florence Combes, Samuel Wieczorek
 ## Examples
 
 ``` r
+library(SummarizedExperiment)
 data(subR25prot)
-level <- 'protein'
-metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
-c("Missing POV", "Missing MEC"), level)
-# Simulate imputation
-subR25prot <- NAIsZero(subR25prot, 1)
-subR25prot <- NAIsZero(subR25prot, 2)
-ttest <- compute_t_tests(subR25prot, 2)
+obj <- subR25prot
+filter <- FunctionFilter('qMetacellOnConditions',
+  cmd = 'delete',
+  mode = 'AtLeastOneCond',
+  pattern = c("Missing POV", "Missing MEC"),
+  conds = design.qf(obj)$Condition,
+  percent = TRUE,
+  th = 0.8,
+  operator = '>')
+obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
+ttest <- compute_t_tests(obj, 3)
 
-ttest <- compute_t_tests(subR25prot, 1)
-s
-#> Error: object 's' not found
+ttest <- compute_t_tests(obj, 3)
 ```

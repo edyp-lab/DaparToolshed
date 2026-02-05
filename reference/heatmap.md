@@ -18,6 +18,44 @@ heatmapForMissingValues(
 )
 ```
 
+## Arguments
+
+- x:
+
+  xxx
+
+- col:
+
+  xxx
+
+- srtCol:
+
+  xxx
+
+- labCol:
+
+  xxx
+
+- labRow:
+
+  xxx
+
+- key:
+
+  xxx
+
+- key.title:
+
+  xxx
+
+- main:
+
+  xxx
+
+- ylab:
+
+  xxx
+
 ## Value
 
 A heatmap
