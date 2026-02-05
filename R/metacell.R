@@ -198,13 +198,12 @@ custom_metacell_colors <- function()
 #' GetNbTags(subR25prot[[1]])
 #' 
 #' @export
-#' @import omXplore
 #' 
 #' @return An integer
 #' 
 GetNbTags <- function(obj){
-  df <- omXplore::get_metacell(obj)
-  level <- omXplore::get_type(obj)
+  df <- qMetacell(obj)
+  level <- typeDataset(obj)
   nodes <- metacell.def(level)$node
   
   nb <- sapply(nodes, function(x) length(which(df == x)))
@@ -939,7 +938,6 @@ setGeneric("UpdateMetacellAfterImputation",
 #' @exportMethod UpdateMetacellAfterImputation
 #' @export
 #' 
-#' @import omXplore
 #' @import SummarizedExperiment
 #' 
 setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
@@ -959,14 +957,14 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             
             
             ind <- match.metacell(
-              metadata = omXplore::get_metacell(object), 
+              metadata = qMetacell(object), 
               pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
-              level = omXplore::get_type(object)) & !is.na(SummarizedExperiment::assay(object))
+              level = typeDataset(object)) & !is.na(SummarizedExperiment::assay(object))
             
             rowData(object)$qMetacell[ind] <- gsub(
               pattern = "Missing", 
               replacement = "Imputed",
-              x = omXplore::get_metacell(object)[ind],
+              x = qMetacell(object)[ind],
               fixed = TRUE)
             object
           })
@@ -1087,7 +1085,7 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' 
 #' @examples
 #' \donttest{
-#' ll <- omXplore::metacell.def('peptide')$node
+#' ll <- metacell.def('peptide')$node
 #' for (i in 1:length(ll))
 #' test <- lapply(combn(ll, i, simplify = FALSE), 
 #' function(x) tag <- metacombine(x, 'peptide'))
@@ -1219,7 +1217,6 @@ metacombine <- function(met, level) {
 #' #'
 #' #' @export
 #' #' 
-#' #' @import omXplore
 #' #' @import stats
 #' #'
 #' AggregateMetacell <- function(obj.pep) {

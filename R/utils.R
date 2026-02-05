@@ -479,3 +479,58 @@ pkgs.require <- function(ll.deps){
     }
   })
 }
+
+
+
+
+
+
+#' @title Customised resetZoom Button of highcharts plots
+#'
+#' @param hc A highcharter object
+#' @param chartType The type of the plot
+#' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
+#' @param width The width of the plot
+#' @param height The height of the plot
+#'
+#' @return A highchart plot
+#'
+#' @author Samuel Wieczorek
+#'
+#' @examples
+#' if (interactive()) {
+#'     library(highcharter)
+#'     hc <- highchart()
+#'     hc_chart(hc, type = "line")
+#'     hc_add_series(hc, data = c(29, 71, 40))
+#'     customChart(hc)
+#' }
+#'
+#' @export
+#' @examples
+#' NULL
+#'
+#' @import highcharter
+#'
+customChart <- function(
+    hc,
+  chartType = "scatter",
+  zoomType = "None",
+  width = 0,
+  height = 0) {
+  hc |>
+    hc_chart(
+      type = chartType,
+      zoomType = zoomType,
+      showAxes = TRUE,
+      width = width,
+      height = height,
+      resetZoomButton = list(
+        position = list(
+          align = "left",
+          verticalAlign = "top"
+        )
+      )
+    )
+}
+

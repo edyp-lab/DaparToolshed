@@ -8,7 +8,7 @@
 #'
 #' The comparison is made with the division operator.
 #'
-#' @param obj An instance of the class `omXplore`.
+#' @param obj An instance of the class
 #' @param i A numeric matrix containing quantitative data after 
 #' normalization.
 #' @param j A numeric matrix containing quantitative data after 
@@ -32,7 +32,6 @@
 #' @import highcharter
 #' @importFrom tibble as_tibble
 #' @importFrom utils str
-#' @import omXplore
 #' @import QFeatures
 #'
 #' @export
@@ -138,7 +137,7 @@ plotCompareAssays <- function(obj,
     }
 
     h1 <- highcharter::highchart() |>
-      omXplore::customChart(chartType = type) |>
+      customChart(chartType = type) |>
         highcharter::hc_add_series_list(series) |>
       highcharter::hc_colors(myColors)
 

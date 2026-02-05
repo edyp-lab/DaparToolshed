@@ -139,7 +139,6 @@ reIntroduceMEC <- function(obj, grp, MECIndex) {
 #'
 #' @export
 #' @rdname mv_imputation_protein
-#' @import omXplore
 #' @import SummarizedExperiment
 #'
 wrapper.impute.KNN <- function(obj = NULL, grp, K) {
@@ -172,7 +171,7 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
     }
 
     SummarizedExperiment::assay(obj)[data == 0] <- NA
-    .metacell <- omXplore::get_metacell(obj)
+    .metacell <- qMetacell(obj)
     SummarizedExperiment::assay(obj)[.metacell == 'Missing MEC'] <- NA
     
     # Transform all previously tagged 'na.type' as 'Imputed'
@@ -186,7 +185,6 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
 
 #' @rdname mv_imputation_protein
 #' @export
-#' @import omXplore
 #' @import SummarizedExperiment
 #'
 wrapper.impute.fixedValue <- function(obj, 
@@ -199,7 +197,7 @@ wrapper.impute.fixedValue <- function(obj,
     if (fixVal == 0)
         warning("Be aware that fixVal = 0. No imputation will be realize.")
 
-    level <- omXplore::get_type(obj)
+    level <- typeDataset(obj)
 
     if (missing(na.type)) {
         stop(paste0("'na.type' is required. Available values are: ", 
@@ -210,7 +208,7 @@ wrapper.impute.fixedValue <- function(obj,
     }
 
     ind.na.type <- DaparToolshed::match.metacell(
-      omXplore::get_metacell(obj),
+      qMetacell(obj),
       na.type,
       level = level
       )
@@ -256,7 +254,6 @@ wrapper.impute.pa <- function(
 
 #' @export
 #' @rdname mv_imputation_protein
-#' @import omXplore
 #' @import SummarizedExperiment
 #'
 wrapper.impute.detQuant <- function(
@@ -281,9 +278,9 @@ wrapper.impute.detQuant <- function(
     for (iter in seq_len(ncol(qdata))) {
         col <- qdata[, iter]
         ind.na.type <- DaparToolshed::match.metacell(
-          omXplore::get_metacell(obj)[,iter],
+          qMetacell(obj)[,iter],
                                       pattern = na.type,
-                                      level = omXplore::get_type(obj)
+                                      level = typeDataset(obj)
                                       )
 
         col[ind.na.type] <- values$shiftedImpVal[iter]

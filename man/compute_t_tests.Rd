@@ -46,7 +46,7 @@ subR25prot <- NAIsZero(subR25prot, 2)
 ttest <- compute_t_tests(subR25prot, 2)
 
 ttest <- compute_t_tests(subR25prot, 1)
-
+s
 }
 \author{
 Florence Combes, Samuel Wieczorek

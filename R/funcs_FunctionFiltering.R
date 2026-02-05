@@ -29,7 +29,6 @@
 #'
 #' @export
 #' 
-#' @import omXplore
 #'
 GetIndices_FunFiltering <- function(obj,
   conds, 
@@ -69,7 +68,7 @@ GetIndices_FunFiltering <- function(obj,
     return(NULL)
   }
   
-  mask <- match.metacell(metadata = omXplore::get_metacell(obj),
+  mask <- match.metacell(metadata = qMetacell(obj),
     pattern = pattern,
     level = level
   )

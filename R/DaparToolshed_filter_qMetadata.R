@@ -160,7 +160,6 @@ qMetacellWholeMatrix <- function(object,
 #'
 #' @rdname qMetacell-filter
 #' 
-#' @import omXplore
 #'
 qMetacellWholeLine <- function(object, cmd, pattern) {
     if (missing(object)) {
@@ -181,7 +180,7 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
     indices <- NULL
     level <- typeDataset(object)
 
-    if (!all(pattern %in% omXplore::metacell.def(level)$node)) {
+    if (!all(pattern %in% metacell.def(level)$node)) {
         warning("Either 'pattern' nor 'type' are equal to 'None'")
         return(NULL)
     }

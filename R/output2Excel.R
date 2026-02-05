@@ -90,7 +90,6 @@ listSheets <- function(file) {
 
 #' @export
 #' @rdname output_2_Excel
-#' @import omXplore
 #' @import QFeatures
 #' @importFrom stats setNames
 #' 
@@ -189,7 +188,6 @@ WriteHistory <- function(wb, obj, n){
 
 #' @export
 #' @rdname output_2_Excel
-#' @import omXplore
 #' @import SummarizedExperiment
 #' @importFrom stats setNames
 #' 

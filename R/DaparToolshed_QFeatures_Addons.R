@@ -802,7 +802,6 @@ setMethod(
 #' @export
 #' @return An instance of QFeatures class
 #' 
-#' @import omXplore
 #' @import SummarizedExperiment
 #' 
 NAIsZero <- function(obj, i){
@@ -810,9 +809,9 @@ NAIsZero <- function(obj, i){
   assay(obj[[i]])[which(is.na(assay(obj[[i]])))] <- 0
   
   m <- match.metacell(
-    omXplore::get_metacell(obj[[i]]),
+    qMetacell(obj[[i]]),
     pattern = c("Missing", "Missing POV", "Missing MEC"),
-    level = omXplore::get_type(obj[[i]])
+    level = typeDataset(obj[[i]])
   )
   
   qMetacell(obj[[i]])[m] <- "Quantified"

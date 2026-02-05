@@ -31,8 +31,7 @@
 #' ttest <- compute_t_tests(subR25prot, 2)
 #' 
 #' ttest <- compute_t_tests(subR25prot, 1)
-#'
-#' @import omXplore
+#'s
 #' @import SummarizedExperiment
 #' @importFrom stats t.test
 #' @export

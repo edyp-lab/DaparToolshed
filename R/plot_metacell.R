@@ -56,7 +56,6 @@ NULL
 #' @rdname metacell-plots
 #' @export
 #' @import highcharter
-#' @import omXplore
 #' @import QFeatures
 #'
 metacellPerLinesHisto_HC <- function(obj,
@@ -75,9 +74,9 @@ metacellPerLinesHisto_HC <- function(obj,
     indLegend <- seq.int(from = 2, to = length(group))
   }
   
-  mask <- match.metacell(omXplore::get_metacell(obj), 
+  mask <- match.metacell(qMetacell(obj), 
                          pattern = pattern, 
-                         level = omXplore::get_type(obj))
+                         level = typeDataset(obj))
   
   
   if (length(mask) == 0)
@@ -135,7 +134,6 @@ metacellPerLinesHisto_HC <- function(obj,
 
 #' @rdname metacell-plots
 #' @export
-#' @import omXplore
 #' @import QFeatures
 #'
 metacellPerLinesHistoPerCondition_HC <- function(obj,
@@ -175,9 +173,9 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
   )))
   
   
-  mask <- match.metacell(omXplore::get_metacell(obj), 
+  mask <- match.metacell(qMetacell(obj), 
                          pattern = pattern, 
-                         level = omXplore::get_type(obj))
+                         level = typeDataset(obj))
   
   if (length(mask) == 0)
     return(NULL)
@@ -241,7 +239,6 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
 
 #' @rdname metacell-plots
 #' @import highcharter
-#' @import omXplore
 #'
 #' @examples
 #' data(subR25pept)
@@ -283,9 +280,9 @@ metacellHisto_HC <- function(obj,
   
   
   
-  mask <- match.metacell(omXplore::get_metacell(obj), 
+  mask <- match.metacell(qMetacell(obj), 
                          pattern = pattern, 
-                         level = omXplore::get_type(obj))
+                         level = typeDataset(obj))
   if (length(mask) == 0)
     return(NULL)
   
@@ -338,7 +335,6 @@ metacellHisto_HC <- function(obj,
 #'
 #' @rdname metacell-plots
 #' @export
-#' @import omXplore
 #' @import QFeatures
 #'
 wrapper.mvImage <- function(obj, 
@@ -350,9 +346,9 @@ wrapper.mvImage <- function(obj,
     return(NULL)
   
   indices <- which(apply(match.metacell(
-    omXplore::get_metacell(obj), 
+    qMetacell(obj), 
     pattern, 
-    level = omXplore::get_type(obj)),
+    level = typeDataset(obj)),
     1, sum) > 0)
   
   if (length(indices) == 0) {
@@ -391,7 +387,6 @@ wrapper.mvImage <- function(obj,
 #'
 #' @export
 #' 
-#' @import omXplore
 #' @import QFeatures
 #' @importFrom stats setNames
 #' @rdname metacell-plots
@@ -430,7 +425,7 @@ mvImage <- function(obj, group) {
   }
   
   
-  omXplore::heatmapForMissingValues(exprso,
+  heatmapForMissingValues(exprso,
                           col = grDevices::colorRampPalette(c("yellow", "red"))(100),
                           key = TRUE,
                           srtCol = 0,
@@ -480,7 +475,6 @@ mvImage <- function(obj, group) {
 #' @rdname metacell-plots
 #'
 #' @export
-#' @import omXplore
 #' @import SummarizedExperiment
 #' @importFrom stats density
 #'
@@ -523,9 +517,9 @@ hc_mvTypePlot2 <- function(obj,
     if (length(which(group == iCond)) == 1) {
       mTemp[, iCond] <- qdata[, which(group == iCond)]
       nbNA[, iCond] <- as.integer(
-        match.metacell(omXplore::get_metacell(obj)[, which(group == iCond)],
+        match.metacell(qMetacell(obj)[, which(group == iCond)],
                        pattern = pattern,
-                       level = omXplore::get_type(obj))
+                       level = typeDataset(obj))
       )
       
       .op1 <- length(which(group == iCond))
@@ -536,9 +530,9 @@ hc_mvTypePlot2 <- function(obj,
       mTemp[, iCond] <- apply(SummarizedExperiment::assay(obj)[, .qcond], 1, mean, na.rm = TRUE)
       
       nbNA[, iCond] <- rowSums(
-        match.metacell(omXplore::get_metacell(obj)[, .qcond],
+        match.metacell(qMetacell(obj)[, .qcond],
                        pattern = pattern,
-                       level = omXplore::get_type(obj))
+                       level = typeDataset(obj))
       )
       
       nbValues[, iCond] <- length(.qcond) - nbNA[, iCond]

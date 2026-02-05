@@ -130,7 +130,6 @@ setMethod(
 #' 
 #' @rdname QFeatures-excel
 #' 
-#' @import omXplore
 #' @import openxlsx
 #' @import SummarizedExperiment
 #' @importFrom stats setNames
@@ -161,7 +160,7 @@ setMethod(
       qMetacell(object)
     )
     
-     mc <- omXplore::metacell.def(typeDataset(object))
+     mc <- metacell.def(typeDataset(object))
     
     unique.tags <- unique(unlist(unname(tags)))
     
@@ -185,7 +184,7 @@ setMethod(
 
     # Add colors for sample data sheet
     u_conds <- unique(exp.design$Condition)
-    colors <- stats::setNames(omXplore::ExtendPalette(length(u_conds)), u_conds)
+    colors <- stats::setNames(ExtendPalette(length(u_conds)), u_conds)
     colors[["blank"]] <- "white"
 
     tags <- as.data.frame(exp.design)
