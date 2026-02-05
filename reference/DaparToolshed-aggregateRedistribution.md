@@ -138,41 +138,6 @@ processing pipeline.
 ## Examples
 
 ``` r
-## ---------------------------------------
-## An example QFeatures with PSM-level data
-## ---------------------------------------
-# \donttest{
-data(subR25pept)
-library(SummarizedExperiment)
-subR25pept
-#> An instance of class QFeatures (type: bulk) with 2 sets:
-#> 
-#>  [1] original: SummarizedExperiment with 100 rows and 6 columns 
-#>  [2] logAssay: SummarizedExperiment with 100 rows and 6 columns 
-
-## Aggregate peptides into proteins
-## using the adjacency matrix
-feat1 <- aggregateRedistribution(object = subR25pept,
-i = 1,
-name = 'aggregated',
-fcol = 'adjacencyMatrix',
-init.method = 'Mean',
-method = 'Mean')
-#> Error in if ((convN - conv) == 0) {    conv <- 0}: missing value where TRUE/FALSE needed
-feat1
-#> Error: object 'feat1' not found
-
-assay(feat1[[1]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-assay(feat1[[2]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-aggcounts(feat1[[2]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'aggcounts': object 'feat1' not found
-assay(feat1[[3]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'feat1' not found
-aggcounts(feat1[[3]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'aggcounts': object 'feat1' not found
-rowData(feat1[[2]])
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'rowData': object 'feat1' not found
-# }
+NULL
+#> NULL
 ```

@@ -39,10 +39,10 @@ Samuel Wieczorek
 library(SummarizedExperiment)
 data(subR25pept)
 # Simulate missing value imputation
-assay(subR25pept[[1]])[which(is.na(assay(subR25pept[[1]])))] <- 0
-assay(subR25pept[[2]])[which(is.na(assay(subR25pept[[2]])))] <- 0
+SummarizedExperiment::assay(subR25pept[[1]])[which(is.na(assay(subR25pept[[1]])))] <- 0
+SummarizedExperiment::assay(subR25pept[[2]])[which(is.na(assay(subR25pept[[2]])))] <- 0
 
-qData <- as.matrix(assay(subR25pept[[2]]))
+qData <- as.matrix(SummarizedExperiment::assay(subR25pept[[2]]))
 sTab <- SummarizedExperiment::colData(subR25pept)
 limma <- limmaCompleteTest(qData, sTab)
 #> Warning: Zero sample variances detected, have been offset away from zero

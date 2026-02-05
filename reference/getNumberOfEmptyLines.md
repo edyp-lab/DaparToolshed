@@ -27,7 +27,7 @@ Samuel Wieczorek
 ``` r
 library(QFeatures)
 data(subR25prot)
-qData <- assay(subR25prot[[1]])
+qData <- SummarizedExperiment::assay(subR25prot[[1]])
 getNumberOfEmptyLines(qData)
 #> [1] 0
 ```

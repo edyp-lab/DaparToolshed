@@ -70,7 +70,7 @@ Samuel Wieczorek
 # \donttest{
 library(QFeatures)
 data(subR25prot)
-df <- assay(subR25prot[[1]])
+df <- SummarizedExperiment::assay(subR25prot[[1]])
 tags <- qMetacell(subR25prot[[1]])
 colors <- list(
     "Missing POV" = "lightblue",
@@ -79,12 +79,16 @@ colors <- list(
     "Quant. by direct id" = "white",
     "Combined tags" = "red"
 )
-write.excel(subR25prot, filename = tempfile('toto.xlsx'))
-#> [1] "/tmp/RtmpBdNXRg/toto.xlsx1e053acf2388"
+file <- tempfile('toto.xlsx')
+write.excel(subR25prot, filename = file)
+#> [1] "/tmp/Rtmp91PqGR/toto.xlsx1dad12fc9c97"
+unlink(file)
 
 data(subR25pept)
-write.excel(subR25pept, tempfile('foo.xlsx'))
-#> [1] "/tmp/RtmpBdNXRg/foo.xlsx1e053cf47d5a"
+file <- tempfile('foo.xlsx')
+write.excel(subR25pept, )
+#> Error in write.excel(subR25pept, ): argument "filename" is missing, with no default
+unlink(file)
 # }
 
 ```

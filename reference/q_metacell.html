@@ -7,8 +7,8 @@ post processing protein qMetacell after aggregation)
 In the quantitative columns, a missing value is identified by no value rather
 than a value equal to 0.
 Conversion rules
-Quanti			Tag
-NA or 0		NA
+Quanti Tag
+NA or 0 NA
 Update the quantitative metadata information of missing values that were imputed
 Gives all the tags of the metadata vocabulary containing the pattern
 (parent and all its children).
@@ -21,8 +21,8 @@ post processing protein qMetacell after aggregation)
 In the quantitative columns, a missing value is identified by no value rather
 than a value equal to 0.
 Conversion rules
-Quanti			Tag
-NA or 0		NA
+Quanti Tag
+NA or 0 NA
 Update the quantitative metadata information of missing values that were imputed
 Gives all the tags of the metadata vocabulary containing the pattern
 (parent and all its children).
@@ -71,8 +71,8 @@ post processing protein qMetacell after aggregation)</p>
 <p>In the quantitative columns, a missing value is identified by no value rather
 than a value equal to 0.
 Conversion rules
-Quanti			Tag
-NA or 0		NA</p>
+Quanti Tag
+NA or 0 NA</p>
 <p>Update the quantitative metadata information of missing values that were imputed</p>
 <p>Gives all the tags of the metadata vocabulary containing the pattern
 (parent and all its children).</p>
@@ -288,7 +288,7 @@ TODO</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">conds</span> <span class="op">&lt;-</span> <span class="fu"><a href="QFeatures-accessors.html">design.qf</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">)</span><span class="op">$</span><span class="va">Condition</span></span></span>
-<span class="r-in"><span><span class="va">qdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">qdata</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">subR25pept</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">Metacell_generic</span><span class="op">(</span><span class="va">qdata</span>, <span class="va">conds</span>, <span class="st">'peptide'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">subR25prot</span><span class="op">)</span></span></span>

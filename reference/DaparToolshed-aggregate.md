@@ -484,12 +484,19 @@ aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 data(subR25pept)
 
 # Remove empty lines
-filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
-subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
+filter_emptyline <- FunctionFilter("qMetacellWholeLine", 
+cmd = 'delete', pattern = 'Missing MEC')
+subR25pept <- filterFeaturesOneSE(object = subR25pept, 
+i = length(subR25pept), name = "Filtered",
               filters = list(filter_emptyline))
 # Remove proteins with no peptide associated in adjacency matrix
-indx <- which(Matrix::colSums(SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
-SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix <- SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
+indx <- which(Matrix::colSums(
+SummarizedExperiment::rowData(
+subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
+SummarizedExperiment::rowData(
+subR25pept[[length(subR25pept)]])$adjacencyMatrix <- 
+SummarizedExperiment::rowData(
+subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
   
 obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "allPeptides",
 aggregated_col = c("Sequence", "Mass"))
@@ -651,7 +658,7 @@ X.unique <- X.split$Xspec
 #   proteinNames = rownames(subR25pept[[2]]))
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
-X.topn <- select_topn(assay(subR25pept[[2]]), X, n = 3)
+X.topn <- select_topn(SummarizedExperiment::assay(subR25pept[[2]]), X, n = 3)
 
 data(subR25pept)
 obj.last <- subR25pept[[2]]
@@ -1303,9 +1310,8 @@ CountPep(X)
 # \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
-#> Error in data(subR25pept)[[2]]: subscript out of bounds
-GetNbPeptidesUsed(assay(subR25pept), X)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+GetNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 #> 96 x 6 Matrix of class "dgeMatrix"
 #>      Intensity_C_R1 Intensity_C_R2 Intensity_C_R3 Intensity_D_R1 Intensity_D_R2
 #> 1005              1              1              1              1              1
@@ -1506,7 +1512,7 @@ GetNbPeptidesUsed(assay(subR25pept), X)
 library(SummarizedExperiment)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
-ll.n <- GetDetailedNbPeptidesUsed(assay(subR25pept), X)
+ll.n <- GetDetailedNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
@@ -2131,41 +2137,37 @@ ExtractUniquePeptides(X)
 
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
-qdata.agg <- inner.aggregate.iter(assay(subR25pept[[2]]), X)
+qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[2]]), X)
 
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[2]])
-i.sum <- inner.sum(assay(subR25pept[[2]]), X)
+i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[2]]), X)
 
 # \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept)
-#> Error in BuildAdjacencyMatrix(subR25pept): inherits(obj.pep, "SummarizedExperiment") is not TRUE
-i.mean <- inner.mean(assay(subR25pept), X)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+i.mean <- inner.mean(SummarizedExperiment::assay(subR25pept), X)
 # }
 
 # \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept)
-#> Error in BuildAdjacencyMatrix(subR25pept): inherits(obj.pep, "SummarizedExperiment") is not TRUE
-i.mean <- inner.median(assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[2]]), X)
 # }
 
 # \donttest{
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept)
-#> Error in BuildAdjacencyMatrix(subR25pept): inherits(obj.pep, "SummarizedExperiment") is not TRUE
-i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[2]]), X)
 # }
 
 # \donttest{
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept)
-#> Error in BuildAdjacencyMatrix(subR25pept): inherits(obj.pep, "SummarizedExperiment") is not TRUE
-i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)
-#> Error in inner.robustSummary(assay(subR25pept[[2]]), X): could not find function "inner.robustSummary"
+X <- BuildAdjacencyMatrix(subR25pept[[2]])
+i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[2]]), X)
+#> Warning: 'rlm' failed to converge in 20 steps
 # }
 ```
