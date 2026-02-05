@@ -97,32 +97,8 @@ The function to aggregate the quantitative metadata is \code{aggQmetadat()}
 }
 
 \examples{
+NULL
 
-## ---------------------------------------
-## An example QFeatures with PSM-level data
-## ---------------------------------------
-\donttest{
-data(subR25pept)
-library(SummarizedExperiment)
-subR25pept
-
-## Aggregate peptides into proteins
-## using the adjacency matrix
-feat1 <- aggregateRedistribution(object = subR25pept,
-i = 1,
-name = 'aggregated',
-fcol = 'adjacencyMatrix',
-init.method = 'Mean',
-method = 'Mean')
-feat1
-
-assay(feat1[[1]])
-assay(feat1[[2]])
-aggcounts(feat1[[2]])
-assay(feat1[[3]])
-aggcounts(feat1[[3]])
-rowData(feat1[[2]])
-}
 }
 \seealso{
 The \emph{QFeatures} vignette provides an extended example and the \emph{Aggregation} vignette,

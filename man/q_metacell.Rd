@@ -82,8 +82,8 @@ post processing protein qMetacell after aggregation)
 In the quantitative columns, a missing value is identified by no value rather
 than a value equal to 0.
 Conversion rules
-Quanti			Tag
-NA or 0		NA
+Quanti Tag
+NA or 0 NA
 
 Update the quantitative metadata information of missing values that were imputed
 
@@ -204,7 +204,7 @@ df <- Set_POV_MEC_tags(subR25prot[[2]], conds)
 library(SummarizedExperiment)
 data(subR25pept)
 conds <- design.qf(subR25pept)$Condition
-qdata <- assay(subR25pept[[2]])
+qdata <- SummarizedExperiment::assay(subR25pept[[2]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(subR25prot)

@@ -18,7 +18,7 @@ Returns the number of empty lines in a matrix.
 \examples{
 library(QFeatures)
 data(subR25prot)
-qData <- assay(subR25prot[[1]])
+qData <- SummarizedExperiment::assay(subR25prot[[1]])
 getNumberOfEmptyLines(qData)
 
 }

@@ -149,7 +149,7 @@ setMethod(
         sheet = i.sheet,
         cbind(
             ID = rowData(object)[, idcol(object)],
-            assay(object)
+          SummarizedExperiment::assay(object)
         ),
         rowNames = FALSE
     )

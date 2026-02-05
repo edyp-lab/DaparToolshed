@@ -271,32 +271,8 @@ setMethod(
 #' @return NULL
 #'
 #' @examples
-#'
-#' ## ---------------------------------------
-#' ## An example QFeatures with PSM-level data
-#' ## ---------------------------------------
-#' \donttest{
-#' data(subR25pept)
-#' library(SummarizedExperiment)
-#' subR25pept
-#'
-#' ## Aggregate peptides into proteins
-#' ## using the adjacency matrix
-#' feat1 <- aggregateRedistribution(object = subR25pept,
-#' i = 1,
-#' name = 'aggregated',
-#' fcol = 'adjacencyMatrix',
-#' init.method = 'Mean',
-#' method = 'Mean')
-#' feat1
-#'
-#' assay(feat1[[1]])
-#' assay(feat1[[2]])
-#' aggcounts(feat1[[2]])
-#' assay(feat1[[3]])
-#' aggcounts(feat1[[3]])
-#' rowData(feat1[[2]])
-#' }
+#' NULL
+#' 
 NULL
 
 #' @rdname DaparToolshed-aggregateRedistribution
@@ -574,12 +550,19 @@ aggregateMethods <- function() {
 #' data(subR25pept)
 #' 
 #' # Remove empty lines
-#' filter_emptyline <- FunctionFilter("qMetacellWholeLine", cmd = 'delete', pattern = 'Missing MEC')
-#' subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
+#' filter_emptyline <- FunctionFilter("qMetacellWholeLine", 
+#' cmd = 'delete', pattern = 'Missing MEC')
+#' subR25pept <- filterFeaturesOneSE(object = subR25pept, 
+#' i = length(subR25pept), name = "Filtered",
 #'               filters = list(filter_emptyline))
 #' # Remove proteins with no peptide associated in adjacency matrix
-#' indx <- which(Matrix::colSums(SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
-#' SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix <- SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
+#' indx <- which(Matrix::colSums(
+#' SummarizedExperiment::rowData(
+#' subR25pept[[length(subR25pept)]])$adjacencyMatrix) != 0)
+#' SummarizedExperiment::rowData(
+#' subR25pept[[length(subR25pept)]])$adjacencyMatrix <- 
+#' SummarizedExperiment::rowData(
+#' subR25pept[[length(subR25pept)]])$adjacencyMatrix[, indx]
 #'   
 #' obj.agg <- RunAggregation(subR25pept, "Yes_As_Specific", "Sum", "allPeptides",
 #' aggregated_col = c("Sequence", "Mass"))
@@ -976,7 +959,7 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[2]])
-#' X.topn <- select_topn(assay(subR25pept[[2]]), X, n = 3)
+#' X.topn <- select_topn(SummarizedExperiment::assay(subR25pept[[2]]), X, n = 3)
 #' 
 #' @import SummarizedExperiment
 #' @importFrom matrixStats rowMedians
@@ -1146,8 +1129,8 @@ CountPep <- function(X) {
 #' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
-#' X <- BuildAdjacencyMatrix(data(subR25pept)[[2]])
-#' GetNbPeptidesUsed(assay(subR25pept), X)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' GetNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 #' }
 #' 
 #' @importFrom BiocGenerics t
@@ -1187,7 +1170,7 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' library(SummarizedExperiment)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[2]])
-#' ll.n <- GetDetailedNbPeptidesUsed(assay(subR25pept), X)
+#' ll.n <- GetDetailedNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 #' 
 #' @rdname DaparToolshed-aggregate
 #'
@@ -1348,7 +1331,7 @@ ExtractUniquePeptides <- function(X){
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[2]])
-#' qdata.agg <- inner.aggregate.iter(assay(subR25pept[[2]]), X)
+#' qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[2]]), X)
 #' 
 #' @export
 #' 
@@ -1513,7 +1496,7 @@ inner.aggregate.iter <- function(
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[2]])
-#' i.sum <- inner.sum(assay(subR25pept[[2]]), X)
+#' i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[2]]), X)
 #' 
 #' @export
 #' 
@@ -1546,8 +1529,8 @@ inner.sum <- function(pepData, X) {
 #' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
-#' X <- BuildAdjacencyMatrix(subR25pept)
-#' i.mean <- inner.mean(assay(subR25pept), X)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' i.mean <- inner.mean(SummarizedExperiment::assay(subR25pept), X)
 #' }
 #' 
 #' @export
@@ -1581,8 +1564,8 @@ inner.mean <- function(pepData, X) {
 #' \donttest{
 #' library(QFeatures)
 #' data(subR25pept)
-#' X <- BuildAdjacencyMatrix(subR25pept)
-#' i.mean <- inner.median(assay(subR25pept[[2]]), X)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export
@@ -1625,8 +1608,8 @@ inner.median <- function(pepData, X) {
 #' @examples 
 #' \donttest{
 #' data(subR25pept)
-#' X <- BuildAdjacencyMatrix(subR25pept)
-#' i.mean <- inner.medianpolish(assay(subR25pept[[2]]), X)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export
@@ -1699,8 +1682,8 @@ inner.medianpolish <- function(pepData, X) {
 #' @examples 
 #' \donttest{
 #' data(subR25pept)
-#' X <- BuildAdjacencyMatrix(subR25pept)
-#' i.mean <- inner.robustSummary(assay(subR25pept[[2]]), X)
+#' X <- BuildAdjacencyMatrix(subR25pept[[2]])
+#' i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[2]]), X)
 #' }
 #' 
 #' @export
@@ -1709,8 +1692,7 @@ inner.medianpolish <- function(pepData, X) {
 #' 
 inner.robustsummary <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
-  #stopifnot(inherits(X, 'matrix'))
-  
+
   protval <- NULL
   for (prot in colnames(X)){
     coef <- X[, prot]

@@ -19,7 +19,7 @@ are equal to NA).
 \examples{
 library(QFeatures)
 data(subR25prot)
-nEmptyLines(assay(subR25prot, 1))
+nEmptyLines(SummarizedExperiment::assay(subR25prot, 1))
 
 }
 \author{

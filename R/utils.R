@@ -117,7 +117,7 @@ ProstarVersions <- function() {
 #' @examples
 #' library(QFeatures)
 #' data(subR25prot)
-#' nEmptyLines(assay(subR25prot, 1))
+#' nEmptyLines(SummarizedExperiment::assay(subR25prot, 1))
 #'
 nEmptyLines <- function(df) {
     sum(apply(is.na(as.matrix(df)), 1, all))
@@ -210,7 +210,7 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
             'WholeMatrix', 'AtLeastOneCond', 'AllCond'")
     }
 
-    data <- as.data.frame(assay(object))
+    data <- as.data.frame(SummarizedExperiment::assay(object))
     ll <- switch(type,
       WholeLine = NULL,
       WholeMatrix = seq(0, ncol(data)),
@@ -434,7 +434,7 @@ CleanRowData <- function(obj, i){
 #' @examples
 #' library(QFeatures)
 #' data(subR25prot)
-#' qData <- assay(subR25prot[[1]])
+#' qData <- SummarizedExperiment::assay(subR25prot[[1]])
 #' getNumberOfEmptyLines(qData)
 #'
 #' @export

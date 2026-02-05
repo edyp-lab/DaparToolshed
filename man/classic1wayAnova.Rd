@@ -23,22 +23,25 @@ dataset
 }
 \examples{
 \donttest{
+library(SummarizedExperiment)
 data(subR25prot)
 obj <- subR25prot
 filter <- FunctionFilter('qMetacellOnConditions',
   cmd = 'delete',
-  mode = 'AtLeastOneCond',
-  pattern = c("Missing POV", "Missing MEC"),
+  mode = 'WholeMatrix',
+  pattern = c("Missing", "Missing POV", "Missing MEC"),
   conds = design.qf(obj)$Condition,
-  percent = TRUE,
-  th = 0.8,
-  operator = '<')
+  percent = FALSE,
+  th = 1,
+  operator = '>=')
 
-obj <- filterFeaturesOneSE(obj, filter)
+obj <- NAIsZero(obj, 1)
+obj <- NAIsZero(obj, 2) 
+qdata <- SummarizedExperiment::assay(obj[[2]])
+conds <- design.qf(obj)$Condition
+anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
+anova_tests <- t(anova_tests)
 
-anova_tests <- t(apply(assay(obj[[2]]), 1, classic1wayAnova,
-conditions = as.factor(design.qf(obj)$Condition)
-))
 }
 
 }

@@ -36,7 +36,7 @@
 #' @examples
 #' library(SummarizedExperiment)
 #' data(subR25prot)
-#' qDataBefore <- assay(subR25prot[[2]])
+#' qDataBefore <- SummarizedExperiment::assay(subR25prot[[2]])
 #' conds <- design.qf(subR25prot)$Condition
 #' id <- rowData(subR25prot[[2]])[, idcol(subR25prot[[2]])]
 #' # pal <- ExtendPalette(2)

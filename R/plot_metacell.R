@@ -85,10 +85,10 @@ metacellPerLinesHisto_HC <- function(obj,
   
   NbNAPerRow <- rowSums(mask)
   
-  nb.col <- dim(assay(obj))[2]
+  nb.col <- dim(SummarizedExperiment::assay(obj))[2]
   nb.na <- NbNAPerRow
   temp <- table(NbNAPerRow)
-  nb.na2barplot <- rep(0, ncol(assay(obj)))
+  nb.na2barplot <- rep(0, ncol(SummarizedExperiment::assay(obj)))
   
   for (i in seq_len(length(temp))) {
     nb.na2barplot[as.integer(names(temp)[i])] <- temp[i]
@@ -97,7 +97,7 @@ metacellPerLinesHisto_HC <- function(obj,
   
   df <- data.frame(
     y = nb.na2barplot,
-    y_percent = round(100 * nb.na2barplot / dim(assay(obj))[1], digits = 2)
+    y_percent = round(100 * nb.na2barplot / dim(SummarizedExperiment::assay(obj))[1], digits = 2)
   )
   
   myColors <- rep("lightgrey", nrow(df))
@@ -202,7 +202,7 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
     }
     #browser()
     df[as.integer(names(t)) + 1, "y"] <- t
-    df[as.integer(names(t)) + 1, "y_percent"] <- round(100 * t / nrow(assay(obj)), digits = 2)
+    df[as.integer(names(t)) + 1, "y_percent"] <- round(100 * t / nrow(SummarizedExperiment::assay(obj)), digits = 2)
     
     ll.df[[i]] <- df
     }
@@ -367,7 +367,7 @@ wrapper.mvImage <- function(obj,
     return(NULL)
   }
   
-  mvImage(assay(obj)[indices, ], group)
+  mvImage(SummarizedExperiment::assay(obj)[indices, ], group)
 }
 
 
@@ -410,12 +410,12 @@ mvImage <- function(obj, group) {
   }
   indCond <- stats::setNames(indCond, as.list(c("cond1", "cond2")))
   
-  nNA1 <- apply(as.matrix(assay(obj)[, indCond$cond1]), 1, 
+  nNA1 <- apply(as.matrix(SummarizedExperiment::assay(obj)[, indCond$cond1]), 1, 
                 function(x) sum(is.na(x)))
-  nNA2 <- apply(as.matrix(assay(obj)[, indCond$cond2]), 1, 
+  nNA2 <- apply(as.matrix(SummarizedExperiment::assay(obj)[, indCond$cond2]), 1, 
                 function(x) sum(is.na(x)))
   o <- order(((nNA1 + 1)^2) / (nNA2 + 1))
-  exprso <- assay(obj)[o, ]
+  exprso <- SummarizedExperiment::assay(obj)[o, ]
   
   for (i in seq_len(nrow(exprso))) {
     k <- order(exprso[i, indCond$cond1])
@@ -509,8 +509,8 @@ hc_mvTypePlot2 <- function(obj,
   }
   
   mTemp <- nbNA <- nbValues <- matrix(
-    rep(0, nrow(assay(obj)) * length(unique(group))),
-    nrow = nrow(assay(obj)),
+    rep(0, nrow(SummarizedExperiment::assay(obj)) * length(unique(group))),
+    nrow = nrow(SummarizedExperiment::assay(obj)),
     dimnames = list(NULL, unique(group))
   )
   dataCond <- data.frame()
@@ -534,7 +534,7 @@ hc_mvTypePlot2 <- function(obj,
       nbValues[, iCond] <- .op1 - .op2
     } else {
       .qcond <- which(group == iCond)
-      mTemp[, iCond] <- apply(assay(obj)[, .qcond], 1, mean, na.rm = TRUE)
+      mTemp[, iCond] <- apply(SummarizedExperiment::assay(obj)[, .qcond], 1, mean, na.rm = TRUE)
       
       nbNA[, iCond] <- rowSums(
         match.metacell(omXplore::get_metacell(obj)[, .qcond],

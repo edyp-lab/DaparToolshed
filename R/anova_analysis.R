@@ -38,7 +38,7 @@ OWAnova <- function(current_protein, conditions){
 #' @import QFeatures
 #' 
 applyAnovasOnProteins <- function(obj, i){
-  qData <- assay(obj[[i]])
+  qData <- SummarizedExperiment::assay(obj[[i]])
   sTab <- design.qf(obj)
   anova_models <- t(apply(qData, 1, OWAnova, conditions = as.factor(sTab$Condition)))
   names(anova_models) <- rownames(qData)
@@ -217,7 +217,6 @@ thresholdpval4fdr <- function(x, pval.T, M){
   MagellanNTK::pkgs.require('cp4p')
   index <- which(x< pval.T)
   R <- length(index)/length(x)
-  print(R)
   res <- rep(1, length(x))
   res[index] <- cp4p::adjust.p(x[index], pi0.method = M)$adjp$adjusted.p
   return(res)
@@ -319,22 +318,25 @@ globalAdjPval <- function(
 #'
 #' @examples
 #' \donttest{
+#' library(SummarizedExperiment)
 #' data(subR25prot)
 #' obj <- subR25prot
 #' filter <- FunctionFilter('qMetacellOnConditions',
 #'   cmd = 'delete',
-#'   mode = 'AtLeastOneCond',
-#'   pattern = c("Missing POV", "Missing MEC"),
+#'   mode = 'WholeMatrix',
+#'   pattern = c("Missing", "Missing POV", "Missing MEC"),
 #'   conds = design.qf(obj)$Condition,
-#'   percent = TRUE,
-#'   th = 0.8,
-#'   operator = '<')
+#'   percent = FALSE,
+#'   th = 1,
+#'   operator = '>=')
 #' 
-#' obj <- filterFeaturesOneSE(obj, filter)
+#' obj <- NAIsZero(obj, 1)
+#' obj <- NAIsZero(obj, 2) 
+#' qdata <- SummarizedExperiment::assay(obj[[2]])
+#' conds <- design.qf(obj)$Condition
+#' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
+#' anova_tests <- t(anova_tests)
 #' 
-#' anova_tests <- t(apply(assay(obj[[2]]), 1, classic1wayAnova,
-#' conditions = as.factor(design.qf(obj)$Condition)
-#' ))
 #' }
 #'
 #' @export
@@ -342,10 +344,11 @@ globalAdjPval <- function(
 #'
 classic1wayAnova <- function(current_line, conditions) {
   #.Deprecated("OWAnova")
-  
-  
+  pkgs.require('stats')
+print(current_line)
   # vector containing the protein/peptide intensities
   intensities <- unname(unlist(current_line))
+  print(intensities)
   # anova on these two vectors
   aov_test <- stats::aov(formula = intensities ~ conditions, data = NULL)
   return(aov_test)
@@ -409,7 +412,7 @@ wrapperClassic1wayAnova <- function(obj,
   #.Deprecated("testAnovaModels")
   
   
-  qData <- assay(obj[[i]])
+  qData <- SummarizedExperiment::assay(obj[[i]])
   sTab <- design.qf(obj)
   if (with_post_hoc == "No") {
     anova_tests <- as.data.frame(

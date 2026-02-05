@@ -56,8 +56,8 @@ plotCompareAssays <- function(obj,
     }
     stopifnot(inherits(obj, "QFeatures"))
     
-    qdata1 <- assay(obj[[i]])
-    qdata2 <- assay(obj[[j]])
+    qdata1 <- SummarizedExperiment::assay(obj[[i]])
+    qdata2 <- SummarizedExperiment::assay(obj[[j]])
     conds <- design.qf(obj)$Condition
     
    

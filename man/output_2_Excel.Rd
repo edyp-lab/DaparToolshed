@@ -56,7 +56,7 @@ missing values which have been imputed.
 \donttest{
 library(QFeatures)
 data(subR25prot)
-df <- assay(subR25prot[[1]])
+df <- SummarizedExperiment::assay(subR25prot[[1]])
 tags <- qMetacell(subR25prot[[1]])
 colors <- list(
     "Missing POV" = "lightblue",
@@ -65,10 +65,14 @@ colors <- list(
     "Quant. by direct id" = "white",
     "Combined tags" = "red"
 )
-write.excel(subR25prot, filename = tempfile('toto.xlsx'))
+file <- tempfile('toto.xlsx')
+write.excel(subR25prot, filename = file)
+unlink(file)
 
 data(subR25pept)
-write.excel(subR25pept, tempfile('foo.xlsx'))
+file <- tempfile('foo.xlsx')
+write.excel(subR25pept, )
+unlink(file)
 }
 
 

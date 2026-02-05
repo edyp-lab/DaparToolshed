@@ -424,7 +424,7 @@ Set_POV_MEC_tags <- function(obj, conds){
   stopifnot(inherits(obj, "SummarizedExperiment"))
   u_conds <- unique(conds)
   
-  df <- assay(obj)
+  df <- SummarizedExperiment::assay(obj)
   qMeta <- qMetacell(obj)
   level <- typeDataset(obj)
     
@@ -589,8 +589,8 @@ BuildMetacell <- function(from = NULL,
 #' In the quantitative columns, a missing value is identified by no value rather
 #' than a value equal to 0. 
 #' Conversion rules
-#' Quanti			Tag		
-#' NA or 0		NA		
+#' Quanti Tag
+#' NA or 0 NA 
 #'
 #' 
 #' @param qdata A matrix of quantitative data
@@ -606,7 +606,7 @@ BuildMetacell <- function(from = NULL,
 #' library(SummarizedExperiment)
 #' data(subR25pept)
 #' conds <- design.qf(subR25pept)$Condition
-#' qdata <- assay(subR25pept[[2]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[2]])
 #' df <- Metacell_generic(qdata, conds, 'peptide')
 #' 
 #' @export
@@ -961,7 +961,7 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             ind <- match.metacell(
               metadata = omXplore::get_metacell(object), 
               pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
-              level = omXplore::get_type(object)) & !is.na(assay(object))
+              level = omXplore::get_type(object)) & !is.na(SummarizedExperiment::assay(object))
             
             rowData(object)$qMetacell[ind] <- gsub(
               pattern = "Missing", 

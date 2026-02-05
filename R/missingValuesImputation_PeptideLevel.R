@@ -408,7 +408,7 @@ wrapper.impute.pa2 <- function(
 #' @examples
 #' library(QFeatures)
 #' utils::data(subR25pept)
-#' qdata <- assay(subR25pept[[1]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' conds <- design.qf(subR25pept)$Condition
 #' obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
 #'
