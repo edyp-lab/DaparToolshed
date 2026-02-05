@@ -461,6 +461,8 @@ getNumberOfEmptyLines <- function(qData) {
 #' @examples 
 #' NULL
 #' 
+#' @return NA
+#' @rdname pkgs.require
 #' @export
 #' 
 #' @author Samuel Wieczorek
