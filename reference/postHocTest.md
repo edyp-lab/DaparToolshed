@@ -53,13 +53,19 @@ Hélène Borges
 
 ``` r
 # \donttest{
-#' library(SummarizedExperiment)
+library(SummarizedExperiment)
 data(subR25prot)
 obj <- subR25prot
-
-obj <- NAIsZero(obj, 1)
-obj <- NAIsZero(obj, 2)
-qdata <- SummarizedExperiment::assay(obj[[2]])
+filter <- FunctionFilter('qMetacellOnConditions',
+  cmd = 'delete',
+  mode = 'AtLeastOneCond',
+  pattern = c("Missing POV", "Missing MEC"),
+  conds = design.qf(obj)$Condition,
+  percent = TRUE,
+  th = 0.8,
+  operator = '>')
+obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
+qdata <- SummarizedExperiment::assay(obj[[3]])
 conds <- design.qf(obj)$Condition
 anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 anova_tests <- t(anova_tests)

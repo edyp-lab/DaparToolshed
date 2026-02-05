@@ -361,6 +361,9 @@
 - [`pepa.test()`](https://edyp-lab.github.io/DaparToolshed/reference/pepa.test.md)
   : PEptide based Protein differential Abundance test
 
+- [`pkgs.require()`](https://edyp-lab.github.io/DaparToolshed/reference/pkgs.require.md)
+  : Loads packages
+
 - [`plotJitter()`](https://edyp-lab.github.io/DaparToolshed/reference/plotJitter.md)
   : Jitter plot of CC
 

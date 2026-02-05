@@ -27,4 +27,5 @@ Thomas Burger
 ``` r
 NULL
 #> NULL
+
 ```

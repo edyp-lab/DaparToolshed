@@ -52,4 +52,5 @@ assay(subR25prot[[2]])[which(is.na(assay(subR25prot[[2]])))] <- 0
 qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[2]]))
 sTab <- SummarizedExperiment::colData(subR25prot)
 limma <- limmaCompleteTest(qData, sTab)
+
 ```
