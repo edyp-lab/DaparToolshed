@@ -345,10 +345,10 @@ globalAdjPval <- function(
 classic1wayAnova <- function(current_line, conditions) {
   #.Deprecated("OWAnova")
   pkgs.require('stats')
-print(current_line)
+
   # vector containing the protein/peptide intensities
   intensities <- unname(unlist(current_line))
-  print(intensities)
+
   # anova on these two vectors
   aov_test <- stats::aov(formula = intensities ~ conditions, data = NULL)
   return(aov_test)
