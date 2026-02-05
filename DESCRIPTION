@@ -97,8 +97,6 @@ Suggests:
     tidyr,
     Pirat,
     shinyjqui
-Remotes:
-    git::https://github.com/edyp-lab/MagellanNTK
 NeedsCompilation: no
 Collate:
     plots_volcano.R
