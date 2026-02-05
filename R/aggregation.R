@@ -1338,6 +1338,7 @@ ExtractUniquePeptides <- function(X){
 #' @rdname DaparToolshed-aggregate
 #' 
 #' @importFrom BiocGenerics t
+#' @importFrom methods is
 #'
 inner.aggregate.iter <- function(
     pepData,
