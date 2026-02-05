@@ -194,6 +194,7 @@ custom_metacell_colors <- function()
 #' @title Number of each metacell tags
 #' @param obj A instance of the class `SummarizedExperiment`
 #' @examples
+#' library(DaparToolshed)
 #' data(subR25prot)
 #' GetNbTags(subR25prot[[1]])
 #' 

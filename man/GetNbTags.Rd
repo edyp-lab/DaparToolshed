@@ -16,6 +16,7 @@ An integer
 Number of each metacell tags
 }
 \examples{
+library(DaparToolshed)
 data(subR25prot)
 GetNbTags(subR25prot[[1]])
 
