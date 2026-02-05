@@ -1,5 +1,14 @@
 
 #' @title xxx
+#' @param x xxx
+#' @param col xxx
+#' @param srtCol xxx
+#' @param labCol xxx
+#' @param labRow xxx
+#' @param key.title xxx
+#' @param key xxx
+#' @param main xxx
+#' @param ylab xxx
 #' @rdname heatmap
 #' @export
 #' @return A heatmap

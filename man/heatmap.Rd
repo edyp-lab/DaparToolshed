@@ -16,6 +16,25 @@ heatmapForMissingValues(
   ylab = NULL
 )
 }
+\arguments{
+\item{x}{xxx}
+
+\item{col}{xxx}
+
+\item{srtCol}{xxx}
+
+\item{labCol}{xxx}
+
+\item{labRow}{xxx}
+
+\item{key}{xxx}
+
+\item{key.title}{xxx}
+
+\item{main}{xxx}
+
+\item{ylab}{xxx}
+}
 \value{
 A heatmap
 }
