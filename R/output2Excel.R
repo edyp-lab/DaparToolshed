@@ -40,7 +40,7 @@
 #' 
 #' data(subR25pept)
 #' file <- tempfile('foo.xlsx')
-#' write.excel(subR25pept, )
+#' write.excel(subR25pept, file)
 #' unlink(file)
 #' }
 #'
