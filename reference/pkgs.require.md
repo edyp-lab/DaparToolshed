@@ -15,6 +15,10 @@ pkgs.require(ll.deps)
   A [`character()`](https://rdrr.io/r/base/character.html) vector which
   contains packages names
 
+## Value
+
+NA
+
 ## Author
 
 Samuel Wieczorek

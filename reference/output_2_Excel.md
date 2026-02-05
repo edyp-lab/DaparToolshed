@@ -81,13 +81,13 @@ colors <- list(
 )
 file <- tempfile('toto.xlsx')
 write.excel(subR25prot, filename = file)
-#> [1] "/tmp/RtmpmS2pGN/toto.xlsx1dc369da12d7"
+#> [1] "/tmp/RtmpJ3A3h3/toto.xlsx1d886cd6e9e4"
 unlink(file)
 
 data(subR25pept)
 file <- tempfile('foo.xlsx')
 write.excel(subR25pept, file)
-#> [1] "/tmp/RtmpmS2pGN/foo.xlsx1dc37028279c"
+#> [1] "/tmp/RtmpJ3A3h3/foo.xlsx1d886214209"
 unlink(file)
 # }
 
