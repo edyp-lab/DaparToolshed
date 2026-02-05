@@ -34,7 +34,6 @@ Imports:
     matrixStats,
     S4Vectors,
     SummarizedExperiment,
-    omXplore,
     openxlsx,
     QFeatures (>= 1.16),
     methods,
