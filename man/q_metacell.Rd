@@ -25,7 +25,7 @@ Metacell_generic(qdata, conds, level)
 
 UpdateMetacellAfterImputation(object, ...)
 
-\S4method{UpdateMetacellAfterImputation}{SummarizedExperiment}(object, from, to, ...)
+\S4method{UpdateMetacellAfterImputation}{SummarizedExperiment}(object)
 
 search.metacell.tags(pattern, level, depth = "1")
 
@@ -44,12 +44,6 @@ Available values are: \code{peptide}, \code{protein}}
 \item{qdata}{A matrix of quantitative data}
 
 \item{object}{An object of class \code{SummarizedExperiment}}
-
-\item{...}{Additional parameters}
-
-\item{from}{xxx}
-
-\item{to}{xxx}
 
 \item{pattern}{The string to search.}
 

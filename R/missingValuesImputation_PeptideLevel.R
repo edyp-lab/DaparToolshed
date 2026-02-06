@@ -107,7 +107,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #'
 #' @param methodi Same as the function \code{mi.mix} in the package \code{imp4p}
 #'
-#' @param lapala xxxxxxxxxxx
+#' @param lapala A `boolean`
 #'
 #' @param distribution The type of distribution used. Values are \code{unif}
 #' (default) or \code{beta}.

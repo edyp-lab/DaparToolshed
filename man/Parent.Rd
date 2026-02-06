@@ -10,7 +10,7 @@ Parent(level, node = NULL)
 \item{level}{A string designing the type of entity/pipeline.
 Available values are: \code{peptide}, \code{protein}}
 
-\item{node}{xxx
+\item{node}{A \code{character()}
 
 #' @examples
 Parent('protein', 'Missing')

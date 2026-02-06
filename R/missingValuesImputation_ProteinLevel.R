@@ -27,16 +27,16 @@
 #' This method is a wrapper to the function \code{impute.pa} of the package
 #' \code{imp4p} adapted to an object of class \code{MSnSet}.
 #' 
-#' # Utilities functions
+#' # Utilities functions:
 #' 
-#' * findMECBlock(): xxx
-#' * reIntroduceMEC(): xxx
-#' * getQuantile4Imp(): 
-#' Quantile imputation value definition. This method returns the q-th quantile 
-#' of each column of an expression set, up to a scaling factor
+#' * findMECBlock()
+#' * reIntroduceMEC()
+#' * getQuantile4Imp(): Quantile imputation value definition. This method 
+#' returns the q-th quantile of each column of an expression set, up to a s
+#' calling factor
 #' 
 #' @param obj An object of class `QFeatures`.
-#' @param grp xxx
+#' @param grp A `vector` of conditions in the dataset
 #' @param design A `data.frame()` for the design of the dataset
 #' @param MECIndex A data.frame that contains index of MEC (see findMECBlock) 
 #' @param q.min Same as the function `impute.pa()` in the package `imp4p`

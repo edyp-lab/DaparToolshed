@@ -2,18 +2,18 @@
 % Please edit documentation in R/limmaAnalysis.R
 \name{test.design}
 \alias{test.design}
-\title{Check if xxxxxx}
+\title{Check the validity of the design}
 \usage{
 test.design(tab)
 }
 \arguments{
-\item{tab}{A data.frame which correspond to xxxxxx}
+\item{tab}{A data.frame which correspond to the design}
 }
 \value{
 A list of two items
 }
 \description{
-Check if xxxxxx
+Check the validity of the design
 }
 \examples{
 data(subR25pept)

@@ -1,6 +1,6 @@
-#' @title Check if xxxxxx
+#' @title Check the validity of the design
 #'
-#' @param tab A data.frame which correspond to xxxxxx
+#' @param tab A data.frame which correspond to the design
 #'
 #' @return A list of two items
 #'
@@ -424,7 +424,7 @@ make.design.3 <- function(sTab) {
 }
 
 
-#' @title xxx
+#' @title Get design level
 #' 
 #' @param sTab A `data.frame()` which contains the sample data
 #' 
@@ -452,14 +452,14 @@ getDesignLevel <- function(sTab){
 #' @param design The data.frame which correspond to the `colData()` function 
 #' of package `MultiAssayExperiment`.
 #'
-#' @param condition xxxxx
+#' @param condition A `vector` of conditions of the dataset
 #'
 #' @param contrast An integer that Indicates if the test consists of the
 #' comparison of each biological condition versus each of the other ones
 #' (Contrast=1; for example H0:"C1=C2" vs H1:"C1!=C2", etc.)
 #' or each condition versus all others (Contrast=2; e.g.  H0:"C1=(C2+C3)/2" vs
 #'  H1:"C1!=(C2+C3)/2", etc. if there are three conditions).
-#' @param design.level xxx
+#' @param design.level An `integer` which specifies the level of the design
 #'
 #' @return A contrast matrix
 #'
@@ -679,7 +679,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 
 
 
-#' @title xxxx
+#' @title Format Limma results
 #'
 #' @param fit xxxx
 #'

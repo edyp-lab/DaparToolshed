@@ -216,7 +216,7 @@ GetNbTags <- function(obj){
 #' @title Parent name of a node
 #' @param level A string designing the type of entity/pipeline. 
 #' Available values are: `peptide`, `protein`
-#' @param node xxx
+#' @param node A `character()`
 #' 
 #' #' @examples 
 #' Parent('protein', 'Missing')
@@ -918,9 +918,6 @@ setGeneric("UpdateMetacellAfterImputation",
 #' Update the quantitative metadata information of missing values that were imputed
 #' 
 #' @param object An object of class `SummarizedExperiment`
-#' @param from xxx
-#' @param to xxx
-#' @param ... Additional parameters
 #' 
 #' @examples
 #' data(subR25prot)
@@ -938,21 +935,11 @@ setGeneric("UpdateMetacellAfterImputation",
 #' @import SummarizedExperiment
 #' 
 setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
-          function(object,
-                   from,
-                   to,
-                   ...) {
+          function(object) {
             
             if (missing(object))
               stop("'object' is required.")
-            #level <- typeDataset(object)
-            # if (missing(na.type)){
-            #   values <- unname(search.qMetacell.tags('Missing', level))
-            #   stop("'na.type' is required. Available values are: ", 
-            #        paste0(values, collapse=' '))
-            # }
-            
-            
+
             ind <- match.metacell(
               metadata = qMetacell(object), 
               pattern = c('Missing', 'Missing POV', 'Missing MEC'), 

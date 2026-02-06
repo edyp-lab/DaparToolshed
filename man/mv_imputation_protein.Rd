@@ -31,7 +31,7 @@ wrapper.impute.slsa(obj = NULL, design = NULL)
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
 
-\item{grp}{xxx}
+\item{grp}{A \code{vector} of conditions in the dataset}
 
 \item{MECIndex}{A data.frame that contains index of MEC (see findMECBlock)}
 
@@ -82,13 +82,13 @@ This method is a wrapper to the function \code{impute.pa} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
 }
 }
-\section{Utilities functions}{
+\section{Utilities functions:}{
 \itemize{
-\item findMECBlock(): xxx
-\item reIntroduceMEC(): xxx
-\item getQuantile4Imp():
-Quantile imputation value definition. This method returns the q-th quantile
-of each column of an expression set, up to a scaling factor
+\item findMECBlock()
+\item reIntroduceMEC()
+\item getQuantile4Imp(): Quantile imputation value definition. This method
+returns the q-th quantile of each column of an expression set, up to a s
+calling factor
 }
 }
 

@@ -10,7 +10,7 @@ make.contrast(design, condition, contrast = 1, design.level = 1)
 \item{design}{The data.frame which correspond to the \code{colData()} function
 of package \code{MultiAssayExperiment}.}
 
-\item{condition}{xxxxx}
+\item{condition}{A \code{vector} of conditions of the dataset}
 
 \item{contrast}{An integer that Indicates if the test consists of the
 comparison of each biological condition versus each of the other ones
@@ -18,7 +18,7 @@ comparison of each biological condition versus each of the other ones
 or each condition versus all others (Contrast=2; e.g.  H0:"C1=(C2+C3)/2" vs
 H1:"C1!=(C2+C3)/2", etc. if there are three conditions).}
 
-\item{design.level}{xxx}
+\item{design.level}{An \code{integer} which specifies the level of the design}
 }
 \value{
 A contrast matrix

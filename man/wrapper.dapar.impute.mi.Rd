@@ -76,7 +76,7 @@ wrapper.dapar.impute.mi(
 
 \item{methodi}{Same as the function \code{mi.mix} in the package \code{imp4p}}
 
-\item{lapala}{xxxxxxxxxxx}
+\item{lapala}{A \code{boolean}}
 
 \item{distribution}{The type of distribution used. Values are \code{unif}
 (default) or \code{beta}.}

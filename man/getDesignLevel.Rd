@@ -2,7 +2,7 @@
 % Please edit documentation in R/limmaAnalysis.R
 \name{getDesignLevel}
 \alias{getDesignLevel}
-\title{xxx}
+\title{Get design level}
 \usage{
 getDesignLevel(sTab)
 }
@@ -13,7 +13,7 @@ getDesignLevel(sTab)
 An integer
 }
 \description{
-xxx
+Get design level
 }
 \examples{
 data(subR25pept)

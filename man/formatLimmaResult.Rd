@@ -2,7 +2,7 @@
 % Please edit documentation in R/limmaAnalysis.R
 \name{formatLimmaResult}
 \alias{formatLimmaResult}
-\title{xxxx}
+\title{Format Limma results}
 \usage{
 formatLimmaResult(fit, conds, contrast, design.level)
 }
@@ -23,7 +23,7 @@ one comparison). The names of the columns for those two dataframes are
 identical and correspond to the description of the comparison.
 }
 \description{
-xxxx
+Format Limma results
 }
 \examples{
 library(SummarizedExperiment)
