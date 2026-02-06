@@ -9,7 +9,7 @@
 
 
 
-#' @title xxx
+#' @title List of available pipelines in the package
 #'
 #' @description
 #' Get the list of pipelines available in the package
@@ -29,15 +29,15 @@ Pipelines <- function() {
 
 
 
-#' @title xxx
+#' @title Adds an instance of `SummarizedExperiment` to a `QFeatures` object
 #'
 #' @description
 #' Adds one or more items to the dataset. This function is specific of the
 #' type of dataset.
 #'
-#' @param dataset xxx
+#' @param dataset An instance of `SummarizedExperiment` class
 #'
-#' @param name xxx
+#' @param name A `character()` for the new assay
 #'
 #' @importFrom QFeatures addAssay
 #'
@@ -52,7 +52,7 @@ Add_Item_to_Dataset <- function(dataset, name) {
     )
 }
 
-#' @title xxx
+#' @title Removes assay from a `QFeatures` object
 #'
 #' @description
 #' Removes one or more items from the dataset. This function is specific of the

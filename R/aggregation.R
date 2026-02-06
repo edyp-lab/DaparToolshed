@@ -944,8 +944,6 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 
 #' @title Selection of top n peptides
 #' 
-#' @description  xxx
-#' 
 #' @param pepData A `matrix` containing the peptide intensities. 
 #' @param X A `matrix` acting as an adjacency matrix. 
 #' @param n  A `numeric(1)` specifying the number of peptides to use for each protein.

@@ -1,5 +1,5 @@
 
-#' @title xxxxxx
+#' @title Compute a t-test 
 #'
 #' @param obj A matrix of quantitative data, without any missing values.
 #' @param i An integer which is the index of the assay in the QFeatures object
@@ -10,7 +10,7 @@
 #' or each condition versus all others (contrast=2; e.g.  H0:"C1=(C2+C3)/2" vs
 #' H1:"C1!=(C2+C3)/2", etc. if there are three conditions).
 #'
-#' @param type xxxxx
+#' @param type Either "Student" or "Welch"
 #'
 #' @return A list of two items : logFC and P_Value; both are dataframe. The
 #' first one contains the logFC values of all the comparisons (one column for

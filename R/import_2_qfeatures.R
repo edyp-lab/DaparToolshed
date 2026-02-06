@@ -1,8 +1,6 @@
 #' @title Creates an object of class `QFeatures` from text file.
 #'
-#' @description
-#'
-#' Creates an object of class `QFeatures` from a
+#' @description Creates an object of class `QFeatures` from a
 #' single tabulated-like file for quantitative and meta-data and a dataframe
 #' for the samples description.
 #'

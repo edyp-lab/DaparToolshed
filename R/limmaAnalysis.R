@@ -425,9 +425,8 @@ make.design.3 <- function(sTab) {
 
 
 #' @title xxx
-#' @description xxx
 #' 
-#' @param sTab xxx
+#' @param sTab A `data.frame()` which contains the sample data
 #' 
 #' @return An integer
 #' 

@@ -366,9 +366,7 @@ wrapper.impute.pa2 <- function(
 #'
 #' @title Missing values imputation from a \code{MSnSet} object
 #' 
-#' @description 
-#' 
-#' This method is a variation to the function \code{impute.pa()} from the 
+#' @description This method is a variation to the function \code{impute.pa()} from the 
 #' package \code{imp4p}.
 #'
 #' @param tab An object of class \code{MSnSet}.

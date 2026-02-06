@@ -1,9 +1,5 @@
 #' @title Utility funcitons to dela with QFeatures objects.
 #'
-#' @description
-#'
-#' xxxxx
-#'
 #' @name QFeatures-utils
 #' 
 #' @return NA

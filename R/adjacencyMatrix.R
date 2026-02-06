@@ -64,9 +64,9 @@ splitAdjacencyMat <- function(X) {
 #' 
 #' @description
 #' Method to create a binary matrix with proteins in columns and peptides
-#' in lines on a `MSnSet` object (peptides)
+#' in lines on a `SummarizedExperiment` object (peptides)
 #'
-#' @param obj.pep An object (peptides) of class `MSnSet`.
+#' @param obj.pep An object (peptides) of class `SummarizedExperiment`.
 #'
 #' @return A binary matrix
 #'

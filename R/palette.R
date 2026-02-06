@@ -61,8 +61,6 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 
 #' @title Builds a complete color palette for the conditions given in argument
 #'
-#' @description xxxx
-#'
 #' @param conds The extended vector of samples conditions
 #'
 #' @param pal A vector of HEX color code that form the basis palette from which

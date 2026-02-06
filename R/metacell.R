@@ -214,7 +214,6 @@ GetNbTags <- function(obj){
 
 
 #' @title Parent name of a node
-#' @description xxx
 #' @param level A string designing the type of entity/pipeline. 
 #' Available values are: `peptide`, `protein`
 #' @param node xxx
@@ -244,11 +243,10 @@ Parent <- function(level, node=NULL){
   return(parents)
 }
 
-#' @title Names of all chidren of a node
-#' @description xxx
+#' @title Names of all children of a node
 #' @param level A string designing the type of entity/pipeline. 
 #' Available values are: `peptide`, `protein`
-#' @param parent xxx
+#' @param parent A vector of `character()`
 #' 
 #' @examples 
 #' Children('protein', 'Missing')
@@ -584,9 +582,7 @@ BuildMetacell <- function(from = NULL,
 
 #' @title Sets the qMetacell dataframe
 #' 
-#' @description
-#' 
-#' In the quantitative columns, a missing value is identified by no value rather
+#' @description In the quantitative columns, a missing value is identified by no value rather
 #' than a value equal to 0. 
 #' Conversion rules
 #' Quanti Tag

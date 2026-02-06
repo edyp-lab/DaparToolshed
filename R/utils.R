@@ -155,12 +155,11 @@ is.OfType <- function(data, type) {
 
 
 
-#' @title xxx
-#' @description xxx
-#' @param set1 xxx
-#' @param set2 xxx
+#' @title Check is a given set is a subset of another one.
+#' @param set1 A vector of `character()`
+#' @param set2 A vector of `character()`
 #' 
-#' @return xxx
+#' @return A `boolean`
 #' 
 #' @examples
 #' is.subset('a', letters)
@@ -277,7 +276,6 @@ nonzero <- function(x) {
 
 
 #' @title Convert a list to unnumbered HTML list
-#' @description xxx
 #' @param ll A `list()` of `character()`
 #' @rdname ConvertListToHtml
 #' @export

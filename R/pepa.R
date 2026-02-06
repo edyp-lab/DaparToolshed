@@ -366,7 +366,8 @@ LH1.lm <- function(X, y1, y2, j) {
 
 
 
-#' @title xxxxxx
+#' @title Computes a regularized version of the likelihood ratio
+#' statistic
 #' 
 #' @description 
 #' This function computes a regularized version of the likelihood ratio

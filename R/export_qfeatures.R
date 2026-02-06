@@ -1,8 +1,6 @@
 #' @title Exports a `QFeatures` object to a Excel file.
 #'
-#' @description
-#'
-#' This function exports an instance of the class `QFeatures` to a Excel file.
+#' @description This function exports an instance of the class `QFeatures` to a Excel file.
 #' The resulting file is composed of four sheets:
 #'
 #' - `quantitative data` which contains the content of `assay()` object with a
@@ -63,9 +61,9 @@ setMethod(
     "write2excel", "QFeatures",
     #' @param object An instance of the class `QFeatures`
     #' @param i An integer which is the index of the assay in the QFeatures object
-    #' @param filename xxx
-    #' @param writeColData xxx
-    #' @param ... xxx
+    #' @param filename A `character()` for the Excel filename
+    #' @param writeColData A `boolean`
+    #' @param ... Additional parameters
     function(object,
              i = NULL,
              filename = "newFile", 
