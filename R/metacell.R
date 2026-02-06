@@ -918,10 +918,11 @@ setGeneric("UpdateMetacellAfterImputation",
 #' Update the quantitative metadata information of missing values that were imputed
 #' 
 #' @param object An object of class `SummarizedExperiment`
+#' @param ... Additional parameters
 #' 
 #' @examples
 #' data(subR25prot)
-#' subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]], 'Missing', 'Imputed')
+#' subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]])
 #' 
 #' @author Samuel Wieczorek
 #'

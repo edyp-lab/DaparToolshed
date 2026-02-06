@@ -45,6 +45,8 @@ Available values are: \code{peptide}, \code{protein}}
 
 \item{object}{An object of class \code{SummarizedExperiment}}
 
+\item{...}{Additional parameters}
+
 \item{pattern}{The string to search.}
 
 \item{depth}{Either "0", "1" or "*".}
@@ -202,7 +204,7 @@ qdata <- SummarizedExperiment::assay(subR25pept[[2]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(subR25prot)
-subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]], 'Missing', 'Imputed')
+subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]])
 
 search.metacell.tags('Missing POV', 'peptide')
 search.metacell.tags('Quantified', 'peptide')
