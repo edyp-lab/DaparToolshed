@@ -44,7 +44,7 @@ Either "keep" or "delete".}
 
 \item{pattern}{A \code{character()} indicating the tag pattern of interest.}
 
-\item{percent}{A \code{character(1)} indicating whether the threshold represent an
+\item{percent}{A \code{character()} indicating whether the threshold represent an
 absolute value ("Count") or a percentage ("Percentage").}
 
 \item{th}{The threshold to apply}

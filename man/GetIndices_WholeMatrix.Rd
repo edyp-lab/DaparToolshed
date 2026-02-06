@@ -7,7 +7,9 @@
 GetIndices_WholeMatrix(metacell.mask, op = "==", percent = FALSE, th = 0)
 }
 \arguments{
-\item{metacell.mask}{xxx}
+\item{metacell.mask}{A \code{data.frame()} of boolean values which indictes the
+presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+metadata}
 
 \item{op}{String for operator to use. List of operators is available with
 'SymFilteringOperators()'.}
@@ -19,7 +21,7 @@ a percentage (percent=TRUE).}
 \item{th}{A floating number which is in the interval \verb{[0, 1]}}
 }
 \value{
-xxx
+A vector of \code{integer()}
 }
 \description{
 This function looks for the lines that respect the request in either all

@@ -12,13 +12,18 @@
 #' @param pattern A string to be included in the `SummarizedExperiment`
 #' object for log.
 #'
-#' @param type xxx
+#' @param type Available values are:
+#' * 'AllCond' (the query is valid in all the conditions),
+#' * 'AtLeatOneCond' (the query is valid in at leat one condition.
 #'
-#' @param percent xxx
+#' @param op  String for operator to use. List of operators is available with 
+#' 'SymFilteringOperators()'.
 #'
-#' @param op xxx
+#' @param percent A boolean to indicate whether the threshold represent an 
+#' absolute value (percent = FALSE) or
+#' a percentage (percent=TRUE).
 #'
-#' @param th xxx
+#' @param th A floating number which is in the interval `[0, 1]`
 #'
 #' @return An instance of class `SummarizedExperiment` that have been filtered.
 #'
@@ -110,7 +115,7 @@ GetIndices_FunFiltering <- function(obj,
 #'
 #' @export
 #' 
-#' @return xxx
+#' @return A vector of `character()`
 #' 
 #' @examples 
 #' MetacellFilteringScope()
@@ -148,7 +153,9 @@ SymFilteringOperators <- function() {
 #' This function looks for the lines that respect the request in either all 
 #' conditions or at least one condition.
 #'
-#' @param metacell.mask xxx
+#' @param metacell.mask A `data.frame()` of boolean values which indictes the
+#' presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+#' metadata
 #'
 #' @param op  String for operator to use. List of operators is available with 
 #' 'SymFilteringOperators()'.
@@ -173,7 +180,7 @@ SymFilteringOperators <- function() {
 #'
 #' @export
 #' 
-#' @return xxx
+#' @return A vector of `integer()`
 #'
 GetIndices_WholeMatrix <- function(metacell.mask,
   op = "==",
@@ -232,7 +239,9 @@ GetIndices_WholeMatrix <- function(metacell.mask,
 #' @description
 #' This function looks for the lines where each element respect the query.
 #'
-#' @param metacell.mask xxx
+#' @param metacell.mask A `data.frame()` of boolean values which indictes the
+#' presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+#' metadata
 #'
 #' @examples
 #' data(subR25pept)
@@ -244,7 +253,7 @@ GetIndices_WholeMatrix <- function(metacell.mask,
 #'
 #' @export
 #' 
-#' @return xxx
+#' @return A vector of `integer()`
 #'
 GetIndices_WholeLine <- function(metacell.mask) {
   if (missing(metacell.mask)) {
@@ -265,7 +274,9 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' all conditions
 #' or at least one condition.
 #'
-#' @param metacell.mask xxx
+#' @param metacell.mask A `data.frame()` of boolean values which indictes the
+#' presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+#' metadata
 #'
 #' @param type Available values are:
 #' * 'AllCond' (the query is valid in all the conditions),
@@ -273,12 +284,13 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #'
 #' @param conds A `character()` vector which is the names of conditions.
 #'
-#' @param percent xxx
+#' @param percent A boolean to indicate whether the threshold represent an 
+#' absolute value (percent = FALSE) or a percentage (percent=TRUE).
 #'
 #' @param op  String for operator to use. List of operators is available 
 #' with the function 'SymFilteringOperators()'.
 #'
-#' @param th The theshold to apply
+#' @param th The threshold to apply
 #'
 #' @examples
 #' data(subR25pept)
@@ -293,7 +305,7 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' percent <- TRUE
 #' ind <- GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 #'
-#' @return xxx
+#' @return A vector of `integer()`
 #'
 #' @export
 #'

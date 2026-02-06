@@ -7,7 +7,7 @@
 MetacellFilteringScope()
 }
 \value{
-xxx
+A vector of \code{character()}
 }
 \description{
 Lists the metacell scopes for filtering

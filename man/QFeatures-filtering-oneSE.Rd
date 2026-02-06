@@ -73,16 +73,16 @@ used as they are used in \code{QFeatures}
 For the second category, the package \code{DaparToolshed} provides filter
 functions based either on the adjacency matrix:
 \itemize{
-\item 
-\item 
-\item 
+\item \code{\link[=topnPeptides]{topnPeptides()}}
+\item \code{\link[=sharedPeptides]{sharedPeptides()}}
+\item \code{\link[=specPeptides]{specPeptides()}}
 }
 
 Or based on the quantitative metadata (identification):
 \itemize{
-\item 
-\item 
-\item 
+\item \code{\link[=qMetacellWholeMatrix]{qMetacellWholeMatrix()}}
+\item \code{\link[=qMetacellWholeLine]{qMetacellWholeLine()}}
+\item \code{\link[=qMetacellOnConditions]{qMetacellOnConditions()}}
 }
 }
 

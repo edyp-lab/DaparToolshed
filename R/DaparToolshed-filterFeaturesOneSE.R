@@ -33,14 +33,14 @@
 #'
 #'  For the second category, the package `DaparToolshed` provides filter 
 #'  functions based either on the adjacency matrix:
-#'  - [DaparToolshed::topnPeptides()]: xxxx
-#'  - [DaparToolshed::sharedPeptides()]: xxx
-#'  - [DaparToolshed::specPeptides()]: xxx
+#'  - [DaparToolshed::topnPeptides()]
+#'  - [DaparToolshed::sharedPeptides()]
+#'  - [DaparToolshed::specPeptides()]
 #'
 #' Or based on the quantitative metadata (identification):
-#'  - [DaparToolshed::qMetacellWholeMatrix()]: xxx
-#'  - [DaparToolshed::qMetacellWholeLine()]: xxx
-#'  - [DaparToolshed::qMetacellOnConditions()]: xxx
+#'  - [DaparToolshed::qMetacellWholeMatrix()]
+#'  - [DaparToolshed::qMetacellWholeLine()]
+#'  - [DaparToolshed::qMetacellOnConditions()]
 #'
 #' @return A filtered `QFeature` object
 #'

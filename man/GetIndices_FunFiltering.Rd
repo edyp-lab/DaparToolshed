@@ -28,13 +28,20 @@ delete.}
 \item{pattern}{A string to be included in the \code{SummarizedExperiment}
 object for log.}
 
-\item{type}{xxx}
+\item{type}{Available values are:
+\itemize{
+\item 'AllCond' (the query is valid in all the conditions),
+\item 'AtLeatOneCond' (the query is valid in at leat one condition.
+}}
 
-\item{percent}{xxx}
+\item{percent}{A boolean to indicate whether the threshold represent an
+absolute value (percent = FALSE) or
+a percentage (percent=TRUE).}
 
-\item{op}{xxx}
+\item{op}{String for operator to use. List of operators is available with
+'SymFilteringOperators()'.}
 
-\item{th}{xxx}
+\item{th}{A floating number which is in the interval \verb{[0, 1]}}
 }
 \value{
 An instance of class \code{SummarizedExperiment} that have been filtered.

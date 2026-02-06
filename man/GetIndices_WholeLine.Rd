@@ -7,10 +7,12 @@
 GetIndices_WholeLine(metacell.mask)
 }
 \arguments{
-\item{metacell.mask}{xxx}
+\item{metacell.mask}{A \code{data.frame()} of boolean values which indictes the
+presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+metadata}
 }
 \value{
-xxx
+A vector of \code{integer()}
 }
 \description{
 This function looks for the lines where each element respect the query.

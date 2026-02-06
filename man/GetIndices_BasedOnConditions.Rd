@@ -7,7 +7,9 @@
 GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 }
 \arguments{
-\item{metacell.mask}{xxx}
+\item{metacell.mask}{A \code{data.frame()} of boolean values which indictes the
+presence (TRUE) or not (FALSE) of given tags in the quantitative cells
+metadata}
 
 \item{type}{Available values are:
 \itemize{
@@ -17,7 +19,8 @@ GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 
 \item{conds}{A \code{character()} vector which is the names of conditions.}
 
-\item{percent}{xxx}
+\item{percent}{A boolean to indicate whether the threshold represent an
+absolute value (percent = FALSE) or a percentage (percent=TRUE).}
 
 \item{op}{String for operator to use. List of operators is available
 with the function 'SymFilteringOperators()'.}
@@ -25,7 +28,7 @@ with the function 'SymFilteringOperators()'.}
 \item{th}{The theshold to apply}
 }
 \value{
-xxx
+A vector of \code{integer()}
 }
 \description{
 This function looks for the lines that respect the request in either

@@ -215,7 +215,7 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
 #' @param pattern A `character()` indicating the tag pattern of interest. 
 #' @param conds A vector of conditions in the dataset. 
 #'
-#' @param percent A `character(1)` indicating whether the threshold represent an 
+#' @param percent A `character()` indicating whether the threshold represent an 
 #' absolute value ("Count") or a percentage ("Percentage").
 #'
 #' @param operator  String for operator to use. List of operators is available 
