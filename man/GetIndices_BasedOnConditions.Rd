@@ -25,7 +25,7 @@ absolute value (percent = FALSE) or a percentage (percent=TRUE).}
 \item{op}{String for operator to use. List of operators is available
 with the function 'SymFilteringOperators()'.}
 
-\item{th}{The theshold to apply}
+\item{th}{The threshold to apply}
 }
 \value{
 A vector of \code{integer()}

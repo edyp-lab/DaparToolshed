@@ -41,14 +41,14 @@ wrapper.mvImage(obj, group = NULL, pattern = "Missing MEC")
 
 mvImage(obj, group)
 
-hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
+hc_mvTypePlot2(obj, group, pal = NULL, pattern, title = NULL)
 }
 \arguments{
 \item{obj}{An instance of the class \code{QFeatures}}
 
-\item{group}{xxx}
+\item{group}{A vector}
 
-\item{pattern}{xxx}
+\item{pattern}{A \code{character()} indicating the tag pattern of interest.}
 
 \item{detailed}{'value' or 'percent'}
 
@@ -58,8 +58,6 @@ hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 drawn above the bars.}
 
 \item{pal}{The different colors for conditions}
-
-\item{typeofMV}{xxx}
 
 \item{title}{The title of the plot}
 }

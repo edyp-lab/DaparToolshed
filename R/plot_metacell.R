@@ -7,8 +7,8 @@
 #' number of missing values (NA) per lines (ie proteins).
 #'
 #' @param obj An instance of the class `QFeatures`
-#' @param group xxx
-#' @param pattern xxx
+#' @param group A vector 
+#' @param pattern A `character()` indicating the tag pattern of interest. 
 #' @param detailed 'value' or 'percent'
 #' @param indLegend A `vector()` of `integers`
 #' @param showValues A logical that indicates whether numeric values should be
@@ -328,7 +328,7 @@ metacellHisto_HC <- function(obj,
 #' number of missing values. A white square is plotted for missing values.
 #' 
 #' @param obj An object of class `SummarizedExperiment`.
-#' @param pattern xxx
+#' @param pattern A `character()` indicating the tag pattern of interest. 
 #'
 #' @return A heatmap
 #' @author Samuel Wieczorek, Alexia Dorffer
@@ -453,8 +453,7 @@ mvImage <- function(obj, group) {
 #'
 #' @param obj An instance of the class `QFeatures`
 #' @param pal The different colors for conditions
-#' @param pattern xxx
-#' @param typeofMV xxx
+#' @param pattern A `character()` indicating the tag pattern of interest. 
 #' @param title The title of the plot
 #'
 #' @import highcharter
@@ -482,7 +481,6 @@ hc_mvTypePlot2 <- function(obj,
   group,
   pal = NULL,
   pattern,
-  typeofMV = NULL,
   title = NULL) {
   
   stopifnot(inherits(obj, 'SummarizedExperiment'))
