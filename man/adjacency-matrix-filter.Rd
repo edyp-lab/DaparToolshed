@@ -40,9 +40,9 @@ subAdjMat_topnPeptides(X, qData, fun, top)
 
 \item{fun}{A \code{list()} of additional parameters}
 
-\item{top}{A \code{integer(1)} which is the number of xxx}
+\item{top}{A \code{integer(1)} which is the number of entities to use}
 
-\item{qData}{xxx}
+\item{qData}{A \code{data.frame()} for the quantitative data}
 }
 \value{
 NA

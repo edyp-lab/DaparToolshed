@@ -4,7 +4,7 @@
 #' @param obj An object of class `SummarizedExperiment` containing
 #' quantitative data.
 #' 
-#' @param conds xxx
+#' @param conds A vector containing the names of the conditions from the sample.
 #'
 #' @param level A vector of integers which are the indices of lines to
 #' delete.
@@ -271,7 +271,7 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' * 'AllCond' (the query is valid in all the conditions),
 #' * 'AtLeatOneCond' (the query is valid in at leat one condition.
 #'
-#' @param conds xxx
+#' @param conds A `character()` vector which is the names of conditions.
 #'
 #' @param percent xxx
 #'

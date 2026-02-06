@@ -61,7 +61,7 @@ setGeneric("write2excel",
 #' @rdname QFeatures-excel
 setMethod(
     "write2excel", "QFeatures",
-    #' @param object xxx
+    #' @param object An instance of the class `QFeatures`
     #' @param i An integer which is the index of the assay in the QFeatures object
     #' @param filename xxx
     #' @param writeColData xxx
@@ -97,11 +97,11 @@ setMethod(
 setMethod(
     "write2excel", "SummarizedExperiment",
     
-    #' @param object xxx
+    #' @param object An instance of the class `QFeatures`
     #' @param filename xxx
     #' @param exp.design xxx
     #' @param writeColData xxx
-    #' @param ... xxx
+    #' @param ... Additional parameters.
     function(object, 
       filename, 
       exp.design, 
@@ -120,13 +120,12 @@ setMethod(
 
 
 
-#' @title xxx
-#' @description xxx
+#' @title Write a SummarizedExperiment object to a Excel file.
 #' 
-#' @param object xxx
-#' @param filename xxx
-#' @param exp.design xxx
-#' @param writeColData A boolean
+#' @param object An instance of the class `QFeatures`
+#' @param filename A `character()` for the name of the Excel file
+#' @param exp.design A `data.frame()` for the sample design of the dataset
+#' @param writeColData A `boolean`
 #' 
 #' @rdname QFeatures-excel
 #' 

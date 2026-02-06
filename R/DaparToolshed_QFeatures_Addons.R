@@ -12,8 +12,8 @@
 #' @param object An instance of class `SummarizedExperiment` or `QFeatures`.
 #' @param i The index or name of the assays to extract the quantitative 
 #' metadata from. All must have a rowdata variable named as `slotName`
-#' @param slotName xxx
-#' @param value xxx
+#' @param slotName A character(0) which is the name of the slot in the metadata
+#' @param value The content of the slot in the metadata
 #' 
 #' @return NA
 #'
@@ -27,10 +27,10 @@
 #'  - xxx: xxxx
 #'
 #' Additional slots for Metadata for a `SummarizedExperiment` object:
-#'  - qMetacell: xxxx
-#'  - parentProtId: xxx
-#'  - idcol: xxxx
-#'  - typeDataset: xxx
+#'  - qMetacell: A `data.frame()`
+#'  - parentProtId: A `character()`
+#'  - idcol: A `character()`
+#'  - typeDataset: A `character()`
 #'
 #'
 #' @section Quantitative metadata:
@@ -71,7 +71,7 @@ setMethod(
 #' @rdname QFeatures-accessors
 setMethod(
     "qMetacell", "SummarizedExperiment",
-  #' @param object xxx
+  #' @param object n instance of class `QFeatures` or `SummarizedExperiment`
     function(object) {
         .GetRowdataSlot(object, "qMetacell")
     }
@@ -795,8 +795,7 @@ setMethod(
 
 
 
-#' @title xxx
-#' @description xxx
+#' @title Set NA values to 0
 #' @param obj An instance of QFeatures class
 #' @param i An integer which is the index of the assay in the QFeatures object
 #' @export

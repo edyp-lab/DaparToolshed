@@ -183,16 +183,16 @@ names_metacell(object, ...)
 names_metacell(object, i, slotName = "names_metacell") <- value
 }
 \arguments{
-\item{object}{xxx}
+\item{object}{n instance of class \code{QFeatures} or \code{SummarizedExperiment}}
 
 \item{...}{Additional parameters}
 
 \item{i}{The index or name of the assays to extract the quantitative
 metadata from. All must have a rowdata variable named as \code{slotName}}
 
-\item{slotName}{xxx}
+\item{slotName}{A character(0) which is the name of the slot in the metadata}
 
-\item{value}{xxx}
+\item{value}{The content of the slot in the metadata}
 }
 \value{
 A vector of tags.
@@ -239,10 +239,10 @@ Additional slots for Metadata for a \code{QFeatures} object:
 
 Additional slots for Metadata for a \code{SummarizedExperiment} object:
 \itemize{
-\item qMetacell: xxxx
-\item parentProtId: xxx
-\item idcol: xxxx
-\item typeDataset: xxx
+\item qMetacell: A \code{data.frame()}
+\item parentProtId: A \code{character()}
+\item idcol: A \code{character()}
+\item typeDataset: A \code{character()}
 }
 }
 \section{Quantitative metadata}{

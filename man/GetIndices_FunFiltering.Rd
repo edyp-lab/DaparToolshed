@@ -20,7 +20,7 @@ GetIndices_FunFiltering(
 \item{obj}{An object of class \code{SummarizedExperiment} containing
 quantitative data.}
 
-\item{conds}{xxx}
+\item{conds}{A vector containing the names of the conditions from the sample.}
 
 \item{level}{A vector of integers which are the indices of lines to
 delete.}

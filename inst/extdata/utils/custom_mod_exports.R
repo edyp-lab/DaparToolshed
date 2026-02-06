@@ -1,10 +1,8 @@
 
-#' @title xxxx
+#' @title Customizable shiny module for exporting `QFeatures` objects
 #' 
-#' @description xx
-#' 
-#' @param id xxxx
-#' @param object xxx
+#' @param id The `id` parameter for the Shiny module
+#' @param object n instance of class `QFeatures`
 #' 
 #' @name default_export_plugin
 

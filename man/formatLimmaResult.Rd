@@ -9,7 +9,7 @@ formatLimmaResult(fit, conds, contrast, design.level)
 \arguments{
 \item{fit}{xxxx}
 
-\item{conds}{xxxx}
+\item{conds}{A \code{character()} vector which is the names of conditions.}
 
 \item{contrast}{xxxx}
 

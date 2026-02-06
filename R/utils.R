@@ -182,7 +182,7 @@ is.subset <- function(set1, set2)
 #'
 #' @param object An object of class `QFeatures`
 #'
-#' @param conds xxxx
+#' @param conds A `character()` vector which is the names of conditions.
 #'
 #' @param type WholeMatrix, AllCond or AtLeastOneCond
 #'

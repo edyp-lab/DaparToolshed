@@ -15,7 +15,7 @@ GetIndices_BasedOnConditions(metacell.mask, type, conds, percent, op, th)
 \item 'AtLeatOneCond' (the query is valid in at leat one condition.
 }}
 
-\item{conds}{xxx}
+\item{conds}{A \code{character()} vector which is the names of conditions.}
 
 \item{percent}{xxx}
 

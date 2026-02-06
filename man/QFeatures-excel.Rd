@@ -20,19 +20,19 @@ write2excel(object, ...)
 addColors(wb, n, tags, colors)
 }
 \arguments{
-\item{object}{xxx}
+\item{object}{An instance of the class \code{QFeatures}}
 
-\item{...}{xxx}
+\item{...}{Additional parameters.}
 
 \item{i}{An integer which is the index of the assay in the QFeatures object}
 
-\item{filename}{xxx}
+\item{filename}{A \code{character()} for the name of the Excel file}
 
 \item{writeColdData}{xxx}
 
-\item{exp.design}{xxx}
+\item{exp.design}{A \code{data.frame()} for the sample design of the dataset}
 
-\item{writeColData}{A boolean}
+\item{writeColData}{A \code{boolean}}
 
 \item{wb}{A workbook}
 
@@ -60,8 +60,6 @@ table is colored with a different color,
 \item \verb{quantitative metadata} which is the content of \code{qMetacell()}. There is a
 color code for the different tags.
 }
-
-xxx
 }
 \examples{
 data(subR25prot)

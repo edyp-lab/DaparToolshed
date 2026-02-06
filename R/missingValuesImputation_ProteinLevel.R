@@ -50,7 +50,7 @@
 #'
 #' @param na.type A string which indicates the type of missing values to impute.
 #' Available values are: `NA` (for both POV and MEC), `POV`, `MEC`.
-#' @param qdata xxx
+#' @param qdata A `data.frame()` for the quantitative data
 #' 
 #' 
 #' @return A data.frame containing the indexes of LAPALA

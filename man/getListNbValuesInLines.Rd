@@ -9,7 +9,7 @@ getListNbValuesInLines(object, conds, type = "WholeMatrix")
 \arguments{
 \item{object}{An object of class \code{QFeatures}}
 
-\item{conds}{xxxx}
+\item{conds}{A \code{character()} vector which is the names of conditions.}
 
 \item{type}{WholeMatrix, AllCond or AtLeastOneCond}
 }

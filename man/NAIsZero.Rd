@@ -2,7 +2,7 @@
 % Please edit documentation in R/DaparToolshed_QFeatures_Addons.R
 \name{NAIsZero}
 \alias{NAIsZero}
-\title{xxx}
+\title{Set NA values to 0}
 \usage{
 NAIsZero(obj, i)
 }
@@ -15,5 +15,5 @@ NAIsZero(obj, i)
 An instance of QFeatures class
 }
 \description{
-xxx
+Set NA values to 0
 }

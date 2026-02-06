@@ -684,7 +684,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #'
 #' @param fit xxxx
 #'
-#' @param conds xxxx
+#' @param conds A `character()` vector which is the names of conditions.
 #'
 #' @param contrast xxxx
 #' @param design.level xxx

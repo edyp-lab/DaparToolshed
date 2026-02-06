@@ -12,11 +12,11 @@
 #'
 #' @param fun A `list()` of additional parameters
 #'
-#' @param top A `integer(1)` which is the number of xxx
+#' @param top A `integer(1)` which is the number of entities to use
 #' 
 #' @param ... Additional arguments
 #' @param X xxx
-#' @param qData xxx
+#' @param qData A `data.frame()` for the quantitative data
 #'
 #' @details
 #'

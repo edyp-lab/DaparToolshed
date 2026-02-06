@@ -49,7 +49,7 @@ replicates}
 
 \item{factor}{A scaling factor to multiply the imputation value with}
 
-\item{qdata}{xxx}
+\item{qdata}{A \code{data.frame()} for the quantitative data}
 
 \item{design}{xxx}
 }
