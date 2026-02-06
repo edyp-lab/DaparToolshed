@@ -1,3 +1,3 @@
-## DaparToolshed 0.99.0
+## DaparToolshed 0.99.26
 
-- Bioconductor submission
+- Initial bioconductor submission
