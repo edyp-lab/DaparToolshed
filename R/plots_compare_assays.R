@@ -12,12 +12,11 @@
 #' @param i A numeric matrix containing quantitative data after normalization.
 #' @param j A numeric matrix containing quantitative data after normalization
 #' @param info xxx
-#' @param pal.name xxx
+#' @param pal.name The name of the palette to use. Default is 'Set1'
 #' @param subset.view A `vector()` of `integers`
-#' @param n xxx
+#' @param n The number of points to display
 #' @param type The type of plot. Available values are 'scatter' (default) 
 #' or 'line'
-#' @param FUN xxx
 #'
 #' @return A plot
 #'
@@ -43,8 +42,7 @@ plotCompareAssays <- function(obj,
                               pal.name = "Set1",
                               subset.view = NULL,
                               n = 100,
-                              type = "scatter",
-                              FUN = NULL) {
+                              type = "scatter") {
   
   pkgs.require('highcharter')
     if (missing(obj)) {

@@ -12,8 +12,7 @@ plotCompareAssays(
   pal.name = "Set1",
   subset.view = NULL,
   n = 100,
-  type = "scatter",
-  FUN = NULL
+  type = "scatter"
 )
 }
 \arguments{
@@ -25,16 +24,14 @@ plotCompareAssays(
 
 \item{info}{xxx}
 
-\item{pal.name}{xxx}
+\item{pal.name}{The name of the palette to use. Default is 'Set1'}
 
 \item{subset.view}{A \code{vector()} of \code{integers}}
 
-\item{n}{xxx}
+\item{n}{The number of points to display}
 
 \item{type}{The type of plot. Available values are 'scatter' (default)
 or 'line'}
-
-\item{FUN}{xxx}
 }
 \value{
 A plot
