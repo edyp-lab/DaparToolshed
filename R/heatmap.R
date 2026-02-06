@@ -1,14 +1,14 @@
 
-#' @title xxx
-#' @param x xxx
-#' @param col xxx
-#' @param srtCol xxx
-#' @param labCol xxx
-#' @param labRow xxx
-#' @param key.title xxx
-#' @param key xxx
-#' @param main xxx
-#' @param ylab xxx
+#' @title Display a heatmap for data with missing values
+#' @param x A numeric matrix
+#' @param col See `graphics::image()`
+#' @param srtCol See `graphics::text()`
+#' @param labCol See `graphics::text()`
+#' @param labRow See `graphics::axis()`
+#' @param key.title See `graphics::title()`
+#' @param key See `graphics::par()`
+#' @param main See `graphics::title()`
+#' @param ylab See `graphics::image()`
 #' @rdname heatmap
 #' @export
 #' @return A heatmap

@@ -2,7 +2,7 @@
 % Please edit documentation in R/heatmap.R
 \name{heatmapForMissingValues}
 \alias{heatmapForMissingValues}
-\title{xxx}
+\title{Display a heatmap for data with missing values}
 \usage{
 heatmapForMissingValues(
   x,
@@ -17,27 +17,27 @@ heatmapForMissingValues(
 )
 }
 \arguments{
-\item{x}{xxx}
+\item{x}{A numeric matrix}
 
-\item{col}{xxx}
+\item{col}{See \code{graphics::image()}}
 
-\item{srtCol}{xxx}
+\item{srtCol}{See \code{graphics::text()}}
 
-\item{labCol}{xxx}
+\item{labCol}{See \code{graphics::text()}}
 
-\item{labRow}{xxx}
+\item{labRow}{See \code{graphics::axis()}}
 
-\item{key}{xxx}
+\item{key}{See \code{graphics::par()}}
 
-\item{key.title}{xxx}
+\item{key.title}{See \code{graphics::title()}}
 
-\item{main}{xxx}
+\item{main}{See \code{graphics::title()}}
 
-\item{ylab}{xxx}
+\item{ylab}{See \code{graphics::image()}}
 }
 \value{
 A heatmap
 }
 \description{
-xxx
+Display a heatmap for data with missing values
 }
