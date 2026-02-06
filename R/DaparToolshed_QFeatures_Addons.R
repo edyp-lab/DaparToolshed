@@ -798,7 +798,7 @@ setMethod(
 #' @title xxx
 #' @description xxx
 #' @param obj An instance of QFeatures class
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' @export
 #' @return An instance of QFeatures class
 #' 

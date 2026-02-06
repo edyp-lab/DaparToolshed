@@ -31,9 +31,9 @@ n_assays_in_qf <- function(object) {
 
 
 #' @param obj.se An instance of the class `QFeatures`
-#' @param colData ssss,
-#' @param metadata.qf dddd
-#' @param name xxx
+#' @param colData A data.frame() which contains data for the future object,
+#' @param metadata.qf A data.frame() which contains the metadata for the future object,
+#' @param name The name of the assay in the QFeatures object
 #' @rdname QFeatures-utils
 #' @return An instance of QFeatures class
 #' 

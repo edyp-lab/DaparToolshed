@@ -32,9 +32,9 @@ write.excel(obj, filename)
 
 \item{wb}{xxxx}
 
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{QFeatures}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the QFeatures object}
 
 \item{n}{xxx}
 

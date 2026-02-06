@@ -24,7 +24,7 @@ addColors(wb, n, tags, colors)
 
 \item{...}{xxx}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the QFeatures object}
 
 \item{filename}{xxx}
 

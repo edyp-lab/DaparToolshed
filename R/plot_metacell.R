@@ -451,7 +451,7 @@ mvImage <- function(obj, group) {
 #' whereas the y-axis count the number of observed values for this entity
 #' and the considered condition.
 #'
-#' @param obj xxx
+#' @param obj An instance of the class `QFeatures`
 #' @param pal The different colors for conditions
 #' @param pattern xxx
 #' @param typeofMV xxx

@@ -2,7 +2,7 @@
 #' @title xxxxxx
 #'
 #' @param obj A matrix of quantitative data, without any missing values.
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' @param contrast Indicates if the test consists of the comparison of each
 #' biological condition versus
 #' each of the other ones (contrast=1;

@@ -10,8 +10,8 @@
 #' missing values which have been imputed.
 #' 
 #' @param wb xxxx
-#' @param obj xxx
-#' @param i xxx
+#' @param obj An instance of the class `QFeatures`
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' @param n xxx
 #' @param filename A character string for the name of the Excel file.
 #' @param file The name of the Excel file.

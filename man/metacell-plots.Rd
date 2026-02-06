@@ -44,7 +44,7 @@ mvImage(obj, group)
 hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 }
 \arguments{
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{QFeatures}}
 
 \item{group}{xxx}
 

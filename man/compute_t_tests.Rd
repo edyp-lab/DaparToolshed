@@ -14,7 +14,7 @@ compute_t_tests(
 \arguments{
 \item{obj}{A matrix of quantitative data, without any missing values.}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the QFeatures object}
 
 \item{contrast}{Indicates if the test consists of the comparison of each
 biological condition versus

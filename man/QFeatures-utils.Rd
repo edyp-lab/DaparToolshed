@@ -23,11 +23,11 @@ QFeaturesFromSE(
 
 \item{obj.se}{An instance of the class \code{QFeatures}}
 
-\item{colData}{ssss,}
+\item{colData}{A data.frame() which contains data for the future object,}
 
-\item{metadata.qf}{dddd}
+\item{metadata.qf}{A data.frame() which contains the metadata for the future object,}
 
-\item{name}{xxx}
+\item{name}{The name of the assay in the QFeatures object}
 }
 \value{
 NA

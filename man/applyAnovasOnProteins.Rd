@@ -9,7 +9,7 @@ applyAnovasOnProteins(obj, i)
 \arguments{
 \item{obj}{a QFreatures object}
 
-\item{i}{xxx
+\item{i}{An integer which is the index of the assay in the QFeatures object
 '}
 }
 \value{

@@ -25,7 +25,7 @@ OWAnova <- function(current_protein, conditions){
 #' @author Thomas Burger
 #'
 #' @param obj a QFreatures object
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' '
 #' @return a list of linear models
 #'
@@ -352,7 +352,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #' @author Hélène Borges
 #'
 #' @param obj An object of class \code{QFeatures}.
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' @param with_post_hoc a character string with 2 possible values: "Yes" and
 #' "No" (default) saying if function must perform a Post-Hoc test or not.
 #'

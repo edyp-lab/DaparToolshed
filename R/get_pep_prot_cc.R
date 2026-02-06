@@ -262,12 +262,6 @@ buildGraph <- function(The.CC, X) {
 #'
 #' @param layout xxxxx
 #'
-#' @param obj xxx
-#'
-#' @param prot.tooltip xxx
-#'
-#' @param pept.tooltip xxx
-#'
 #' @return A plot
 #'
 #' @author Thomas Burger, Samuel Wieczorek
@@ -284,10 +278,7 @@ buildGraph <- function(The.CC, X) {
 #'
 display.CC.visNet <- function(
     g,
-    layout = NULL,
-    obj = NULL,
-    prot.tooltip = NULL,
-    pept.tooltip = NULL) {
+    layout = NULL) {
   
   pkgs.require('visNetwork')
   

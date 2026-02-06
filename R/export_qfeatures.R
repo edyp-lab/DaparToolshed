@@ -20,7 +20,7 @@
 #'
 #'
 #' @param object An object of class `QFeatures`.
-#' @param i xxx
+#' @param i An integer which is the index of the assay in the QFeatures object
 #' @param filename A character string for the name of the Excel file.
 #' @param exp.design xxx
 #' @param ... Additional arguments
@@ -62,7 +62,7 @@ setGeneric("write2excel",
 setMethod(
     "write2excel", "QFeatures",
     #' @param object xxx
-    #' @param i xxx
+    #' @param i An integer which is the index of the assay in the QFeatures object
     #' @param filename xxx
     #' @param writeColData xxx
     #' @param ... xxx

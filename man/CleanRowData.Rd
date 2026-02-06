@@ -7,9 +7,9 @@
 CleanRowData(obj, i)
 }
 \arguments{
-\item{obj}{xxx}
+\item{obj}{An instance of the class \code{QFeatures}}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the QFeatures object}
 }
 \value{
 An instance of the SummarizedExperiment structure

@@ -396,8 +396,8 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #'
 #' @author Samuel Wieczorek
 #' 
-#' @param obj xxx
-#' @param i xxx
+#' @param obj An instance of the class `QFeatures`
+#' @param i An integer which is the index of the assay in the QFeatures object
 #'
 #' @examples
 #' library("highcharter")

@@ -9,7 +9,7 @@ NAIsZero(obj, i)
 \arguments{
 \item{obj}{An instance of QFeatures class}
 
-\item{i}{xxx}
+\item{i}{An integer which is the index of the assay in the QFeatures object}
 }
 \value{
 An instance of QFeatures class
