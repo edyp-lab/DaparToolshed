@@ -9,7 +9,7 @@ buildGraph(The.CC, X)
 \arguments{
 \item{The.CC}{A cc (a list)}
 
-\item{X}{xxxxx}
+\item{X}{An instance of the class \code{Matrix}}
 }
 \value{
 A plot

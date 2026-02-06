@@ -4,12 +4,10 @@
 \alias{display.CC.visNet}
 \title{Display a CC}
 \usage{
-display.CC.visNet(g, layout = NULL)
+display.CC.visNet(g)
 }
 \arguments{
 \item{g}{A cc (a list)}
-
-\item{layout}{xxxxx}
 }
 \value{
 A plot

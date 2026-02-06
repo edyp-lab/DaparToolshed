@@ -28,15 +28,15 @@ write.excel(obj, filename)
 \arguments{
 \item{file}{The name of the Excel file.}
 
-\item{sheet}{The name of the sheet}
+\item{sheet}{The worksheet to write to. Can be the worksheet index or name.}
 
-\item{wb}{xxxx}
+\item{wb}{A Workbook object containing a worksheet.}
 
 \item{obj}{An instance of the class \code{QFeatures}}
 
 \item{i}{An integer which is the index of the assay in the QFeatures object}
 
-\item{n}{xxx}
+\item{n}{The total number of sheets}
 
 \item{filename}{A character string for the name of the Excel file.}
 }

@@ -11,7 +11,7 @@
 #' @param obj An instance of the class
 #' @param i A numeric matrix containing quantitative data after normalization.
 #' @param j A numeric matrix containing quantitative data after normalization
-#' @param info xxx
+#' @param info A vector
 #' @param pal.name The name of the palette to use. Default is 'Set1'
 #' @param subset.view A `vector()` of `integers`
 #' @param n The number of points to display

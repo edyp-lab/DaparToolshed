@@ -27,7 +27,7 @@ createQFeatures(
 \arguments{
 \item{data}{The name of a tab-separated file that contains the data.}
 
-\item{file}{A \code{character()}. The name of a file xxx}
+\item{file}{A \code{character()}.}
 
 \item{sample}{A dataframe describing the samples (in lines).}
 

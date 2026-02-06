@@ -77,7 +77,7 @@ NULL
 
 #' @rdname normalization_methods
 #' @export
-#' @return xxx
+#' @return A vector of `character()`
 #'
 normalizeMethods <- function(target = 'all'){
   switch(target,
@@ -377,7 +377,7 @@ LOESS <- function(qData,
 #' @param quantile A float that corresponds to the quantile used to align the data.
 #' @param scaling A boolean that indicates if the variance of the data have to
 #'                be forced to unit (variance reduction) or not.
-#' @param span xxx
+#' @param span A floating number
 #'
 #' @return \code{QFeatures} including a new assay with normalized data or 
 #'         \code{SummarizedExperiment} with normalized data.

@@ -9,13 +9,13 @@
 #' The colored cells in the experimental data correspond to the original
 #' missing values which have been imputed.
 #' 
-#' @param wb xxxx
+#' @param wb A Workbook object containing a worksheet.
 #' @param obj An instance of the class `QFeatures`
 #' @param i An integer which is the index of the assay in the QFeatures object
-#' @param n xxx
+#' @param n The total number of sheets
 #' @param filename A character string for the name of the Excel file.
 #' @param file The name of the Excel file.
-#' @param sheet The name of the sheet
+#' @param sheet The worksheet to write to. Can be the worksheet index or name.
 #' 
 #' @return A Excel file (.xlsx)
 #'

@@ -6,7 +6,7 @@
 #'
 #' @param data The name of a tab-separated file that contains the data.
 #'
-#' @param file A `character()`. The name of a file xxx
+#' @param file A `character()`.
 #'
 #' @param sample A dataframe describing the samples (in lines).
 #'

@@ -10,7 +10,7 @@
 #' all the SE.
 #' This method generates a new `SummarizedExperiment` object which is added 
 #' to the `QFeatures` object. If the SE on which the filter applies is the 
-#' last one of the object, then a new xxxx. If it is not the last one, the 
+#' last one of the object, then a new SE is created If it is not the last one, the 
 #' new SE is added and all the further SE are deleted. The features matching 
 #' the. The filters can be provided as instances of class `AnnotationFilter` 
 #' (see the package `QFeatures`) or of class `FunctionFilter` (see below).

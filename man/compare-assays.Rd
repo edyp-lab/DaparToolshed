@@ -22,7 +22,7 @@ plotCompareAssays(
 
 \item{j}{A numeric matrix containing quantitative data after normalization}
 
-\item{info}{xxx}
+\item{info}{A vector}
 
 \item{pal.name}{The name of the palette to use. Default is 'Set1'}
 

@@ -46,7 +46,7 @@ The first difference is that the filter only applies to one
 all the SE.
 This method generates a new \code{SummarizedExperiment} object which is added
 to the \code{QFeatures} object. If the SE on which the filter applies is the
-last one of the object, then a new xxxx. If it is not the last one, the
+last one of the object, then a new SE is created If it is not the last one, the
 new SE is added and all the further SE are deleted. The features matching
 the. The filters can be provided as instances of class \code{AnnotationFilter}
 (see the package \code{QFeatures}) or of class \code{FunctionFilter} (see below).

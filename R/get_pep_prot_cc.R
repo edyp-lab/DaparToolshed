@@ -198,7 +198,7 @@ plotJitter <- function(list.of.cc = NULL) {
 #'
 #' @param The.CC A cc (a list)
 #'
-#' @param X xxxxx
+#' @param X An instance of the class `Matrix`
 #'
 #' @return A plot
 #'
@@ -260,8 +260,6 @@ buildGraph <- function(The.CC, X) {
 #'
 #' @param g A cc (a list)
 #'
-#' @param layout xxxxx
-#'
 #' @return A plot
 #'
 #' @author Thomas Burger, Samuel Wieczorek
@@ -276,9 +274,7 @@ buildGraph <- function(The.CC, X) {
 #' @export
 #'
 #'
-display.CC.visNet <- function(
-    g,
-    layout = NULL) {
+display.CC.visNet <- function(g) {
   
   pkgs.require('visNetwork')
   
@@ -297,20 +293,14 @@ display.CC.visNet <- function(
     visNetwork::visGroups(groupname = "protein", 
                           color = col.prot, shape = "dot") |>
     visNetwork::visOptions(highlightNearest = FALSE) |>
-    # visLegend()
-    # visPhysics(stabilization = FALSE)|>
     visNetwork::visEdges(color = "#A9A9A9", width = 2)
-  # |>
-  # visIgraphLayout(layout = "layout_with_fr")
 }
 
 
 
 #' @title Display a a jitter plot for CC
 #'
-#' @param df xxxx
-#'
-#' @param clickFunction xxxx
+#' @param df A `data.frame()`
 #'
 #' @return A plot
 #'
@@ -331,17 +321,16 @@ display.CC.visNet <- function(
 #' )
 #' plotJitter_rCharts(df)
 #'
-plotJitter_rCharts <- function(df, clickFunction = NULL) {
+plotJitter_rCharts <- function(df) {
   xtitle <- "TO DO"
-  
-  if (is.null(clickFunction)) {
+
     clickFunction <-
       JS("function(event) 
                 {
                 Shiny.onInputChange('eventPointClicked', 
                 [this.index]+'_'+ [this.series.name]);
                 }")
-  }
+  
   
   i_tooltip <- which(startsWith(colnames(df), "tooltip"))
   txt_tooltip <- NULL

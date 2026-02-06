@@ -62,7 +62,7 @@ be forced to unit (variance reduction) or not.}
 \item{span}{A float between 0 and 1 indicating the span of loess smoothing window.}
 }
 \value{
-xxx
+A vector of \code{character()}
 
 A normalized numeric matrix
 

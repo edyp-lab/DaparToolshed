@@ -34,7 +34,7 @@ If not provided, the vector \code{"Condition"} from the column metadata will be 
 \item{scaling}{A boolean that indicates if the variance of the data have to
 be forced to unit (variance reduction) or not.}
 
-\item{span}{xxx}
+\item{span}{A floating number}
 }
 \value{
 \code{QFeatures} including a new assay with normalized data or
