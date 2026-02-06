@@ -51,7 +51,7 @@ replicates}
 
 \item{qdata}{A \code{data.frame()} for the quantitative data}
 
-\item{design}{xxx}
+\item{design}{A \code{data.frame()} for the design of the dataset}
 }
 \value{
 A data.frame containing the indexes of LAPALA

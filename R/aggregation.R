@@ -252,9 +252,7 @@ setMethod(
 #' @details 
 #' This function uses `DaparToolshed::inner.aggregate.iter()` to aggregate quantitative data.
 #'
-#' @section Iterative aggregation function:
-#' xxxxxx
-#' xxxxx
+#' @section Iterative aggregation function
 #'
 #' @section Quantitative metadata aggregation:
 #' The function to aggregate the quantitative metadata is `aggQmetadat()` 

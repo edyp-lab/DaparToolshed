@@ -52,7 +52,7 @@ hc_mvTypePlot2(obj, group, pal = NULL, pattern, typeofMV = NULL, title = NULL)
 
 \item{detailed}{'value' or 'percent'}
 
-\item{indLegend}{xxx}
+\item{indLegend}{A \code{vector()} of \code{integers}}
 
 \item{showValues}{A logical that indicates whether numeric values should be
 drawn above the bars.}

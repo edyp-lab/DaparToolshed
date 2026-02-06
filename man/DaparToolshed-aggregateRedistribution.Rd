@@ -86,9 +86,7 @@ packages \code{DaparToolshed} and \code{QFeatures}.
 This function uses \code{DaparToolshed::inner.aggregate.iter()} to aggregate quantitative data.
 }
 \section{Iterative aggregation function}{
-
-xxxxxx
-xxxxx
+NA
 }
 
 \section{Quantitative metadata aggregation}{

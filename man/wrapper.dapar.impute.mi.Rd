@@ -31,7 +31,7 @@ wrapper.dapar.impute.mi(
 \arguments{
 \item{obj}{An object of class \code{SummarizedExperiment}.}
 
-\item{design}{xxx}
+\item{design}{A \code{data.frame()} for the design of the dataset}
 
 \item{nb.iter}{Same as the function \code{mi.mix} in the package \code{imp4p}}
 

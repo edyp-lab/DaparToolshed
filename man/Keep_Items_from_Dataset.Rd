@@ -7,9 +7,9 @@
 Keep_Items_from_Dataset(dataset, range)
 }
 \arguments{
-\item{dataset}{xxx}
+\item{dataset}{An instance of the \code{QFeatures} class}
 
-\item{range}{xxx}
+\item{range}{A vector of integers}
 }
 \value{
 The dataset minus some items

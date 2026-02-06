@@ -9,13 +9,11 @@
 #' The comparison is made with the division operator.
 #'
 #' @param obj An instance of the class
-#' @param i A numeric matrix containing quantitative data after 
-#' normalization.
-#' @param j A numeric matrix containing quantitative data after 
-#' normalization
+#' @param i A numeric matrix containing quantitative data after normalization.
+#' @param j A numeric matrix containing quantitative data after normalization
 #' @param info xxx
 #' @param pal.name xxx
-#' @param subset.view xxx
+#' @param subset.view A `vector()` of `integers`
 #' @param n xxx
 #' @param type The type of plot. Available values are 'scatter' (default) 
 #' or 'line'

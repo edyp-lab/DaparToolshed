@@ -58,9 +58,9 @@ Add_Item_to_Dataset <- function(dataset, name) {
 #' Removes one or more items from the dataset. This function is specific of the
 #' type of dataset.
 #'
-#' @param dataset xxx
+#' @param dataset An instance of the `QFeatures` class
 #'
-#' @param range xxx
+#' @param range A vector of integers
 #'
 #' @return The dataset minus some items
 #'

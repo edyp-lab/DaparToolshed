@@ -37,7 +37,7 @@
 #' 
 #' @param obj An object of class `QFeatures`.
 #' @param grp xxx
-#' @param design xxx
+#' @param design A `data.frame()` for the design of the dataset
 #' @param MECIndex A data.frame that contains index of MEC (see findMECBlock) 
 #' @param q.min Same as the function `impute.pa()` in the package `imp4p`
 #' @param K the number of neighbors.

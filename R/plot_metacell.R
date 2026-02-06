@@ -6,11 +6,11 @@
 #' This method plots a bar plot which represents the distribution of the
 #' number of missing values (NA) per lines (ie proteins).
 #'
-#' @param obj An instance of the class `obj`
+#' @param obj An instance of the class `QFeatures`
 #' @param group xxx
 #' @param pattern xxx
 #' @param detailed 'value' or 'percent'
-#' @param indLegend xxx
+#' @param indLegend A `vector()` of `integers`
 #' @param showValues A logical that indicates whether numeric values should be
 #' drawn above the bars.
 #' @return A bar plot

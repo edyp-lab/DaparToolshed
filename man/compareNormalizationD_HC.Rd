@@ -23,14 +23,13 @@ normalization.}
 \item{qDataAfter}{A dataframe that contains quantitative data after
 normalization.}
 
-\item{keyId}{xxx}
+\item{keyId}{A \code{character()}}
 
-\item{conds}{A vector of the conditions (one condition
-per sample).}
+\item{conds}{A vector of the conditions (one condition per sample).}
 
-\item{pal}{xxx}
+\item{pal}{A \code{vector()} of HEX color codes}
 
-\item{subset.view}{xxx}
+\item{subset.view}{A \code{vector()} of \code{integers}}
 
 \item{n}{An integer that is equal to the maximum number of displayed points.
 This number must be less or equal to the size

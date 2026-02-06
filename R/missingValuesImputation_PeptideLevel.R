@@ -62,7 +62,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #'
 #'
 #' @param obj An object of class \code{SummarizedExperiment}.
-#' @param design xxx
+#' @param design A `data.frame()` for the design of the dataset
 #'
 #' @param nb.iter Same as the function \code{mi.mix} in the package \code{imp4p}
 #'

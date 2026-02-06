@@ -19,17 +19,15 @@ plotCompareAssays(
 \arguments{
 \item{obj}{An instance of the class}
 
-\item{i}{A numeric matrix containing quantitative data after
-normalization.}
+\item{i}{A numeric matrix containing quantitative data after normalization.}
 
-\item{j}{A numeric matrix containing quantitative data after
-normalization}
+\item{j}{A numeric matrix containing quantitative data after normalization}
 
 \item{info}{xxx}
 
 \item{pal.name}{xxx}
 
-\item{subset.view}{xxx}
+\item{subset.view}{A \code{vector()} of \code{integers}}
 
 \item{n}{xxx}
 

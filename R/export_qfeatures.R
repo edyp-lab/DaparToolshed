@@ -20,7 +20,7 @@
 #' @param object An object of class `QFeatures`.
 #' @param i An integer which is the index of the assay in the QFeatures object
 #' @param filename A character string for the name of the Excel file.
-#' @param exp.design xxx
+#' @param exp.design A `data.frame()` for the design of the dataset
 #' @param ... Additional arguments
 #' @param wb A workbook
 #' @param n A `integer(1)` which is the number of sheet in the workbook.
@@ -97,7 +97,7 @@ setMethod(
     
     #' @param object An instance of the class `QFeatures`
     #' @param filename xxx
-    #' @param exp.design xxx
+    #' @param exp.design A `data.frame()` for the design of the dataset
     #' @param writeColData xxx
     #' @param ... Additional parameters.
     function(object, 

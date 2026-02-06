@@ -14,14 +14,13 @@
 #' @param qDataAfter A dataframe that contains quantitative data after
 #' normalization.
 #'
-#' @param keyId xxx
+#' @param keyId A `character()`
 #'
-#' @param conds A vector of the conditions (one condition
-#' per sample).
+#' @param conds A vector of the conditions (one condition per sample).
 #'
-#' @param pal xxx
+#' @param pal A `vector()` of HEX color codes
 #'
-#' @param subset.view xxx
+#' @param subset.view A `vector()` of `integers`
 #'
 #' @param n An integer that is equal to the maximum number of displayed points.
 #' This number must be less or equal to the size

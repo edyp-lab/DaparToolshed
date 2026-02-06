@@ -201,7 +201,7 @@ setMethod(
         if (nrow(new.se) > 0) {
             idcol <- S4Vectors::metadata(object[[i]])$idcol
             if (is.null(idcol)) {
-                warning("xxx")
+                warning("idcol is NULL")
                 S4Vectors::metadata(object[[i]])$idcol <- "_temp_ID_"
                 idcol <- "_temp_ID_"
             }
