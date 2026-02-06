@@ -24,10 +24,11 @@
 #' @param ... Additional arguments
 #' @param wb A workbook
 #' @param n A `integer(1)` which is the number of sheet in the workbook.
-#' @param tags xxx
+#' @param tags A `data.frame()`
 #' @param colors A `character()` which contains the HEX code for colors. 
 #' The size of this vector must be the same as the number of tags.
-#' @param writeColdData xxx
+#' @param writeColdData A `boolean` that indicates whether to include coldata 
+#' or not in the Excel file
 #'
 #' @return A Excel file.
 #'
@@ -96,9 +97,10 @@ setMethod(
     "write2excel", "SummarizedExperiment",
     
     #' @param object An instance of the class `QFeatures`
-    #' @param filename xxx
+    #' @param filename The name of Excel file to create
     #' @param exp.design A `data.frame()` for the design of the dataset
-    #' @param writeColData xxx
+    #' @param writeColData A `boolean` that indicates whether to include col data 
+  #' in the final file
     #' @param ... Additional parameters.
     function(object, 
       filename, 
@@ -123,7 +125,8 @@ setMethod(
 #' @param object An instance of the class `QFeatures`
 #' @param filename A `character()` for the name of the Excel file
 #' @param exp.design A `data.frame()` for the sample design of the dataset
-#' @param writeColData A `boolean`
+#' @param writeColData A `boolean` that indicates whether to include col data 
+#' in the final file
 #' 
 #' @rdname QFeatures-excel
 #' 

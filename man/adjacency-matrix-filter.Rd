@@ -69,9 +69,9 @@ with only shared peptides;
 only the 'n' peptides which best satisfies the condition. The condition is
 represented by functions which calculates a score for each peptide among
 all samples. The list of these functions is given by \code{topnFunctions()}:
-\item \code{rowMedians()}: xxx;
-\item \code{rowMeans()}: xxx;
-\item \code{rowSums()}: xxx;
+\item \code{rowMedians()}: returns the median of the entities in each selected row;
+\item \code{rowMeans()}: returns the median of the entities in each selected row;
+\item \code{rowSums()}: returns the sum of the entities in each selected row;
 }
 }
 \examples{

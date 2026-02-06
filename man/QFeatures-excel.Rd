@@ -28,17 +28,19 @@ addColors(wb, n, tags, colors)
 
 \item{filename}{A \code{character()} for the name of the Excel file}
 
-\item{writeColdData}{xxx}
+\item{writeColdData}{A \code{boolean} that indicates whether to include coldata
+or not in the Excel file}
 
 \item{exp.design}{A \code{data.frame()} for the sample design of the dataset}
 
-\item{writeColData}{A \code{boolean}}
+\item{writeColData}{A \code{boolean} that indicates whether to include col data
+in the final file}
 
 \item{wb}{A workbook}
 
 \item{n}{A \code{integer(1)} which is the number of sheet in the workbook.}
 
-\item{tags}{xxx}
+\item{tags}{A \code{data.frame()}}
 
 \item{colors}{A \code{character()} which contains the HEX code for colors.
 The size of this vector must be the same as the number of tags.}

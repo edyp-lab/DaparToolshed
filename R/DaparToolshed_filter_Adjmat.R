@@ -37,11 +37,11 @@
 #' represented by functions which calculates a score for each peptide among 
 #' all samples. The list of these functions is given by `topnFunctions()`:
 #'
-#' - `rowMedians()`: xxx;
+#' - `rowMedians()`: returns the median of the entities in each selected row;
 #'
-#' - `rowMeans()`: xxx;
+#' - `rowMeans()`: returns the median of the entities in each selected row;
 #'
-#' - `rowSums()`: xxx;
+#' - `rowSums()`: returns the sum of the entities in each selected row;
 #'
 #'
 #' @seealso The QFeatures-filtering-oneSE man page for the 
