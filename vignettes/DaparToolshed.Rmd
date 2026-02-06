@@ -52,7 +52,7 @@ For testing purposes, the `DaparToolshedData` package is accompanied with severa
 The dataset used in this vignette is an extract from the `Exp1_R25_pept` dataset in the `DaparToolshedData` package (@giai_gianetto_calibration_2016). It comprises 500 peptides and 6 samples, divided into 2 conditions ("25fmol" and "10fmol"). 
 
 ```{r dataset}
-data.file <- system.file("extdata/data", "Exp1_R25_pept_500.txt", package="DaparToolshed")
+data.file <- system.file("extdata/data", "Exp1_R25_pept_100.txt", package="DaparToolshed")
 data <- read.table(data.file, header=TRUE, sep="\t", as.is=TRUE, stringsAsFactors = FALSE)
   
 sample.file <- system.file("extdata/data", "samples_Exp1_R25.txt", package="DaparToolshed")
