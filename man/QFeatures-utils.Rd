@@ -35,7 +35,7 @@ NA
 An instance of QFeatures class
 }
 \description{
-xxxxx
+Utility funcitons to dela with QFeatures objects.
 }
 \examples{
 

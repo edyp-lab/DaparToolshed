@@ -6,7 +6,7 @@
 #'
 #' @param data The name of a tab-separated file that contains the data.
 #'
-#' @param file A `character(1)`. The name of a file xxx
+#' @param file A `character()`. The name of a file xxx
 #'
 #' @param sample A dataframe describing the samples (in lines).
 #'
@@ -19,7 +19,7 @@
 #'
 #' @param indexForMetacell They must be in the same order as the samples in
 #' the experimental design
-#' @param logData xxx
+#' @param logData A `boolean` that indicates whether the data should be logged or not.
 #'
 #' @param force.na A `boolean` that indicates if the '0' and 'NaN' values of
 #' quantitative values  must be replaced by 'NA' (Default is FALSE)
@@ -30,7 +30,7 @@
 #' is the name of a column in rowData. It contains the id of parent proteins 
 #' and is used to generate adjacency matrix and process to aggregation.
 #'
-#' @param analysis A `character(1)` which is the name of the MS study.
+#' @param analysis A `character()` which is the name of the MS study.
 #' 
 #' @param description A text which describes the study.
 #'
@@ -43,9 +43,9 @@
 #' 
 #' @param name.pipeline A string
 #'
-#' @param software A `character(1)`
+#' @param software A `character()`
 #'
-#' @param name A `character(1)` which is the name of the assay in the 
+#' @param name A `character()` which is the name of the assay in the 
 #' QFeatures object. Default is 'original'
 #'
 #' @return An instance of class `QFeatures`.

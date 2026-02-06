@@ -2,7 +2,7 @@
 % Please edit documentation in R/zzz.R
 \name{Keep_Items_from_Dataset}
 \alias{Keep_Items_from_Dataset}
-\title{xxx}
+\title{Removes assay from a \code{QFeatures} object}
 \usage{
 Keep_Items_from_Dataset(dataset, range)
 }

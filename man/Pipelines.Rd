@@ -2,7 +2,7 @@
 % Please edit documentation in R/zzz.R
 \name{Pipelines}
 \alias{Pipelines}
-\title{xxx}
+\title{List of available pipelines in the package}
 \usage{
 Pipelines()
 }

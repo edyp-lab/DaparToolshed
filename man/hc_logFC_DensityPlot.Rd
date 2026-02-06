@@ -12,7 +12,7 @@ hc_logFC_DensityPlot(df_logFC, th_logFC = 0, pal = NULL)
 \item{th_logFC}{The threshold on log(Fold Change) to
 distinguish between differential and non-differential data}
 
-\item{pal}{xxx}
+\item{pal}{A \code{vector} of HEX codes for colors.}
 }
 \value{
 A highcharts density plot

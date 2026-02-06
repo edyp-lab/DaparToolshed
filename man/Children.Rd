@@ -2,7 +2,7 @@
 % Please edit documentation in R/metacell.R
 \name{Children}
 \alias{Children}
-\title{Names of all chidren of a node}
+\title{Names of all children of a node}
 \usage{
 Children(level, parent = NULL)
 }
@@ -10,13 +10,13 @@ Children(level, parent = NULL)
 \item{level}{A string designing the type of entity/pipeline.
 Available values are: \code{peptide}, \code{protein}}
 
-\item{parent}{xxx}
+\item{parent}{A vector of \code{character()}}
 }
 \value{
 A vector
 }
 \description{
-xxx
+Names of all children of a node
 }
 \examples{
 Children('protein', 'Missing')

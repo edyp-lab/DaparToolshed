@@ -2,20 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{is.subset}
 \alias{is.subset}
-\title{xxx}
+\title{Check is a given set is a subset of another one.}
 \usage{
 is.subset(set1, set2)
 }
 \arguments{
-\item{set1}{xxx}
+\item{set1}{A vector of \code{character()}}
 
-\item{set2}{xxx}
+\item{set2}{A vector of \code{character()}}
 }
 \value{
-xxx
+A \code{boolean}
 }
 \description{
-xxx
+Check is a given set is a subset of another one.
 }
 \examples{
 is.subset('a', letters)

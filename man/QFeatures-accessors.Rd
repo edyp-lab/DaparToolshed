@@ -227,16 +227,6 @@ s necessary to (re)detect MEC and POV (new dataset or when post processing
 protein qMetacell after aggregation)
 }
 \details{
-Additional slots for rowdata of a \code{SummarizedExperiment} object:
-\itemize{
-\item qMetacell: xxx
-}
-
-Additional slots for Metadata for a \code{QFeatures} object:
-\itemize{
-\item xxx: xxxx
-}
-
 Additional slots for Metadata for a \code{SummarizedExperiment} object:
 \itemize{
 \item qMetacell: A \code{data.frame()}

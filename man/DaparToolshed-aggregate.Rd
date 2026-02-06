@@ -209,6 +209,8 @@ See below for details.}
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).
 
+An instance of the \code{QFeatures} class
+
 NA
 
 A QFeatures with an aggregated assay added.
@@ -269,8 +271,6 @@ by using the previous peptide dataset.
 Aggregation of rowData of a \code{QFeatures} assay.
 
 Aggregate the metadata
-
-xxx
 
 This function computes the number of proteins that are only defined by
 specific peptides, shared peptides or a mixture of two.
@@ -346,12 +346,6 @@ Note that this method takes significantly more time than the others, and is para
 Note that this method takes significantly more time than the others, and is parallelized to be more efficient.
 }
 }
-\section{Iterative aggregation function}{
-
-xxxxxx
-xxxxx
-}
-
 \section{Quantitative metadata aggregation}{
 
 The function to aggregate the quantitative metadata is \code{aggQmetadat()}.

@@ -27,7 +27,7 @@ createQFeatures(
 \arguments{
 \item{data}{The name of a tab-separated file that contains the data.}
 
-\item{file}{A \code{character(1)}. The name of a file xxx}
+\item{file}{A \code{character()}. The name of a file xxx}
 
 \item{sample}{A dataframe describing the samples (in lines).}
 
@@ -41,7 +41,7 @@ column containing the ID of entities (peptides or proteins)}
 \item{indexForMetacell}{They must be in the same order as the samples in
 the experimental design}
 
-\item{logData}{xxx}
+\item{logData}{A \code{boolean} that indicates whether the data should be logged or not.}
 
 \item{force.na}{A \code{boolean} that indicates if the '0' and 'NaN' values of
 quantitative values  must be replaced by 'NA' (Default is FALSE)}
@@ -52,7 +52,7 @@ quantitative values  must be replaced by 'NA' (Default is FALSE)}
 is the name of a column in rowData. It contains the id of parent proteins
 and is used to generate adjacency matrix and process to aggregation.}
 
-\item{analysis}{A \code{character(1)} which is the name of the MS study.}
+\item{analysis}{A \code{character()} which is the name of the MS study.}
 
 \item{description}{A text which describes the study.}
 
@@ -65,9 +65,9 @@ with the function \code{pipelines()}. Default value is NULL}
 
 \item{name.pipeline}{A string}
 
-\item{software}{A \code{character(1)}}
+\item{software}{A \code{character()}}
 
-\item{name}{A \code{character(1)} which is the name of the assay in the
+\item{name}{A \code{character()} which is the name of the assay in the
 QFeatures object. Default is 'original'}
 }
 \value{

@@ -22,5 +22,5 @@ Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))}
 NA
 }
 \description{
-xxx
+Parent name of a node
 }

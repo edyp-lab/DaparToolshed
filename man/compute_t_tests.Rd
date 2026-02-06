@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute.t.tests.R
 \name{compute_t_tests}
 \alias{compute_t_tests}
-\title{xxxxxx}
+\title{Compute a t-test}
 \usage{
 compute_t_tests(
   obj,
@@ -23,7 +23,7 @@ for example H0:"C1=C2" vs H1:"C1!=C2", etc.)
 or each condition versus all others (contrast=2; e.g.  H0:"C1=(C2+C3)/2" vs
 H1:"C1!=(C2+C3)/2", etc. if there are three conditions).}
 
-\item{type}{xxxxx}
+\item{type}{Either "Student" or "Welch"}
 }
 \value{
 A list of two items : logFC and P_Value; both are dataframe. The
@@ -33,7 +33,7 @@ one comparison), the second one contains the pvalue of all the comparisons
 dataframes are identical and correspond to the description of the comparison.
 }
 \description{
-xxxxxx
+Compute a t-test
 }
 \examples{
 library(SummarizedExperiment)

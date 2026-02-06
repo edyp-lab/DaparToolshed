@@ -36,7 +36,7 @@ subAdjMat_topnPeptides(X, qData, fun, top)
 
 \item{...}{Additional arguments}
 
-\item{X}{xxx}
+\item{X}{A \code{Matrix()}}
 
 \item{fun}{A \code{list()} of additional parameters}
 
@@ -98,7 +98,6 @@ f2 <- FunctionFilter("sharedPeptides", list())
 f3 <- FunctionFilter("topnPeptides", fun = "rowSums", top = 2)
 
 #------------------------------------------------------
-# To run the filter(s) on the dataset, use [xxx()]
 # IF several filters must be used, store them in a list
 #------------------------------------------------------
 

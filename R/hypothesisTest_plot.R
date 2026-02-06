@@ -12,7 +12,7 @@
 #' @param th_logFC The threshold on log(Fold Change) to
 #' distinguish between differential and non-differential data
 #'
-#' @param pal xxx
+#' @param pal A `vector` of HEX codes for colors.
 #'
 #' @return A highcharts density plot
 #'

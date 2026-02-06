@@ -30,10 +30,6 @@
 #' @details 
 #' This function uses [QFeatures::aggregateFeatures()] to aggregate quantitative data.
 #'
-#' @section Iterative aggregation function:
-#' xxxxxx
-#' xxxxx
-#'
 #' @section Quantitative metadata aggregation:
 #' The function to aggregate the quantitative metadata is `aggQmetadat()`.
 #'
@@ -43,7 +39,7 @@
 #'
 #' @name DaparToolshed-aggregate
 #'
-#' @return NULL
+#' @return An instance of the `QFeatures` class
 #'
 #' @examples
 #' NULL

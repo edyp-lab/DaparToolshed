@@ -20,12 +20,6 @@
 #'
 #' @details
 #'
-#' Additional slots for rowdata of a `SummarizedExperiment` object:
-#'  - qMetacell: xxx
-#'
-#' Additional slots for Metadata for a `QFeatures` object:
-#'  - xxx: xxxx
-#'
 #' Additional slots for Metadata for a `SummarizedExperiment` object:
 #'  - qMetacell: A `data.frame()`
 #'  - parentProtId: A `character()`

@@ -13,7 +13,7 @@ ConvertListToHtml(ll)
 HTML
 }
 \description{
-xxx
+Convert a list to unnumbered HTML list
 }
 \examples{
 ConvertListToHtml(list('foo1', 'foo2', 'foo3'))

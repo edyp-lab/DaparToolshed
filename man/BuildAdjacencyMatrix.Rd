@@ -7,14 +7,14 @@
 BuildAdjacencyMatrix(obj.pep)
 }
 \arguments{
-\item{obj.pep}{An object (peptides) of class \code{MSnSet}.}
+\item{obj.pep}{An object (peptides) of class \code{SummarizedExperiment}.}
 }
 \value{
 A binary matrix
 }
 \description{
 Method to create a binary matrix with proteins in columns and peptides
-in lines on a \code{MSnSet} object (peptides)
+in lines on a \code{SummarizedExperiment} object (peptides)
 }
 \examples{
 data(subR25pept)

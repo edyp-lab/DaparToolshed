@@ -10,7 +10,7 @@ formatHSDResults(post_hoc_models_summaries)
 \item{post_hoc_models_summaries}{xxx}
 }
 \value{
-xxx
+A \code{data.frame()}
 }
 \description{
 xxx

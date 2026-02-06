@@ -132,7 +132,7 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
 #'
 #' @param post_hoc_models_summaries xxx
 #'
-#' @return xxx
+#' @return A `data.frame()`
 #'
 #' @examples
 #' NULL

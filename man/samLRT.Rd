@@ -2,7 +2,8 @@
 % Please edit documentation in R/pepa.R
 \name{samLRT}
 \alias{samLRT}
-\title{xxxxxx}
+\title{Computes a regularized version of the likelihood ratio
+statistic}
 \usage{
 samLRT(lmm.res.h0, lmm.res.h1, cc, n, p, s1)
 }

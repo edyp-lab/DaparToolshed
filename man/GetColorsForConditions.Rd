@@ -16,7 +16,7 @@ to build the complete color vector for the conditions.}
 NA
 }
 \description{
-xxxx
+Builds a complete color palette for the conditions given in argument
 }
 \examples{
 data(subR25pept)

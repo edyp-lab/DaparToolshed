@@ -121,7 +121,6 @@ Collate:
     DaparToolshed_QFeatures_Addons.R
     DaparToolshed_filter_qMetadata.R
     DaparToolshed-filterFeaturesOneSE.R
-    iterative_agregation.R
     export_qfeatures.R
     import_2_qfeatures.R
     utils.R

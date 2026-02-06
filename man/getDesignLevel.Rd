@@ -7,7 +7,7 @@
 getDesignLevel(sTab)
 }
 \arguments{
-\item{sTab}{xxx}
+\item{sTab}{A \code{data.frame()} which contains the sample data}
 }
 \value{
 An integer

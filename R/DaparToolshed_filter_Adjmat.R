@@ -15,7 +15,7 @@
 #' @param top A `integer(1)` which is the number of entities to use
 #' 
 #' @param ... Additional arguments
-#' @param X xxx
+#' @param X A `Matrix()`
 #' @param qData A `data.frame()` for the quantitative data
 #'
 #' @details
@@ -77,7 +77,6 @@
 #' f3 <- FunctionFilter("topnPeptides", fun = "rowSums", top = 2)
 #'
 #' #------------------------------------------------------
-#' # To run the filter(s) on the dataset, use [xxx()]
 #' # IF several filters must be used, store them in a list
 #' #------------------------------------------------------
 #'

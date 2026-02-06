@@ -2,14 +2,14 @@
 % Please edit documentation in R/zzz.R
 \name{Add_Item_to_Dataset}
 \alias{Add_Item_to_Dataset}
-\title{xxx}
+\title{Adds an instance of \code{SummarizedExperiment} to a \code{QFeatures} object}
 \usage{
 Add_Item_to_Dataset(dataset, name)
 }
 \arguments{
-\item{dataset}{xxx}
+\item{dataset}{An instance of \code{SummarizedExperiment} class}
 
-\item{name}{xxx}
+\item{name}{A \code{character()} for the new assay}
 }
 \value{
 The dataset minus some items
