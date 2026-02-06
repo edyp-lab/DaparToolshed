@@ -37,7 +37,7 @@ before mass spectrometry analyses. This results in a concentration ratio of 2.
 Three technical replicates were acquired for each condition.
 
 The original dataset is available as a CSV file
-(see inst/extdata/Exp1_R25_pept_500.txt). In the latter case,
+(see inst/extdata/Exp1_R25_pept_100.txt). In the latter case,
 the quantitative data are those of the raw intensities.
 }
 \references{
