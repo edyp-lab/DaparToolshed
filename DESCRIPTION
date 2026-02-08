@@ -97,6 +97,7 @@ Suggests:
     shinyjqui
 NeedsCompilation: no
 Collate:
+    history_utils.R
     plots_volcano.R
     DiffAnalysis.R
     adjacencyMatrix.R

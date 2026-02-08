@@ -82,6 +82,8 @@ createQFeatures <- function(
   software = NULL,
   name = "original") {
 
+  
+  history <- InitializeHistory()
 
     # Check parameters validity
     if (missing(data)) {
@@ -158,7 +160,10 @@ createQFeatures <- function(
     typePipeline <- ReplaceSpecialChars(typePipeline)
     software <- ReplaceSpecialChars(software)
     
-
+    history <- Add2History(history, 'Convert', 'Convert', 'typeDataset', typeDataset)
+    history <- Add2History(history, 'Convert', 'Convert', 'analysis', analysis)
+    history <- Add2History(history, 'Convert', 'Convert', 'typePipeline', typePipeline)
+    history <- Add2History(history, 'Convert', 'Convert', 'software', software)
 
 
     if (keyId == "AutoID") {
@@ -216,7 +221,11 @@ createQFeatures <- function(
     
     # Enrich the metadata for whole QFeatures object
     S4Vectors::metadata(obj)$versions <- ProstarVersions()
+    #history <- Add2History(history, 'Convert', 'Convert', 'ProstarVersions', ProstarVersions())
+    
     S4Vectors::metadata(obj)$filename <- file
+    history <- Add2History(history, 'Convert', 'Convert', 'file', file)
+    
     S4Vectors::metadata(obj)$analysis <- list(
         analysis = analysis,
         description = description,
@@ -224,6 +233,7 @@ createQFeatures <- function(
     )
 
     S4Vectors::metadata(obj)$name.pipeline <- name.pipeline
+    history <- Add2History(history, 'Convert', 'Convert', 'name.pipeline', name.pipeline)
     
     
     # Fill the metadata for the first assay
@@ -233,6 +243,7 @@ createQFeatures <- function(
     if (tolower(typeDataset) == "peptide" && !is.null(parentProtId)) {
       pkgs.require('PSMatch')
       parentProtId(obj[["original"]]) <- parentProtId
+      history <- Add2History(history, 'Convert', 'Convert', 'parentProtId', parentProtId)
       
       # Create the adjacency matrix
       X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
@@ -247,10 +258,20 @@ createQFeatures <- function(
     if (force.na) {
       obj <- QFeatures::zeroIsNA(obj, seq_along(obj))
     }
+    history <- Add2History(history, 'Convert', 'Convert', 'Force NA to 0', force.na)
+    
+    
     
     if (logData) {
       obj <- QFeatures::logTransform(obj, seq_along(obj))
+      obj <- QFeatures::removeAssay(obj, 1)
     }
+    history <- Add2History(history, 'Convert', 'Convert', 'log data', logData)
     
+    
+    
+    paramshistory(obj[[1]]) <- rbind(paramshistory(obj[[1]]), history)
+    
+    names(obj)[[1]] <- 'Convert'
     return(obj)
 }
