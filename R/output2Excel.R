@@ -149,37 +149,9 @@ WriteHistory <- function(wb, obj, n){
   
   openxlsx::addWorksheet(wb, 'history')
   
-  dfHistory <- data.frame(process = c(), parameter = c(), value = c())
-
-  for (i in seq(length(obj))){
-
-    paramName <- names(paramshistory(obj[[i]]))
-    if(is.null(paramName)){
-      paramName <- '-'
-      paramValue <- '-'
-      dfHistory <- rbind(dfHistory, 
-        data.frame(process = names(obj)[i], 
-          parameter = paramName, 
-          value = paramValue)
-      )
-    } else {
-    
-      for (x in paramName){
-        dfHistory <- rbind(dfHistory, 
-          data.frame(process = names(obj)[i], 
-            parameter = x, 
-            value = unname(unlist(paramshistory(obj[[i]])[[x]]))
-            )
-        )
-      }
-    
-  }
-  
-  }
-
   openxlsx::writeData(wb, 
     sheet = n, 
-    dfHistory, 
+    DaparToolshed::paramshistory(obj[[length(obj)]]), 
     rowNames = FALSE)
   
   return(wb)
@@ -246,7 +218,7 @@ Write_RowData <- function(wb, obj, i, n){
 
   openxlsx::writeData(wb, 
     sheet = n, 
-    rowData(obj[[i]]), 
+    SummarizedExperiment::rowData(obj[[i]]), 
     rowNames = FALSE)
   
   
