@@ -6,9 +6,6 @@
 \usage{
 InitializeHistory()
 }
-\arguments{
-\item{widgets.names}{xxx}
-}
 \value{
 A \code{integer(1)}
 }
@@ -17,7 +14,6 @@ This function returns the indice of the last validated step before
 the current step.
 }
 \examples{
-.names <- c('A_A', 'A_Z', 'B_Q', 'B_F')
-InitializeHistory(.names)
+InitializeHistory()
 
 }
