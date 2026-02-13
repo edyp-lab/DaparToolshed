@@ -17,9 +17,9 @@
 #' (see inst/extdata/Exp1_R25_prot_100.txt). In the latter case, 
 #' the quantitative data are those of the raw intensities.
 #' @usage data(subR25prot)
-#' @return An object of class \link{QFeatures} related to proteins
+#' @return An object of class `QFeatures` related to proteins
 #' quantification.
-#' @format An object of class \link{QFeatures} related to proteins
+#' @format An object of class `QFeatures` related to proteins
 #' quantification. It contains 6 samples divided into two conditions
 #' (10fmol and 5fmol) and 100 proteins.
 #'

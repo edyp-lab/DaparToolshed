@@ -5,7 +5,7 @@
 \alias{subR25prot}
 \title{subR25prot dataset}
 \format{
-An object of class \link{QFeatures} related to proteins
+An object of class \code{QFeatures} related to proteins
 quantification. It contains 6 samples divided into two conditions
 (10fmol and 5fmol) and 100 proteins.
 
@@ -21,7 +21,7 @@ few informations about the samples.
 data(subR25prot)
 }
 \value{
-An object of class \link{QFeatures} related to proteins
+An object of class \code{QFeatures} related to proteins
 quantification.
 }
 \description{
