@@ -93,10 +93,10 @@ This filtering can be done using information contained in quantitative data tags
 
 ```{r metadataaccess, message = FALSE}
  #quantitative data tags
-head(qMetacell(obj[[2]]))
+  head(qMetacell(obj[[length(obj)]]))
 
  #metadata
-head(SummarizedExperiment::rowData(obj[[2]]), n = 3)
+head(SummarizedExperiment::rowData(obj[[length(obj)]]), n = 3)
 ```
 
 To apply a filter based on tags, the `FunctionFilter()` function should be used. The functions `QFeatures::filterFeature()` and `QFeatures::VariableFilter()` can be used to create filters from metadata.

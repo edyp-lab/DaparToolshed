@@ -33,10 +33,10 @@ obj
 
 ## ----metadataaccess, message = FALSE------------------------------------------
  #quantitative data tags
-head(qMetacell(obj[[2]]))
+  head(qMetacell(obj[[length(obj)]]))
 
  #metadata
-head(SummarizedExperiment::rowData(obj[[2]]), n = 3)
+head(SummarizedExperiment::rowData(obj[[length(obj)]]), n = 3)
 
 ## ----filters, message = FALSE-------------------------------------------------
  #create filter to remove empty lines
