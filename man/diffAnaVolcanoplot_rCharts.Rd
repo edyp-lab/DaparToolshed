@@ -36,7 +36,7 @@ differential analysis.}
 show info from slots in df. The variable this.index refers to the slot
 named index and allows to retrieve the right row to show in the tooltip.}
 
-\item{pal}{A \code{list} containing 2 color to use for the plot}
+\item{pal}{xxx}
 }
 \value{
 An interactive volcanoplot
@@ -52,34 +52,44 @@ customizable tooltip appears when the user put the mouse's pointer over
 a point of the scatter plot.
 }
 \examples{
-\donttest{
-data(subR25prot)
-obj <- subR25prot
-# Simulate imputation
-obj <- NAIsZero(obj, 1)
-obj <- NAIsZero(obj, 2)
-allComp <- limmaCompleteTest(
-SummarizedExperiment::assay(obj[[length(obj)]]), 
-design.qf(obj), 
-comp.type="OnevsOne")
+if (interactive()){
+library(highcharter)
+library(DaparToolshed)
+library(SummarizedExperiment)
+data(Exp1_R25_prot, package = "DaparToolshedData")
+obj <- Exp1_R25_prot
+# Simulate imputation of missing values
+obj <- DaparToolshed::NAIsZero(obj, 1)
+obj <- DaparToolshed::NAIsZero(obj, 2)
+qData <- as.matrix(SummarizedExperiment::assay(obj[[2]]))
+sTab <- colData(obj[[2]])
+limma <- limmaCompleteTest(qData, sTab)
+
 df <- data.frame(
-x = allComp$logFC[[1]],
-y = -log10(allComp$P_Value[[1]]),
-index = as.character(rownames(obj[[2]]))
+  x = limma$logFC[["25fmol_vs_10fmol_logFC"]],
+  y = -log10(limma$P_Value[["25fmol_vs_10fmol_pval"]]),
+  index = as.character(rownames(obj[[2]]))
 )
+colnames(df) <- c("x", "y", "index")
 tooltipSlot <- c("Fasta_headers", "Sequence_length")
-df <- cbind(df, SummarizedExperiment::rowData(obj[[2]])[, tooltipSlot])
+df <- cbind(df, colData(obj[[2]])[, tooltipSlot])
 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 if (ncol(df) > 3) {
-  colnames(df)[4:ncol(df)] <- paste0("tooltip_", 
-                                     colnames(df)[4:ncol(df)])
+  colnames(df)[seq.int(from = 4, to = ncol(df))] <-
+    paste("tooltip_", colnames(df)[seq.int(from = 4, to = ncol(df))],
+      sep = ""
+    )
 }
+hc_clickFunction <- JS("function(event) {
+Shiny.onInputChange('eventPointClicked',
+[this.index]+'_'+ [this.series.name]);}")
 cond <- c("25fmol", "10fmol")
 diffAnaVolcanoplot_rCharts(
   df,
   th_pval = 2.5,
   th_logfc = 1,
-  conditions = cond
+  conditions = cond,
+  clickFunction = hc_clickFunction
 )
 }
 
