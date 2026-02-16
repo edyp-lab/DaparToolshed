@@ -68,6 +68,7 @@ The quantitative data do not need to be logged beforehand, as setting `logData =
 
 ```{r importdata, message = FALSE}
 obj <- createQFeatures(data = data,
+  file = 'Exp1_R25_pept',
                        sample = sample,
                        indQData = 56:61,
                        keyId = "Sequence",
@@ -77,9 +78,12 @@ obj <- createQFeatures(data = data,
                        typeDataset = "peptide",
                        parentProtId = "Protein_group_IDs",
                        analysis = "Pept_Data",
-                       software = "maxquant",
-                       name = "original")
+                       software = "maxquant")
 
+
+library(DaparToolshedData)
+data(Exp1_R25_pept)
+obj <- Exp1_R25_pept[1:500]
 obj
 ```
 
@@ -128,7 +132,7 @@ It is advised to remove proteins that no longer have an associated peptide follo
 
 ```{r removeprot, message = FALSE}
  #remove proteins with no associated peptides
-X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
+X <- QFeatures::adjacencyMatrix(obj[[length(obj)]])
 SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix <- X[, -which(Matrix::colSums(X) == 0)]
 
 obj
@@ -217,7 +221,7 @@ Numerous imputation methods exist. Here, data imputation is performed using the 
 
 ```{r imputation, message = FALSE}
 obj <- wrapper.pirat(data = obj,
-                     adjmat = SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix,
+                     adjmat = QFeatures::adjacencyMatrix(obj[[length(obj)]]),
                      extension = "base")
 
 obj
@@ -231,7 +235,7 @@ The next step is to aggregate the peptide-level data into protein-level data. Fo
 Beforehand, it may be useful to look at the dataset in more details and to choose the most appropriate aggregation method accordingly. The `getProteinsStats()` function displays various information about peptides and associated proteins from the adjacency matrix.
 
 ```{r aggregationadjmatrix}
-X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
+X <- QFeatures::adjacencyMatrix(obj[[length(obj)]])
 info_pept <- getProteinsStats(X)
 
 cat("Total number of peptides : ", info_pept$nbPeptides, "\n",

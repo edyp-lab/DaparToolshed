@@ -1,4 +1,45 @@
 
+#' @title Standardize names
+#'
+#' @param obj.se An instance of the class `SummarizedExperiment`
+#' @param history A `data.frame()`
+#'
+#' @author Samuel Wieczorek
+#'
+#' @export
+#'
+#' @examples
+#' data(subR25prot)
+#' history <- GetHistory(subR25prot[[1]])
+#' history[3, ] <- 
+#' SetHistory(subR25prot[[1]], history)
+#'
+SetHistory <- function(obj.se, history){
+  paramshistory(obj.se) <- history
+  return(obj.se)
+}
+
+
+
+
+#' @title Wrapper for the `paramshistory` function.
+#' @param obj.se An instance of the class `SummarizedExperiment`
+#' @param history A `data.frame()`
+#' 
+#' @return A `data.frame()`
+#'
+#' @author Samuel Wieczorek
+#'
+#' @export
+#'
+#' @examples
+#' data(subR25prot)
+#' GetHistory(subR25prot[[1]])
+#'
+GetHistory <- function(obj.se, history){
+  paramshistory(obj.se)
+}
+
 
 #' @title Standardize names
 #'

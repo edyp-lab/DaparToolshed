@@ -520,7 +520,7 @@ wrapper.pirat <- function(data,
                      adj = as.matrix(adjmat),
                      rnas_ab = rnas_ab,
                      adj_rna_pg = adj_rna_pg)
-  
+
   res <- Pirat::my_pipeline_llkimpute(data.pep.rna.mis = data.pirat,
                                       ...)
   

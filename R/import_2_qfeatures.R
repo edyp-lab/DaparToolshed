@@ -179,7 +179,7 @@ createQFeatures <- function(
     obj <- QFeatures::readQFeatures(
       assayData = data,
       colData = sample,
-      name = "original",
+      name = "Convert",
       fnames = keyId
       )
 
@@ -209,7 +209,7 @@ createQFeatures <- function(
       
 
       # Add the quantitative cell metadata info
-      qMetacell(obj[["original"]]) <- qMetacell
+      qMetacell(obj[["Convert"]]) <- qMetacell
       #}
 
       # if (!is.null(indexForMetacell)) {
@@ -237,17 +237,17 @@ createQFeatures <- function(
     
     
     # Fill the metadata for the first assay
-    typeDataset(obj[["original"]]) <- typeDataset
-    idcol(obj[["original"]]) <- keyId
-
+    typeDataset(obj[["Convert"]]) <- typeDataset
+    idcol(obj[["Convert"]]) <- keyId
+ 
     if (tolower(typeDataset) == "peptide" && !is.null(parentProtId)) {
       pkgs.require('PSMatch')
-      parentProtId(obj[["original"]]) <- parentProtId
+      parentProtId(obj[["Convert"]]) <- parentProtId
       history <- Add2History(history, 'Convert', 'Convert', 'parentProtId', parentProtId)
       
       # Create the adjacency matrix
-      X <- PSMatch::makeAdjacencyMatrix(rowData(obj[[1]])[, parentProtId])
-      rownames(X) <- rownames(rowData(obj[[1]]))
+      X <- PSMatch::makeAdjacencyMatrix(SummarizedExperiment::rowData(obj[[1]])[, parentProtId])
+      rownames(X) <- rownames(SummarizedExperiment::rowData(obj[[1]]))
       QFeatures::adjacencyMatrix(obj[[1]]) <- X
       
       # Create the connected components
@@ -263,15 +263,14 @@ createQFeatures <- function(
     
     
     if (logData) {
-      obj <- QFeatures::logTransform(obj, seq_along(obj))
-      obj <- QFeatures::removeAssay(obj, 1)
+      obj.logged <- QFeatures::logTransform(obj, seq_along(obj))
+      SummarizedExperiment::assay(obj[[1]]) <- SummarizedExperiment::assay(obj.logged)
     }
     history <- Add2History(history, 'Convert', 'Convert', 'log data', logData)
     
     
     
     paramshistory(obj[[1]]) <- rbind(paramshistory(obj[[1]]), history)
-    
-    names(obj)[[1]] <- 'Convert'
+
     return(obj)
 }
