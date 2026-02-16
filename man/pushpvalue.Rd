@@ -57,7 +57,6 @@ data(subR25prot)
 obj <- subR25prot
 # Simulate imputation
 obj <- NAIsZero(obj, 1)
-obj <- NAIsZero(obj, 2)
 allComp <- limmaCompleteTest(SummarizedExperiment::assay(
 obj[[length(obj)]]), 
 design.qf(obj), 

@@ -704,8 +704,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' c("Missing POV", "Missing MEC"), level)
 #' # Simulate imputation
 #' assay(subR25prot[[1]])[which(is.na(assay(subR25prot[[1]])))] <- 0
-#' assay(subR25prot[[2]])[which(is.na(assay(subR25prot[[2]])))] <- 0
-#' qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[2]]))
+#' qData <- as.matrix(SummarizedExperiment::assay(subR25prot[[1]]))
 #' sTab <- SummarizedExperiment::colData(subR25prot)
 #' limma <- limmaCompleteTest(qData, sTab)
 #' 

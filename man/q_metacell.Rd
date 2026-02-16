@@ -195,7 +195,7 @@ metacell.def('peptide')
 library(QFeatures)
 data(subR25prot)
 conds <- design.qf(subR25prot)$Condition
-df <- Set_POV_MEC_tags(subR25prot[[2]], conds)
+df <- Set_POV_MEC_tags(subR25prot[[1]], conds)
 
 library(SummarizedExperiment)
 data(subR25pept)
@@ -204,7 +204,7 @@ qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(subR25prot)
-subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]])
+subR25prot[[1]] <- UpdateMetacellAfterImputation(subR25prot[[1]])
 
 search.metacell.tags('Missing POV', 'peptide')
 search.metacell.tags('Quantified', 'peptide')

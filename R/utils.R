@@ -11,8 +11,8 @@
 #' @examples
 #' data(subR25prot)
 #' history <- GetHistory(subR25prot[[1]])
-#' history[3, ] <- 
-#' SetHistory(subR25prot[[1]], history)
+#' history <- rbind(history, c('Example', 'Step Ex', 'ex_param', 'Ex'))
+#' subR25prot[[1]] <- SetHistory(subR25prot[[1]], history)
 #'
 SetHistory <- function(obj.se, history){
   paramshistory(obj.se) <- history

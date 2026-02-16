@@ -32,7 +32,6 @@ Description: The package DaparToolshed is a Bioconductor distributed R package w
 License: Artistic-2.0
 Depends: R (>= 4.5.0)
 Imports:
-    Biobase,
     BiocGenerics,
     matrixStats,
     S4Vectors,
@@ -116,7 +115,6 @@ Collate:
     plot_metacell.R
     funcs_normalize.R
     doc-data.R
-    DaparToolshed.R
     QFeatures_utils.R
     output2Excel.R
     DaparToolshed_Params_Addons.R

@@ -33,9 +33,7 @@
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-#' ttest <- compute_t_tests(obj, 3)
-#' 
-#' ttest <- compute_t_tests(obj, 3)
+#' ttest <- compute_t_tests(obj, 2)
 #'
 #' @import SummarizedExperiment
 #' @importFrom stats t.test

@@ -24,7 +24,9 @@
 #'
 #' @examples
 #' data(subR25prot)
-#' plotCompareAssays(subR25prot, 1, 2, n = 5)
+#' obj <- subR25prot
+#' obj <- normalizeFunction(obj, method = "MeanCentering")
+#' plotCompareAssays(obj, 1, 2, n = 5)
 #'
 #' @import highcharter
 #' @importFrom tibble as_tibble
@@ -36,13 +38,13 @@
 #' @rdname compare-assays
 #'
 plotCompareAssays <- function(obj,
-                              i,
-                              j,
-                              info = NULL,
-                              pal.name = "Set1",
-                              subset.view = NULL,
-                              n = 100,
-                              type = "scatter") {
+  i,
+  j,
+  info = NULL,
+  pal.name = "Set1",
+  subset.view = NULL,
+  n = 100,
+  type = "scatter") {
   
   pkgs.require('highcharter')
     if (missing(obj)) {

@@ -59,7 +59,7 @@
 #'
 #' @examples
 #' data(subR25prot)
-#' obj <- subR25prot[[2]]
+#' obj <- subR25prot[[1]]
 #' grp <- design.qf(subR25prot)$Condition
 #' lapala <- findMECBlock(obj, grp)
 #' na.type = c("Missing POV", "Missing MEC")

@@ -45,7 +45,6 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #' obj <- subR25prot
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
-#' obj <- NAIsZero(obj, 2)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
 #' comp.type="OnevsOne")
@@ -82,7 +81,6 @@ diffAnaComputeAdjustedPValues <- function(pval,
 #' obj <- subR25prot
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
-#' obj <- NAIsZero(obj, 2)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
 #' design.qf(obj), 
@@ -122,7 +120,6 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #' obj <- subR25prot
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
-#' obj <- NAIsZero(obj, 2)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
 #' design.qf(obj), 
@@ -241,7 +238,6 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
 #' obj <- subR25prot
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
-#' obj <- NAIsZero(obj, 2)
 #' allComp <- limmaCompleteTest(SummarizedExperiment::assay(
 #' obj[[length(obj)]]), 
 #' design.qf(obj), 
@@ -328,7 +324,6 @@ pushpvalue <- function(obj,
 #' obj <- subR25prot
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
-#' obj <- NAIsZero(obj, 2)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
 #' design.qf(obj), 

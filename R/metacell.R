@@ -407,7 +407,7 @@ setMethod("GetMetacellTags", "data.frame",
 #' library(QFeatures)
 #' data(subR25prot)
 #' conds <- design.qf(subR25prot)$Condition
-#' df <- Set_POV_MEC_tags(subR25prot[[2]], conds)
+#' df <- Set_POV_MEC_tags(subR25prot[[1]], conds)
 #'
 #' @name q_metacell
 #' 
@@ -922,7 +922,7 @@ setGeneric("UpdateMetacellAfterImputation",
 #' 
 #' @examples
 #' data(subR25prot)
-#' subR25prot[[2]] <- UpdateMetacellAfterImputation(subR25prot[[2]])
+#' subR25prot[[1]] <- UpdateMetacellAfterImputation(subR25prot[[1]])
 #' 
 #' @author Samuel Wieczorek
 #'
