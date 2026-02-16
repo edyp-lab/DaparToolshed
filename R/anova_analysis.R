@@ -58,7 +58,7 @@ applyAnovasOnProteins <- function(obj, i){
 #' All the Tukey's and Dunnet's tests use the multcomp package expect for "TukeyHSD" which 
 #' relies on the stats package.  "TukeyHSD" and "TukeyStepwise" gives similar results.
 #'
-#' @return a list of 2 tables (p-values and fold-changes, respecively)
+#' @return a list of 2 tables (p-values and fold-changes, respectively)
 #'
 #' @examples
 #' data(subR25prot)
@@ -73,64 +73,64 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
   pkgs.require('multcomp')
   
   switch(test,
-         Omnibus={
-           omnibus_tests_summaries <- t(sapply(aov_fits,
-                                               function(x) unlist(summary(x))
-           ))
-           res <- list("logFC" = data.frame("anova_1way_logFC" = matrix(NA, nrow = length(aov_fits)), row.names = names(aov_fits)),
-                       "P_Value" = data.frame("anova_1way_pval" = omnibus_tests_summaries[,9], row.names = names(aov_fits)))
-         }, TukeyHSD={
-           tukeyHSD_tests_summaries <- lapply(aov_fits, 
-                                              function(x) stats::TukeyHSD(x, which = "conditions")$conditions)
-           res <- formatHSDResults(tukeyHSD_tests_summaries)
-         }, TukeySinglestep={
-           tukeySS_tests_summaries <- lapply(aov_fits, 
-                                             function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
-                                                                 test = multcomp::adjusted("single-step"))
-           )
-           res <- formatPHTResults(tukeySS_tests_summaries)
-         }, TukeyStepwise={
-           tukeySW_tests_summaries <- lapply(aov_fits, 
-                                             function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
-                                                                 test = multcomp::adjusted("Westfall"))
-           )
-           res <- formatPHTResults(tukeySW_tests_summaries)
-         }, TukeyNoMTC={
-           dunnettSW_tests_summaries <- lapply(aov_fits,
-                                               function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
-                                                                   test = multcomp::adjusted("none"))
-           )
-           res <- formatPHTResults(dunnettSW_tests_summaries)
-         }, DunnettSinglestep={
-           dunnettSS_tests_summaries <- lapply(aov_fits,
-                                               function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
-                                                                   test = multcomp::adjusted("single-step"))
-           )
-           res <- formatPHTResults(dunnettSS_tests_summaries)
-         }, DunnettStepwise={
-           dunnettSW_tests_summaries <- lapply(aov_fits,
-                                               function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
-                                                                   test = multcomp::adjusted("free"))
-           )
-           res <- formatPHTResults(dunnettSW_tests_summaries)
-         }, DunnettNoMTC={
-           dunnettSW_tests_summaries <- lapply(aov_fits,
-                                               function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
-                                                                   test = multcomp::adjusted("none"))
-           )
-           res <- formatPHTResults(dunnettSW_tests_summaries)
-         }
+    Omnibus={
+      omnibus_tests_summaries <- t(sapply(aov_fits,
+        function(x) unlist(summary(x))
+      ))
+      res <- list("logFC" = data.frame("anova_1way_logFC" = matrix(NA, nrow = length(aov_fits)), row.names = names(aov_fits)),
+        "P_Value" = data.frame("anova_1way_pval" = omnibus_tests_summaries[,9], row.names = names(aov_fits)))
+    }, TukeyHSD={
+      tukeyHSD_tests_summaries <- lapply(aov_fits, 
+        function(x) stats::TukeyHSD(x, which = "conditions")$conditions)
+      res <- formatHSDResults(tukeyHSD_tests_summaries)
+    }, TukeySinglestep={
+      tukeySS_tests_summaries <- lapply(aov_fits, 
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
+          test = multcomp::adjusted("single-step"))
+      )
+      res <- formatPHTResults(tukeySS_tests_summaries)
+    }, TukeyStepwise={
+      tukeySW_tests_summaries <- lapply(aov_fits, 
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
+          test = multcomp::adjusted("Westfall"))
+      )
+      res <- formatPHTResults(tukeySW_tests_summaries)
+    }, TukeyNoMTC={
+      dunnettSW_tests_summaries <- lapply(aov_fits,
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Tukey")),
+          test = multcomp::adjusted("none"))
+      )
+      res <- formatPHTResults(dunnettSW_tests_summaries)
+    }, DunnettSinglestep={
+      dunnettSS_tests_summaries <- lapply(aov_fits,
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
+          test = multcomp::adjusted("single-step"))
+      )
+      res <- formatPHTResults(dunnettSS_tests_summaries)
+    }, DunnettStepwise={
+      dunnettSW_tests_summaries <- lapply(aov_fits,
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
+          test = multcomp::adjusted("free"))
+      )
+      res <- formatPHTResults(dunnettSW_tests_summaries)
+    }, DunnettNoMTC={
+      dunnettSW_tests_summaries <- lapply(aov_fits,
+        function(x) summary(multcomp::glht(x, linfct = multcomp::mcp(conditions = "Dunnett")),
+          test = multcomp::adjusted("none"))
+      )
+      res <- formatPHTResults(dunnettSW_tests_summaries)
+    }
   )
   return(res)
 }
 
 
 
-#' @title xxx
+#' @title Extracts the FC and the FWER ajusted p-values and format them in a data.frame
 #'
 #' @author Thomas Burger
 #'
-#' @param post_hoc_models_summaries xxx
+#' @param post_hoc_models_summaries resulting from applying lapply(summary((.)) to a multicomp function.
 #'
 #' @return A `data.frame()`
 #'
@@ -143,15 +143,15 @@ formatHSDResults <- function(post_hoc_models_summaries){
   # get the fold-changes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x[,1])
   logFC <- data.frame(purrr::map_dfr(res_coeffs, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]][,1]))
+    row.names = names(post_hoc_models_summaries[[1]][,1]))
   logFC <- as.data.frame(t(logFC))
   # extract the FWER ajusted p-values
   res_pvals <- lapply(post_hoc_models_summaries, function(x) x[,4])
   pvals <- data.frame(purrr::map_dfr(res_pvals, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]][,4]))
+    row.names = names(post_hoc_models_summaries[[1]][,4]))
   pvals <- as.data.frame(t(pvals))
   res <- list("logFC" = logFC,
-              "P_Value" = pvals)
+    "P_Value" = pvals)
   # formatting of column names for consistency with the limma and t-test code
   colnames(res$logFC) <- stringr::str_replace(colnames(res$logFC), "-", "_vs_")
   colnames(res$P_Value) <- stringr::str_replace(colnames(res$P_Value), "-", "_vs_")
@@ -160,13 +160,13 @@ formatHSDResults <- function(post_hoc_models_summaries){
   return(res)
 }
 
-#' @title xxx
+#' @title Extracts the FC and the raw p-values and format them in a data.frame
 #'
 #' @author Thomas Burger
 #'
-#' @param post_hoc_models_summaries xxx
+#' @param post_hoc_models_summaries resulting from applying lapply(summary((.)) to a multicomp function.
 #'
-#' @return xxx
+#' @return A `data.frame()`
 #'
 #' @examples
 #' NULL
@@ -175,18 +175,18 @@ formatHSDResults <- function(post_hoc_models_summaries){
 formatPHTResults <- function(post_hoc_models_summaries){
   pkgs.require(c('purrr', 'stringr'))
   
-  # récupérer les différences entre les moyennes
+  # get the fold-changes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x$test$coefficients)
   logFC <- data.frame(purrr::map_dfr(res_coeffs, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]]$test$coefficients))
+    row.names = names(post_hoc_models_summaries[[1]]$test$coefficients))
   logFC <- as.data.frame(t(logFC))
   # extract raw p-values (non-adjusted)
   res_pvals <- lapply(post_hoc_models_summaries, function(x) x$test$pvalues)
   pvals <- data.frame(purrr::map_dfr(res_pvals, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]]$test$coefficients))
+    row.names = names(post_hoc_models_summaries[[1]]$test$coefficients))
   pvals <- as.data.frame(t(pvals))
   res <- list("logFC" = logFC,
-              "P_Value" = pvals)
+    "P_Value" = pvals)
   # formatting of column names for consistency with the limma and t-test code
   colnames(res$logFC) <- stringr::str_replace(colnames(res$logFC), " - ", "_vs_")
   colnames(res$P_Value) <- stringr::str_replace(colnames(res$P_Value), " - ", "_vs_")
@@ -195,15 +195,15 @@ formatPHTResults <- function(post_hoc_models_summaries){
   return(res)
 }
 
-#' @title xxx
+#' @title Applies p-value adjustment using cp4p on p-values below a given threshold
 #'
 #' @author Thomas Burger
 #'
-#' @param x xxx
-#' @param pval.T xxx
-#' @param M xxx
+#' @param x vector of p-values
+#' @param pval.T p-value threshold
+#' @param M a pi0.method from cp4p package
 #'
-#' @return xxx
+#' @return adjusted p-values
 #'
 #' @examples
 #' NULL
@@ -242,8 +242,8 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #' 
 #' 
 separateAdjPval <- function(x, 
-                            pval.threshold = 1.05, 
-                            method = 1){
+  pval.threshold = 1.05, 
+  method = 1){
   
   pkgs.require('cp4p')
   if(pval.threshold > 1){
@@ -338,10 +338,10 @@ globalAdjPval <- function(
 classic1wayAnova <- function(current_line, conditions) {
   #.Deprecated("OWAnova")
   pkgs.require('stats')
-
+  
   # vector containing the protein/peptide intensities
   intensities <- unname(unlist(current_line))
-
+  
   # anova on these two vectors
   aov_test <- stats::aov(formula = intensities ~ conditions, data = NULL)
   return(aov_test)
@@ -414,7 +414,7 @@ wrapperClassic1wayAnova <- function(obj,
             unlist(
               summary(
                 classic1wayAnova(x, 
-                                 conditions = as.factor(sTab$Condition)
+                  conditions = as.factor(sTab$Condition)
                 )
               )
             )
@@ -444,7 +444,7 @@ wrapperClassic1wayAnova <- function(obj,
     } else if (post_hoc_test == "TukeyHSD") {
       anova_tests <- t(
         apply(qData, 1, classic1wayAnova, 
-              conditions = as.factor(sTab$Condition))
+          conditions = as.factor(sTab$Condition))
       )
       names(anova_tests) <- rownames(qData)
       to_return <- postHocTest(
@@ -454,7 +454,7 @@ wrapperClassic1wayAnova <- function(obj,
     } else if (post_hoc_test == "Dunnett") {
       anova_tests <- t(
         apply(qData, 1, classic1wayAnova, 
-              conditions = as.factor(sTab$Condition))
+          conditions = as.factor(sTab$Condition))
       )
       names(anova_tests) <- rownames(qData)
       to_return <- postHocTest(
@@ -522,15 +522,15 @@ formatPHResults <- function(post_hoc_models_summaries) {
   
   # récupérer les différences entre les moyennes
   res_coeffs <- lapply(post_hoc_models_summaries, 
-                       function(x) x$test$coefficients)
+    function(x) x$test$coefficients)
   logFC <- data.frame(purrr::map_dfr(res_coeffs, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]]$test$coefficients)
+    row.names = names(post_hoc_models_summaries[[1]]$test$coefficients)
   )
   logFC <- as.data.frame(t(logFC))
   # extract raw p-values (non-adjusted)
   res_pvals <- lapply(post_hoc_models_summaries, function(x) x$test$pvalues)
   pvals <- data.frame(purrr::map_dfr(res_pvals, cbind),
-                      row.names = names(post_hoc_models_summaries[[1]]$test$coefficients)
+    row.names = names(post_hoc_models_summaries[[1]]$test$coefficients)
   )
   pvals <- as.data.frame(t(pvals))
   res <- list(
@@ -627,8 +627,8 @@ postHocTest <- function(aov_fits, post_hoc_test = "TukeyHSD") {
       aov_fits,
       function(x) {
         summary(multcomp::glht(x, 
-                               linfct = multcomp::mcp(conditions = "Tukey")),
-                test = multcomp::adjusted("none")
+          linfct = multcomp::mcp(conditions = "Tukey")),
+          test = multcomp::adjusted("none")
         )
       }
     )
@@ -638,8 +638,8 @@ postHocTest <- function(aov_fits, post_hoc_test = "TukeyHSD") {
       aov_fits,
       function(x) {
         summary(multcomp::glht(x, 
-                               linfct = multcomp::mcp(conditions = "Dunnett")),
-                test = multcomp::adjusted("none")
+          linfct = multcomp::mcp(conditions = "Dunnett")),
+          test = multcomp::adjusted("none")
         )
       }
     )

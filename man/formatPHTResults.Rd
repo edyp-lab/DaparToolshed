@@ -2,18 +2,18 @@
 % Please edit documentation in R/anova_analysis.R
 \name{formatPHTResults}
 \alias{formatPHTResults}
-\title{xxx}
+\title{Extracts the FC and the raw p-values and format them in a data.frame}
 \usage{
 formatPHTResults(post_hoc_models_summaries)
 }
 \arguments{
-\item{post_hoc_models_summaries}{xxx}
+\item{post_hoc_models_summaries}{resulting from applying lapply(summary((.)) to a multicomp function.}
 }
 \value{
-xxx
+A \code{data.frame()}
 }
 \description{
-xxx
+Extracts the FC and the raw p-values and format them in a data.frame
 }
 \examples{
 NULL

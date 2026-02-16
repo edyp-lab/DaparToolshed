@@ -29,7 +29,7 @@ qMetacell(subR25pept[[1]]),
 c("Missing POV", "Missing MEC"), level)
 indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 grp <- design.qf(subR25pept)$Condition
-subR25pept <- wrapper.impute.mle(subR25pept[[2]], grp)
+subR25pept <- wrapper.impute.mle(subR25pept[[1]], grp)
 
 }
 \author{

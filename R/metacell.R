@@ -602,7 +602,7 @@ BuildMetacell <- function(from = NULL,
 #' library(SummarizedExperiment)
 #' data(subR25pept)
 #' conds <- design.qf(subR25pept)$Condition
-#' qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_generic(qdata, conds, 'peptide')
 #' 
 #' @export
@@ -663,7 +663,7 @@ Metacell_generic <- function(qdata, conds, level) {
 #' @examples
 #' data(subR25pept)
 #' conds <- design.qf(subR25pept)$Condition
-#' qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_DIA_NN(qdata, conds, df, level = "peptide")
 #' 
 #'
@@ -720,7 +720,7 @@ Metacell_DIA_NN <- function(qdata, conds, df, level = NULL) {
 #' @examples
 #' data(subR25pept)
 #' conds <- design.qf(subR25pept)$Condition
-#' qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_proline(qdata, conds, level = "peptide")
 #' 
 #'
@@ -796,7 +796,7 @@ Metacell_proline <- function(qdata, conds, df = NULL, level = NULL) {
 #' @examples
 #' data(subR25pept)
 #' conds <- design.qf(subR25pept)$Condition
-#' qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+#' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df2 <- Metacell_maxquant(qdata, conds, level = "peptide")
 #'
 #' @export

@@ -567,7 +567,7 @@ make.contrast <- function(design,
 #'
 #' @examples
 #' data(subR25pept)
-#' qData <- as.matrix(SummarizedExperiment::assay(subR25pept[[2]]))
+#' qData <- as.matrix(SummarizedExperiment::assay(subR25pept[[1]]))
 #' sTab <- SummarizedExperiment::colData(subR25pept)
 #' limma <- limmaCompleteTest(qData, sTab, comp.type = "anova1way")
 #'

@@ -17,7 +17,7 @@ Method to split an adjacency matrix into specific and shared
 }
 \examples{
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 ll <- splitAdjacencyMat(X)
 
 }

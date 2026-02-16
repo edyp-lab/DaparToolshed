@@ -26,7 +26,7 @@
 #' c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
 #' grp <- design.qf(subR25pept)$Condition
-#' subR25pept <- wrapper.impute.mle(subR25pept[[2]], grp)
+#' subR25pept <- wrapper.impute.mle(subR25pept[[1]], grp)
 #'
 #' @export
 #'
@@ -112,7 +112,7 @@ wrapper.impute.mle <- function(obj, grp) {
 #' @param distribution The type of distribution used. Values are \code{unif}
 #' (default) or \code{beta}.
 #'
-#' @return The \code{Biobase::exprs(obj)} matrix with imputed values 
+#' @return A matrix with imputed values 
 #' instead of missing values.
 #'
 #' @author Samuel Wieczorek
@@ -121,8 +121,8 @@ wrapper.impute.mle <- function(obj, grp) {
 #' \donttest{
 #' utils::data(subR25pept)
 #' design <- design.qf(subR25pept)
-#' obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = TRUE)
-#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = FALSE)
+#' obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = TRUE)
+#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = FALSE)
 #'}
 #' @export
 #'

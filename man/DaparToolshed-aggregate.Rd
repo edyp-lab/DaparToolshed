@@ -162,9 +162,9 @@ Available values are \code{Global} (default), \code{Condition} or \code{Sample}.
 \item{peptideData}{A data.frame of meta data of peptides. It is the rowData
 of the SummarizedExperiment object.}
 
-\item{matAdj}{The adjacency matrix used to agregate the peptides data.}
+\item{matAdj}{The adjacency matrix used to aggregate the peptides data.}
 
-\item{columnName}{The name(s) of the column in Biobase::rowData(peptides_MSnset)
+\item{columnName}{The name(s) of the column in SummarizedExperiment::rowData(peptides_MSnset)
 that the user wants to keep in the new protein data.frame.}
 
 \item{proteinNames}{The names of the protein in the new dataset
@@ -428,76 +428,76 @@ X.unique <- X.split$Xspec
 #   columnName = "Sequence",
 #   proteinNames = rownames(subR25pept[[2]]))
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-X.topn <- select_topn(SummarizedExperiment::assay(subR25pept[[2]]), X, n = 3)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+X.topn <- select_topn(SummarizedExperiment::assay(subR25pept[[1]]), X, n = 3)
 
 data(subR25pept)
-obj.last <- subR25pept[[2]]
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+obj.last <- subR25pept[[1]]
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 getProteinsStats(X)
 
 
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 CountPep(X)
 
 \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 GetNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 }
 
 library(SummarizedExperiment)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 ll.n <- GetDetailedNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 n <- GetDetailedNbPeptides(X)
 
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 GraphPepProt(X)
 
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 ExtractUniquePeptides(X)
 
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[1]]), X)
 
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[1]]), X)
 
 \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
 i.mean <- inner.mean(SummarizedExperiment::assay(subR25pept), X)
 }
 
 \donttest{
 library(QFeatures)
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 \donttest{
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 \donttest{
 data(subR25pept)
-X <- BuildAdjacencyMatrix(subR25pept[[2]])
-i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[2]]), X)
+X <- BuildAdjacencyMatrix(subR25pept[[1]])
+i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 }

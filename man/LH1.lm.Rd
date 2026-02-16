@@ -2,7 +2,7 @@
 % Please edit documentation in R/pepa.R
 \name{LH1.lm}
 \alias{LH1.lm}
-\title{xxxxxx}
+\title{Compute the likelihoods of the alternative hypothesis for the "local" component-wise model}
 \usage{
 LH1.lm(X, y1, y2, j)
 }
@@ -16,10 +16,10 @@ LH1.lm(X, y1, y2, j)
 \item{j}{the index of the protein being tested, ie which has different}
 }
 \value{
-NA
+A list of likelihoods with associated linear models
 }
 \description{
-xxxxxx
+Compute the likelihoods of the alternative hypothesis for the "local" component-wise model
 }
 \examples{
 NULL

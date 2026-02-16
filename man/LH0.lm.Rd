@@ -2,7 +2,7 @@
 % Please edit documentation in R/pepa.R
 \name{LH0.lm}
 \alias{LH0.lm}
-\title{xxxxxx}
+\title{Compute the likelihoods of the null hypothesis for the "local" component-wise model}
 \usage{
 LH0.lm(X, y1, y2)
 }
@@ -16,10 +16,10 @@ each peptide in each sample from the condition 1}
 each peptide in each sample from the condition 2}
 }
 \value{
-NA
+A list of likelihoods with associated linear models
 }
 \description{
-xxxxxx
+Compute the likelihoods of the null hypothesis for the "local" component-wise model
 }
 \examples{
 NULL

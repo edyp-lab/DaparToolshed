@@ -18,7 +18,7 @@ All the Tukey's and Dunnet's tests use the multcomp package expect for "TukeyHSD
 relies on the stats package.  "TukeyHSD" and "TukeyStepwise" gives similar results.}
 }
 \value{
-a list of 2 tables (p-values and fold-changes, respecively)
+a list of 2 tables (p-values and fold-changes, respectively)
 }
 \description{
 Applies a statistical test on each element of a list of linear models

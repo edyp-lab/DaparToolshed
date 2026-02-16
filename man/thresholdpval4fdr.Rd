@@ -2,22 +2,22 @@
 % Please edit documentation in R/anova_analysis.R
 \name{thresholdpval4fdr}
 \alias{thresholdpval4fdr}
-\title{xxx}
+\title{Applies p-value adjustment using cp4p on p-values below a given threshold}
 \usage{
 thresholdpval4fdr(x, pval.T, M)
 }
 \arguments{
-\item{x}{xxx}
+\item{x}{vector of p-values}
 
-\item{pval.T}{xxx}
+\item{pval.T}{p-value threshold}
 
-\item{M}{xxx}
+\item{M}{a pi0.method from cp4p package}
 }
 \value{
-xxx
+adjusted p-values
 }
 \description{
-xxx
+Applies p-value adjustment using cp4p on p-values below a given threshold
 }
 \examples{
 NULL

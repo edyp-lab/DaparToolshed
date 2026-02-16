@@ -2,7 +2,7 @@
 % Please edit documentation in R/pepa.R
 \name{LH0}
 \alias{LH0}
-\title{xxxxxx}
+\title{Compute the likelihood of the null hypothesis for the global model}
 \usage{
 LH0(X, y1, y2)
 }
@@ -14,10 +14,10 @@ LH0(X, y1, y2)
 \item{y2}{n.pep*n.samples matrice giving the observed counts for}
 }
 \value{
-NA
+A list of likelihoods
 }
 \description{
-xxxxxx
+Compute the likelihood of the null hypothesis for the global model
 }
 \examples{
 NULL

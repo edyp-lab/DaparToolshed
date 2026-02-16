@@ -5,9 +5,9 @@
 \alias{subR25pept}
 \title{subR25pept dataset}
 \format{
-An object of class \link{QFeatures} related to proteins
+An object of class \code{QFeatures} related to proteins
 quantification. It contains 6 samples divided into two conditions
-(10fmol and 5fmol) and 100 peptides
+(10fmol and 5fmol) and 500 peptides
 
 The data frame assay(subR25pept) contains six columns that are the
 quantitation of peptides for the six replicates.
@@ -21,7 +21,7 @@ few information about the samples.
 data(subR25pept)
 }
 \value{
-An object of class \link{QFeatures} related to proteins
+An object of class \code{QFeatures} related to proteins
 quantification.
 }
 \description{

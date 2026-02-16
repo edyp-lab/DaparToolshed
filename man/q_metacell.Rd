@@ -200,7 +200,7 @@ df <- Set_POV_MEC_tags(subR25prot[[2]], conds)
 library(SummarizedExperiment)
 data(subR25pept)
 conds <- design.qf(subR25pept)$Condition
-qdata <- SummarizedExperiment::assay(subR25pept[[2]])
+qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(subR25prot)

@@ -82,7 +82,7 @@ wrapper.dapar.impute.mi(
 (default) or \code{beta}.}
 }
 \value{
-The \code{Biobase::exprs(obj)} matrix with imputed values
+A matrix with imputed values
 instead of missing values.
 }
 \description{
@@ -93,8 +93,8 @@ This method is a wrapper to the function \code{impute.mi()} of the package
 \donttest{
 utils::data(subR25pept)
 design <- design.qf(subR25pept)
-obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = TRUE)
-obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[2]], design, nb.iter = 1, lapala = FALSE)
+obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = TRUE)
+obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = FALSE)
 }
 }
 \author{

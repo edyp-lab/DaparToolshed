@@ -2,7 +2,7 @@
 % Please edit documentation in R/pepa.R
 \name{LH1}
 \alias{LH1}
-\title{xxxxxx}
+\title{Compute the likelihood of the alternative hypothesis for the global model}
 \usage{
 LH1(X, y1, y2, j)
 }
@@ -16,10 +16,10 @@ LH1(X, y1, y2, j)
 \item{j}{the index of the protein being tested, ie which has different}
 }
 \value{
-NA
+A list of likelihoods
 }
 \description{
-xxxxxx
+Compute the likelihood of the alternative hypothesis for the global model
 }
 \examples{
 NULL
