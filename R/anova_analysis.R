@@ -325,7 +325,7 @@ globalAdjPval <- function(
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
 #' 
-#' qdata <- SummarizedExperiment::assay(obj[[3]])
+#' qdata <- SummarizedExperiment::assay(obj[[2]])
 #' conds <- design.qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)
@@ -386,7 +386,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-#' anovatest <- wrapperClassic1wayAnova(obj, 3)
+#' anovatest <- wrapperClassic1wayAnova(obj, 2)
 #' }
 #'
 #' @seealso postHocTest()
@@ -494,7 +494,7 @@ wrapperClassic1wayAnova <- function(obj,
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-#' qdata <- SummarizedExperiment::assay(obj[[3]])
+#' qdata <- SummarizedExperiment::assay(obj[[2]])
 #' conds <- design.qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)
@@ -603,7 +603,7 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-#' qdata <- SummarizedExperiment::assay(obj[[3]])
+#' qdata <- SummarizedExperiment::assay(obj[[2]])
 #' conds <- design.qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)

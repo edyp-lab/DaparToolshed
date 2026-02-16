@@ -53,7 +53,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
   th = 0.8,
   operator = '>')
 obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-qdata <- SummarizedExperiment::assay(obj[[3]])
+qdata <- SummarizedExperiment::assay(obj[[2]])
 conds <- design.qf(obj)$Condition
 anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 anova_tests <- t(anova_tests)

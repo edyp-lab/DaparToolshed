@@ -73,63 +73,6 @@ ReplaceSpecialChars <- function(x) {
     x
 }
 
-#' 
-#' #' @title Version number of Prostar suite
-#' #'
-#' #' @description
-#' #'
-#' #' This function gives the version number of the packages of the
-#' #' Prostar suite and which propose data processing. This information
-#' #' can be useful if the user wants to publish its works or to
-#' #' rerun a data processing pipeline tin a given set of conditions.
-#' #' The packages which are concerned are `Prostar`, `DaparToolshed`
-#' #' and `DaparToolshedData`
-#' #'
-#' #' @return A `list(3)`
-#' #'
-#' #' @rdname ProstarVersions
-#' #'
-#' #' @author Samuel Wieczorek
-#' #'
-#' #' @examples
-#' #' ProstarVersions()
-#' #'
-#' #' @export
-#' #'
-#' ProstarVersions <- function() {
-#'     v.Prostar <- v.DaparToolshed  <- NA
-#' 
-#'     # tryCatch(
-#'     #     {
-#'     #         find.package("Prostar.2.0")
-#'     #         v.Prostar <- Biobase::package.version("Prostar.2.0")
-#'     #     },
-#'     #     error = function(e) v.Prostar <- NA
-#'     # )
-#' 
-#'     tryCatch(
-#'         {
-#'             find.package("DaparToolshed")
-#'           v.DaparToolshed <- Biobase::package.version("DaparToolshed")
-#'         },
-#'         error = function(e) v.DaparToolshed <- NA
-#'     )
-#' 
-#' 
-#' 
-#'     list(
-#'         Prostar = v.Prostar,
-#'         DaparToolshed = v.DaparToolshed
-#'     )
-#' }
-#' 
-
-
-
-
-
-
-
 
 
 #' @title Number of empty lines in the data

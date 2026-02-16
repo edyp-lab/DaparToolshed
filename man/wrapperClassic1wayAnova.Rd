@@ -49,7 +49,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
   th = 0.8,
   operator = '>')
 obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
-anovatest <- wrapperClassic1wayAnova(obj, 3)
+anovatest <- wrapperClassic1wayAnova(obj, 2)
 }
 
 }
