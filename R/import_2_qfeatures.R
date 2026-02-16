@@ -220,7 +220,7 @@ createQFeatures <- function(
       
     
     # Enrich the metadata for whole QFeatures object
-    S4Vectors::metadata(obj)$versions <- ProstarVersions()
+    #S4Vectors::metadata(obj)$versions <- ProstarVersions()
     #history <- Add2History(history, 'Convert', 'Convert', 'ProstarVersions', ProstarVersions())
     
     S4Vectors::metadata(obj)$filename <- file

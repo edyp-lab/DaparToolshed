@@ -80,10 +80,6 @@ obj <- createQFeatures(data = data,
                        analysis = "Pept_Data",
                        software = "maxquant")
 
-
-library(DaparToolshedData)
-data(Exp1_R25_pept)
-obj <- Exp1_R25_pept[1:500]
 obj
 ```
 
