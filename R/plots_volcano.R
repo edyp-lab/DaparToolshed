@@ -101,6 +101,7 @@ diffAnaVolcanoplot_rCharts <- function(
     }
   }
   
+  g <- x <- y <- NULL
   df <- cbind(df,
     g = ifelse(df$y >= th_pval & abs(df$x) >= th_logfc, "g1", "g2")
   )

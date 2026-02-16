@@ -4,21 +4,16 @@ Title: Tools for the Differential Analysis of Proteins Abundance with R
 Version: 0.99.28
 Date: 2026-01-30
 Authors@R: c(person("DaparToolshed Package Maintainer",
-    email = "prostar-proteomics@cea.fr",
-    role = c("cre")),
+    email = "prostar-proteomics@cea.fr", role = c("cre")),
     person(given = "Samuel", family = "Wieczorek",
-    email = "samuel.wieczorek@cea.fr",
-    role = c("aut"),
+    email = "samuel.wieczorek@cea.fr", role = c("aut"),
     comment=c(ORCID="0000-0002-5016-1203")),
     person(given = "Thomas", family ="Burger",
-    email = "thomas.burger@cea.fr",
-    role = c("aut")),
+    email = "thomas.burger@cea.fr", role = c("aut")),
     person(given = "Enora", family ="Fremy",
-    email = "enora.fremy@cea.fr",
-    role = c("ctb")),
+    email = "enora.fremy@cea.fr", role = c("ctb")),
     person(given = "Manon", family ="Gaudin",
-    email = "manon.gaudin@cea.fr",
-    role = c("ctb"))
+    email = "manon.gaudin@cea.fr", role = c("ctb"))
     )
 Description: The package DaparToolshed is a Bioconductor distributed R package which 
     provides all the necessary functions to analyze quantitative data from 
