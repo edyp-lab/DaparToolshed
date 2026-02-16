@@ -12,11 +12,11 @@ operator = '<')
 
 obj <- filterFeaturesOneSE(obj, filter)
 
-anovatest <- wrapperClassic1wayAnova(obj, 2)
+anovatest <- wrapperClassic1wayAnova(obj, 1)
 
 
 
 
-anova_tests <- t(apply(assay(obj[[2]]), 1, classic1wayAnova,
+anova_tests <- t(apply(assay(obj[[1]]), 1, classic1wayAnova,
   conditions = as.factor(design.qf(obj)$Condition)
 ))

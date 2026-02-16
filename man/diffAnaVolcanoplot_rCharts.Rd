@@ -52,7 +52,6 @@ customizable tooltip appears when the user put the mouse's pointer over
 a point of the scatter plot.
 }
 \examples{
-\donttest{
 data(subR25prot)
 obj <- subR25prot
 # Simulate imputation
@@ -64,10 +63,10 @@ comp.type="OnevsOne")
 df <- data.frame(
 x = allComp$logFC[[1]],
 y = -log10(allComp$P_Value[[1]]),
-index = as.character(rownames(obj[[2]]))
+index = as.character(rownames(obj[[1]]))
 )
 tooltipSlot <- c("Fasta_headers", "Sequence_length")
-df <- cbind(df, SummarizedExperiment::rowData(obj[[2]])[, tooltipSlot])
+df <- cbind(df, SummarizedExperiment::rowData(obj[[1]])[, tooltipSlot])
 colnames(df) <- gsub(".", "_", colnames(df), fixed = TRUE)
 if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_", 
@@ -80,7 +79,6 @@ diffAnaVolcanoplot_rCharts(
   th_logfc = 1,
   conditions = cond
 )
-}
 
 }
 \author{
