@@ -492,7 +492,6 @@ impute.pa2 <- function(tab,
 #' subR25pept <- wrapper.pirat(data = subR25pept,
 #' adjmat = SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix,
 #' extension = "base")
-
 #'
 #' @export
 #'

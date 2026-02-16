@@ -217,7 +217,7 @@ Numerous imputation methods exist. Here, data imputation is performed using the 
 
 ```{r imputation, message = FALSE}
 obj <- wrapper.pirat(data = obj,
-                     adjmat = QFeatures::adjacencyMatrix(obj[[length(obj)]]),
+                     adjmat = SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix,
                      extension = "base")
 
 obj
@@ -231,7 +231,7 @@ The next step is to aggregate the peptide-level data into protein-level data. Fo
 Beforehand, it may be useful to look at the dataset in more details and to choose the most appropriate aggregation method accordingly. The `getProteinsStats()` function displays various information about peptides and associated proteins from the adjacency matrix.
 
 ```{r aggregationadjmatrix}
-X <- QFeatures::adjacencyMatrix(obj[[length(obj)]])
+X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
 info_pept <- getProteinsStats(X)
 
 cat("Total number of peptides : ", info_pept$nbPeptides, "\n",

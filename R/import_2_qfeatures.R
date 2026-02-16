@@ -145,11 +145,6 @@ createQFeatures <- function(
       
     } 
 
-    #data <- cbind(qdata, data)
-    #indQData <- 1:length(indQData)
-    #indexForMetacell <- length(indQData) + 1:length(indexForMetacell)
-    # Applying new order for qdata columns
-    
 
     # Standardizes names
     keyId <- ReplaceSpecialChars(keyId)
@@ -183,11 +178,6 @@ createQFeatures <- function(
       fnames = keyId
       )
 
-    #browser()
-    # The function readQFeatures changes non alphanumeric characters, like '+' converted to '.'
-    # Force the use of original colnames
-    #colnames(rowData(obj[[1]])) <- colnames(data)[-match(indQData, colnames(data))]
-
     ## Encoding the sample data
     
     design.qf(obj) <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
@@ -195,7 +185,7 @@ createQFeatures <- function(
 
     # Get the metacell info
     qMetacell <- NULL
-    #if (!is.null(tmp.qMetacell)){
+
       qMetacell <- BuildMetacell(
         from = software,
         level = typeDataset,
@@ -210,19 +200,7 @@ createQFeatures <- function(
 
       # Add the quantitative cell metadata info
       qMetacell(obj[["Convert"]]) <- qMetacell
-      #}
 
-      # if (!is.null(indexForMetacell)) {
-      # # Remove the identification columns which became useless
-      # .ind <- -match(indexForMetacell, colnames(rowData(obj[[1]])))
-      # rowData(obj[[1]]) <- rowData(obj[[1]])[, .ind]
-      # }
-      
-    
-    # Enrich the metadata for whole QFeatures object
-    #S4Vectors::metadata(obj)$versions <- ProstarVersions()
-    #history <- Add2History(history, 'Convert', 'Convert', 'ProstarVersions', ProstarVersions())
-    
     S4Vectors::metadata(obj)$filename <- file
     history <- Add2History(history, 'Convert', 'Convert', 'file', file)
     
@@ -236,6 +214,19 @@ createQFeatures <- function(
     history <- Add2History(history, 'Convert', 'Convert', 'name.pipeline', name.pipeline)
     
     
+    if (force.na) {
+      obj <- QFeatures::zeroIsNA(obj, seq_along(obj))
+    }
+    history <- Add2History(history, 'Convert', 'Convert', 'Force NA to 0', force.na)
+    
+    
+    if (logData) {
+      obj <- QFeatures::logTransform(obj, seq_along(obj))
+      obj <- QFeatures::removeAssay(obj, 1)
+      names(obj)[[1]] <- 'Convert'
+       }
+    history <- Add2History(history, 'Convert', 'Convert', 'log data', logData)
+
     # Fill the metadata for the first assay
     typeDataset(obj[["Convert"]]) <- typeDataset
     idcol(obj[["Convert"]]) <- keyId
@@ -254,21 +245,6 @@ createQFeatures <- function(
       #ConnectedComp(obj[[1]]) <- PSMatch::ConnectedComponents(X)
     }
 
-    
-    if (force.na) {
-      obj <- QFeatures::zeroIsNA(obj, seq_along(obj))
-    }
-    history <- Add2History(history, 'Convert', 'Convert', 'Force NA to 0', force.na)
-    
-    
-    
-    if (logData) {
-      obj.logged <- QFeatures::logTransform(obj, seq_along(obj))
-      SummarizedExperiment::assay(obj[[1]]) <- SummarizedExperiment::assay(obj.logged)
-    }
-    history <- Add2History(history, 'Convert', 'Convert', 'log data', logData)
-    
-    
     
     paramshistory(obj[[1]]) <- rbind(paramshistory(obj[[1]]), history)
 
