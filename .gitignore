@@ -2,4 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+*.Rproj
 foo.xlsx
+DaparToolshed.Rproj
