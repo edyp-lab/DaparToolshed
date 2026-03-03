@@ -11,6 +11,9 @@ SetHistory(obj.se, history)
 
 \item{history}{A \code{data.frame()}}
 }
+\value{
+A \code{data.frame()}
+}
 \description{
 Standardize names
 }
