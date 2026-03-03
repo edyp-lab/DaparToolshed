@@ -3,6 +3,8 @@
 #'
 #' @param obj.se An instance of the class `SummarizedExperiment`
 #' @param history A `data.frame()`
+#' 
+#' @return A `data.frame()`
 #'
 #' @author Samuel Wieczorek
 #'
