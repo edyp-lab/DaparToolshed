@@ -122,11 +122,11 @@ nEmptyLines <- function(df) {
 #' data(subR25prot)
 #' obj <- subR25prot[[1]]
 #' data <- qMetacell(obj)
-#' is.OfType(as.data.frame(data), "MEC")
+#' isOfType(as.data.frame(data), "MEC")
 #'
 #' @export
 #'
-is.OfType <- function(data, type) {
+isOfType <- function(data, type) {
     stopifnot(inherits(data, "data.frame"))
     return(type == data)
 }
@@ -140,14 +140,14 @@ is.OfType <- function(data, type) {
 #' @return A `boolean`
 #' 
 #' @examples
-#' is.subset('a', letters)
-#' is.subset(c('a', 'c', 't'), letters)
-#' is.subset(c('a', 3, 't'), letters)
-#' is.subset(3, letters)
+#' isSubset('a', letters)
+#' isSubset(c('a', 'c', 't'), letters)
+#' isSubset(c('a', 3, 't'), letters)
+#' isSubset(3, letters)
 #' 
 #' @export
 #' 
-is.subset <- function(set1, set2)
+isSubset <- function(set1, set2)
   length(intersect(set1, set2)) > 0 && length(set1) == length(intersect(set1, set2))
 
 
@@ -438,20 +438,21 @@ getNumberOfEmptyLines <- function(qData) {
 #' NULL
 #' 
 #' @return NA
-#' @rdname pkgs.require
+#' @rdname pkgsRequire
 #' @export
 #' 
 #' @author Samuel Wieczorek
 #' 
-pkgs.require <- function(ll.deps){
+pkgsRequire <- function(ll.deps){
   
   if (!requireNamespace('BiocManager', quietly = TRUE)) {
-    stop(paste0("Please run install.packages('BiocManager')"))
+    stop("Please run install.packages('BiocManager')")
   }
   
   lapply(ll.deps, function(x) {
     if (!requireNamespace(x, quietly = TRUE)) {
-      stop(paste0("Please install ", x, ": BiocManager::install('", x, "')"))
+      msg <- paste0("Please install ", x, ": BiocManager::install('", x, "')")
+      stop(msg)
     }
   })
 }

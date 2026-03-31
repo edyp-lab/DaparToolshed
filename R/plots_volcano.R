@@ -40,7 +40,7 @@
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' df <- data.frame(
 #' x = allComp$logFC[[1]],
@@ -75,7 +75,7 @@ diffAnaVolcanoplot_rCharts <- function(
   clickFunction = NULL,
   pal = NULL) {
   stopifnot(inherits(df, "data.frame"))
-  pkgs.require('magrittr')
+  pkgsRequire('magrittr')
   
   xtitle <- paste("log2 ( mean(", conditions[2], ") / mean(",
     conditions[1], ") )",

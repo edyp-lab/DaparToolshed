@@ -36,7 +36,7 @@
 #' library(SummarizedExperiment)
 #' data(subR25prot)
 #' qDataBefore <- SummarizedExperiment::assay(subR25prot[[1]])
-#' conds <- design.qf(subR25prot)$Condition
+#' conds <- design_qf(subR25prot)$Condition
 #' id <- rowData(subR25prot[[1]])[, idcol(subR25prot[[1]])]
 #' # pal <- ExtendPalette(2)
 #' qDataAfter <- LOESS(qDataBefore, conds, type = "overall")
@@ -67,7 +67,7 @@ compareNormalizationD_HC <- function(
     n = 100,
     type = "scatter") {
   
-  pkgs.require('RColorBrewer')
+  pkgsRequire('RColorBrewer')
   
   if (is.null(conds)) {
     warning("'conds' is null.")
@@ -102,14 +102,6 @@ compareNormalizationD_HC <- function(
     return(NULL)
   }
   
-  # if (is.null(n)) {
-  #     n <- seq_len(nrow(qDataBefore))
-  # } else {
-  # if (n > nrow(qDataBefore)) {
-  #     warning("'n' is higher than the number of rows of datasets. 
-  #     Set to number of rows.")
-  #     n <- nrow(qDataBefore)
-  # }
   # Truncate dataset
   ind <- sample(seq_len(nrow(qDataBefore)), min(n, length(subset.view)))
   keyId <- keyId[ind]
@@ -122,7 +114,6 @@ compareNormalizationD_HC <- function(
       qDataAfter <- qDataAfter[ind, ]
     }
   }
-  #}
   
   myColors <- NULL
   if (is.null(pal)) {

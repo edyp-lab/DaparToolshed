@@ -82,7 +82,7 @@ setMethod(
             write2excel(
                 object[[i]],
                 filename,
-                design.qf(object),
+                design_qf(object),
               writeColData = writeColdData,
                 ...
             )
@@ -107,7 +107,7 @@ setMethod(
       exp.design, 
       writeColData = TRUE,
       ...) {
-        .write2excel(object, 
+        write2excelSE(object, 
           filename, 
           exp.design, 
           writeColData = writeColData, 
@@ -134,7 +134,7 @@ setMethod(
 #' @import SummarizedExperiment
 #' @importFrom stats setNames
 #' 
-.write2excel <- function(object, 
+write2excelSE <- function(object, 
   filename, 
   exp.design,
   writeColData = TRUE) {
@@ -160,7 +160,7 @@ setMethod(
       qMetacell(object)
     )
     
-     mc <- metacell.def(typeDataset(object))
+     mc <- metacellDef(typeDataset(object))
     
     unique.tags <- unique(unlist(unname(tags)))
     
@@ -173,7 +173,6 @@ setMethod(
     i.sheet <- 2
 
     # Write only one-dimensional slots
-    # browser()
     openxlsx::addWorksheet(wb, "Exp. design")
     openxlsx::writeData(wb,
         sheet = i.sheet,
@@ -191,12 +190,10 @@ setMethod(
     tags[, ] <- "blank"
     tags$quantCols <- exp.design$Condition
     tags$Condition <- exp.design$Condition
-
+    
     addColors(wb, i.sheet, tags, colors)
-
-    #
-    # ## Add the experimental design to the third sheet
-
+    
+    # Add the experimental design to the third sheet
     n <- 3
     oneDim <- which(lapply(rowData(object), is.vector) == 1)
     new.rowData <- rowData(object)[, oneDim]
@@ -209,8 +206,7 @@ setMethod(
         ),
         rowNames = FALSE
     )
-
-
+    
     # Add the qMetacell information
     n <- 4
     new.rowData <- qMetacell(object)
@@ -240,38 +236,8 @@ setMethod(
     test <- test[which(!is.na(test))]
     colors <- as.list(stats::setNames(mc$color, mc$node))
     
-    
-    
     addColors(wb, n, tags, colors[unique.tags[test]])
     
-    
-    
-    # Add the row data for the last SE only (which is supposed to collect
-    # all the rowDatas of the previous SE
-    # if (writeColData) {
-    #   n <- 5
-    # openxlsx::addWorksheet(wb, "rowData")
-    # openxlsx::writeData(wb,
-    #   sheet = n,
-    #   rowData(object),
-    #   rowNames = TRUE
-    # )
-    # 
-    # 
-    # colors <- as.list(stats::setNames(mc$color, mc$node))
-    # tags <- cbind(
-    #   keyId = rep("identified", nrow(new.rowData)),
-    #   new.rowData
-    # )
-    # 
-    # tags[, ] <- "identified"
-    # tags[, 1 + seq_len(ncol(new.rowData))] <- new.rowData
-    # 
-    # addColors(wb, n, tags, colors)
-
-#}
-    
-
     openxlsx::saveWorkbook(wb, name, overwrite = TRUE)
     
     return(name)

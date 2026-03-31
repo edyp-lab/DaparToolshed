@@ -46,7 +46,7 @@ plotCompareAssays <- function(obj,
   n = 100,
   type = "scatter") {
   
-  pkgs.require('highcharter')
+  pkgsRequire('highcharter')
     if (missing(obj)) {
         stop("'obj' is missing")
     }
@@ -54,7 +54,7 @@ plotCompareAssays <- function(obj,
     
     qdata1 <- SummarizedExperiment::assay(obj[[i]])
     qdata2 <- SummarizedExperiment::assay(obj[[j]])
-    conds <- design.qf(obj)$Condition
+    conds <- design_qf(obj)$Condition
     
    
     if (nrow(qdata1) != nrow(qdata2) || 

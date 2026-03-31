@@ -16,6 +16,10 @@
 #' The original dataset is available as a CSV file
 #' (see inst/extdata/Exp1_R25_prot_100.txt). In the latter case, 
 #' the quantitative data are those of the raw intensities.
+#' 
+#' This dataset is a subset containing the first 100 proteins from the original 
+#' dataset, which comes from: https://doi.org/10.1002/pmic.201500189
+#' 
 #' @usage data(subR25prot)
 #' @return An object of class `QFeatures` related to proteins
 #' quantification.
@@ -65,6 +69,10 @@ NULL
 #' The original dataset is available as a CSV file
 #' (see inst/extdata/Exp1_R25_pept_100.txt). In the latter case, 
 #' the quantitative data are those of the raw intensities.
+#' 
+#' This dataset is a subset containing the first 100 peptides from the original 
+#' dataset, which comes from: https://doi.org/10.1002/pmic.201500189
+#' 
 #' @usage data(subR25pept)
 #' @return An object of class `QFeatures` related to proteins
 #' quantification.

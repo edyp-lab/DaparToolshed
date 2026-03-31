@@ -26,7 +26,7 @@
 #'
 ExtendPalette <- function(n = 0, base = "Set1") {
   
-  pkgs.require(c('grDevices', 'RColorBrewer', "utils"))
+  pkgsRequire(c('grDevices', 'RColorBrewer', "utils"))
   
   if(is.null(base))
     base <- "Set1"
@@ -38,7 +38,8 @@ ExtendPalette <- function(n = 0, base = "Set1") {
   
   limit <- nMaxColors * (nMaxColors - 1) / 2
   if (n > limit) {
-    stop("Number of colors exceed limit of ", limit, " colors per palette.")
+    msg <- paste0("Number of colors exceed limit of ", limit, " colors per palette.")
+    stop(msg)
   }
   
   if (n > nMaxColors) {
@@ -70,8 +71,8 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #'
 #' @examples
 #' data(subR25pept)
-#' GetColorsForConditions(design.qf(subR25pept)$Condition)
-#' GetColorsForConditions(design.qf(subR25pept)$Condition, ExtendPalette(2))
+#' GetColorsForConditions(design_qf(subR25pept)$Condition)
+#' GetColorsForConditions(design_qf(subR25pept)$Condition, ExtendPalette(2))
 #'
 #' @export
 #' 
@@ -81,7 +82,7 @@ ExtendPalette <- function(n = 0, base = "Set1") {
 #'
 GetColorsForConditions <- function(conds, pal = NULL) {
   
-  pkgs.require('RColorBrewer')
+  pkgsRequire('RColorBrewer')
   
   
   if (missing(conds)) {

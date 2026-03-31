@@ -24,7 +24,7 @@ Actually, this function uses the generic function to generate metacell info
 }
 \examples{
 data(subR25pept)
-conds <- design.qf(subR25pept)$Condition
+conds <- design_qf(subR25pept)$Condition
 qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 df <- Metacell_DIA_NN(qdata, conds, df, level = "peptide")
 

@@ -41,7 +41,7 @@ hc_logFC_DensityPlot <- function(
     th_logFC = 0,
     pal = NULL) {
   
-  pkgs.require(c("RColorBrewer", "grDevices"))
+  pkgsRequire(c("RColorBrewer", "grDevices"))
   
   if (th_logFC < 0) {
     warning("The parameter 'th_logFC' must be positive or equal to zero.")
@@ -144,9 +144,7 @@ hc_logFC_DensityPlot <- function(
       labelOptions = list(
         shape = "connector",
         backgroundColor = "lightgrey",
-        # verticalAlign = 'bottom',
         align = "left",
-        # distance=0,
         style = list(
           fontSize = "1.5em",
           textOutline = "1px white"

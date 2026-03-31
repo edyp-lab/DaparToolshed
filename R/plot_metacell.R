@@ -19,7 +19,7 @@
 #' 
 #' @examplesIf interactive()
 #' data(subR25prot)
-#' grp <- design.qf(subR25prot)$Condition
+#' grp <- design_qf(subR25prot)$Condition
 #' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
 #' metacellPerLinesHisto_HC(subR25prot[[1]])
 #' metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
@@ -74,7 +74,7 @@ metacellPerLinesHisto_HC <- function(obj,
     indLegend <- seq.int(from = 2, to = length(group))
   }
   
-  mask <- match.metacell(qMetacell(obj), 
+  mask <- matchMetacell(qMetacell(obj), 
                          pattern = pattern, 
                          level = typeDataset(obj))
   
@@ -173,7 +173,7 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
   )))
   
   
-  mask <- match.metacell(qMetacell(obj), 
+  mask <- matchMetacell(qMetacell(obj), 
                          pattern = pattern, 
                          level = typeDataset(obj))
   
@@ -198,7 +198,7 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
     } else {
       t <- table(rowSums(mask[, which(group == i)]))
     }
-    #browser()
+    
     df[as.integer(names(t)) + 1, "y"] <- t
     df[as.integer(names(t)) + 1, "y_percent"] <- round(100 * t / nrow(SummarizedExperiment::assay(obj)), digits = 2)
     
@@ -280,7 +280,7 @@ metacellHisto_HC <- function(obj,
   
   
   
-  mask <- match.metacell(qMetacell(obj), 
+  mask <- matchMetacell(qMetacell(obj), 
                          pattern = pattern, 
                          level = typeDataset(obj))
   if (length(mask) == 0)
@@ -337,7 +337,7 @@ metacellHisto_HC <- function(obj,
 #' @export
 #' @import QFeatures
 #'
-wrapper.mvImage <- function(obj, 
+wrapperMVImage <- function(obj, 
   group = NULL,
   pattern = "Missing MEC") {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
@@ -345,7 +345,7 @@ wrapper.mvImage <- function(obj,
   if (is.null(group))
     return(NULL)
   
-  indices <- which(apply(match.metacell(
+  indices <- which(apply(matchMetacell(
     qMetacell(obj), 
     pattern, 
     level = typeDataset(obj)),
@@ -383,7 +383,7 @@ wrapper.mvImage <- function(obj,
 #' @author Samuel Wieczorek, Thomas Burger
 #' @examples
 #' data(subR25pept)
-#' mvImage(subR25pept[[1]], design.qf(subR25pept)$Condition)
+#' mvImage(subR25pept[[1]], design_qf(subR25pept)$Condition)
 #'
 #' @export
 #' 
@@ -394,7 +394,7 @@ wrapper.mvImage <- function(obj,
 #'
 mvImage <- function(obj, group) {
   
-  pkgs.require(c('grDevices'))
+  pkgsRequire(c('grDevices'))
   
   ### build indices of conditions
   indCond <- list()
@@ -433,8 +433,6 @@ mvImage <- function(obj, group) {
                           ylab = "Peptides / proteins",
                           main = "MEC heatmap"
   )
-  
-  # heatmap_HC(exprso,col = colfunc(100),labCol=conds)
 }
 
 
@@ -464,10 +462,10 @@ mvImage <- function(obj, group) {
 #'
 #' @examples
 #' data()
-#' pal <- ExtendPalette(length(unique(design.qf(subR25pept)$Condition)), "Dark2")
+#' pal <- ExtendPalette(length(unique(design_qf(subR25pept)$Condition)), "Dark2")
 #' pattern <- "Missing MEC"
 #' hc_mvTypePlot2(subR25pept[[1]], 
-#' group = design.qf(subR25pept)$Condition, 
+#' group = design_qf(subR25pept)$Condition, 
 #' pattern = pattern, pal = pal)
 #'
 #' @import highcharter
@@ -515,7 +513,7 @@ hc_mvTypePlot2 <- function(obj,
     if (length(which(group == iCond)) == 1) {
       mTemp[, iCond] <- qdata[, which(group == iCond)]
       nbNA[, iCond] <- as.integer(
-        match.metacell(qMetacell(obj)[, which(group == iCond)],
+        matchMetacell(qMetacell(obj)[, which(group == iCond)],
                        pattern = pattern,
                        level = typeDataset(obj))
       )
@@ -528,7 +526,7 @@ hc_mvTypePlot2 <- function(obj,
       mTemp[, iCond] <- apply(SummarizedExperiment::assay(obj)[, .qcond], 1, mean, na.rm = TRUE)
       
       nbNA[, iCond] <- rowSums(
-        match.metacell(qMetacell(obj)[, .qcond],
+        matchMetacell(qMetacell(obj)[, .qcond],
                        pattern = pattern,
                        level = typeDataset(obj))
       )

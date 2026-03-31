@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' data(subR25pept)
-#' design.qf(subR25pept)
+#' design_qf(subR25pept)
 NULL
 
 
@@ -54,7 +54,7 @@ setGeneric("qMetacell<-",
 setMethod(
     "qMetacell", "QFeatures",
     function(object, i) {
-        .GetRowdataSlot(object[[i]], "qMetacell")
+        GetRowdataSlot(object[[i]], "qMetacell")
     }
 )
 
@@ -67,7 +67,7 @@ setMethod(
     "qMetacell", "SummarizedExperiment",
   #' @param object n instance of class `QFeatures` or `SummarizedExperiment`
     function(object) {
-        .GetRowdataSlot(object, "qMetacell")
+        GetRowdataSlot(object, "qMetacell")
     }
 )
 
@@ -83,29 +83,26 @@ setMethod(
         stop("The DataFrame must have row and column names.")
     }
     ## Coerse to a data.frame
-    # value <- as(value, "data.frame")
     if (inherits(object, "SummarizedExperiment")) {
         if (!identical(rownames(value), rownames(object))) {
             stop("Row names of the SummarizedExperiment and the DataFrame must match.")
         }
-        # if (slotName %in% colnames(rowData(object)))
-        #  stop("Found an existing variable ", slotName, ".")
       SummarizedExperiment::rowData(object)[[slotName]] <- value
         return(object)
     } else {
-    if (inherits(object, "QFeatures"))
-      {
+    if (inherits(object, "QFeatures")) {
       if (length(i) != 1) {
         stop("'i' must be of length one. Repeat the call to add a matrix to multiple assays.")
-    }
-    if (is.numeric(i) && i > length(object)) {
+      }
+      if (is.numeric(i) && i > length(object)) {
         stop("Subscript is out of bounds.")
-    }
-    if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
-    }
-    
-    qMetacell(object[[i]], slotName) <- value
+      }
+      if (is.character(i) && !(i %in% names(object))) {
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
+      }
+      
+      qMetacell(object[[i]], slotName) <- value
     }
 }
     return(object)
@@ -141,105 +138,24 @@ setMethod(
   "GetUniqueTags", "SummarizedExperiment",
   function(object) {
     df <- qMetacell(object)
-    tmp <- sapply(colnames(df), function(x) unique(df[,x]))
-    ll <- unique(as.vector(tmp))
+    ll <- unique(unlist(df))
     return(ll)
   }
 )
-
-
-
-
-
-
-
-# 
-# 
-# #' @exportMethod adjacencyMatrix
-# #' @rdname QFeatures-accessors
-# #' @return NA
-# setMethod(
-#   "adjacencyMatrix", "QFeatures",
-#   function(object, i, slotName = "adjacencyMatrix") {
-#     lapply(
-#       object[[i]],
-#       function(x) {
-#         .GetRowdataSlot(x, slotName = slotName)
-#       }
-#     )
-#   }
-# )
-# 
-# 
-# 
-# 
-# #' @export
-# #' @rdname QFeatures-accessors
-# #' @return NA
-# setMethod(
-#   "adjacencyMatrix", "SummarizedExperiment",
-#   function(object, slotName = "adjacencyMatrix") {
-#     .GetRowdataSlot(object, slotName)
-#   }
-# )
-# 
-# 
-# 
-# #' @export
-# #' @rdname QFeatures-accessors
-# #' @return NA
-# "adjacencyMatrix<-" <- function(object,
-#                           i,
-#                           slotName = "adjacencyMatrix",
-#                           value) {
-#   if (is.null(colnames(value)) | is.null(rownames(value))) {
-#     stop("The DataFrame must have row and column names.")
-#   }
-#   ## Coerse to a data.frame
-#   # value <- as(value, "data.frame")
-#   if (inherits(object, "SummarizedExperiment")) {
-#     if (!identical(rownames(value), rownames(object))) {
-#       stop("Row names of the SummarizedExperiment and the DataFrame 
-#                 must match.")
-#     }
-#     # if (slotName %in% colnames(rowData(object)))
-#     #  stop("Found an existing variable ", slotName, ".")
-#     rowData(object)[[slotName]] <- value
-#     return(object)
-#   }
-#   stopifnot(inherits(object, "QFeatures"))
-#   if (length(i) != 1) {
-#    stop("'i' must be of length one. Repeat the call to add a matrix to 
-#             multiple assays.")
-#  }
-#   if (is.numeric(i) && i > length(object)) {
-#    stop("Subscript is out of bounds.")
-#   }
-#   if (is.character(i) && !(i %in% names(object))) {
-#     stop("Assay '", i, "' not found.")
-#   }
-#   se <- object[[i]]
-#   object[[i]] <- adjacencyMatrix(se, slotName) <- value
-#   return(object)
-# }
-
-
-
-
 
 
 #' @importFrom S4Vectors metadata
 #' @return NA
 #' @rdname QFeatures-accessors
 #' @export
-.GetMetadataSlot <- function(object, slotName = NULL) {
+GetMetadataSlot <- function(object, slotName = NULL) {
     S4Vectors::metadata(object)[[slotName]]
 }
 
 
 #' @return NA
 #' @rdname QFeatures-accessors
-.GetRowdataSlot <- function(object, slotName = NULL) {
+GetRowdataSlot <- function(object, slotName = NULL) {
   SummarizedExperiment::rowData(object)[[slotName]]
 }
 
@@ -257,7 +173,7 @@ setGeneric("ConnectedComp<-",
 setMethod("ConnectedComp", "QFeatures",
           function(object, i, slotName = "ConnectedComp") {
             lapply(object[[i]],
-                   .GetMetadataSlot,
+                   GetMetadataSlot,
                    slotName = slotName
             )
           }
@@ -269,7 +185,7 @@ setMethod("ConnectedComp", "QFeatures",
 #' @import SummarizedExperiment
 setMethod("ConnectedComp", "SummarizedExperiment",
           function(object, slotName = "ConnectedComp") {
-            .GetMetadataSlot(object, slotName)
+            GetMetadataSlot(object, slotName)
           }
 )
 
@@ -282,20 +198,20 @@ setMethod("ConnectedComp", "SummarizedExperiment",
     return(object)
   } else {
     if(inherits(object, "QFeatures")){
-  
-  if (length(i) != 1) {
-    stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-  }
-  if (is.numeric(i) && i > length(object)) {
-    stop("Subscript is out of bounds.")
-  }
-  if (is.character(i) && !(i %in% names(object))) {
-    stop("Assay '", i, "' not found.")
-  }
-  
-  se <- object[[i]]
-  S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      if (length(i) != 1) {
+        stop("'i' must be of length one. Repeat the call to add a matrix to 
+                multiple assays.")
+      }
+      if (is.numeric(i) && i > length(object)) {
+        stop("Subscript is out of bounds.")
+      }
+      if (is.character(i) && !(i %in% names(object))) {
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
+      }
+      
+      se <- object[[i]]
+      S4Vectors::metadata(object[[i]])[[slotName]] <- value
     }
   }
   return(object)
@@ -314,7 +230,7 @@ setGeneric("typeDataset<-",
 setMethod("typeDataset", "QFeatures",
     function(object, i, slotName = "typeDataset") {
         lapply(object[[i]],
-            .GetMetadataSlot,
+            GetMetadataSlot,
             slotName = slotName
         )
     }
@@ -323,7 +239,7 @@ setMethod("typeDataset", "QFeatures",
 #' @rdname QFeatures-accessors
 setMethod("typeDataset", "SummarizedExperiment",
     function(object, slotName = "typeDataset") {
-        .GetMetadataSlot(object, slotName)
+        GetMetadataSlot(object, slotName)
     }
 )
 
@@ -337,14 +253,15 @@ setMethod("typeDataset", "SummarizedExperiment",
     } else {
       if(inherits(object, "QFeatures")){
           if (length(i) != 1) {
-              stop("'i' must be of length one. Repeat the call to add a matrix to 
-                multiple assays.")
+            stop("'i' must be of length one. Repeat the call to add a matrix to 
+                 multiple assays.")
           }
           if (is.numeric(i) && i > length(object)) {
-              stop("Subscript is out of bounds.")
+            stop("Subscript is out of bounds.")
           }
           if (is.character(i) && !(i %in% names(object))) {
-              stop("Assay '", i, "' not found.")
+            msg <- paste0("Assay '", i, "' not found.")
+            stop(msg)
           }
           se <- object[[i]]
           S4Vectors::metadata(object[[i]])[[slotName]] <- value
@@ -368,7 +285,7 @@ setMethod(
     function(object, i, slotName = "idcol") {
         stopifnot(!is.null(object))
         lapply(object[[i]],
-            .GetMetadataSlot,
+            GetMetadataSlot,
             slotName = slotName
         )
     }
@@ -378,7 +295,7 @@ setMethod(
 setMethod(
     "idcol", "SummarizedExperiment",
     function(object, slotName = "idcol") {
-        .GetMetadataSlot(object, slotName)
+        GetMetadataSlot(object, slotName)
     }
 )
 
@@ -391,18 +308,19 @@ setMethod(
         return(object)
     } else {
       if (inherits(object, "QFeatures")){
-    if (length(i) != 1) {
-        stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-    }
-    if (is.numeric(i) && i > length(object)) {
-        stop("Subscript is out of bounds.")
-    }
-    if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
-    }
-    se <- object[[i]]
-    S4Vectors::metadata(object[[i]])[[slotName]] <- value
+        if (length(i) != 1) {
+          stop("'i' must be of length one. Repeat the call to add a matrix to 
+               multiple assays.")
+        }
+        if (is.numeric(i) && i > length(object)) {
+          stop("Subscript is out of bounds.")
+        }
+        if (is.character(i) && !(i %in% names(object))) {
+          msg <- paste0("Assay '", i, "' not found.")
+          stop(msg)
+        }
+        se <- object[[i]]
+        S4Vectors::metadata(object[[i]])[[slotName]] <- value
       }
     }
     return(object)
@@ -431,7 +349,7 @@ setMethod(
     "parentProtId", "SummarizedExperiment",
     function(object, slotName = "parentProtId") {
         if (typeDataset(object) == "peptide") {
-            .GetMetadataSlot(object, slotName)
+            GetMetadataSlot(object, slotName)
         }
     }
 )
@@ -447,23 +365,24 @@ setMethod(
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
     } else {
-    if(inherits(object, "QFeatures")){
-    if (typeDataset(object[[i]]) != "peptide") {
-        stop("The dataset must contain peptides.")
-    }
-    if (length(i) != 1) {
-        stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-    }
-    if (is.numeric(i) && i > length(object)) {
-        stop("Subscript is out of bounds.")
-    }
-    if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
-    }
-    se <- object[[i]]
-    S4Vectors::metadata(object[[i]])[[slotName]] <- value
-    }
+      if(inherits(object, "QFeatures")){
+        if (typeDataset(object[[i]]) != "peptide") {
+          stop("The dataset must contain peptides.")
+        }
+        if (length(i) != 1) {
+          stop("'i' must be of length one. Repeat the call to add a matrix to 
+               multiple assays.")
+        }
+        if (is.numeric(i) && i > length(object)) {
+          stop("Subscript is out of bounds.")
+        }
+        if (is.character(i) && !(i %in% names(object))) {
+          msg <- paste0("Assay '", i, "' not found.")
+          stop(msg)
+        }
+        se <- object[[i]]
+        S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      }
     }
     return(object)
 }
@@ -483,7 +402,7 @@ setGeneric("filename<-",
 setMethod(
   "filename", "QFeatures",
   function(object, slotName = "filename") {
-    .GetMetadataSlot(object, slotName)
+    GetMetadataSlot(object, slotName)
     }
 )
 
@@ -523,7 +442,7 @@ setMethod(
 setMethod(
     "analysis", "SummarizedExperiment",
     function(object, slotName = "analysis") {
-        .GetMetadataSlot(object, slotName)
+        GetMetadataSlot(object, slotName)
     }
 )
 
@@ -535,20 +454,21 @@ setMethod(
         S4Vectors::metadata(object)[[slotName]] <- value
         return(object)
     } else {
-    if (inherits(object, "QFeatures")){
-    if (length(i) != 1) {
-        stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-    }
-    if (is.numeric(i) && i > length(object)) {
-        stop("Subscript is out of bounds.")
-    }
-    if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
-    }
-    se <- object[[i]]
-    S4Vectors::metadata(object[[i]])[[slotName]] <- value
-    }
+      if (inherits(object, "QFeatures")){
+        if (length(i) != 1) {
+          stop("'i' must be of length one. Repeat the call to add a matrix to 
+               multiple assays.")
+        }
+        if (is.numeric(i) && i > length(object)) {
+          stop("Subscript is out of bounds.")
+        }
+        if (is.character(i) && !(i %in% names(object))) {
+          msg <- paste0("Assay '", i, "' not found.")
+          stop(msg)
+        }
+        se <- object[[i]]
+        S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      }
     }
     return(object)
 }
@@ -568,7 +488,7 @@ setGeneric("version<-",
 setMethod(
     "version", "QFeatures",
     function(object, slotName = "version") {
-        .GetMetadataSlot(object, slotName = slotName)
+        GetMetadataSlot(object, slotName = slotName)
     }
 )
 
@@ -585,15 +505,15 @@ setMethod(
 
 
 #' @rdname QFeatures-accessors
-setGeneric("design.qf", 
-  function(object, ...) standardGeneric("design.qf"))
-setGeneric("design.qf<-", 
-  function(object, ..., value) standardGeneric("design.qf<-"))
+setGeneric("design_qf", 
+  function(object, ...) standardGeneric("design_qf"))
+setGeneric("design_qf<-", 
+  function(object, ..., value) standardGeneric("design_qf<-"))
 
-#' @exportMethod design.qf
+#' @exportMethod design_qf
 #' @rdname QFeatures-accessors
 setMethod(
-    "design.qf", "QFeatures",
+    "design_qf", "QFeatures",
     function(object, slotName = "design") {
       SummarizedExperiment::colData(object)
     }
@@ -603,7 +523,7 @@ setMethod(
 
 #' @export
 #' @rdname QFeatures-accessors
-"design.qf<-" <- function(object, slotName = "design", value) {
+"design_qf<-" <- function(object, slotName = "design", value) {
     stopifnot(inherits(object, "QFeatures"))
   SummarizedExperiment::colData(object)@listData <- value
     return(object)
@@ -663,7 +583,8 @@ setMethod(
         stop("Subscript is out of bounds.")
       }
       if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
       }
       # se <- object[[i]]
       SummarizedExperiment::rowData(object[[i]])["HypothesisTest"] <- value
@@ -725,9 +646,9 @@ setMethod(
         stop("Subscript is out of bounds.")
       }
       if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
       }
-      # se <- object[[i]]
       SummarizedExperiment::rowData(object[[i]])["DifferentialAnalysis"] <- value
     }
   }
@@ -757,7 +678,7 @@ setMethod(
 setMethod(
   "names_metacell", "SummarizedExperiment",
   function(object, slotName = "names_metacell") {
-    .GetMetadataSlot(object, slotName)
+    GetMetadataSlot(object, slotName)
     }
 )
 
@@ -770,18 +691,19 @@ setMethod(
     return(object)
   } else {
     if(inherits(object, "QFeatures")){
-        if (length(i) != 1) {
-      stop("'i' must be of length one. Repeat the call to add a matrix to 
-            multiple assays.")
-  }
-  if (is.numeric(i) && i > length(object)) {
-    stop("Subscript is out of bounds.")
-  }
-  if (is.character(i) && !(i %in% names(object))) {
-    stop("Assay '", i, "' not found.")
-  }
-  se <- object[[i]]
-  S4Vectors::metadata(object[[i]])[[slotName]] <- value
+      if (length(i) != 1) {
+        stop("'i' must be of length one. Repeat the call to add a matrix to 
+             multiple assays.")
+      }
+      if (is.numeric(i) && i > length(object)) {
+        stop("Subscript is out of bounds.")
+      }
+      if (is.character(i) && !(i %in% names(object))) {
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
+      }
+      se <- object[[i]]
+      S4Vectors::metadata(object[[i]])[[slotName]] <- value
     }
   }
   return(object)
@@ -801,7 +723,7 @@ NAIsZero <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))
   assay(obj[[i]])[which(is.na(assay(obj[[i]])))] <- 0
   
-  m <- match.metacell(
+  m <- matchMetacell(
     qMetacell(obj[[i]]),
     pattern = c("Missing", "Missing POV", "Missing MEC"),
     level = typeDataset(obj[[i]])

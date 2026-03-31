@@ -39,6 +39,13 @@ This vignette describes a complete precursor- or peptide-level workflow.
 
 This package is used by the `Prostar2` package, which provides a user-friendly graphical interfaces, so that programming skill is not required to achieve the data analysis.
 
+## Installation
+
+```{r install, message = FALSE, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("DaparToolshed")
+```
 
 ```{r setup, message = FALSE}
 library(DaparToolshed)
@@ -93,7 +100,7 @@ This filtering can be done using information contained in quantitative data tags
 
 ```{r metadataaccess, message = FALSE}
  #quantitative data tags
-  head(qMetacell(obj[[length(obj)]]))
+head(qMetacell(obj[[length(obj)]]))
 
  #metadata
 head(SummarizedExperiment::rowData(obj[[length(obj)]]), n = 3)
@@ -181,7 +188,7 @@ compareNormalizationD_HC(
   qDataBefore = SummarizedExperiment::assay(obj1),
   qDataAfter = SummarizedExperiment::assay(obj2),
   keyId = SummarizedExperiment::rowData(obj1)[, protId],
-  conds = DaparToolshed::design.qf(obj)$Condition,
+  conds = DaparToolshed::design_qf(obj)$Condition,
   n = .n,
   subset.view = .subset
 )
@@ -195,9 +202,9 @@ It is common to face a significant number of missing values. To overcome this pr
 First, it is interesting to look at the quantity and distribution of missing values. The `metacellPerLinesHisto_HC()` and `metacellPerLinesHistoPerCondition_HC()` functions give access to the number of rows containing a given number of missing values, respectively for all samples and within each condition. These functions use the quantitative data tags described above.
 
 ```{r missingvalueplots, warning=FALSE}
-pal <- unique(GetColorsForConditions(design.qf(obj)$Condition))
+pal <- unique(GetColorsForConditions(design_qf(obj)$Condition))
 pattern <- c("Missing MEC", "Missing POV")
-grp <- design.qf(obj)$Condition
+grp <- design_qf(obj)$Condition
 
  #number of line with different amount of NA
 metacellPerLinesHisto_HC(obj[[length(obj)]], group = grp, pattern = pattern)
@@ -213,10 +220,10 @@ It can be observed that the distribution tends to shift towards higher values wh
 hc_mvTypePlot2(obj[[length(obj)]], group = grp, pattern = pattern, pal = pal)
 ```
 
-Numerous imputation methods exist. Here, data imputation is performed using the `wrapper.pirat()` function, which is a wrapper for the `Pirat` method. `Pirat` is an imputation method that uses a penalized maximum likelihood strategy and accounts for sibling peptide correlations (@etourneau_penalized_2024). It does not require any parameter tuning. For more information on this method, see the [Pirat](https://www.bioconductor.org/packages/release/bioc/html/Pirat.html) package.
+Numerous imputation methods exist. Here, data imputation is performed using the `wrapperPirat()` function, which is a wrapper for the `Pirat` method. `Pirat` is an imputation method that uses a penalized maximum likelihood strategy and accounts for sibling peptide correlations (@etourneau_penalized_2024). It does not require any parameter tuning. For more information on this method, see the [Pirat](https://www.bioconductor.org/packages/release/bioc/html/Pirat.html) package.
 
 ```{r imputation, message = FALSE}
-obj <- wrapper.pirat(data = obj,
+obj <- wrapperPirat(data = obj,
                      adjmat = SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix,
                      extension = "base")
 
@@ -234,11 +241,11 @@ Beforehand, it may be useful to look at the dataset in more details and to choos
 X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
 info_pept <- getProteinsStats(X)
 
-cat("Total number of peptides : ", info_pept$nbPeptides, "\n",
+message("Total number of peptides : ", info_pept$nbPeptides, "\n",
     "Number of specific peptides : ", info_pept$nbSpecificPeptides, "\n",
     "Number of shared peptides : ", info_pept$nbSharedPeptides, "\n")
 
-cat("Total number of proteins : ", info_pept$nbProt, "\n",
+message("Total number of proteins : ", info_pept$nbProt, "\n",
     "Number of protein with only specific peptides : ", length(info_pept$protOnlyUniquePep), "\n",
     "Number of protein with only shared peptides : ", length(info_pept$protOnlySharedPep), "\n",
     "Number of protein with both : ", length(info_pept$protMixPep), "\n")
@@ -293,7 +300,7 @@ The first step in differential analysis is null hypothesis testing, which provid
 
 ```{r limma}
 res_pval_FC <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), 
-                                 design.qf(obj), 
+                                 design_qf(obj), 
                                  comp.type = "OnevsOne")
 
 str(res_pval_FC)
@@ -335,7 +342,7 @@ pval <- pushpvalue(obj,
                    threshold = 5,
                    operator = ">=")
 
-cat("Number of pushed p-values : ", length(which(pval > 1)), "\n")
+message("Number of pushed p-values : ", length(which(pval > 1)), "\n")
 ```
 
 ## P-value calibration
@@ -424,13 +431,13 @@ logpval_thpval_ind <- setdiff(logpval_thpval_ind, pval_logfc_inf_ind)
 fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
 
  #determine differentially abundant proteins
-isDifferential <- is.differential(pvalue = pval,
+isDifferential <- isDifferential(pvalue = pval,
                                  logFC = res_pval_FC$logFC,
                                  thpvalue = FDRcontrol_thpval,
                                  thlogFC = Foldchange_thlogFC)
 NbSignificant <- length(which(isDifferential == 1))
 
-cat("pvalue threshold : ", pval_threshold, "\n",
+message("pvalue threshold : ", pval_threshold, "\n",
     "logpvalue threshold : ", FDRcontrol_thpval, "\n",
     "FDR : ", round(100*fdr, 2), "%\n",
     "Number significant proteins : ", NbSignificant, "\n",
@@ -453,7 +460,7 @@ if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_",
                                       colnames(df)[4:ncol(df)])
 }
-cond <- unique(design.qf(obj)$Condition)
+cond <- unique(design_qf(obj)$Condition)
 
  #volcano plot
 diffAnaVolcanoplot_rCharts(

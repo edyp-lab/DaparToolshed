@@ -1,8 +1,8 @@
 Package: DaparToolshed
 Type: Package
 Title: Tools for the Differential Analysis of Proteins Abundance with R
-Version: 0.99.30
-Date: 2026-03-03
+Version: 0.99.31
+Date: 2026-03-30
 Authors@R: c(
     person(given = "Samuel", family = "Wieczorek",
     email = "samuel.wieczorek@cea.fr", role = c("cre", "aut"),
@@ -122,7 +122,7 @@ Collate:
     utils.R
     pepa.R
     global.R
-    zzz.R
+    initialization.R
     palette.R
     shinyValue.R
     get_pep_prot_cc.R

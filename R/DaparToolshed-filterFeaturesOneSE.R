@@ -167,17 +167,19 @@ setMethod(
     "filterFeaturesOneSE", "QFeatures",
     function(object, i, name = "newAssay", filters) {
         if (length(object) == 0) {
-            return(object)
+          return(object)
         }
         if (name %in% names(object)) {
-            stop("There's already an assay named '", name, "'.")
+          msg <- paste0("There's already an assay named '", name, "'.")
+          stop(msg)
         }
         if (missing(i)) {
-            i <- length(object)
+          i <- length(object)
         }
 
         if (missing(filters)) {
-            return(object)
+          warning("Missing 'filters', object returned as is.")
+          return(object)
         }
       
         ## Create the filtered assay

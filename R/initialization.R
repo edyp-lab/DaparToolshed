@@ -1,10 +1,5 @@
-.onLoad <- function(libname, pkgname) {
-    # shiny::addResourcePath(
-    #     prefix = "images",
-    #     directoryPath = system.file("images",package = "DaparToolshed")
-    # )
-  
-  #library(QFeatures)
+onLoad <- function(libname, pkgname) {
+
 }
 
 

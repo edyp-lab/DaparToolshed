@@ -1,18 +1,3 @@
-
-# 
-# Build_CC_list <- function(matAdj){
-#   require(Matrix)
-#   
-#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = TRUE))
-#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = FALSE))
-#   
-#   return(
-#     list(allPep = ll1,
-#          onlyUniquePep = ll2)
-#   )
-# }
-
-
 #' @title Build the list of connex composant of the adjacency matrix
 #'
 #' @param X An adjacency matrix
@@ -24,21 +9,20 @@
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #'
 #' @export
 #' @importFrom Matrix crossprod Matrix
 #' @importFrom igraph components graph.adjacency
 #' @importFrom graph graphAM connComp 
 #'
-get.pep.prot.cc <- function(X) {
+getPepProtCC <- function(X) {
   
   if (is.null(X)) {
     warning("The adjacency matrix is empty")
     return()
   }
   
-  # X <- as.matrix(X)
   p <- dim(X)[2] # Nb proteins
   q <- dim(X)[1] # Nb peptides
   
@@ -47,11 +31,7 @@ get.pep.prot.cc <- function(X) {
   A <- B <- g <- NULL
   ### Adjacency matrix construction
   # boolean matrix product
-  #print("Start computing boolean matrix product")
   A <- Matrix::crossprod(X, boolArith = TRUE)
-  # A <- as.matrix(t(X) %*% X)
-  # A <- as.matrix(t(X) %&% X)
-  #print("End of computing boolean matrix product")
   # remove self-connecting edges
   diag(A) <- rep(0, p)
   # goes back to classical matrix format
@@ -80,20 +60,6 @@ get.pep.prot.cc <- function(X) {
     # Remove all single-prot CC
     B <- A[-SingleProt.CC.id, -SingleProt.CC.id]
     
-    ### Protein CCs
-    # multprot.cc <- NULL
-    # g <- graph::graphAM(B, edgemode='undirected', values=NA)
-    # multprot.cc <- graph::connComp(as(g, 'graphNEL'))
-    #
-    # ### Peptides from multiple prot CCs
-    # multprot.cc.pep <- list()
-    # for(i in seq_len(length(multprot.cc))){
-    #   protlist <- multprot.cc[[i]]
-    #   subX <- as.matrix(X[,protlist])
-    #   peplist <- which(rowSums(subX)!=0)
-    #   multprot.cc.pep[[i]] <- names(peplist)
-    # }
-    
     multprot.cc <- NULL
     g2 <- igraph::graph.adjacency(B, mode = "undirected")
     cc.igraph <- igraph::components(g2)
@@ -112,7 +78,6 @@ get.pep.prot.cc <- function(X) {
       multprot.cc.pep[[i]] <- names(peplist)
     }
   }
-  
   
   ### Merge results into a single list
   prot.cc <- c(multprot.cc, singprot.cc)
@@ -147,7 +112,7 @@ get.pep.prot.cc <- function(X) {
 
 #' @title Jitter plot of CC
 #'
-#' @param list.of.cc List of cc such as returned by the function get.pep.prot.cc
+#' @param list.of.cc List of cc such as returned by the function getPepProtCC
 #'
 #' @return A plot
 #'
@@ -156,7 +121,7 @@ get.pep.prot.cc <- function(X) {
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' plotJitter(ll)
 #'
 #' @export
@@ -166,20 +131,15 @@ plotJitter <- function(list.of.cc = NULL) {
     return()
   }
   
-  #x <- length(list.of.cc) # number of CCs
-  cc.summary <- sapply(list.of.cc, function(x) {
+  cc.summary <- vapply(list.of.cc, function(x) {
     c(length(x[[1]]), length(x[[2]]))
-  })
-  # cc.summary <- vapply(list.of.cc, 
-  #     function(x) {c(length(x[[1]]), length(x[[2]]))},
-  #     data.frame(2)
-  #     )
+  }, integer(2))
   
   rownames(cc.summary) <- c("Nb_proteins", "Nb_peptides")
   colSums(cc.summary) # total amount of pep and prot in each CC
   colnames(cc.summary) <- seq_len(length(list.of.cc))
   cc.summary
-  rowSums(cc.summary) # c(number of prot, number of pep)
+  rowSums(cc.summary) 
   
   
   cc.summary <- as.data.frame(t(jitter(cc.summary)))
@@ -207,7 +167,7 @@ plotJitter <- function(list.of.cc = NULL) {
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' g <- buildGraph(ll[[1]], X)
 #'
 #' @export
@@ -267,16 +227,16 @@ buildGraph <- function(The.CC, X) {
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' g <- buildGraph(ll[[1]], X)
-#' display.CC.visNet(g)
+#' displayCCvisNet(g)
 #'
 #' @export
 #'
 #'
-display.CC.visNet <- function(g) {
+displayCCvisNet <- function(g) {
   
-  pkgs.require('visNetwork')
+  pkgsRequire('visNetwork')
   
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"
@@ -311,7 +271,7 @@ display.CC.visNet <- function(g) {
 #' @examples 
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)[1:4]
+#' ll <- getPepProtCC(X)[seq_len(4)]
 #' n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
 #' n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
 #' df <- tibble::tibble(

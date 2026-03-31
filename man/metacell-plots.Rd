@@ -5,7 +5,7 @@
 \alias{metacellPerLinesHisto_HC}
 \alias{metacellPerLinesHistoPerCondition_HC}
 \alias{metacellHisto_HC}
-\alias{wrapper.mvImage}
+\alias{wrapperMVImage}
 \alias{mvImage}
 \alias{hc_mvTypePlot2}
 \title{Bar plot of missing values per lines using highcharter}
@@ -37,7 +37,7 @@ metacellHisto_HC(
   pal = NULL
 )
 
-wrapper.mvImage(obj, group = NULL, pattern = "Missing MEC")
+wrapperMVImage(obj, group = NULL, pattern = "Missing MEC")
 
 mvImage(obj, group)
 
@@ -100,7 +100,7 @@ and the considered condition.
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 data(subR25prot)
-grp <- design.qf(subR25prot)$Condition
+grp <- design_qf(subR25prot)$Condition
 metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Missing POV")
 metacellPerLinesHisto_HC(subR25prot[[1]])
 metacellPerLinesHisto_HC(subR25prot[[1]], group = grp, pattern = "Quantified")
@@ -135,13 +135,13 @@ pal <- ExtendPalette(2, "Dark2")
 metacellHisto_HC(subR25pept[[1]], pattern, showValues = TRUE, pal = pal)
 
 data(subR25pept)
-mvImage(subR25pept[[1]], design.qf(subR25pept)$Condition)
+mvImage(subR25pept[[1]], design_qf(subR25pept)$Condition)
 
 data()
-pal <- ExtendPalette(length(unique(design.qf(subR25pept)$Condition)), "Dark2")
+pal <- ExtendPalette(length(unique(design_qf(subR25pept)$Condition)), "Dark2")
 pattern <- "Missing MEC"
 hc_mvTypePlot2(subR25pept[[1]], 
-group = design.qf(subR25pept)$Condition, 
+group = design_qf(subR25pept)$Condition, 
 pattern = pattern, pal = pal)
 
 }

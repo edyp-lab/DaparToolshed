@@ -2,18 +2,18 @@
 % Please edit documentation in R/metacell.R
 \name{q_metacell}
 \alias{q_metacell}
-\alias{metacell.def}
+\alias{metacellDef}
 \alias{custom_metacell_colors}
 \alias{Set_POV_MEC_tags}
 \alias{Set_POV_MEC_tags2}
 \alias{Metacell_generic}
 \alias{UpdateMetacellAfterImputation}
 \alias{UpdateMetacellAfterImputation,SummarizedExperiment-method}
-\alias{search.metacell.tags}
+\alias{searchMetacellTags}
 \alias{metacombine}
 \title{Quantitative metadata vocabulary for entities}
 \usage{
-metacell.def(level)
+metacellDef(level)
 
 custom_metacell_colors()
 
@@ -27,7 +27,7 @@ UpdateMetacellAfterImputation(object, ...)
 
 \S4method{UpdateMetacellAfterImputation}{SummarizedExperiment}(object)
 
-search.metacell.tags(pattern, level, depth = "1")
+searchMetacellTags(pattern, level, depth = "1")
 
 metacombine(met, level)
 }
@@ -87,7 +87,7 @@ Gives all the tags of the metadata vocabulary containing the pattern
 (parent and all its children).
 
 Agregation rules for the cells quantitative metadata of peptides.
-Please refer to the qMetacell.def vocabulary in \code{qMetacell.def()}
+Please refer to the qmetacellDef vocabulary in \code{qmetacellDef()}
 }
 \section{Glossary}{
 
@@ -189,29 +189,29 @@ TODO
 
 \examples{
 
-metacell.def('protein')
-metacell.def('peptide')
+metacellDef('protein')
+metacellDef('peptide')
 
 library(QFeatures)
 data(subR25prot)
-conds <- design.qf(subR25prot)$Condition
+conds <- design_qf(subR25prot)$Condition
 df <- Set_POV_MEC_tags(subR25prot[[1]], conds)
 
 library(SummarizedExperiment)
 data(subR25pept)
-conds <- design.qf(subR25pept)$Condition
+conds <- design_qf(subR25pept)$Condition
 qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 df <- Metacell_generic(qdata, conds, 'peptide')
 
 data(subR25prot)
 subR25prot[[1]] <- UpdateMetacellAfterImputation(subR25prot[[1]])
 
-search.metacell.tags('Missing POV', 'peptide')
-search.metacell.tags('Quantified', 'peptide')
+searchMetacellTags('Missing POV', 'peptide')
+searchMetacellTags('Quantified', 'peptide')
 
 \donttest{
-ll <- metacell.def('peptide')$node
-for (i in 1:length(ll))
+ll <- metacellDef('peptide')$node
+for (i in seq_along(ll))
 test <- lapply(combn(ll, i, simplify = FALSE), 
 function(x) tag <- metacombine(x, 'peptide'))
 }

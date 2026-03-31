@@ -21,18 +21,18 @@
 #' utils::data(subR25pept)
 #' level <- 'peptide'
 #' # Delete whole empty lines
-#' metacell.mask <- DaparToolshed::match.metacell(
+#' metacell.mask <- DaparToolshed::matchMetacell(
 #' qMetacell(subR25pept[[1]]), 
 #' c("Missing POV", "Missing MEC"), level)
 #' indices <- GetIndices_WholeMatrix(metacell.mask, op = ">=", th = 1)
-#' grp <- design.qf(subR25pept)$Condition
-#' subR25pept <- wrapper.impute.mle(subR25pept[[1]], grp)
+#' grp <- design_qf(subR25pept)$Condition
+#' subR25pept <- wrapperImputeMLE(subR25pept[[1]], grp)
 #'
 #' @export
 #'
-wrapper.impute.mle <- function(obj, grp) {
+wrapperImputeMLE <- function(obj, grp) {
     
-    pkgs.require('imp4p')
+    pkgsRequire('imp4p')
     
     if (missing(obj))
         stop("'obj' is required.")
@@ -120,13 +120,13 @@ wrapper.impute.mle <- function(obj, grp) {
 #' @examples
 #' \donttest{
 #' utils::data(subR25pept)
-#' design <- design.qf(subR25pept)
-#' obj.imp.na <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = TRUE)
-#' obj.imp.pov <- wrapper.dapar.impute.mi(subR25pept[[1]], design, nb.iter = 1, lapala = FALSE)
+#' design <- design_qf(subR25pept)
+#' obj.imp.na <- wrapperDaparImputeMI(subR25pept[[1]], design, nb.iter = 1, lapala = TRUE)
+#' obj.imp.pov <- wrapperDaparImputeMI(subR25pept[[1]], design, nb.iter = 1, lapala = FALSE)
 #'}
 #' @export
 #'
-wrapper.dapar.impute.mi <- function(obj,
+wrapperDaparImputeMI <- function(obj,
   design,
   nb.iter = 3,
   nknn = 15,
@@ -148,7 +148,7 @@ wrapper.dapar.impute.mi <- function(obj,
   lapala = TRUE,
   distribution = "unif") {
 
-    pkgs.require('imp4p')
+    pkgsRequire('imp4p')
 
   
     if (missing(obj))
@@ -202,7 +202,7 @@ wrapper.dapar.impute.mi <- function(obj,
                              )
 
     if (lapala == TRUE) {
-        data.final <- impute.pa2(tab = data.mi,
+        data.final <- imputePA2(tab = data.mi,
                                  conditions = conditions,
                                  q.min = q.min,
                                  q.norm = q.norm,
@@ -220,14 +220,6 @@ wrapper.dapar.impute.mi <- function(obj,
     rownames(data.final) <- rownames(SummarizedExperiment::assay(obj))
 
     SummarizedExperiment::assay(obj) <- data.final
-
-    #msg <- paste("Missing values imputation using imp4p")
-    #obj@processingData@processing <- c(obj@processingData@processing, msg)
-    #obj@experimentData@other$imputation.method <- "imp4p"
-    # na.type <- "Missing POV"
-    # if (isTRUE(lapala)) {
-    #     na.type <- "Missing"
-    # }
 
     obj <- UpdateMetacellAfterImputation(obj)
 
@@ -280,7 +272,7 @@ translatedRandomBeta <- function(
 #' @title Missing values imputation from a \code{SummarizedExperiment} object
 #' 
 #' @description 
-#' This method is a wrapper to the function \code{impute.pa2()} adapted to
+#' This method is a wrapper to the function \code{imputePA2()} adapted to
 #' objects of class \code{SummarizedExperiment}.
 #'
 #' @param obj An object of class \code{SummarizedExperiment}.
@@ -314,7 +306,7 @@ translatedRandomBeta <- function(
 #' @export
 #'
 #'
-wrapper.impute.pa2 <- function(
+wrapperImputePA2 <- function(
     obj,
     design, 
     q.min = 0,
@@ -346,7 +338,7 @@ wrapper.impute.pa2 <- function(
 
     tab <- qData
     conditions <- as.factor(sTab$Condition)
-    tab_imp <- impute.pa2(tab, conditions, q.min, q.norm, eps, distribution)
+    tab_imp <- imputePA2(tab, conditions, q.min, q.norm, eps, distribution)
 
     # restore previous order
     colnames(tab_imp) <- new.order
@@ -397,13 +389,13 @@ wrapper.impute.pa2 <- function(
 #' library(QFeatures)
 #' utils::data(subR25pept)
 #' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
-#' conds <- design.qf(subR25pept)$Condition
-#' obj.imp <- impute.pa2(qdata, conds, distribution = "beta")
+#' conds <- design_qf(subR25pept)$Condition
+#' obj.imp <- imputePA2(qdata, conds, distribution = "beta")
 #'
 #' @export
 #' @importFrom stats quantile sd runif median
 #'
-impute.pa2 <- function(tab,
+imputePA2 <- function(tab,
                        conditions, 
                        q.min = 0, 
                        q.norm = 3, 
@@ -413,7 +405,6 @@ impute.pa2 <- function(tab,
 
   if (missing(tab))
     stop("'tab' is required.")
-  #stopifnot(inherits(obj, 'SummarizedExperiment'))
   
   if (missing(conditions))
     stop("'conditions' is required.")
@@ -489,19 +480,19 @@ impute.pa2 <- function(tab,
 #' subR25pept <- filterFeaturesOneSE(object = subR25pept, i = length(subR25pept), name = "Filtered",
 #'               filters = list(filter_emptyline))
 #' 
-#' subR25pept <- wrapper.pirat(data = subR25pept,
+#' subR25pept <- wrapperPirat(data = subR25pept,
 #' adjmat = SummarizedExperiment::rowData(subR25pept[[length(subR25pept)]])$adjacencyMatrix,
 #' extension = "base")
 #'
 #' @export
 #'
-wrapper.pirat <- function(data,
+wrapperPirat <- function(data,
                           adjmat,
                           rnas_ab = NULL,
                           adj_rna_pg = NULL,
                           ...) {
 
-  pkgs.require('Pirat')
+  pkgsRequire('Pirat')
 
   if (missing(data))
     stop("'data' is required.")

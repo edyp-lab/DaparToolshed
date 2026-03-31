@@ -8,7 +8,7 @@
 \alias{WriteHistory}
 \alias{Write_SamplesData_to_Excel}
 \alias{Write_RowData}
-\alias{write.excel}
+\alias{writeExcel}
 \title{This function exports a data.frame to a Excel file.}
 \usage{
 readExcel(file, sheet = NULL)
@@ -23,7 +23,7 @@ Write_SamplesData_to_Excel(wb, obj, n)
 
 Write_RowData(wb, obj, i, n)
 
-write.excel(obj, filename)
+writeExcel(obj, filename)
 }
 \arguments{
 \item{file}{The name of the Excel file.}
@@ -66,12 +66,12 @@ colors <- list(
     "Combined tags" = "red"
 )
 file <- tempfile('toto.xlsx')
-write.excel(subR25prot, filename = file)
+writeExcel(subR25prot, filename = file)
 unlink(file)
 
 data(subR25pept)
 file <- tempfile('foo.xlsx')
-write.excel(subR25pept, file)
+writeExcel(subR25pept, file)
 unlink(file)
 }
 

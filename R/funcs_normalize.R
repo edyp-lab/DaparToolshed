@@ -48,7 +48,7 @@
 #' 
 #' data(subR25pept)
 #' qData <- SummarizedExperiment::assay(subR25pept[[1]])
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' 
 #' 
 #' 
@@ -65,8 +65,6 @@
 #' )
 #' 
 #' normalized <- MeanCentering(qData, conds, type = "overall")
-#' 
-#' # normalized <- vsn(qData, conds, type = "overall")
 #' 
 #' normalized <- LOESS(qData, conds, type = "overall")
 #'
@@ -288,7 +286,7 @@ MeanCentering <- function(qData,
 vsn <- function(qData, 
   conds, 
   type = NULL) {
-  pkgs.require('vsn')
+  pkgsRequire('vsn')
   
   
   if (missing(conds)) {
@@ -319,7 +317,7 @@ LOESS <- function(qData,
   type = "overall", 
   span = 0.7) {
   
-  pkgs.require('limma')
+  pkgsRequire('limma')
   
   
   if (missing(conds)) {

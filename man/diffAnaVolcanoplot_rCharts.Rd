@@ -58,7 +58,7 @@ obj <- subR25prot
 obj <- NAIsZero(obj, 1)
 allComp <- limmaCompleteTest(
 SummarizedExperiment::assay(obj[[length(obj)]]), 
-design.qf(obj), 
+design_qf(obj), 
 comp.type="OnevsOne")
 df <- data.frame(
 x = allComp$logFC[[1]],

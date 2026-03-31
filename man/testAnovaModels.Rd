@@ -25,7 +25,7 @@ Applies a statistical test on each element of a list of linear models
 }
 \examples{
 data(subR25prot)
-obj <- subR25prot[1:5,]
+obj <- subR25prot[seq_len(5),]
 testAnovaModels(applyAnovasOnProteins(obj, 1))
 
 }

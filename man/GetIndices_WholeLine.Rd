@@ -21,7 +21,7 @@ This function looks for the lines where each element respect the query.
 data(subR25pept)
 level <- 'peptide'
 pattern <- "Missing POV"
-metacell.mask <- match.metacell(metadata = qMetacell(subR25pept[[1]]), 
+metacell.mask <- matchMetacell(metadata = qMetacell(subR25pept[[1]]), 
 pattern = pattern, level = level)
 ind <- GetIndices_WholeLine(metacell.mask)
 

@@ -46,7 +46,7 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
-#' SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
+#' SummarizedExperiment::assay(obj[[length(obj)]]), design_qf(obj), 
 #' comp.type="OnevsOne")
 #' diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 #'
@@ -54,7 +54,7 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #'
 diffAnaComputeAdjustedPValues <- function(pval, 
                                           pi0Method = 1) {
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   
   padj <- cp4p::adjust.p(pval, pi0Method)
   return(padj$adjp[, 2])
@@ -83,7 +83,7 @@ diffAnaComputeAdjustedPValues <- function(pval,
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' wrapperCalibrationPlot(allComp$P_Value[, 1])
 #'
@@ -93,7 +93,7 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
   if (is.null(vPVal)) {
     return(NULL)
   }
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   
   p <- cp4p::calibration.plot(vPVal, pi0.method = pi0Method)
   
@@ -122,7 +122,7 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' histPValue_HC(allComp$P_Value[1])
 #'
@@ -130,12 +130,9 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #' @import highcharter
 #'
 histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
-  pkgs.require('graphics')
+  pkgsRequire('graphics')
   
   h <- graphics::hist(sort(unlist(pval_ll)), breaks = bins, plot = FALSE)
-  
-  # serieInf <- sapply(h$density, function(x) min(pi0, x))
-  # serieSup <- sapply(h$density, function(x) max(0, x - pi0))
   
   serieInf <- vapply(h$density, function(x) min(pi0, x), numeric(1))
   serieSup <- vapply(h$density, function(x) max(0, x - pi0), numeric(1))
@@ -240,7 +237,7 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(SummarizedExperiment::assay(
 #' obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' pushpvalue(obj, 
 #' allComp$P_Value[, 1], 
@@ -326,14 +323,14 @@ pushpvalue <- function(obj,
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
-#' is.differential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
+#' isDifferential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
 #'
 #' @export
 #'
 
-is.differential <- function(pvalue,
+isDifferential <- function(pvalue,
                            logFC,
                            thpvalue,
                            thlogFC){

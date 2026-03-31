@@ -20,7 +20,7 @@ Display a CC
 \examples{
 data(subR25pept)
 X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-ll <- get.pep.prot.cc(X)
+ll <- getPepProtCC(X)
 g <- buildGraph(ll[[1]], X)
 
 }

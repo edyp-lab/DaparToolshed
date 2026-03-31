@@ -50,11 +50,11 @@ This variable is a (possibly sparse) matrix. See below for details.}
 
 \item{init.method}{A function used for initializing the aggregation.
 Available functions are \code{Sum}, \code{Mean}, \code{Median}, \code{medianPolish} or \code{robustSummary}.
-See \code{DaparToolshed::inner.aggregate.iter()} for details.}
+See \code{DaparToolshed::innerAggregateIter()} for details.}
 
 \item{method}{A function used for the aggregation.
 Available functions are \code{Sum}, \code{Mean}, \code{Median} or \code{medianPolish}.
-See \code{DaparToolshed::inner.aggregate.iter()} for details.}
+See \code{DaparToolshed::innerAggregateIter()} for details.}
 
 \item{ponderation}{A \code{character(1)} defining what to consider to create the coefficient for redistribution of shared peptides.
 Available values are \code{Global} (default), \code{Condition} or \code{Sample}.}
@@ -75,7 +75,7 @@ This function aggregates the quantitative features of an assay,
 applying a summarization function (\code{fun}) to sets of features.
 The \code{fcol} variable name points to a rowData column that defines
 how to group the features during aggregate. This variable has to
-be an adjacency matrix. This function uses \code{DaparToolshed::inner.aggregate.iter()}
+be an adjacency matrix. This function uses \code{DaparToolshed::innerAggregateIter()}
 to aggregate quantitative data.
 
 The list of agregation methods can be obtained with the function
@@ -83,7 +83,7 @@ The list of agregation methods can be obtained with the function
 packages \code{DaparToolshed} and \code{QFeatures}.
 }
 \details{
-This function uses \code{DaparToolshed::inner.aggregate.iter()} to aggregate quantitative data.
+This function uses \code{DaparToolshed::innerAggregateIter()} to aggregate quantitative data.
 }
 \section{Iterative aggregation function}{
 NA

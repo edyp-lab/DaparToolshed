@@ -35,12 +35,12 @@
 #'     "Combined tags" = "red"
 #' )
 #' file <- tempfile('toto.xlsx')
-#' write.excel(subR25prot, filename = file)
+#' writeExcel(subR25prot, filename = file)
 #' unlink(file)
 #' 
 #' data(subR25pept)
 #' file <- tempfile('foo.xlsx')
-#' write.excel(subR25pept, file)
+#' writeExcel(subR25pept, file)
 #' unlink(file)
 #' }
 #'
@@ -55,7 +55,7 @@ NULL
 #' 
 #'
 readExcel <- function(file, sheet = NULL) {
-  pkgs.require('readxl')
+  pkgsRequire('readxl')
   
   if(is.null(sheet))
     return(NULL)
@@ -80,7 +80,7 @@ readExcel <- function(file, sheet = NULL) {
 #' @export
 #'
 listSheets <- function(file) {
-  pkgs.require('openxlsx')
+  pkgsRequire('openxlsx')
   return(openxlsx::getSheetNames(file))
 }
 
@@ -108,7 +108,7 @@ write_Assay_To_Excel <- function(wb, obj, i, n){
   
   
   # Add colors to quantitative table
-  mc <- metacell.def(typeDataset(obj[[i]]))
+  mc <- metacellDef(typeDataset(obj[[i]]))
   colors <- as.list(stats::setNames(mc$color, mc$node))
   tags <- cbind(
     keyId = rep("Any", nrow(obj[[i]])),
@@ -173,14 +173,14 @@ Write_SamplesData_to_Excel <- function(wb, obj, n){
   
   
   # Add colors for sample data sheet
-  u_conds <- unique(design.qf(obj)$Condition)
+  u_conds <- unique(design_qf(obj)$Condition)
   colors <- stats::setNames(ExtendPalette(length(u_conds)), u_conds)
   colors[["blank"]] <- "white"
   
   tags <- as.data.frame(SummarizedExperiment::colData(obj))
   tags[, ] <- "blank"
-  tags$quantCols <- design.qf(obj)$Condition
-  tags$Condition <- design.qf(obj)$Condition
+  tags$quantCols <- design_qf(obj)$Condition
+  tags$Condition <- design_qf(obj)$Condition
   
   unique.tags <- NULL
   if (!is.null(tags) && !is.null(colors)) {
@@ -221,38 +221,6 @@ Write_RowData <- function(wb, obj, i, n){
     SummarizedExperiment::rowData(obj[[i]]), 
     rowNames = FALSE)
   
-  
-  # Add colors to quantitative table
-  # mc <- metacell.def(omXplore::get_type(obj[[i]]))
-  # colors <- as.list(stats::setNames(mc$color, mc$node))
-  # tags <- cbind(
-  #   keyId = rep("Quant. by direct id", nrow(obj[[i]])),
-  #   omXplore::get_metacell(obj[[i]])
-  # )
-  # 
-  # 
-  # unique.tags <- NULL
-  # if (!is.null(tags) && !is.null(colors)) {
-  #   unique.tags <- unique(as.vector(as.matrix(tags)))
-  #   if (!isTRUE(
-  #     sum(unique.tags %in% names(colors)) == length(unique.tags))) {
-  #     warning("The length of colors vector must be equal to the number 
-  #           of different tags. As is it not the case, colors are ignored")
-  #   }
-  #   if (isTRUE(
-  #     sum(unique.tags %in% names(colors)) == length(unique.tags))) {
-  #     lapply(seq_len(length(colors)), function(x) {
-  #       list.tags <- which(names(colors)[x] == tags, arr.ind = TRUE)
-  #       openxlsx::addStyle(wb,
-  #         sheet = n,
-  #         cols = list.tags[, "col"],
-  #         rows = list.tags[, "row"] + 1,
-  #         style = openxlsx::createStyle(fgFill = colors[x])
-  #       )
-  #     })
-  #   }
-  # }
-  
   return(wb)
 }
 
@@ -263,7 +231,7 @@ Write_RowData <- function(wb, obj, i, n){
 #' 
 #' @import openxlsx
 #'
-write.excel <- function(obj, filename) {
+writeExcel <- function(obj, filename) {
 
   if (!inherits(obj, "QFeatures")){
     message('Obj is not a QFeatures')

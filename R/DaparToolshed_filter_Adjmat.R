@@ -137,7 +137,7 @@ specPeptides <- function(object, ...) {
 
     X <- QFeatures::adjacencyMatrix(object)
     X.specific <- subAdjMat_specificPeptides(X)
-    object <- .UpdateSEBasedOnAdjmat(object, X.specific)
+    object <- UpdateSEBasedOnAdjmat(object, X.specific)
 
     return(object)
 }
@@ -165,7 +165,7 @@ sharedPeptides <- function(object, ...) {
 
     X <- QFeatures::adjacencyMatrix(object)
     X.shared <- subAdjMat_sharedPeptides(X)
-    object <- .UpdateSEBasedOnAdjmat(object, X.shared)
+    object <- UpdateSEBasedOnAdjmat(object, X.shared)
     return(object)
 }
 
@@ -183,9 +183,9 @@ subAdjMat_sharedPeptides <- function(X) {
 
 #'
 #' @noRd
-.UpdateSEBasedOnAdjmat <- function(object, X) {
+UpdateSEBasedOnAdjmat <- function(object, X) {
   
-  pkgs.require('PSMatch')
+  pkgsRequire('PSMatch')
   
   SummarizedExperiment::rowData(object)$adjacencyMatrix <- X
     # Identify and delete the empty lines in the dataset
@@ -228,7 +228,7 @@ topnPeptides <- function(object, fun, top) {
     X <- QFeatures::adjacencyMatrix(object)
     qData <- SummarizedExperiment::assay(object)
     X.topn <- subAdjMat_topnPeptides(X, qData, fun, top)
-    object <- .UpdateSEBasedOnAdjmat(object, X.topn)
+    object <- UpdateSEBasedOnAdjmat(object, X.topn)
     return(object)
 }
 
@@ -243,8 +243,7 @@ subAdjMat_topnPeptides <- function(X, qData, fun, top) {
             'rowMeans', 'rowSums'")
         return(NULL)
     }
-
-    #temp.X <- as(X * do.call(fun, list(qData)), "dgCMatrix")
+  
     temp.X <- as(X * do.call(fun, list(qData)), "CsparseMatrix")
 
     # Get the 'n' entities with the best score for each column
