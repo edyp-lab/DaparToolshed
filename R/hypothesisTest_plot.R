@@ -94,12 +94,12 @@ hc_logFC_DensityPlot <- function(
   if (is.null(pal)) {
     warning("Color palette set to default.")
     myColors <- ExtendPalette(ncol(df_logFC), "Paired")
+  } else if (length(pal) != ncol(df_logFC)) {
+    warning("The color palette has not the same dimension as the 
+              number of samples")
+    myColors <- ExtendPalette(ncol(df_logFC), "Paired")
   } else {
-    if (length(pal) != ncol(df_logFC)) {
-      warning("The color palette has not the same dimension as the 
-                number of samples")
-      myColors <- ExtendPalette(ncol(df_logFC), "Paired")
-    }
+    myColors <- pal
   }
   
   nValues <- nrow(df_logFC) * ncol(df_logFC)

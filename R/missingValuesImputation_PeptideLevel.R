@@ -329,7 +329,7 @@ wrapperImputePA2 <- function(
     sample.names.old <- design[, 'quantCols']
     sTab <- design
 
-    new.order <- unlist(lapply(split(sTab, conds), function(x) {
+    new.order <- unlist(lapply(split(as.data.frame(sTab), conds), function(x) {
         x[,"quantCols"]
     }))
     qData <- SummarizedExperiment::assay(obj)[, new.order]

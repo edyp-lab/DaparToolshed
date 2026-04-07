@@ -70,7 +70,7 @@ NULL
 #' (see inst/extdata/Exp1_R25_pept_100.txt). In the latter case, 
 #' the quantitative data are those of the raw intensities.
 #' 
-#' This dataset is a subset containing the first 100 peptides from the original 
+#' This dataset is a subset containing the first 500 peptides from the original 
 #' dataset, which comes from: https://doi.org/10.1002/pmic.201500189
 #' 
 #' @usage data(subR25pept)

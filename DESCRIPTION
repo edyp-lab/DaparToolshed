@@ -23,6 +23,8 @@ Description: The package DaparToolshed is a Bioconductor distributed R package w
     Contrarily to most other similar R packages, it is endowed with rich and 
     user-friendly graphical interfaces, so that no programming skill is 
     required (see `Prostar` package).
+URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
+BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 License: Artistic-2.0
 Depends: R (>= 4.5.0)
 Imports:
@@ -131,7 +133,5 @@ Collate:
 RoxygenNote: 7.3.3
 Packaged: 2025-09-23 11:13:04 UTC; sw175264
 Encoding: UTF-8
-URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
-BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

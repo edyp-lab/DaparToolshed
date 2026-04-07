@@ -153,13 +153,11 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
   if (is.null(pal)) {
     warning("Color palette set to default.")
     myColors <- GetColorsForConditions(group, ExtendPalette(nbConds))
+  } else if (length(pal) != nbConds) {
+    warning("The color palette has not the same dimension as the number of samples")
+    myColors <- GetColorsForConditions(group, ExtendPalette(nbConds))
   } else {
-    if (length(pal) != nbConds) {
-      warning("The color palette has not the same dimension as the number of samples")
-      myColors <- GetColorsForConditions(group, ExtendPalette(nbConds))
-    } else {
-      myColors <- pal
-    }
+    myColors <- pal
   }
   
   if (identical(indLegend, "auto")) {
@@ -265,13 +263,11 @@ metacellHisto_HC <- function(obj,
   if (is.null(pal)) {
     warning("Color palette set to default.")
     myColors <- GetColorsForConditions(group, ExtendPalette(length(u_conds)))
+  } else if (length(pal) != length(u_conds)) {
+    warning("The color palette has not the same dimension as the number of samples")
+    myColors <- GetColorsForConditions(group, ExtendPalette(length(u_conds)))
   } else {
-    if (length(pal) != length(u_conds)) {
-      warning("The color palette has not the same dimension as the number of samples")
-      myColors <- GetColorsForConditions(group, ExtendPalette(length(u_conds)))
-    } else {
-      myColors <- GetColorsForConditions(group, pal)
-    }
+    myColors <- GetColorsForConditions(group, pal)
   }
   
   if (identical(indLegend, "auto")) {
@@ -485,16 +481,16 @@ hc_mvTypePlot2 <- function(obj,
   
   
   qdata <- SummarizedExperiment::assay(obj)
-  myColors <- pal
+  myColors <- NULL
   if (is.null(pal)) {
     warning("Color palette set to default.")
     myColors <- ExtendPalette(length(unique(group)))
+  } else if (length(pal) != length(unique(group))) {
+    warning("The color palette has not the same dimension as the 
+              number of samples")
+    myColors <- ExtendPalette(length(unique(group)))
   } else {
-    if (length(pal) != length(unique(group))) {
-      warning("The color palette has not the same dimension as the 
-                number of samples")
-      myColors <- ExtendPalette(length(unique(group)))
-    }
+    myColors <- pal
   }
   
   mTemp <- nbNA <- nbValues <- matrix(

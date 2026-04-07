@@ -17,7 +17,7 @@ Check the validity of the design
 }
 \examples{
 data(subR25pept)
-testDesign(SummarizedExperiment::colData(subR25pept)[, seq(3)])
+testDesign(SummarizedExperiment::colData(subR25pept)[, -1])
 
 }
 \author{

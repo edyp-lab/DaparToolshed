@@ -93,12 +93,10 @@ diffAnaVolcanoplot_rCharts <- function(
   
   if (is.null(pal)) {
     pal <- list(In = "orange", Out = "gray")
-  } else {
-    if (length(pal) != 2) {
-      warning("The palette must be a list of two items: In and Out.
-                Set to default.")
-      pal <- list(In = "orange", Out = "gray")
-    }
+  } else if (length(pal) != 2) {
+    warning("The palette must be a list of two items: In and Out.
+              Set to default.")
+    pal <- list(In = "orange", Out = "gray")
   }
   
   g <- x <- y <- NULL

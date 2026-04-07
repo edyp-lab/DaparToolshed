@@ -33,6 +33,8 @@ set.seed(123)
 
 `DaparToolshed` is a package for analyzing quantitative data from label-free bottom-up proteomics experiments. It uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures (@gatto_qfeatures_2025).
 
+Many R packages or suites of packages are available to process mass spectrometry-based proteomics data: [R for mass spectrometry](https://www.rformassspectrometry.org/), [MSstat](https://msstats.org/), [DeqMS](https://www.bioconductor.org/packages/devel/bioc/html/DEqMS.html), [MSqRob](https://bioconductor.org/packages/release/bioc/html/msqrob2.html), [msmsEDA](https://www.bioconductor.org/packages/release/bioc/html/msmsEDA.html)/[msmsTests](https://www.bioconductor.org/packages/release/bioc/html/msmsTests.html), [proDA](https://www.bioconductor.org/packages/release/bioc/html/proDA.html), [scp](https://www.bioconductor.org/packages/release/bioc/html/scp.html), [DEP](https://www.bioconductor.org/packages/release/bioc/html/DEP.html), and many others. They tend to share (i) statistical methodologies / algorithms (about normalisation, imputation, differential analysis and so forth) and (ii) Bioconductor formats (e.g., `QFeatures`) or low levels routines (e.g., [MsCoreUtils](https://www.bioconductor.org/packages/release/bioc/html/MsCoreUtils.html)); however, the redundancy makes it possible to find a diversity of workflows that match the specificities of each experimental design. In this landscape, `DaparToolshed` is an update of the decade-old package `DAPAR`, from the [DAPAR](https://www.bioconductor.org/packages/release/bioc/html/DAPAR.html)/[Prostar](https://www.bioconductor.org/packages/release/bioc/html/Prostar.html) suite (@Wieczorek2017-nn), which makes it possible to leverage the extended capabilities of the `QFeatures` format. However, as `DAPAR`  leverages data structure from [MSnbase](https://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) that are still used nowdays in spite of `QFeatures` advent, we propose separated packages for sakes of simpler use and simpler maintenance.
+
 Starting from a table of abundance values and associated metdata, `DaparToolshed` proposes functions to build a complete statistical analysis workflow up to the selection of differentially expressed proteins in the contrasted conditions. `DaparToolshed` makes it possible to import data at different levels: precursor, peptide or protein, each requiring specific processing.
 
 This vignette describes a complete precursor- or peptide-level workflow.
@@ -41,7 +43,9 @@ This package is used by the `Prostar2` package, which provides a user-friendly g
 
 ## Installation
 
-```{r install, message = FALSE, eval = FALSE}
+To install `DaparToolshed` :
+
+```{r install, eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("DaparToolshed")

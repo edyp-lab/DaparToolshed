@@ -64,15 +64,15 @@ GetHistory <- function(obj.se, history){
 #' ReplaceSpecialChars(c("foo.1", "foo-2", "foo 3"))
 #'
 ReplaceSpecialChars <- function(x) {
-    if (is.null(x)) {
-        return(x)
-    }
-
-    for (char in c(".", " ")) {
-        x <- gsub(char, "_", x, fixed = TRUE)
-    }
-
-    x
+  if (is.null(x)) {
+    return(x)
+  }
+  
+  for (char in c(".", " ")) {
+    x <- gsub(char, "_", x, fixed = TRUE)
+  }
+  
+  x
 }
 
 
@@ -98,7 +98,7 @@ ReplaceSpecialChars <- function(x) {
 #' nEmptyLines(SummarizedExperiment::assay(subR25prot, 1))
 #'
 nEmptyLines <- function(df) {
-    sum(apply(is.na(as.matrix(df)), 1, all))
+  sum(apply(is.na(as.matrix(df)), 1, all))
 }
 
 
@@ -127,8 +127,8 @@ nEmptyLines <- function(df) {
 #' @export
 #'
 isOfType <- function(data, type) {
-    stopifnot(inherits(data, "data.frame"))
-    return(type == data)
+  stopifnot(inherits(data, "data.frame"))
+  return(type == data)
 }
 
 
@@ -177,27 +177,27 @@ isSubset <- function(set1, set2)
 #' @import QFeatures
 #'
 getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
-    if (is.null(object)) {
-        return(NULL)
-    }
-    stopifnot(inherits(object, "SummarizedExperiment"))
-    if (!(type %in% c("None", "WholeLine", "WholeMatrix", 
-        "AtLeastOneCond", "AllCond"))) {
-        stop("'type' is not one of: 'None', 
+  if (is.null(object)) {
+    return(NULL)
+  }
+  stopifnot(inherits(object, "SummarizedExperiment"))
+  if (!(type %in% c("None", "WholeLine", "WholeMatrix", 
+                    "AtLeastOneCond", "AllCond"))) {
+    stop("'type' is not one of: 'None', 
             'WholeMatrix', 'AtLeastOneCond', 'AllCond'")
-    }
-
-    data <- as.data.frame(SummarizedExperiment::assay(object))
-    ll <- switch(type,
-      WholeLine = NULL,
-      WholeMatrix = seq(0, ncol(data)),
-      AllCond = seq(0, min(unlist(lapply(unique(conds), 
-        function(x) length(which(conds == x)))))),
-      AtLeastOneCond = seq(0, min(unlist(lapply(unique(conds), 
-        function(x) length(which(conds == x))))))
-    )
-
-    return(sort(ll))
+  }
+  
+  data <- as.data.frame(SummarizedExperiment::assay(object))
+  ll <- switch(type,
+               WholeLine = NULL,
+               WholeMatrix = seq(0, ncol(data)),
+               AllCond = seq(0, min(unlist(lapply(unique(conds), 
+                                                  function(x) length(which(conds == x)))))),
+               AtLeastOneCond = seq(0, min(unlist(lapply(unique(conds), 
+                                                         function(x) length(which(conds == x))))))
+  )
+  
+  return(sort(ll))
 }
 
 
@@ -231,24 +231,24 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
 #' @export
 #'
 nonzero <- function(x) {
-    ## function to get a two-column matrix containing the indices of the
-    ### non-zero elements in a "dgCMatrix" class matrix
-
-    if (!requireNamespace("Matrix", quietly = TRUE)) {
-        stop("Please install Matrix: BiocManager::install('Matrix')")
-    }
-
-    stopifnot(inherits(x, "dgCMatrix"))
-    if (all(x@p == 0)) {
-        return(matrix(0,
-            nrow = 0, ncol = 2,
-            dimnames = list(character(0), c("row", "col"))
-        ))
-    }
-    res <- cbind(x@i + 1, rep(seq(dim(x)[2]), diff(x@p)))
-    colnames(res) <- c("row", "col")
-    res <- res[x@x != 0, , drop = FALSE]
-    return(res)
+  ## function to get a two-column matrix containing the indices of the
+  ### non-zero elements in a "dgCMatrix" class matrix
+  
+  if (!requireNamespace("Matrix", quietly = TRUE)) {
+    stop("Please install Matrix: BiocManager::install('Matrix')")
+  }
+  
+  stopifnot(inherits(x, "dgCMatrix"))
+  if (all(x@p == 0)) {
+    return(matrix(0,
+                  nrow = 0, ncol = 2,
+                  dimnames = list(character(0), c("row", "col"))
+    ))
+  }
+  res <- cbind(x@i + 1, rep(seq(dim(x)[2]), diff(x@p)))
+  colnames(res) <- c("row", "col")
+  res <- res[x@x != 0, , drop = FALSE]
+  return(res)
 }
 
 
@@ -263,27 +263,27 @@ nonzero <- function(x) {
 #' @return HTML
 #' 
 ConvertListToHtml <- function(ll) {
-    if (length(ll) == 0) {
-        return("-")
-    }
-
+  if (length(ll) == 0) {
+    return("-")
+  }
+  
+  paste0(
+    "<ul>",
     paste0(
-        "<ul>",
-        paste0(
-            lapply(
-                ll,
-                function(x) {
-                    paste0(
-                        "<li>",
-                        paste0(x, collapse = " "),
-                        "</li>"
-                    )
-                }
-            ),
-            collapse = " "
-        ),
-        "</ul>"
-    )
+      lapply(
+        ll,
+        function(x) {
+          paste0(
+            "<li>",
+            paste0(x, collapse = " "),
+            "</li>"
+          )
+        }
+      ),
+      collapse = " "
+    ),
+    "</ul>"
+  )
 }
 
 
@@ -390,9 +390,9 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 CleanRowData <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))
   
-    ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj[[i]])))
-    ind <- ind[which(!is.na(ind))]
-    if (length(ind) > 0)
+  ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj[[i]])))
+  ind <- ind[which(!is.na(ind))]
+  if (length(ind) > 0)
     rowData(obj[[i]]) <- rowData(obj[[i]])[, -ind]
   
   return(obj[[i]])
@@ -491,10 +491,10 @@ pkgsRequire <- function(ll.deps){
 #'
 customChart <- function(
     hc,
-  chartType = "scatter",
-  zoomType = "None",
-  width = 0,
-  height = 0) {
+    chartType = "scatter",
+    zoomType = "None",
+    width = 0,
+    height = 0) {
   hc |>
     hc_chart(
       type = chartType,
@@ -510,4 +510,3 @@ customChart <- function(
       )
     )
 }
-

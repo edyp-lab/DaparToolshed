@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' data(subR25pept)
-#' testDesign(SummarizedExperiment::colData(subR25pept)[, seq(3)])
+#' testDesign(SummarizedExperiment::colData(subR25pept)[, -1])
 #'
 #' @export
 #'
@@ -155,7 +155,7 @@ checkConditions <- function(conds) {
 #'
 #' @examples
 #' data(subR25pept)
-#' checkDesign(SummarizedExperiment::colData(subR25pept)[, seq(3)])
+#' checkDesign(SummarizedExperiment::colData(subR25pept)[, -1])
 #'
 #' @export
 #'

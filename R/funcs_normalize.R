@@ -365,7 +365,7 @@ LOESS <- function(qData,
 #'
 #' @param obj An object of class \code{QFeatures} or \code{SummarizedExperiment}.
 #'            If data is of class \code{QFeatures}, the last assay will be normalized.
-#' @param method Define the normalization method used : `"GlobalQuantileAlignment"``, 
+#' @param method Define the normalization method used : `"GlobalQuantileAlignment"`, 
 #'               `"QuantileCentering"`, `"MeanCentering"`, `"SumByColumns"`, `"LOESS"` or `"vsn"`.
 #' @param conditions A vector of conditions in the dataset. 
 #'                   If not provided, the vector `"Condition"` from the column metadata will be used.

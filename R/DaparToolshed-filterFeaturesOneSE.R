@@ -54,7 +54,8 @@
 #' FunctionFilter, VariableFilter
 #'
 #' @examples
-#' data(feat1, package = 'QFeatures')
+#' data("subR25prot")
+#' data("subR25pept")
 #' ## ----------------------------------------
 #' ## Creating function filters
 #' ## ----------------------------------------
@@ -65,7 +66,7 @@
 #'
 #' FunctionFilter('qMetacellWholeLine',
 #'                cmd = 'delete',
-#'                pattern = 'imputed POV')
+#'                pattern = 'Missing MEC')
 #'
 #' ## ----------------------------------------------------------------
 #' ## Filter the last assay to keep only specific peptides. This filter
@@ -74,7 +75,7 @@
 #'
 #' spec.filter <- FunctionFilter('specPeptides', list())
 #' ## using a user-defined character filter
-#' filterFeaturesOneSE(feat1, list(FunctionFilter('specPeptides', list())))
+#' filterFeaturesOneSE(subR25pept, filters = list(FunctionFilter('specPeptides', list())))
 #'
 #'
 #' ## ----------------------------------------------------------------
@@ -87,7 +88,7 @@
 #' FunctionFilter('topnPeptides',
 #' fun = 'rowSums',
 #' top = 2))
-#' filterFeaturesOneSE(feat1, lst.filters)
+#' filterFeaturesOneSE(subR25pept, filters = lst.filters)
 #'
 #' ## ----------------------------------------------------------------
 #' ## Filter the last assay to delete peptides where, in at least one 
@@ -97,13 +98,13 @@
 #' filter <- FunctionFilter('qMetacellOnConditions',
 #' cmd = 'delete',
 #' mode = 'AtLeastOneCond',
-#' pattern = 'imputed POV',
-#' conds = SummarizedExperiment::colData(feat1)$Condition,
+#' pattern = 'Missing POV',
+#' conds = SummarizedExperiment::colData(subR25prot)$Condition,
 #' percent = TRUE,
 #' th = 0.8,
 #' operator = '<')
-#'
-#'  filterFeaturesOneSE(feat1, filter)
+#' 
+#'  filterFeaturesOneSE(subR25prot, filters = list(filter))
 #'
 #'
 NULL
@@ -193,7 +194,7 @@ setMethod(
             new.se <- do.call(x@name, append(list(object = new.se), x@params))
           }
         }
-
+        
         ## Add the assay to the QFeatures object
         object <- QFeatures::addAssay(object,
             new.se,
@@ -206,9 +207,9 @@ setMethod(
                 warning("idcol is NULL")
                 S4Vectors::metadata(object[[i]])$idcol <- "_temp_ID_"
                 idcol <- "_temp_ID_"
+                SummarizedExperiment::rowData(object[[i]])[, "_temp_ID_"] <- rownames(SummarizedExperiment::rowData(object[[i]]))
             }
-
-
+            
             ## Link the input assay to the aggregated assay
             object <- QFeatures::addAssayLink(object,
                 from = names(object)[i],

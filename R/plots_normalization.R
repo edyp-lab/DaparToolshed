@@ -76,7 +76,7 @@ compareNormalizationD_HC <- function(
   if (n < 0 || n > nrow(qDataBefore)){
     warning("'n' must be a positive integer not null and less than the total number
       of entities. Set to default value: 0.2")
-    n <- 100
+    n <- ceiling(0.2 * nrow(qDataBefore))
   }
   
   if (is.null(keyId)) {
@@ -120,15 +120,13 @@ compareNormalizationD_HC <- function(
     warning("Color palette set to default.")
     myColors <- GetColorsForConditions(conds, 
       ExtendPalette(length(unique(conds))))
+  } else if (length(pal) != length(unique(conds))) {
+    warning("The color palette has not the same dimension as 
+              the number of samples")
+    myColors <- GetColorsForConditions(conds, 
+      ExtendPalette(length(unique(conds))))
   } else {
-    if (length(pal) != length(unique(conds))) {
-      warning("The color palette has not the same dimension as 
-                the number of samples")
-      myColors <- GetColorsForConditions(conds, 
-        ExtendPalette(length(unique(conds))))
-    } else {
-      myColors <- GetColorsForConditions(conds, pal)
-    }
+    myColors <- GetColorsForConditions(conds, pal)
   }
   
   x <- qDataBefore
