@@ -128,9 +128,9 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #'
 #' @export
 #' @import plotly
+#' @importFrom graphics hist
 #'
 histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
-  pkgsRequire('graphics')
   
   h <- graphics::hist(sort(unlist(pval_ll)), breaks = bins, plot = FALSE)
   

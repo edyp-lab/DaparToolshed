@@ -12,8 +12,9 @@
 #' @rdname heatmap
 #' @export
 #' @return A heatmap
-#' @import graphics
+#' 
 #' @import grDevices
+#' @importFrom graphics par
 #'
 heatmapForMissingValues <- function(
     x,
