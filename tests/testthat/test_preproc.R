@@ -98,6 +98,27 @@ SummarizedExperiment::rowData(dataprotNA[[1]])$qMetacell <- metacellprotna
 
 
 
+test_that("check history", {
+  # Initialization
+  resHini <- InitializeHistory()
+  
+  expect_true(is.data.frame(resHini))
+  
+  # Add
+  resHadd <- Add2History(resHini, "Process1", "Step1", "Parameter1", "Value1")
+  
+  expect_true(is.data.frame(resHadd))
+  
+  # Add to SE
+  resHaddSE <- SetHistory(dataprot[[1]], resHadd)
+  
+  expect_true(is(resHaddSE, "SummarizedExperiment"))
+  
+  # Get
+  resHget <- GetHistory(resHaddSE)
+  
+  expect_true(is.data.frame(resHget))
+})
 
 test_that("check filtering", {
   # Filters
@@ -232,16 +253,50 @@ test_that("check aggregation", {
   expect_equal(SummarizedExperiment::assay(resAggSpe[[2]])[2, ], log2(colMeans(2^numdatapept[2:4, -5])))
   
   ## redistribution
-  resAggRED <- RunAggregation(datapept,
+  ### mean
+  resAggREDmean <- RunAggregation(datapept,
                            includeSharedPeptides = 'Yes_Simple_Redistribution',
                            operator = 'Mean',
                            considerPeptides = 'allPeptides',
                            adjMatrix = 'adjacencyMatrix',
                            ponderation = 'Global')
   
-  expect_true(is(resAggRED, "QFeatures"))
-  expect_equal(length(resAggRED), 2)
-  expect_equal(SummarizedExperiment::assay(resAggRED[[2]])[2, ], log2(colMeans(2^numdatapept[2:4, -5])))
+  expect_true(is(resAggREDmean, "QFeatures"))
+  expect_equal(length(resAggREDmean), 2)
+  expect_equal(SummarizedExperiment::assay(resAggREDmean[[2]])[2, ], log2(colMeans(2^numdatapept[2:4, -5])))
+  
+  ### sum
+  resAggREDsum <- RunAggregation(datapept,
+                              includeSharedPeptides = 'Yes_Simple_Redistribution',
+                              operator = 'Sum',
+                              considerPeptides = 'allPeptides',
+                              adjMatrix = 'adjacencyMatrix',
+                              ponderation = 'Condition')
+  
+  expect_true(is(resAggREDsum, "QFeatures"))
+  expect_equal(length(resAggREDsum), 2)
+  
+  ### median
+  resAggREDmed <- RunAggregation(datapept,
+                               includeSharedPeptides = 'Yes_Simple_Redistribution',
+                               operator = 'Median',
+                               considerPeptides = 'allPeptides',
+                               adjMatrix = 'adjacencyMatrix',
+                               ponderation = 'Sample')
+  
+  expect_true(is(resAggREDmed, "QFeatures"))
+  expect_equal(length(resAggREDmed), 2)
+  
+  ### medianPolish
+  resAggREDmedPol <- RunAggregation(datapept,
+                                 includeSharedPeptides = 'Yes_Simple_Redistribution',
+                                 operator = 'medianPolish',
+                                 considerPeptides = 'allPeptides',
+                                 adjMatrix = 'adjacencyMatrix',
+                                 ponderation = 'Global')
+  
+  expect_true(is(resAggREDmedPol, "QFeatures"))
+  expect_equal(length(resAggREDmedPol), 2)
   
   # protein with no associated peptide
   datapeptNO <- datapept
@@ -259,9 +314,56 @@ test_that("check aggregation", {
   expect_true(all(is.na(SummarizedExperiment::assay(resAggNO[[2]])[6, ])))
   
   # misc
-  resProtStat <- getProteinsStats(SummarizedExperiment::rowData(datapept[[1]])$adjacencyMatrix)
+  adjmat <- SummarizedExperiment::rowData(datapept[[1]])$adjacencyMatrix
+  
+  resProtStat <- getProteinsStats(adjmat)
+  resAggMet <- aggregateMethods()
+  resAggGraph <- GraphPepProt(adjmat)
+  resAggExtract <- ExtractUniquePeptides(adjmat)
+  resAggDetPept <- GetDetailedNbPeptides(adjmat)
+  resAggDetNbPept <- GetDetailedNbPeptidesUsed(SummarizedExperiment::assay(datapept[[1]]), adjmat)
+  resAggCountPept <- CountPep(adjmat)
+  resAggTopn <- select_topn(SummarizedExperiment::assay(datapept[[1]]), adjmat, n = 1)
   
   expect_true(is.list(resProtStat))
   expect_equal(resProtStat$nbSpecificPeptides, 9)
   expect_equal(length(resProtStat$protMixPep), 2)
+  expect_true(is.character(resAggMet))
+  expect_true(is.matrix(resAggGraph))
+  expect_true(is(resAggExtract, "Matrix"))
+  expect_true(is.list(resAggDetPept))
+  expect_true(is.list(resAggDetNbPept))
+  expect_true(is(resAggCountPept, "Matrix"))
+  expect_true(is(resAggTopn, "Matrix"))
 })
+
+
+test_that("check pept prot cc", {
+  # get pept prot cc
+  resCC <- getPepProtCC(SummarizedExperiment::rowData(datapept[[1]])$adjacencyMatrix)
+  
+  expect_true(is.list(resCC))
+  
+  # plot cc
+  resCCplot <- plotJitter(resCC)
+  
+  expect_true(is.null(resCCplot))
+})
+
+
+test_that("check metacell", {
+  resMetaNb <- GetNbTags(datapept[[1]])
+  resMetaParent <- Parent('protein', c('Missing', 'Missing POV', 'Missing MEC'))
+  resMetaChildren <- Children('protein', 'Missing')
+  resMetaGet <- GetMetacellTags(dataprot, 1, level = 1)
+  resMetaSet <- Set_POV_MEC_tags(dataprot[[1]], design_qf(dataprot)$Condition)
+  resMetaSoft <- GetSoftAvailables()
+  
+  expect_true(is.integer(resMetaNb))
+  expect_true(is.character(resMetaParent))
+  expect_true(is.character(resMetaChildren))
+  expect_true(is.character(resMetaGet))
+  expect_true(is.data.frame(resMetaSet))
+  expect_true(is.character(resMetaSoft))
+})
+

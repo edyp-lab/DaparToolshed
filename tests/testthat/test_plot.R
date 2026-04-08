@@ -106,9 +106,26 @@ test_that("check hypothesistest plot", {
 })
 
 
+test_that("check differential analysis plot", {
+  resLimma <- limmaCompleteTest(as.matrix(SummarizedExperiment::assay(dataprot[[1]])),
+                                SummarizedExperiment::colData(dataprot),
+                                comp.type = "OnevsOne")
+  
+  # Calibration plot
+  resDACalPlot <- wrapperCalibrationPlot(unlist(resLimma$P_Value), pi0Method = "pounds")
+  
+  expect_true(is.list(resDACalPlot))
+  expect_equal(length(resDACalPlot), 3)
+  
+  # P-value histogram
+  resDAhist <- histPValue_HC(resLimma$P_Value[1])
+  
+  expect_true(is(resDAhist, "htmlwidget"))
+})
+
+
 test_that("check volcano plot", {
   cond <- unique(design_qf(dataprot)$Condition)
-  
   resLimma <- limmaCompleteTest(as.matrix(SummarizedExperiment::assay(dataprot[[1]])),
                                 SummarizedExperiment::colData(dataprot),
                                 comp.type = "OnevsOne")

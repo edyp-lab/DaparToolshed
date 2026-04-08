@@ -317,6 +317,11 @@ isDifferential <- function(pvalue,
   differentialList <- rep(0, length(pvalue))
   logpval <- -log10(pvalue)
   
+  if (all(is.na(logFC))) {
+    thlogFC <- 0
+    logFC[which(is.na(logFC))] <- 0
+  }
+  
   signifItems <- intersect(which(logpval >= thpvalue),
                            which(abs(logFC) >= thlogFC))
   differentialList[signifItems] <- 1

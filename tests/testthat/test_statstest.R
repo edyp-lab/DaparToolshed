@@ -118,3 +118,55 @@ test_that("check anova", {
   expect_equal(resTestAnovaTukeyNmtc$logFC[, , TRUE], c(2, -2, -0.5, 1, -2.5, -1.5, -3, -4, -3.5, 0))
 })
 
+
+test_that("check differential analysis", {
+  resLimma <- limmaCompleteTest(as.matrix(SummarizedExperiment::assay(dataprot[[1]])),
+                                SummarizedExperiment::colData(dataprot),
+                                comp.type = "anova1way")
+  
+  # Adjusted p-values
+  resDAadjval <- diffAnaComputeAdjustedPValues(pval = resLimma$P_Value[, 1])
+  
+  expect_true(all(resDAadjval <= 1))
+  expect_equal(length(resDAadjval), 10)
+  
+  # FDR
+  resDAfdr <- diffAnaComputeFDR(resDAadjval)
+  
+  expect_true(all(resDAfdr <= 1))
+  expect_equal(length(resDAfdr), 1)
+  
+  # Differential
+  resDAdiff <- isDifferential(resLimma$P_Value[, 1], resLimma$logFC[, 1], 0.5, 0.5)
+  
+  expect_equal(length(resDAdiff), 10)
+  expect_equal(sum(resDAdiff), 3)
+  
+  # Push p-value
+  resDApush1 <- pushpvalue(dataprot,
+                           resLimma$P_Value[, 1],
+                           scope = "WholeMatrix",
+                           pattern = c("Missing MEC", "Missing POV"),
+                           percent = TRUE,
+                           threshold = 0.5,
+                           operator = ">=",)
+  resDApush2 <- pushpvalue(dataprot,
+                           resLimma$P_Value[, 1],
+                           scope = "WholeLine",
+                           pattern = c("Missing MEC", "Missing POV"),
+                           percent = TRUE,
+                           threshold = 0.5,
+                           operator = ">=",)
+  resDApush3 <- pushpvalue(dataprot,
+                           resLimma$P_Value[, 1],
+                           scope = "AllCond",
+                           pattern = c("Missing MEC", "Missing POV"),
+                           percent = TRUE,
+                           threshold = 0.5,
+                           operator = ">=",)
+  
+  expect_equal(length(resDApush1), 10)
+  expect_equal(length(resDApush2), 10)
+  expect_equal(length(resDApush3), 10)
+})
+
