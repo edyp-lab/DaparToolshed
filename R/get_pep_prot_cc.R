@@ -282,15 +282,6 @@ displayCCvisNet <- function(g) {
 #' plotJitter_rCharts(df)
 #'
 plotJitter_rCharts <- function(df) {
-  xtitle <- "TO DO"
-
-    clickFunction <-
-      JS("function(event) 
-                {
-                Shiny.onInputChange('eventPointClicked', 
-                [this.index]+'_'+ [this.series.name]);
-                }")
-  
   
   i_tooltip <- which(startsWith(colnames(df), "tooltip"))
   txt_tooltip <- NULL
@@ -299,32 +290,29 @@ plotJitter_rCharts <- function(df) {
     warning("There is no tooltip in the object.")
   }
   
-  for (i in i_tooltip) {
-    txt_tooltip <- paste(txt_tooltip, "<b>", gsub("tooltip_", "",
-                                                  colnames(df)[i],
-                                                  fixed = TRUE
-    ),
-    " </b>: {point.", colnames(df)[i], "} <br> ",
-    sep = ""
+  txt_tooltip <- apply(df[, i_tooltip, drop = FALSE], 1, function(row) {
+    paste(
+      paste0("<b>", gsub("tooltip_", "", colnames(df)[i_tooltip]), "</b>: ", row),
+      collapse = "<br>"
     )
-  }
+  })
   
-  h1 <- highchart() |>
-    hc_add_series(data = df, type = "scatter") |>
-    my_hc_chart(zoomType = "xy", chartType = "scatter") |>
-    hc_legend(enabled = FALSE) |>
-    hc_yAxis(title = list(text = "Nb of proteins ic CC")) |>
-    hc_xAxis(title = list(text = "Nb of peptides ic CC")) |>
-    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
-    hc_plotOptions(series = list(
-      animation = list(duration = 100),
-      cursor = "pointer",
-      point = list(events = list(
-        click = clickFunction
-      ))
-    )) |>
-    my_hc_ExportMenu(filename = "plotCC")
+  p <- plot_ly(
+    data = df,
+    x = ~x,
+    y = ~y,
+    type = "scatter",
+    mode = "markers",
+    text = txt_tooltip,
+    hoverinfo = "text",
+    showlegend = FALSE
+  ) |>
+    plotly::layout(
+      xaxis = list(title = "Nb of peptides ic CC"),
+      yaxis = list(title = "Nb of proteins ic CC"),
+      hovermode = "closest",
+      margin = list(b = 60) 
+    )
   
-  
-  return(h1)
+  return(p)
 }

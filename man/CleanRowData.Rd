@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{CleanRowData}
 \alias{CleanRowData}
-\title{Customised resetZoomButton of highcharts plots}
+\title{Clean row data}
 \usage{
 CleanRowData(obj, i)
 }
@@ -15,14 +15,10 @@ CleanRowData(obj, i)
 An instance of the SummarizedExperiment structure
 }
 \description{
-Customised resetZoomButton of highcharts plots
+Clean row data
 }
 \examples{
-library("highcharter")
-hc <- highchart()
-hc_chart(hc, type = "line")
-hc_add_series(hc, data = c(29, 71, 40))
-my_hc_ExportMenu(hc, filename = "foo")
+NULL
 
 }
 \author{

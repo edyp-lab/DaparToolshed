@@ -38,7 +38,7 @@ Imports:
     MsCoreUtils,
     AnnotationFilter,
     RColorBrewer,
-    highcharter,
+    plotly,
     stats,
     utils,
     tibble,

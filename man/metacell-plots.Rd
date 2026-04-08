@@ -8,7 +8,7 @@
 \alias{wrapperMVImage}
 \alias{mvImage}
 \alias{hc_mvTypePlot2}
-\title{Bar plot of missing values per lines using highcharter}
+\title{Bar plot of missing values per lines using plotly}
 \usage{
 metacellPerLinesHisto_HC(
   obj,
@@ -137,7 +137,7 @@ metacellHisto_HC(subR25pept[[1]], pattern, showValues = TRUE, pal = pal)
 data(subR25pept)
 mvImage(subR25pept[[1]], design_qf(subR25pept)$Condition)
 
-data()
+data(subR25pept)
 pal <- ExtendPalette(length(unique(design_qf(subR25pept)$Condition)), "Dark2")
 pattern <- "Missing MEC"
 hc_mvTypePlot2(subR25pept[[1]], 

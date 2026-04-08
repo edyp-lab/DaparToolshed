@@ -1,11 +1,11 @@
 
 
 #' @title Builds a plot from a dataframe. Same as compareNormalizationD but
-#' uses the library \code{highcharter}
+#' uses the library \code{plotly}
 #' 
 #' @description 
 #' Plot to compare the quantitative proteomics data before and after
-#' normalization using the package \code{highcharter}
+#' normalization using the package \code{plotly}
 #'
 #'
 #' @param qDataBefore A dataframe that contains quantitative data before
@@ -51,7 +51,7 @@
 #' subset.view = seq_len(n),
 #' conds = conds)
 #'
-#' @import highcharter
+#' @import plotly
 #' @importFrom utils str
 #' @import SummarizedExperiment
 #'
@@ -95,6 +95,8 @@ compareNormalizationD_HC <- function(
       }
       n <- 100
     }
+  } else {
+    subset.view <- seq_len(n)
   }
   
   if (!match(type, c("scatter", "line"))) {
@@ -136,24 +138,38 @@ compareNormalizationD_HC <- function(
   legendColor <- unique(myColors)
   txtLegend <- unique(conds)
   
+  shapes <- c(
+    "circle", "square", "diamond",
+    "triangle-up", "triangle-down",
+    "cross", "x"
+  )
   
-  series <- list()
-  for (i in seq_len(length(conds))) {
-    series[[i]] <- list(
+  p <- plot_ly()
+  
+  for (i in seq_along(conds)) {
+    p <- p |> add_markers(
+      x = x[, i],
+      y = y[, i],
       name = colnames(x)[i],
-      data = highcharter::list_parse(data.frame(
-        x = x[, i],
-        y = y[, i],
-        name = keyId
-      ))
+      text = paste0("Id: ", keyId),
+      hoverinfo = "text",
+      marker = list(
+        color = myColors[i],
+        symbol = shapes[(i - 1) %% length(shapes) + 1],
+        size = 8
+      )
     )
   }
   
-  h1 <- highchart() |>
-    my_hc_chart(chartType = type) |>
-    hc_add_series_list(series) |>
-    hc_colors(myColors) |>
-    hc_tooltip(headerFormat = "", pointFormat = "Id: {point.name}") |>
-    my_hc_ExportMenu(filename = "compareNormalization")
-  h1
+  p <- p |> layout(
+    legend = list(
+      orientation = "h", 
+      x = 0, 
+      y = -0.15, 
+      xanchor = "left",
+      yanchor = "top"
+    )
+  )
+  
+  p
 }

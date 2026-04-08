@@ -9,7 +9,6 @@ diffAnaVolcanoplot_rCharts(
   th_pval = 1e-60,
   th_logfc = 0,
   conditions = NULL,
-  clickFunction = NULL,
   pal = NULL
 )
 }
@@ -32,10 +31,6 @@ Fold Change that separates differential and non-differential data.}
 \item{conditions}{A list of the names of condition 1 and 2 used for the
 differential analysis.}
 
-\item{clickFunction}{A string that contains a JavaScript function used to
-show info from slots in df. The variable this.index refers to the slot
-named index and allows to retrieve the right row to show in the tooltip.}
-
 \item{pal}{A \code{list} containing 2 color to use for the plot}
 }
 \value{
@@ -47,7 +42,7 @@ Typically, the log of Fold Change is represented on the X-axis and the
 log10 of the p-value is drawn on the Y-axis. When the \code{th_pval}
 and the \code{th_logfc} are set, two lines are drawn respectively on
 the y-axis and the X-axis to visually distinguish between differential and
-non differential data. With the use of the package Highcharter, a
+non differential data. With the use of the package plotly, a
 customizable tooltip appears when the user put the mouse's pointer over
 a point of the scatter plot.
 }

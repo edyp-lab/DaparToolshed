@@ -3,7 +3,7 @@
 \name{compareNormalizationD_HC}
 \alias{compareNormalizationD_HC}
 \title{Builds a plot from a dataframe. Same as compareNormalizationD but
-uses the library \code{highcharter}}
+uses the library \code{plotly}}
 \usage{
 compareNormalizationD_HC(
   qDataBefore,
@@ -42,7 +42,7 @@ A plot
 }
 \description{
 Plot to compare the quantitative proteomics data before and after
-normalization using the package \code{highcharter}
+normalization using the package \code{plotly}
 }
 \examples{
 library(SummarizedExperiment)
