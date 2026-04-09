@@ -100,13 +100,6 @@ BuildAdjacencyMatrix <- function(obj.pep) {
     B = unlist(PG.l)
   ))
   
-  # if (unique == TRUE) {
-  #   ll <- which(rowSums(t) > 1)
-  #   if (length(ll) > 0) {
-  #     t[ll, ] <- 0
-  #   }
-  # }
-  
   X <- Matrix::Matrix(t,
     sparse = TRUE,
     dimnames = list(rownames(obj.pep), colnames(t))

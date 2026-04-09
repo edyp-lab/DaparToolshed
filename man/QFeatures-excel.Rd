@@ -5,7 +5,7 @@
 \alias{write2excel}
 \alias{write2excel,QFeatures-method}
 \alias{write2excel,SummarizedExperiment-method}
-\alias{.write2excel}
+\alias{write2excelSE}
 \alias{addColors}
 \title{Exports a \code{QFeatures} object to a Excel file.}
 \usage{
@@ -15,7 +15,7 @@ write2excel(object, ...)
 
 \S4method{write2excel}{SummarizedExperiment}(object, filename, exp.design, writeColData = TRUE, ...)
 
-.write2excel(object, filename, exp.design, writeColData = TRUE)
+write2excelSE(object, filename, exp.design, writeColData = TRUE)
 
 addColors(wb, n, tags, colors)
 }

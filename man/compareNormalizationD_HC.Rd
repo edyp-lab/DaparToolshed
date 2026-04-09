@@ -3,7 +3,7 @@
 \name{compareNormalizationD_HC}
 \alias{compareNormalizationD_HC}
 \title{Builds a plot from a dataframe. Same as compareNormalizationD but
-uses the library \code{highcharter}}
+uses the library \code{plotly}}
 \usage{
 compareNormalizationD_HC(
   qDataBefore,
@@ -42,13 +42,13 @@ A plot
 }
 \description{
 Plot to compare the quantitative proteomics data before and after
-normalization using the package \code{highcharter}
+normalization using the package \code{plotly}
 }
 \examples{
 library(SummarizedExperiment)
 data(subR25prot)
 qDataBefore <- SummarizedExperiment::assay(subR25prot[[1]])
-conds <- design.qf(subR25prot)$Condition
+conds <- design_qf(subR25prot)$Condition
 id <- rowData(subR25prot[[1]])[, idcol(subR25prot[[1]])]
 # pal <- ExtendPalette(2)
 qDataAfter <- LOESS(qDataBefore, conds, type = "overall")

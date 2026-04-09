@@ -20,7 +20,7 @@ iteratively applies OWAnova() on the features of an MSnSet object
 }
 \examples{
 data(subR25prot)
-applyAnovasOnProteins(subR25prot[1:5,], 1)
+applyAnovasOnProteins(subR25prot[seq_len(5),], 1)
 
 }
 \author{

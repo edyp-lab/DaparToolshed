@@ -43,7 +43,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
   cmd = 'delete',
   mode = 'AtLeastOneCond',
   pattern = c("Missing POV", "Missing MEC"),
-  conds = design.qf(obj)$Condition,
+  conds = design_qf(obj)$Condition,
   percent = TRUE,
   th = 0.8,
   operator = '>')

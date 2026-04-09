@@ -7,7 +7,7 @@
 plotJitter(list.of.cc = NULL)
 }
 \arguments{
-\item{list.of.cc}{List of cc such as returned by the function get.pep.prot.cc}
+\item{list.of.cc}{List of cc such as returned by the function getPepProtCC}
 }
 \value{
 A plot
@@ -18,7 +18,7 @@ Jitter plot of CC
 \examples{
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-ll <- get.pep.prot.cc(X)
+ll <- getPepProtCC(X)
 plotJitter(ll)
 
 }

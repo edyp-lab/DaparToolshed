@@ -26,7 +26,7 @@ Computes the adjusted p-values on all the stacked contrasts using CP4P
 }
 \examples{
 data(subR25prot)
-obj <- subR25prot[1:5,]
+obj <- subR25prot[seq_len(5),]
 globalAdjPval(testAnovaModels(
 applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
 

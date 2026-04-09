@@ -18,8 +18,8 @@
 \alias{GetUniqueTags}
 \alias{GetUniqueTags,QFeatures-method}
 \alias{GetUniqueTags,SummarizedExperiment-method}
-\alias{.GetMetadataSlot}
-\alias{.GetRowdataSlot}
+\alias{GetMetadataSlot}
+\alias{GetRowdataSlot}
 \alias{ConnectedComp}
 \alias{ConnectedComp,QFeatures-method}
 \alias{ConnectedComp,SummarizedExperiment-method}
@@ -46,9 +46,9 @@
 \alias{version}
 \alias{version,QFeatures-method}
 \alias{version<-}
-\alias{design.qf}
-\alias{design.qf,QFeatures-method}
-\alias{design.qf<-}
+\alias{design_qf}
+\alias{design_qf,QFeatures-method}
+\alias{design_qf<-}
 \alias{mainAssay}
 \alias{HypothesisTest}
 \alias{HypothesisTest,QFeatures-method}
@@ -94,9 +94,9 @@ GetUniqueTags(object, ...)
 
 \S4method{GetUniqueTags}{SummarizedExperiment}(object)
 
-.GetMetadataSlot(object, slotName = NULL)
+GetMetadataSlot(object, slotName = NULL)
 
-.GetRowdataSlot(object, slotName = NULL)
+GetRowdataSlot(object, slotName = NULL)
 
 ConnectedComp(object, ...)
 
@@ -150,11 +150,11 @@ version(object, ...)
 
 version(object, slotName = "version") <- value
 
-design.qf(object, ...)
+design_qf(object, ...)
 
-\S4method{design.qf}{QFeatures}(object, slotName = "design")
+\S4method{design_qf}{QFeatures}(object, slotName = "design")
 
-design.qf(object, slotName = "design") <- value
+design_qf(object, slotName = "design") <- value
 
 mainAssay(object)
 
@@ -251,7 +251,7 @@ GetMetacellTags(subR25pept, 1, level="peptide")
 GetMetacellTags(subR25pept, 1, level="peptide", onlyPresent=TRUE)
 
 data(subR25pept)
-design.qf(subR25pept)
+design_qf(subR25pept)
 }
 \author{
 Samuel Wieczorek

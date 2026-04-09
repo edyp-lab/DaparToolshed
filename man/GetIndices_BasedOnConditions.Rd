@@ -39,10 +39,10 @@ or at least one condition.
 data(subR25pept)
 level <- typeDataset(subR25pept[[1]])
 pattern <- 'Missing'
-metacell.mask <- match.metacell(
+metacell.mask <- matchMetacell(
 metadata=qMetacell(subR25pept[[1]]), pattern=pattern, level=level)
 type <- 'AllCond'
-conds <- design.qf(subR25pept)$Condition
+conds <- design_qf(subR25pept)$Condition
 op <- '>='
 th <- 0.5
 percent <- TRUE

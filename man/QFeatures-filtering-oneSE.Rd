@@ -87,7 +87,8 @@ Or based on the quantitative metadata (identification):
 }
 
 \examples{
-data(feat1, package = 'QFeatures')
+data("subR25prot")
+data("subR25pept")
 ## ----------------------------------------
 ## Creating function filters
 ## ----------------------------------------
@@ -98,7 +99,7 @@ data(feat1, package = 'QFeatures')
 
 FunctionFilter('qMetacellWholeLine',
                cmd = 'delete',
-               pattern = 'imputed POV')
+               pattern = 'Missing MEC')
 
 ## ----------------------------------------------------------------
 ## Filter the last assay to keep only specific peptides. This filter
@@ -107,7 +108,7 @@ FunctionFilter('qMetacellWholeLine',
 
 spec.filter <- FunctionFilter('specPeptides', list())
 ## using a user-defined character filter
-filterFeaturesOneSE(feat1, list(FunctionFilter('specPeptides', list())))
+filterFeaturesOneSE(subR25pept, filters = list(FunctionFilter('specPeptides', list())))
 
 
 ## ----------------------------------------------------------------
@@ -120,7 +121,7 @@ lst.filters <- append(lst.filters,
 FunctionFilter('topnPeptides',
 fun = 'rowSums',
 top = 2))
-filterFeaturesOneSE(feat1, lst.filters)
+filterFeaturesOneSE(subR25pept, filters = lst.filters)
 
 ## ----------------------------------------------------------------
 ## Filter the last assay to delete peptides where, in at least one 
@@ -130,13 +131,13 @@ filterFeaturesOneSE(feat1, lst.filters)
 filter <- FunctionFilter('qMetacellOnConditions',
 cmd = 'delete',
 mode = 'AtLeastOneCond',
-pattern = 'imputed POV',
-conds = SummarizedExperiment::colData(feat1)$Condition,
+pattern = 'Missing POV',
+conds = SummarizedExperiment::colData(subR25prot)$Condition,
 percent = TRUE,
 th = 0.8,
 operator = '<')
 
- filterFeaturesOneSE(feat1, filter)
+ filterFeaturesOneSE(subR25prot, filters = list(filter))
 
 
 }

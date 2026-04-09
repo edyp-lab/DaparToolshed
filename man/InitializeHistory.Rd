@@ -2,16 +2,15 @@
 % Please edit documentation in R/history_utils.R
 \name{InitializeHistory}
 \alias{InitializeHistory}
-\title{Get the last validated step before current position.}
+\title{Initialize the history}
 \usage{
 InitializeHistory()
 }
 \value{
-A \code{integer(1)}
+An empty \code{data.frame} with 4 columns ('Process', 'Step', 'Parameter' and 'Value')
 }
 \description{
-This function returns the indice of the last validated step before
-the current step.
+This function initializes the history.
 }
 \examples{
 InitializeHistory()

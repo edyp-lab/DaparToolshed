@@ -4,25 +4,25 @@
 #' 
 #' Methods available are:
 #' 
-#' * wrapper.impute.detQuant(): 
+#' * wrapperImputeDetQuant(): 
 #' This method is a wrapper of the function `impute.detQuant()` for objects
 #' of class \code{MSnSet}
 #' 
-#' * wrapper.impute.KNN(): Can impute only POV missing values. This method is 
+#' * wrapperImputeKNN(): Can impute only POV missing values. This method is 
 #' a wrapper for objects of class `QFeatures` and imputes missing values with 
 #' a fixed value. This function imputes the missing values condition by 
 #' condition.
 #' 
-#' * wrapper.impute.slsa(): 
+#' * wrapperImputeSLSA(): 
 #' Imputation of peptides having no values in a biological condition. This 
 #' method is a wrapper to the function \code{impute.slsa()} of the package
 #' \code{imp4p} adapted to an object of class \code{MSnSet}.
 #' 
-#' * wrapper.impute.fixedValue():
+#' * wrapperImputeFixedValue():
 #' This method is a wrapper to objects of class \code{MSnSet} and imputes 
 #' missing values with a fixed value.
 #' 
-#' * wrapper.impute.pa(): 
+#' * wrapperImputePA(): 
 #' Imputation of peptides having no values in a biological condition.
 #' This method is a wrapper to the function \code{impute.pa} of the package
 #' \code{imp4p} adapted to an object of class \code{MSnSet}.
@@ -60,21 +60,21 @@
 #' @examples
 #' data(subR25prot)
 #' obj <- subR25prot[[1]]
-#' grp <- design.qf(subR25prot)$Condition
+#' grp <- design_qf(subR25prot)$Condition
 #' lapala <- findMECBlock(obj, grp)
 #' na.type = c("Missing POV", "Missing MEC")
-#' obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
+#' obj.imp.pov <- wrapperImputeDetQuant(obj, na.type = na.type)
 #' obj.imp.pov <- reIntroduceMEC(obj, grp, lapala)
 #' 
-#' obj.imp.pov <- wrapper.impute.KNN(obj, grp, 3)
+#' obj.imp.pov <- wrapperImputeKNN(obj, grp, 3)
 #' 
-#' obj.imp.pov <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing POV")
-#' obj.imp.mec <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing MEC")
-#' obj.imp.na <- wrapper.impute.fixedValue(
+#' obj.imp.pov <- wrapperImputeFixedValue(obj, grp, 0.001, na.type = "Missing POV")
+#' obj.imp.mec <- wrapperImputeFixedValue(obj, grp, 0.001, na.type = "Missing MEC")
+#' obj.imp.na <- wrapperImputeFixedValue(
 #' obj, grp, 0.001, 
 #' na.type = c("Missing MEC", "Missing POV"))
 #'
-#' obj.imp.pov <- wrapper.impute.pa(obj, grp)
+#' obj.imp.pov <- wrapperImputePA(obj, grp)
 #' 
 #' qdata <- SummarizedExperiment::assay(obj)
 #' quant <- getQuantile4Imp(qdata)
@@ -141,9 +141,9 @@ reIntroduceMEC <- function(obj, grp, MECIndex) {
 #' @rdname mv_imputation_protein
 #' @import SummarizedExperiment
 #'
-wrapper.impute.KNN <- function(obj = NULL, grp, K) {
+wrapperImputeKNN <- function(obj = NULL, grp, K) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-  pkgs.require('impute')
+  pkgsRequire('impute')
     
     if (missing(obj)) {
         stop("'obj' is required.")
@@ -187,7 +187,7 @@ wrapper.impute.KNN <- function(obj = NULL, grp, K) {
 #' @export
 #' @import SummarizedExperiment
 #'
-wrapper.impute.fixedValue <- function(obj, 
+wrapperImputeFixedValue <- function(obj, 
   grp,
   fixVal = 0, 
   na.type) {
@@ -200,14 +200,16 @@ wrapper.impute.fixedValue <- function(obj,
     level <- typeDataset(obj)
 
     if (missing(na.type)) {
-        stop(paste0("'na.type' is required. Available values are: ", 
-            paste0(metacell.def(level)$node, collapse = " ")))
-    } else if (!is.subset(na.type, metacell.def(level)$node)) {
-        stop(paste0("Available values for na.type are: ", 
-            paste0(metacell.def(level)$node, collapse = " ")))
+      msg <- paste0("'na.type' is required. Available values are: ", 
+                    paste0(metacellDef(level)$node, collapse = " "))
+      stop(msg)
+    } else if (!isSubset(na.type, metacellDef(level)$node)) {
+      msg <- paste0("Available values for na.type are: ", 
+                    paste0(metacellDef(level)$node, collapse = " "))
+      stop(msg)
     }
 
-    ind.na.type <- DaparToolshed::match.metacell(
+    ind.na.type <- DaparToolshed::matchMetacell(
       qMetacell(obj),
       na.type,
       level = level
@@ -225,12 +227,12 @@ wrapper.impute.fixedValue <- function(obj,
 #' @export
 #' @import SummarizedExperiment
 #'
-wrapper.impute.pa <- function(
+wrapperImputePA <- function(
     obj = NULL, 
     grp,
     q.min = 0.025) {
   stopifnot(inherits(obj, 'SummarizedExperiment'))
-  pkgs.require('imp4p')
+  pkgsRequire('imp4p')
 
     if (is.null(obj)) 
         stop("'obj' is required.")
@@ -256,7 +258,7 @@ wrapper.impute.pa <- function(
 #' @rdname mv_imputation_protein
 #' @import SummarizedExperiment
 #'
-wrapper.impute.detQuant <- function(
+wrapperImputeDetQuant <- function(
     obj, 
     qval = 0.025, 
     factor = 1, 
@@ -268,7 +270,7 @@ wrapper.impute.detQuant <- function(
     if (missing(na.type)){
       na.type <- c('Missing POV', 'Missing MEC')
     } else {
-      if (!is.subset(na.type, c('Missing POV', 'Missing MEC'))) {
+      if (!isSubset(na.type, c('Missing POV', 'Missing MEC'))) {
       stop("'na.type' is required. Available values are: 'Missing POV', 'Missing MEC'")
       }
     }
@@ -277,7 +279,7 @@ wrapper.impute.detQuant <- function(
     values <- getQuantile4Imp(qdata, qval, factor)
     for (iter in seq_len(ncol(qdata))) {
         col <- qdata[, iter]
-        ind.na.type <- DaparToolshed::match.metacell(
+        ind.na.type <- DaparToolshed::matchMetacell(
           qMetacell(obj)[,iter],
                                       pattern = na.type,
                                       level = typeDataset(obj)
@@ -288,9 +290,6 @@ wrapper.impute.detQuant <- function(
     }
 
     SummarizedExperiment::assay(obj) <- qdata
-    #msg <- "Missing values imputation using deterministic quantile"
-    #metadata(obj)$processing <- c(metadata(obj)$processing, msg)
-    #metadata(obj)$processing$imputation.method <- "detQuantile"
     obj <- UpdateMetacellAfterImputation(obj)
 
     return(obj)
@@ -324,11 +323,11 @@ getQuantile4Imp <- function(qdata, qval = 0.025, factor = 1) {
 #' @import SummarizedExperiment
 #' 
 #'
-wrapper.impute.slsa <- function(
+wrapperImputeSLSA <- function(
     obj = NULL,
     design = NULL) {
     
-    pkgs.require('imp4p')
+    pkgsRequire('imp4p')
     
     if (is.null(obj))
         stop("'obj' is required.")

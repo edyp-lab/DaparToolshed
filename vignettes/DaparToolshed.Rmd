@@ -33,12 +33,23 @@ set.seed(123)
 
 `DaparToolshed` is a package for analyzing quantitative data from label-free bottom-up proteomics experiments. It uses `MultiAssayExperiment`, `SummarizedExperiment` and `QFeatures` data structures (@gatto_qfeatures_2025).
 
+Many R packages or suites of packages are available to process mass spectrometry-based proteomics data: [R for mass spectrometry](https://www.rformassspectrometry.org/), [MSstat](https://msstats.org/), [DeqMS](https://www.bioconductor.org/packages/devel/bioc/html/DEqMS.html), [MSqRob](https://bioconductor.org/packages/release/bioc/html/msqrob2.html), [msmsEDA](https://www.bioconductor.org/packages/release/bioc/html/msmsEDA.html)/[msmsTests](https://www.bioconductor.org/packages/release/bioc/html/msmsTests.html), [proDA](https://www.bioconductor.org/packages/release/bioc/html/proDA.html), [scp](https://www.bioconductor.org/packages/release/bioc/html/scp.html), [DEP](https://www.bioconductor.org/packages/release/bioc/html/DEP.html), and many others. They tend to share (i) statistical methodologies / algorithms (about normalisation, imputation, differential analysis and so forth) and (ii) Bioconductor formats (e.g., `QFeatures`) or low levels routines (e.g., [MsCoreUtils](https://www.bioconductor.org/packages/release/bioc/html/MsCoreUtils.html)); however, the redundancy makes it possible to find a diversity of workflows that match the specificities of each experimental design. In this landscape, `DaparToolshed` is an update of the decade-old package `DAPAR`, from the [DAPAR](https://www.bioconductor.org/packages/release/bioc/html/DAPAR.html)/[Prostar](https://www.bioconductor.org/packages/release/bioc/html/Prostar.html) suite (@Wieczorek2017-nn), which makes it possible to leverage the extended capabilities of the `QFeatures` format. However, as `DAPAR`  leverages data structure from [MSnbase](https://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) that are still used nowdays in spite of `QFeatures` advent, we propose separated packages for sakes of simpler use and simpler maintenance.
+
 Starting from a table of abundance values and associated metdata, `DaparToolshed` proposes functions to build a complete statistical analysis workflow up to the selection of differentially expressed proteins in the contrasted conditions. `DaparToolshed` makes it possible to import data at different levels: precursor, peptide or protein, each requiring specific processing.
 
 This vignette describes a complete precursor- or peptide-level workflow.
 
 This package is used by the `Prostar2` package, which provides a user-friendly graphical interfaces, so that programming skill is not required to achieve the data analysis.
 
+## Installation
+
+To install `DaparToolshed` :
+
+```{r install, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("DaparToolshed")
+```
 
 ```{r setup, message = FALSE}
 library(DaparToolshed)
@@ -93,7 +104,7 @@ This filtering can be done using information contained in quantitative data tags
 
 ```{r metadataaccess, message = FALSE}
  #quantitative data tags
-  head(qMetacell(obj[[length(obj)]]))
+head(qMetacell(obj[[length(obj)]]))
 
  #metadata
 head(SummarizedExperiment::rowData(obj[[length(obj)]]), n = 3)
@@ -181,7 +192,7 @@ compareNormalizationD_HC(
   qDataBefore = SummarizedExperiment::assay(obj1),
   qDataAfter = SummarizedExperiment::assay(obj2),
   keyId = SummarizedExperiment::rowData(obj1)[, protId],
-  conds = DaparToolshed::design.qf(obj)$Condition,
+  conds = DaparToolshed::design_qf(obj)$Condition,
   n = .n,
   subset.view = .subset
 )
@@ -195,9 +206,9 @@ It is common to face a significant number of missing values. To overcome this pr
 First, it is interesting to look at the quantity and distribution of missing values. The `metacellPerLinesHisto_HC()` and `metacellPerLinesHistoPerCondition_HC()` functions give access to the number of rows containing a given number of missing values, respectively for all samples and within each condition. These functions use the quantitative data tags described above.
 
 ```{r missingvalueplots, warning=FALSE}
-pal <- unique(GetColorsForConditions(design.qf(obj)$Condition))
+pal <- unique(GetColorsForConditions(design_qf(obj)$Condition))
 pattern <- c("Missing MEC", "Missing POV")
-grp <- design.qf(obj)$Condition
+grp <- design_qf(obj)$Condition
 
  #number of line with different amount of NA
 metacellPerLinesHisto_HC(obj[[length(obj)]], group = grp, pattern = pattern)
@@ -213,10 +224,10 @@ It can be observed that the distribution tends to shift towards higher values wh
 hc_mvTypePlot2(obj[[length(obj)]], group = grp, pattern = pattern, pal = pal)
 ```
 
-Numerous imputation methods exist. Here, data imputation is performed using the `wrapper.pirat()` function, which is a wrapper for the `Pirat` method. `Pirat` is an imputation method that uses a penalized maximum likelihood strategy and accounts for sibling peptide correlations (@etourneau_penalized_2024). It does not require any parameter tuning. For more information on this method, see the [Pirat](https://www.bioconductor.org/packages/release/bioc/html/Pirat.html) package.
+Numerous imputation methods exist. Here, data imputation is performed using the `wrapperPirat()` function, which is a wrapper for the `Pirat` method. `Pirat` is an imputation method that uses a penalized maximum likelihood strategy and accounts for sibling peptide correlations (@etourneau_penalized_2024). It does not require any parameter tuning. For more information on this method, see the [Pirat](https://www.bioconductor.org/packages/release/bioc/html/Pirat.html) package.
 
 ```{r imputation, message = FALSE}
-obj <- wrapper.pirat(data = obj,
+obj <- wrapperPirat(data = obj,
                      adjmat = SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix,
                      extension = "base")
 
@@ -234,11 +245,11 @@ Beforehand, it may be useful to look at the dataset in more details and to choos
 X <- SummarizedExperiment::rowData(obj[[length(obj)]])$adjacencyMatrix
 info_pept <- getProteinsStats(X)
 
-cat("Total number of peptides : ", info_pept$nbPeptides, "\n",
+message("Total number of peptides : ", info_pept$nbPeptides, "\n",
     "Number of specific peptides : ", info_pept$nbSpecificPeptides, "\n",
     "Number of shared peptides : ", info_pept$nbSharedPeptides, "\n")
 
-cat("Total number of proteins : ", info_pept$nbProt, "\n",
+message("Total number of proteins : ", info_pept$nbProt, "\n",
     "Number of protein with only specific peptides : ", length(info_pept$protOnlyUniquePep), "\n",
     "Number of protein with only shared peptides : ", length(info_pept$protOnlySharedPep), "\n",
     "Number of protein with both : ", length(info_pept$protMixPep), "\n")
@@ -293,7 +304,7 @@ The first step in differential analysis is null hypothesis testing, which provid
 
 ```{r limma}
 res_pval_FC <- limmaCompleteTest(SummarizedExperiment::assay(obj[[length(obj)]]), 
-                                 design.qf(obj), 
+                                 design_qf(obj), 
                                  comp.type = "OnevsOne")
 
 str(res_pval_FC)
@@ -335,7 +346,7 @@ pval <- pushpvalue(obj,
                    threshold = 5,
                    operator = ">=")
 
-cat("Number of pushed p-values : ", length(which(pval > 1)), "\n")
+message("Number of pushed p-values : ", length(which(pval > 1)), "\n")
 ```
 
 ## P-value calibration
@@ -424,13 +435,13 @@ logpval_thpval_ind <- setdiff(logpval_thpval_ind, pval_logfc_inf_ind)
 fdr <- diffAnaComputeFDR(adjusted_pvalues_comp[logpval_thpval_ind])
 
  #determine differentially abundant proteins
-isDifferential <- is.differential(pvalue = pval,
+isDifferential <- isDifferential(pvalue = pval,
                                  logFC = res_pval_FC$logFC,
                                  thpvalue = FDRcontrol_thpval,
                                  thlogFC = Foldchange_thlogFC)
 NbSignificant <- length(which(isDifferential == 1))
 
-cat("pvalue threshold : ", pval_threshold, "\n",
+message("pvalue threshold : ", pval_threshold, "\n",
     "logpvalue threshold : ", FDRcontrol_thpval, "\n",
     "FDR : ", round(100*fdr, 2), "%\n",
     "Number significant proteins : ", NbSignificant, "\n",
@@ -453,7 +464,7 @@ if (ncol(df) > 3) {
   colnames(df)[4:ncol(df)] <- paste0("tooltip_",
                                       colnames(df)[4:ncol(df)])
 }
-cond <- unique(design.qf(obj)$Condition)
+cond <- unique(design_qf(obj)$Condition)
 
  #volcano plot
 diffAnaVolcanoplot_rCharts(

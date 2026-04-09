@@ -1,18 +1,3 @@
-
-# 
-# Build_CC_list <- function(matAdj){
-#   require(Matrix)
-#   
-#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = TRUE))
-#   ll1 <- get.pep.prot.cc(ExtractAdjMat(X = matAdj, WithSharedPeptides = FALSE))
-#   
-#   return(
-#     list(allPep = ll1,
-#          onlyUniquePep = ll2)
-#   )
-# }
-
-
 #' @title Build the list of connex composant of the adjacency matrix
 #'
 #' @param X An adjacency matrix
@@ -24,21 +9,20 @@
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #'
 #' @export
 #' @importFrom Matrix crossprod Matrix
 #' @importFrom igraph components graph.adjacency
 #' @importFrom graph graphAM connComp 
 #'
-get.pep.prot.cc <- function(X) {
+getPepProtCC <- function(X) {
   
   if (is.null(X)) {
     warning("The adjacency matrix is empty")
     return()
   }
   
-  # X <- as.matrix(X)
   p <- dim(X)[2] # Nb proteins
   q <- dim(X)[1] # Nb peptides
   
@@ -47,11 +31,7 @@ get.pep.prot.cc <- function(X) {
   A <- B <- g <- NULL
   ### Adjacency matrix construction
   # boolean matrix product
-  #print("Start computing boolean matrix product")
   A <- Matrix::crossprod(X, boolArith = TRUE)
-  # A <- as.matrix(t(X) %*% X)
-  # A <- as.matrix(t(X) %&% X)
-  #print("End of computing boolean matrix product")
   # remove self-connecting edges
   diag(A) <- rep(0, p)
   # goes back to classical matrix format
@@ -80,20 +60,6 @@ get.pep.prot.cc <- function(X) {
     # Remove all single-prot CC
     B <- A[-SingleProt.CC.id, -SingleProt.CC.id]
     
-    ### Protein CCs
-    # multprot.cc <- NULL
-    # g <- graph::graphAM(B, edgemode='undirected', values=NA)
-    # multprot.cc <- graph::connComp(as(g, 'graphNEL'))
-    #
-    # ### Peptides from multiple prot CCs
-    # multprot.cc.pep <- list()
-    # for(i in seq_len(length(multprot.cc))){
-    #   protlist <- multprot.cc[[i]]
-    #   subX <- as.matrix(X[,protlist])
-    #   peplist <- which(rowSums(subX)!=0)
-    #   multprot.cc.pep[[i]] <- names(peplist)
-    # }
-    
     multprot.cc <- NULL
     g2 <- igraph::graph.adjacency(B, mode = "undirected")
     cc.igraph <- igraph::components(g2)
@@ -112,7 +78,6 @@ get.pep.prot.cc <- function(X) {
       multprot.cc.pep[[i]] <- names(peplist)
     }
   }
-  
   
   ### Merge results into a single list
   prot.cc <- c(multprot.cc, singprot.cc)
@@ -147,7 +112,7 @@ get.pep.prot.cc <- function(X) {
 
 #' @title Jitter plot of CC
 #'
-#' @param list.of.cc List of cc such as returned by the function get.pep.prot.cc
+#' @param list.of.cc List of cc such as returned by the function getPepProtCC
 #'
 #' @return A plot
 #'
@@ -156,7 +121,7 @@ get.pep.prot.cc <- function(X) {
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' plotJitter(ll)
 #'
 #' @export
@@ -166,20 +131,15 @@ plotJitter <- function(list.of.cc = NULL) {
     return()
   }
   
-  #x <- length(list.of.cc) # number of CCs
-  cc.summary <- sapply(list.of.cc, function(x) {
+  cc.summary <- vapply(list.of.cc, function(x) {
     c(length(x[[1]]), length(x[[2]]))
-  })
-  # cc.summary <- vapply(list.of.cc, 
-  #     function(x) {c(length(x[[1]]), length(x[[2]]))},
-  #     data.frame(2)
-  #     )
+  }, integer(2))
   
   rownames(cc.summary) <- c("Nb_proteins", "Nb_peptides")
   colSums(cc.summary) # total amount of pep and prot in each CC
   colnames(cc.summary) <- seq_len(length(list.of.cc))
   cc.summary
-  rowSums(cc.summary) # c(number of prot, number of pep)
+  rowSums(cc.summary) 
   
   
   cc.summary <- as.data.frame(t(jitter(cc.summary)))
@@ -207,7 +167,7 @@ plotJitter <- function(list.of.cc = NULL) {
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' g <- buildGraph(ll[[1]], X)
 #'
 #' @export
@@ -267,16 +227,16 @@ buildGraph <- function(The.CC, X) {
 #' @examples
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)
+#' ll <- getPepProtCC(X)
 #' g <- buildGraph(ll[[1]], X)
-#' display.CC.visNet(g)
+#' displayCCvisNet(g)
 #'
 #' @export
 #'
 #'
-display.CC.visNet <- function(g) {
+displayCCvisNet <- function(g) {
   
-  pkgs.require('visNetwork')
+  pkgsRequire('visNetwork')
   
   col.prot <- "#ECB57C"
   col.spec <- "#5CA3F7"
@@ -311,7 +271,7 @@ display.CC.visNet <- function(g) {
 #' @examples 
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' ll <- get.pep.prot.cc(X)[1:4]
+#' ll <- getPepProtCC(X)[seq_len(4)]
 #' n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
 #' n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
 #' df <- tibble::tibble(
@@ -322,15 +282,6 @@ display.CC.visNet <- function(g) {
 #' plotJitter_rCharts(df)
 #'
 plotJitter_rCharts <- function(df) {
-  xtitle <- "TO DO"
-
-    clickFunction <-
-      JS("function(event) 
-                {
-                Shiny.onInputChange('eventPointClicked', 
-                [this.index]+'_'+ [this.series.name]);
-                }")
-  
   
   i_tooltip <- which(startsWith(colnames(df), "tooltip"))
   txt_tooltip <- NULL
@@ -339,32 +290,29 @@ plotJitter_rCharts <- function(df) {
     warning("There is no tooltip in the object.")
   }
   
-  for (i in i_tooltip) {
-    txt_tooltip <- paste(txt_tooltip, "<b>", gsub("tooltip_", "",
-                                                  colnames(df)[i],
-                                                  fixed = TRUE
-    ),
-    " </b>: {point.", colnames(df)[i], "} <br> ",
-    sep = ""
+  txt_tooltip <- apply(df[, i_tooltip, drop = FALSE], 1, function(row) {
+    paste(
+      paste0("<b>", gsub("tooltip_", "", colnames(df)[i_tooltip]), "</b>: ", row),
+      collapse = "<br>"
     )
-  }
+  })
   
-  h1 <- highchart() |>
-    hc_add_series(data = df, type = "scatter") |>
-    my_hc_chart(zoomType = "xy", chartType = "scatter") |>
-    hc_legend(enabled = FALSE) |>
-    hc_yAxis(title = list(text = "Nb of proteins ic CC")) |>
-    hc_xAxis(title = list(text = "Nb of peptides ic CC")) |>
-    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
-    hc_plotOptions(series = list(
-      animation = list(duration = 100),
-      cursor = "pointer",
-      point = list(events = list(
-        click = clickFunction
-      ))
-    )) |>
-    my_hc_ExportMenu(filename = "plotCC")
+  p <- plot_ly(
+    data = df,
+    x = ~x,
+    y = ~y,
+    type = "scatter",
+    mode = "markers",
+    text = txt_tooltip,
+    hoverinfo = "text",
+    showlegend = FALSE
+  ) |>
+    plotly::layout(
+      xaxis = list(title = "Nb of peptides ic CC"),
+      yaxis = list(title = "Nb of proteins ic CC"),
+      hovermode = "closest",
+      margin = list(b = 60) 
+    )
   
-  
-  return(h1)
+  return(p)
 }

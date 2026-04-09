@@ -26,7 +26,7 @@ setMethod(
 setMethod(
   "paramshistory", "SummarizedExperiment",
   function(object, slotName = "paramshistory") {
-    .GetMetadataSlot(object, slotName)
+    GetMetadataSlot(object, slotName)
   }
 )
 
@@ -49,7 +49,8 @@ setMethod(
         stop("Subscript is out of bounds.")
       }
       if (is.character(i) && !(i %in% names(object))) {
-        stop("Assay '", i, "' not found.")
+        msg <- paste0("Assay '", i, "' not found.")
+        stop(msg)
       }
       S4Vectors::metadata(object[[i]])[[slotName]] <- value
     }

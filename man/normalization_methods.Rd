@@ -97,7 +97,7 @@ normalizeMethods()
 
 data(subR25pept)
 qData <- SummarizedExperiment::assay(subR25pept[[1]])
-conds <- design.qf(subR25pept)$Condition
+conds <- design_qf(subR25pept)$Condition
 
 
 
@@ -114,8 +114,6 @@ type = "within conditions", subset.norm = seq_len(10)
 )
 
 normalized <- MeanCentering(qData, conds, type = "overall")
-
-# normalized <- vsn(qData, conds, type = "overall")
 
 normalized <- LOESS(qData, conds, type = "overall")
 

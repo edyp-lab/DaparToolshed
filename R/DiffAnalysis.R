@@ -46,7 +46,7 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #' # Simulate imputation
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
-#' SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
+#' SummarizedExperiment::assay(obj[[length(obj)]]), design_qf(obj), 
 #' comp.type="OnevsOne")
 #' diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 #'
@@ -54,7 +54,7 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #'
 diffAnaComputeAdjustedPValues <- function(pval, 
                                           pi0Method = 1) {
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   
   padj <- cp4p::adjust.p(pval, pi0Method)
   return(padj$adjp[, 2])
@@ -83,7 +83,7 @@ diffAnaComputeAdjustedPValues <- function(pval,
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' wrapperCalibrationPlot(allComp$P_Value[, 1])
 #'
@@ -93,7 +93,7 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
   if (is.null(vPVal)) {
     return(NULL)
   }
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   
   p <- cp4p::calibration.plot(vPVal, pi0.method = pi0Method)
   
@@ -122,86 +122,63 @@ wrapperCalibrationPlot <- function(vPVal, pi0Method = "pounds") {
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' histPValue_HC(allComp$P_Value[1])
 #'
 #' @export
-#' @import highcharter
+#' @import plotly
+#' @importFrom graphics hist
 #'
 histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
-  pkgs.require('graphics')
   
   h <- graphics::hist(sort(unlist(pval_ll)), breaks = bins, plot = FALSE)
-  
-  # serieInf <- sapply(h$density, function(x) min(pi0, x))
-  # serieSup <- sapply(h$density, function(x) max(0, x - pi0))
   
   serieInf <- vapply(h$density, function(x) min(pi0, x), numeric(1))
   serieSup <- vapply(h$density, function(x) max(0, x - pi0), numeric(1))
   
-  hc <- highcharter::highchart() %>%
-    hc_chart(type = "column") %>%
-    hc_add_series(data = serieSup, name = "p-value density") %>%
-    hc_add_series(data = serieInf, name = "p-value density") %>%
-    hc_title(text = "P-value histogram") %>%
-    hc_legend(enabled = FALSE) %>%
-    hc_colors(c("green", "red")) %>%
-    hc_xAxis(title = list(text = "P-value"), categories = h$breaks) %>%
-    hc_yAxis(
-      title = list(text = "Density"),
-      plotLines = list(
+  df_plot <- data.frame(
+    mids = h$mids,
+    serieInf = serieInf,
+    serieSup = serieSup
+  )
+  
+  p <- plot_ly(df_plot, x = ~mids) |>
+    add_trace(y = ~serieInf, type = 'bar', name = 'Below pi0', marker = list(color = 'red')) |>
+    add_trace(y = ~serieSup, type = 'bar', name = 'Above pi0', marker = list(color = 'green')) |>
+    plotly::layout(
+      barmode = 'stack',
+      showlegend = FALSE,
+      bargap = 0,
+      title = list(text = "P-value histogram", x = 0.5),
+      xaxis = list(title = "P-value"),
+      yaxis = list(title = "Density"),
+      shapes = list(
         list(
-          color = "blue", 
-          width = 2, 
-          value = pi0, 
-          zIndex = 5)
-      )
-    ) %>%
-    hc_tooltip(
-      headerFormat = "",
-      pointFormat = "<b> {series.name} </b>: {point.y} ",
-      valueDecimals = 2
-    ) %>%
-    my_hc_ExportMenu(filename = "histPVal") %>%
-    hc_plotOptions(
-      column = list(
-        groupPadding = 0,
-        pointPadding = 0,
-        borderWidth = 0
-      ),
-      series = list(
-        stacking = "normal",
-        animation = list(duration = 100),
-        connectNulls = TRUE,
-        marker = list(enabled = FALSE)
-      )
-    ) %>%
-    hc_add_annotation(
-      labelOptions = list(
-        backgroundColor = "transparent",
-        verticalAlign = "top",
-        y = -30,
-        borderWidth = 0,
-        x = 20,
-        style = list(
-          fontSize = "1.5em",
-          color = "blue"
+          type = "line",
+          x0 = min(df_plot$mids),
+          x1 = max(df_plot$mids),
+          y0 = pi0,
+          y1 = pi0,
+          line = list(color = "blue", width = 2)
         )
       ),
-      labels = list(
+      annotations = list(
         list(
-          point = list(
-            xAxis = 0,
-            yAxis = 0,
-            x = 80,
-            y = pi0
-          ),
-          text = paste0("pi0=", pi0)
+          x = max(df_plot$mids) * 0.8,
+          y = pi0+5,
+          text = paste0("pi0 = ", pi0),
+          xref = "x",
+          yref = "y",
+          showarrow = FALSE,
+          font = list(size = 16, color = "blue"),
+          xanchor = "left",
+          yanchor = "bottom"
         )
       )
     )
-  return(hc)
+  
+  return(p)
 }
 
 
@@ -240,7 +217,7 @@ histPValue_HC <- function(pval_ll, bins = 80, pi0 = 1) {
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(SummarizedExperiment::assay(
 #' obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' pushpvalue(obj, 
 #' allComp$P_Value[, 1], 
@@ -326,19 +303,24 @@ pushpvalue <- function(obj,
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
-#' is.differential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
+#' isDifferential(allComp$P_Value[, 1], allComp$logFC[, 1], 0.05, 0.5)
 #'
 #' @export
 #'
 
-is.differential <- function(pvalue,
+isDifferential <- function(pvalue,
                            logFC,
                            thpvalue,
                            thlogFC){
   differentialList <- rep(0, length(pvalue))
   logpval <- -log10(pvalue)
+  
+  if (all(is.na(logFC))) {
+    thlogFC <- 0
+    logFC[which(is.na(logFC))] <- 0
+  }
   
   signifItems <- intersect(which(logpval >= thpvalue),
                            which(abs(logFC) >= thlogFC))

@@ -67,13 +67,14 @@ GetIndices_FunFiltering <- function(obj,
   
   
   indices <- NULL
-  is.subset <- sum(pattern == intersect(pattern,  metacell.def(level)$node))==length(pattern)
+  is.subset <- sum(pattern == intersect(pattern,  metacellDef(level)$node))==length(pattern)
   if (!is.subset) {
-    warning("Available values for pattern are: ", paste0(metacell.def(level)$node, collapse=', ' ))
+    msg <- paste0("Available values for pattern are: ", paste0(metacellDef(level)$node, collapse=', ' ))
+    warning(msg)
     return(NULL)
   }
   
-  mask <- match.metacell(metadata = qMetacell(obj),
+  mask <- matchMetacell(metadata = qMetacell(obj),
     pattern = pattern,
     level = level
   )
@@ -171,7 +172,7 @@ SymFilteringOperators <- function() {
 #' data(subR25pept)
 #' level <- 'peptide'
 #' pattern <- "Missing"
-#' metacell.mask <- match.metacell(
+#' metacell.mask <- matchMetacell(
 #' metadata = qMetacell(subR25pept[[1]]), pattern = pattern, level = level)
 #' percent <- FALSE
 #' th <- 3
@@ -211,10 +212,9 @@ GetIndices_WholeMatrix <- function(metacell.mask,
   }
   
   if (!(op %in% SymFilteringOperators())) {
-    warning(paste0(
-      "'op' must be one of the following values: ",
-      paste0(SymFilteringOperators(), collapse = " ")
-    ))
+    msg <- paste0("'op' must be one of the following values: ",
+                  paste0(SymFilteringOperators(), collapse = " "))
+    warning(msg)
     return(NULL)
   }
   
@@ -247,7 +247,7 @@ GetIndices_WholeMatrix <- function(metacell.mask,
 #' data(subR25pept)
 #' level <- 'peptide'
 #' pattern <- "Missing POV"
-#' metacell.mask <- match.metacell(metadata = qMetacell(subR25pept[[1]]), 
+#' metacell.mask <- matchMetacell(metadata = qMetacell(subR25pept[[1]]), 
 #' pattern = pattern, level = level)
 #' ind <- GetIndices_WholeLine(metacell.mask)
 #'
@@ -296,10 +296,10 @@ GetIndices_WholeLine <- function(metacell.mask) {
 #' data(subR25pept)
 #' level <- typeDataset(subR25pept[[1]])
 #' pattern <- 'Missing'
-#' metacell.mask <- match.metacell(
+#' metacell.mask <- matchMetacell(
 #' metadata=qMetacell(subR25pept[[1]]), pattern=pattern, level=level)
 #' type <- 'AllCond'
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' op <- '>='
 #' th <- 0.5
 #' percent <- TRUE
@@ -337,10 +337,9 @@ GetIndices_BasedOnConditions <- function(metacell.mask,
   if (missing(th)) {
     stop("'th' is missing.")
   } else if (!(op %in% SymFilteringOperators())) {
-    stop(paste0(
-      "'op' must be one of the following values: ",
-      paste0(SymFilteringOperators(), collapse = " ")
-    ))
+    msg <- paste0("'op' must be one of the following values: ",
+                  paste0(SymFilteringOperators(), collapse = " "))
+    stop(msg)
   }
   
   u_conds <- unique(conds)

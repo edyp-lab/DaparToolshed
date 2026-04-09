@@ -14,7 +14,7 @@
 #' obj <- subR25prot[[1]]
 #' level <- typeDataset(obj)
 #' pattern <- "Missing"
-#' mask <- match.metacell(
+#' mask <- matchMetacell(
 #'     metadata = qMetacell(obj),
 #'     pattern = pattern,
 #'     level = level
@@ -28,7 +28,7 @@
 #' data(subR25prot)
 #' ind <- qMetacellWholeLine(obj, cmd, pattern)
 #'
-#' conds <- design.qf(subR25prot)$Condition
+#' conds <- design_qf(subR25prot)$Condition
 #' op <- ">="
 #' th <- 0.5
 #' percent <- "Percentage"
@@ -101,7 +101,7 @@ qMetacellWholeMatrix <- function(object,
 
 
     # Check parameters
-    mask <- match.metacell(
+    mask <- matchMetacell(
       metadata = qMetacell(object),
         pattern = pattern,
         level = level
@@ -113,19 +113,16 @@ qMetacellWholeMatrix <- function(object,
         }
     } else {
         if (th > ncol(mask)) {
-            stop(paste0(
-                "Param `th` is not correct. It must be an integer greater 
-                than or equal to 0 and less or equal than ",
-                ncol(mask)
-            ))
+          msg <- paste0("Param `th` is not correct. It must be an integer greater 
+                        than or equal to 0 and less or equal than ", ncol(mask))
+          stop(msg)
         }
     }
 
     if (!(operator %in% SymFilteringOperators())) {
-        stop(paste0(
-            "'op' must be one of the followinf values: ",
-            paste0(SymFilteringOperators(), collapse = " ")
-        ))
+      msg <- paste0("'op' must be one of the followinf values: ", 
+                    paste0(SymFilteringOperators(), collapse = " "))
+      stop(msg)
     }
 
 
@@ -180,12 +177,12 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
     indices <- NULL
     level <- typeDataset(object)
 
-    if (!all(pattern %in% metacell.def(level)$node)) {
+    if (!all(pattern %in% metacellDef(level)$node)) {
         warning("Either 'pattern' nor 'type' are equal to 'None'")
         return(NULL)
     }
 
-    mask <- match.metacell(
+    mask <- matchMetacell(
         metadata = qMetacell(object),
         pattern = pattern,
         level = level
@@ -261,10 +258,9 @@ qMetacellOnConditions <- function(object,
     if (missing(operator)) {
         stop("'operator' is missing.")
     } else if (!(operator %in% SymFilteringOperators())) {
-        stop(paste0(
-            "'operator' must be one of the followinf values: ",
-            paste0(SymFilteringOperators(), collapse = " ")
-        ))
+      msg <- paste0("'operator' must be one of the following values: ",
+                    paste0(SymFilteringOperators(), collapse = " "))
+      stop(msg)
     }
     u_conds <- unique(conds)
     nbCond <- length(u_conds)
@@ -275,16 +271,14 @@ qMetacellOnConditions <- function(object,
             function(x) length(which(conds == x))
         )))
         if (th > th.upbound) {
-            stop(paste0(
-                "Param `th` is not correct. It must be an integer greater than 
-                or equal to 0 and less or equal than ",
-                th.upbound
-            ))
+          msg <- paste0("Param `th` is not correct. It must be an integer greater than 
+                        or equal to 0 and less or equal than ", th.upbound)
+          stop(msg)
         }
     }
 
 
-    mask <- match.metacell(
+    mask <- matchMetacell(
       metadata = qMetacell(object),
         pattern = pattern,
         level = typeDataset(object)

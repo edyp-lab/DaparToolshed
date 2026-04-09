@@ -135,7 +135,6 @@ createQFeatures <- function(
       tmp.qMetacell <- as.data.frame(tmp.qMetacell, stringsAsFactors = FALSE)
       colnames(tmp.qMetacell) <- gsub(".", "_", colnames(tmp.qMetacell), fixed = TRUE)
       
-      #ind2delete <- c(ind2delete, indexForMetacell)
       ind2delete <- indexForMetacell
       ind2delete <- match(ind2delete, colnames(data))
       data <- data[, -ind2delete]
@@ -151,7 +150,6 @@ createQFeatures <- function(
     typeDataset <- ReplaceSpecialChars(typeDataset)
     parentProtId <- ReplaceSpecialChars(parentProtId)
     analysis <- ReplaceSpecialChars(analysis)
-    #processes <- ReplaceSpecialChars(processes)
     typePipeline <- ReplaceSpecialChars(typePipeline)
     software <- ReplaceSpecialChars(software)
     
@@ -180,7 +178,7 @@ createQFeatures <- function(
 
     ## Encoding the sample data
     
-    design.qf(obj) <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
+    design_qf(obj) <- lapply(sample, function(x) {ReplaceSpecialChars(x)})
 
 
     # Get the metacell info
@@ -232,7 +230,7 @@ createQFeatures <- function(
     idcol(obj[["Convert"]]) <- keyId
  
     if (tolower(typeDataset) == "peptide" && !is.null(parentProtId)) {
-      pkgs.require('PSMatch')
+      pkgsRequire('PSMatch')
       parentProtId(obj[["Convert"]]) <- parentProtId
       history <- Add2History(history, 'Convert', 'Convert', 'parentProtId', parentProtId)
       
@@ -242,7 +240,6 @@ createQFeatures <- function(
       QFeatures::adjacencyMatrix(obj[[1]]) <- X
       
       # Create the connected components
-      #ConnectedComp(obj[[1]]) <- PSMatch::ConnectedComponents(X)
     }
 
     

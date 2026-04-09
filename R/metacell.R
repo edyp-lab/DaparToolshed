@@ -68,8 +68,8 @@
 #' 
 #' @examples 
 #' 
-#' metacell.def('protein')
-#' metacell.def('peptide')
+#' metacellDef('protein')
+#' metacellDef('peptide')
 #' 
 NULL
 
@@ -88,7 +88,7 @@ NULL
 #' @rdname q_metacell
 #' 
 #' 
-metacell.def <- function(level){
+metacellDef <- function(level){
   if(missing(level))
     stop("'level' is required.")
   
@@ -205,9 +205,9 @@ custom_metacell_colors <- function()
 GetNbTags <- function(obj){
   df <- qMetacell(obj)
   level <- typeDataset(obj)
-  nodes <- metacell.def(level)$node
+  nodes <- metacellDef(level)$node
   
-  nb <- sapply(nodes, function(x) length(which(df == x)))
+  nb <- vapply(nodes, function(x) length(which(df == x)), integer(1))
   return(nb)
 }
 
@@ -229,7 +229,7 @@ GetNbTags <- function(obj){
 #' @return NA
 Parent <- function(level, node=NULL){
   parents <- NULL
-  tags <- metacell.def(level)
+  tags <- metacellDef(level)
   
   if (!is.null(node) && length(node) > 0){
     for (p in node){
@@ -260,7 +260,7 @@ Parent <- function(level, node=NULL){
 #' 
 Children <- function(level, parent = NULL){
   childrens <- NULL
-  tags <- metacell.def(level)
+  tags <- metacellDef(level)
   if (!is.null(parent) && length(parent) > 0){
     for (p in parent){
       ind <- grepl(p, tags$parent)
@@ -321,7 +321,7 @@ setMethod("GetMetacellTags", "QFeatures",
 #' @return NA
 setMethod("GetMetacellTags", "SummarizedExperiment",
   function(object, ...) {
-    .GetMetacellTags(qMetacell(object), ...)
+    GetMetacellTagsDf(qMetacell(object), ...)
     }
 )
 
@@ -330,12 +330,12 @@ setMethod("GetMetacellTags", "SummarizedExperiment",
 #' @return NA
 setMethod("GetMetacellTags", "data.frame",
           function(object, ...) {
-            .GetMetacellTags(object, ...)
+            GetMetacellTagsDf(object, ...)
           }
 )
 
 
-.GetMetacellTags <- function(object = NULL,
+GetMetacellTagsDf <- function(object = NULL,
                             level = NULL,
                             onlyPresent = FALSE) {
   
@@ -352,8 +352,7 @@ setMethod("GetMetacellTags", "data.frame",
    ll <- NULL
   if(onlyPresent) {
     # Compute unique tags
-    tmp <- sapply(colnames(object), function(x) unique(object[,x]))
-    ll <- unique(as.vector(tmp))
+    ll <- unique(unlist(object))
     
     # Check if parent must be added
     test <- match (Children(level, 'Any'), ll)
@@ -377,7 +376,7 @@ setMethod("GetMetacellTags", "data.frame",
       ll <- c(ll, 'Combined tags')
 
   } else {
-    ll <- metacell.def(level)$node[-which(metacell.def(level)$node =='Any')]
+    ll <- metacellDef(level)$node[-which(metacellDef(level)$node =='Any')]
   }
   
   return(ll)
@@ -406,7 +405,7 @@ setMethod("GetMetacellTags", "data.frame",
 #' @examples 
 #' library(QFeatures)
 #' data(subR25prot)
-#' conds <- design.qf(subR25prot)$Condition
+#' conds <- design_qf(subR25prot)$Condition
 #' df <- Set_POV_MEC_tags(subR25prot[[1]], conds)
 #'
 #' @name q_metacell
@@ -430,9 +429,9 @@ Set_POV_MEC_tags <- function(obj, conds){
   for (i in seq_len(length(u_conds))) {
     ind.samples <- which(conds == u_conds[i])
     
-    ind.imputed <- match.metacell(qMeta[, ind.samples], "Imputed", level)
+    ind.imputed <- matchMetacell(qMeta[, ind.samples], "Imputed", level)
     
-    ind.missing <- match.metacell(qMeta[, ind.samples], "Missing", level)
+    ind.missing <- matchMetacell(qMeta[, ind.samples], "Missing", level)
     
     ind.missing.pov <- ind.missing & 
       rowSums(ind.missing) < length(ind.samples) & 
@@ -465,9 +464,9 @@ Set_POV_MEC_tags2 <- function(conds, df, level){
   for (i in seq_len(length(u_conds))) {
     ind.samples <- which(conds == u_conds[i])
     
-    ind.imputed <- match.metacell(df[, ind.samples], "Imputed", level)
+    ind.imputed <- matchMetacell(df[, ind.samples], "Imputed", level)
     
-    ind.missing <- match.metacell(df[, ind.samples], "Missing", level)
+    ind.missing <- matchMetacell(df[, ind.samples], "Missing", level)
     
     ind.missing.pov <- ind.missing & 
       rowSums(ind.missing) < length(ind.samples) & 
@@ -500,16 +499,7 @@ Set_POV_MEC_tags2 <- function(conds, df, level){
 #' @return A vecotr of charatcer
 #' 
 GetSoftAvailables <- function(){
-  
-  
-  # funcs <- ls('package:DaparToolshed')
-  # funcs <- funcs[grep('Metacell_', funcs)]
-  # funcs <- strsplit(funcs, 'Metacell_')
-  # funcs <- unlist(lapply(funcs, function(x) x[[2]]))
-  # funcs <- funcs[-which(funcs=='generic')]
-  
   funcs <- c("DIA_NN", "maxquant", "proline")
-  
   return(funcs)
 }
 
@@ -601,7 +591,7 @@ BuildMetacell <- function(from = NULL,
 #' @examples 
 #' library(SummarizedExperiment)
 #' data(subR25pept)
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_generic(qdata, conds, 'peptide')
 #' 
@@ -662,7 +652,7 @@ Metacell_generic <- function(qdata, conds, level) {
 #'
 #' @examples
 #' data(subR25pept)
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_DIA_NN(qdata, conds, df, level = "peptide")
 #' 
@@ -719,7 +709,7 @@ Metacell_DIA_NN <- function(qdata, conds, df, level = NULL) {
 #'
 #' @examples
 #' data(subR25pept)
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df <- Metacell_proline(qdata, conds, level = "peptide")
 #' 
@@ -795,7 +785,7 @@ Metacell_proline <- function(qdata, conds, df = NULL, level = NULL) {
 #'
 #' @examples
 #' data(subR25pept)
-#' conds <- design.qf(subR25pept)$Condition
+#' conds <- design_qf(subR25pept)$Condition
 #' qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 #' df2 <- Metacell_maxquant(qdata, conds, level = "peptide")
 #'
@@ -867,12 +857,12 @@ Metacell_maxquant <- function(qdata, conds, df = NULL, level = NULL) {
 #' @examples
 #' data(subR25pept)
 #' metadata <- qMetacell(subR25pept[[1]])
-#' m <- match.metacell(metadata, pattern = "Missing", level = "peptide")
-#' m <- match.metacell(metadata, pattern = 'Missing POV', level = "peptide")
-#' m <- match.metacell(metadata, pattern = c('Missing', 'Missing POV'), level = "peptide")
+#' m <- matchMetacell(metadata, pattern = "Missing", level = "peptide")
+#' m <- matchMetacell(metadata, pattern = 'Missing POV', level = "peptide")
+#' m <- matchMetacell(metadata, pattern = c('Missing', 'Missing POV'), level = "peptide")
 #' @export
 #'
-match.metacell <- function(metadata, pattern = NULL, level) {
+matchMetacell <- function(metadata, pattern = NULL, level) {
   if (missing(metadata))
     stop("'metadata' is required")
   
@@ -883,12 +873,11 @@ match.metacell <- function(metadata, pattern = NULL, level) {
     stop("'level' is required.")
   
   
-  #is.subset <- pattern == intersect(pattern,  metacell.def(level)$node)
-  if (sum(pattern == intersect(pattern,  metacell.def(level)$node)) !=  length(pattern)) {
-    stop(paste0(
-      "'pattern' is not correct. Available values are: ",
-      paste0(metacell.def(level)$node, collapse = " ")
-    ))
+  #is.subset <- pattern == intersect(pattern,  metacellDef(level)$node)
+  if (sum(pattern == intersect(pattern,  metacellDef(level)$node)) !=  length(pattern)) {
+    msg <- paste0("'pattern' is not correct. Available values are: ",
+                  paste0(metacellDef(level)$node, collapse = " "))
+    stop(msg)
   }
   
   ll.res <- lapply(pattern, function(x) {metadata == x})
@@ -941,7 +930,7 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
             if (missing(object))
               stop("'object' is required.")
 
-            ind <- match.metacell(
+            ind <- matchMetacell(
               metadata = qMetacell(object), 
               pattern = c('Missing', 'Missing POV', 'Missing MEC'), 
               level = typeDataset(object)) & !is.na(SummarizedExperiment::assay(object))
@@ -974,8 +963,8 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
 #' @author Samuel Wieczorek
 #' 
 #' @examples
-#' search.metacell.tags('Missing POV', 'peptide')
-#' search.metacell.tags('Quantified', 'peptide')
+#' searchMetacellTags('Missing POV', 'peptide')
+#' searchMetacellTags('Quantified', 'peptide')
 #' 
 #' @export
 #' @return NA
@@ -983,12 +972,13 @@ setMethod("UpdateMetacellAfterImputation", "SummarizedExperiment",
 #' @rdname q_metacell
 #' 
 #' 
-search.metacell.tags <- function(pattern, level, depth = "1") {
+searchMetacellTags <- function(pattern, level, depth = "1") {
   if (missing(pattern)) {
     stop("'pattern' is required.")
-  } else if (!(pattern %in% metacell.def(level)$node)) {
-    stop(paste0("'pattern' must be one of the following: ", 
-                paste0(metacell.def(level)$node, collapse = " ")))
+  } else if (!(pattern %in% metacellDef(level)$node)) {
+    msg <- paste0("'pattern' must be one of the following: ", 
+                  paste0(metacellDef(level)$node, collapse = " "))
+    stop(msg)
   }
   
   if (missing(level)) {
@@ -998,20 +988,20 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
     stop("'depth' must be one of the following: 0, 1 or *")
   }
   
-  .ind <- which(metacell.def(level)$parent == pattern)
+  .ind <- which(metacellDef(level)$parent == pattern)
   tags <- NULL
   tags <- switch(depth,
                  "0" = pattern,
                  "1" = c(pattern, 
-                         metacell.def(level)$node[.ind]),
+                         metacellDef(level)$node[.ind]),
                  "*" = {
-                   if (length(metacell.def(level)$node[.ind]) == 0) {
-                     search.metacell.tags(pattern, level, "0")
+                   if (length(metacellDef(level)$node[.ind]) == 0) {
+                     searchMetacellTags(pattern, level, "0")
                    } else {
                      c(pattern, unlist(lapply(
-                       metacell.def(level)$node[.ind],
+                       metacellDef(level)$node[.ind],
                        function(x) {
-                         search.metacell.tags(x, level, depth)
+                         searchMetacellTags(x, level, depth)
                        }
                      )))
                    }
@@ -1028,7 +1018,7 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' @description
 #' 
 #' Agregation rules for the cells quantitative metadata of peptides. 
-#' Please refer to the qMetacell.def vocabulary in `qMetacell.def()`
+#' Please refer to the qmetacellDef vocabulary in `qmetacellDef()`
 #' 
 #' # Basic agreagtion
 #' Agregation of non imputed values (2.X) with quantitative values 
@@ -1070,8 +1060,8 @@ search.metacell.tags <- function(pattern, level, depth = "1") {
 #' 
 #' @examples
 #' \donttest{
-#' ll <- metacell.def('peptide')$node
-#' for (i in 1:length(ll))
+#' ll <- metacellDef('peptide')$node
+#' for (i in seq_along(ll))
 #' test <- lapply(combn(ll, i, simplify = FALSE), 
 #' function(x) tag <- metacombine(x, 'peptide'))
 #' }
@@ -1089,20 +1079,6 @@ metacombine <- function(met, level) {
   
   u_met <- unique(met)
   
-  # ComputeNbTags <- function(tag) {
-  #     sum(
-  #         unlist(
-  #             lapply(search.metacell.tags(tag, level),
-  #                 function(x) length(grep(x, u_met)))))
-  # }
-  # 
-  # 
-  # nb.tags <- lapply(metacell.def(level)$node, 
-  #     function(x) as.numeric(x %in% u_met))
-  # n.imputed <- ComputeNbTags("Imputed")
-  # n.missing <- ComputeNbTags("Missing")
-  # n.quanti <- ComputeNbTags("Quantified")
-  
   .missing_exists <- sum(c('Missing', 'Missing POV', 'Missing MEC') %in% u_met) > 0
   .quanti_exists <- sum(c('Quantified', 'Quant. by direct id', 'Quant. by recovery') %in% u_met) > 0
   .imputed_exists <- sum(c('Imputed', 'Imputed POV', 'Imputed MEC') %in% u_met) > 0
@@ -1110,7 +1086,6 @@ metacombine <- function(met, level) {
   ###
   ### RULE 1
   ###
-  #if (n.missing > 0 && (n.imputed > 0 || n.quanti > 0)) tag <- "STOP"
   if ( .missing_exists && (.quanti_exists ||.imputed_exists ))
     tag <- "STOP"
   

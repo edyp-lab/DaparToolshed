@@ -52,15 +52,17 @@ the list of candidates. Default to TRUE.}
 }
 \value{
 (same as the fudge2 function of siggene):
-s.zero: the value of the fudge factor s0.
-alpha.hat: the optimal quantile of the 's' values. If s0=0, 'alpha.hat'
+\itemize{
+\item s.zero: the value of the fudge factor s0.
+\item alpha.hat: the optimal quantile of the 's' values. If s0=0, 'alpha.hat'
 will not be returned.
-vec.cv: the vector of the coefficients of variations.  Following
+\item vec.cv: the vector of the coefficients of variations.  Following
 Tusher et al. (2001), the optimal 'alpha' quantile is given
 by the quantile that leads to the smallest CV of the modified
 test statistics.
-msg: a character string summarizing the most important information
+\item msg: a character string summarizing the most important information
 about the fudge factor.
+}
 }
 \description{
 #' fudge2LRT: heuristic to choose the value of the hyperparameter

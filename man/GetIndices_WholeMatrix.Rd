@@ -31,7 +31,7 @@ conditions or at least one condition.
 data(subR25pept)
 level <- 'peptide'
 pattern <- "Missing"
-metacell.mask <- match.metacell(
+metacell.mask <- matchMetacell(
 metadata = qMetacell(subR25pept[[1]]), pattern = pattern, level = level)
 percent <- FALSE
 th <- 3
