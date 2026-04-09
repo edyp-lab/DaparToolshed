@@ -28,7 +28,7 @@
 #' obj <- normalizeFunction(obj, method = "MeanCentering")
 #' plotCompareAssays(obj, 1, 2, n = 5)
 #'
-#' @import highcharter
+#' @import plotly
 #' @importFrom tibble as_tibble
 #' @importFrom utils str
 #' @import QFeatures
@@ -38,115 +38,127 @@
 #' @rdname compare-assays
 #'
 plotCompareAssays <- function(obj,
-  i,
-  j,
-  info = NULL,
-  pal.name = "Set1",
-  subset.view = NULL,
-  n = 100,
-  type = "scatter") {
+                              i,
+                              j,
+                              info = NULL,
+                              pal.name = "Set1",
+                              subset.view = NULL,
+                              n = 100,
+                              type = "scatter") {
   
-  pkgs.require('highcharter')
-    if (missing(obj)) {
-        stop("'obj' is missing")
-    }
-    stopifnot(inherits(obj, "QFeatures"))
-    
-    qdata1 <- SummarizedExperiment::assay(obj[[i]])
-    qdata2 <- SummarizedExperiment::assay(obj[[j]])
-    conds <- design.qf(obj)$Condition
-    
-   
-    if (nrow(qdata1) != nrow(qdata2) || 
-        ncol(qdata1) != ncol(qdata2) ) {
-        stop("Assays must have the same dimensions.")
-    }
-
-    if (ncol(qdata1) != length(conds)) {
-        stop("The length of 'conds' must be equal to the number of columns of
+  pkgsRequire('plotly')
+  if (missing(obj)) {
+    stop("'obj' is missing")
+  }
+  stopifnot(inherits(obj, "QFeatures"))
+  
+  qdata1 <- SummarizedExperiment::assay(obj[[i]])
+  qdata2 <- SummarizedExperiment::assay(obj[[j]])
+  conds <- design_qf(obj)$Condition
+  
+  
+  if (nrow(qdata1) != nrow(qdata2) || 
+      ncol(qdata1) != ncol(qdata2) ) {
+    stop("Assays must have the same dimensions.")
+  }
+  
+  if (ncol(qdata1) != length(conds)) {
+    stop("The length of 'conds' must be equal to the number of columns of
     'qdata1' and 'qdata2'")
-    }
-
-
-    if (is.null(info)) {
-        info <- rep(NA, nrow(qdata1))
-    } else if (length(info) != nrow(qdata1)) {
-        stop("'info' must have the same length as the number of rows of
+  }
+  
+  
+  if (is.null(info)) {
+    info <- rep(NA, nrow(qdata1))
+  } else if (length(info) != nrow(qdata1)) {
+    stop("'info' must have the same length as the number of rows of
          'qdata1' and 'qdata2'")
-    }
-
-
-    stopifnot(type %in% c("scatter", "line"))
-
-    # Reduce the assays to the entities given by 'subset.view'
-    if (!is.null(subset.view) && length(subset.view) > 0) {
-        if (nrow(qdata1) > 1) {
-            info <- info[subset.view]
-
-            if (length(subset.view) == 1) {
-                qdata1 <- t(qdata1[subset.view, ])
-                qdata2 <- t(qdata2[subset.view, ])
-            } else {
-                qdata1 <- qdata1[subset.view, ]
-                qdata2 <- qdata2[subset.view, ]
-            }
-        }
-    }
-
-
-    if (is.null(n) || n > nrow(qdata1)) {
-        warning("'n' is NULL or higher than the number of rows of datasets.
-      Set to number of rows.")
-        n <- nrow(qdata1)
-    }
-
-
-
-    # Reduce the assays to 'n' entities so as to make a lighter plot
+  }
+  
+  
+  stopifnot(type %in% c("scatter", "line"))
+  
+  # Reduce the assays to the entities given by 'subset.view'
+  if (!is.null(subset.view) && length(subset.view) > 0) {
     if (nrow(qdata1) > 1) {
-        ind <- sample(seq_len(nrow(qdata1)), n)
-        info <- info[ind]
-        if (length(ind) == 1) {
-            qdata1 <- t(qdata1[ind, ])
-            qdata2 <- t(qdata2[ind, ])
-        } else {
-            qdata1 <- qdata1[ind, ]
-            qdata2 <- qdata2[ind, ]
-        }
+      info <- info[subset.view]
+      
+      if (length(subset.view) == 1) {
+        qdata1 <- t(qdata1[subset.view, ])
+        qdata2 <- t(qdata2[subset.view, ])
+      } else {
+        qdata1 <- qdata1[subset.view, ]
+        qdata2 <- qdata2[subset.view, ]
+      }
     }
-
-    
-    myColors <- ExtendPalette(length(unique(conds)), pal.name)
-
-    # Compare by using the division between assays
-    x <- qdata1
-    y <- qdata2 / qdata1
-
-    series <- list()
-    for (i in seq_len(length(conds))) {
-        series[[i]] <- list(
-            name = colnames(x)[i],
-            data = highcharter::list_parse(
-                data.frame(x = x[, i],
-                           y = y[, i],
-                           name = info)
-                )
-        )
-    }
-
-    h1 <- highcharter::highchart() |>
-      customChart(chartType = type) |>
-        highcharter::hc_add_series_list(series) |>
-      highcharter::hc_colors(myColors)
-
-    if (!all.equal(info, rep(NA, length(info)))) {
-        h1 <- h1 |>
-          highcharter::hc_tooltip(headerFormat = "", 
-                                  pointFormat = "Id: {point.name}")
+  }
+  
+  
+  if (is.null(n) || n > nrow(qdata1)) {
+    warning("'n' is NULL or higher than the number of rows of datasets.
+      Set to number of rows.")
+    n <- nrow(qdata1)
+  }
+  
+  
+  
+  # Reduce the assays to 'n' entities so as to make a lighter plot
+  if (nrow(qdata1) > 1) {
+    ind <- sample(seq_len(nrow(qdata1)), n)
+    info <- info[ind]
+    if (length(ind) == 1) {
+      qdata1 <- t(qdata1[ind, ])
+      qdata2 <- t(qdata2[ind, ])
     } else {
-        h1 <- h1 |> highcharter::hc_tooltip(enabled = FALSE)
+      qdata1 <- qdata1[ind, ]
+      qdata2 <- qdata2[ind, ]
     }
-
-
-    h1
+  }
+  
+  
+  myColors <- GetColorsForConditions(conds, ExtendPalette(length(unique(conds)), pal.name))
+  
+  # Compare by using the division between assays
+  x <- qdata1
+  y <- qdata2 / qdata1
+  
+  p <- plot_ly()
+  
+  shapes <- c("circle", "square", "diamond", "triangle-up", 
+              "triangle-down", "cross", "x")
+  
+  for (i in seq_along(conds)) {
+    if (!all(is.na(info))) {
+      hovertext <- paste0("Id: ", info)
+      hovermode <- "text"
+    } else {
+      hovertext <- ""
+      hovermode <- "skip"   
+    }
+    
+    p <- p |> add_markers(
+      x = x[, i],
+      y = y[, i],
+      name = colnames(x)[i],
+      text = hovertext,
+      hoverinfo = hovermode,
+      marker = list(
+        color = myColors[i],
+        symbol = shapes[(i - 1) %% length(shapes) + 1],
+        size = 8
+      )
+    )
+  }
+  
+  p <- p |> plotly::layout(
+    legend = list(
+      orientation = "h",
+      x = 0,
+      y = -0.15,
+      xanchor = "left",
+      yanchor = "top"
+    )
+  )
+  
+  p
 }

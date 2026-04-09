@@ -81,7 +81,7 @@ data(subR25prot)
 obj <- subR25prot[[1]]
 level <- typeDataset(obj)
 pattern <- "Missing"
-mask <- match.metacell(
+mask <- matchMetacell(
     metadata = qMetacell(obj),
     pattern = pattern,
     level = level
@@ -95,7 +95,7 @@ ind <- qMetacellWholeMatrix(obj, cmd, pattern, percent, th, op)
 data(subR25prot)
 ind <- qMetacellWholeLine(obj, cmd, pattern)
 
-conds <- design.qf(subR25prot)$Condition
+conds <- design_qf(subR25prot)$Condition
 op <- ">="
 th <- 0.5
 percent <- "Percentage"

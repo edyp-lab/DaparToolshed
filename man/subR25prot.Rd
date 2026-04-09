@@ -40,6 +40,9 @@ for each condition.
 The original dataset is available as a CSV file
 (see inst/extdata/Exp1_R25_prot_100.txt). In the latter case,
 the quantitative data are those of the raw intensities.
+
+This dataset is a subset containing the first 100 proteins from the original
+dataset, which comes from: https://doi.org/10.1002/pmic.201500189
 }
 \references{
 Cox J., Hein M.Y., Luber C.A., Paron I., Nagaraj N., Mann M.

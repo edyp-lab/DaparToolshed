@@ -5,7 +5,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
 cmd = 'delete',
 mode = 'AtLeastOneCond',
 pattern = c("Missing POV", "Missing MEC"),
-conds = design.qf(obj)$Condition,
+conds = design_qf(obj)$Condition,
 percent = TRUE,
 th = 0.8,
 operator = '<')
@@ -18,5 +18,5 @@ anovatest <- wrapperClassic1wayAnova(obj, 1)
 
 
 anova_tests <- t(apply(assay(obj[[1]]), 1, classic1wayAnova,
-  conditions = as.factor(design.qf(obj)$Condition)
+  conditions = as.factor(design_qf(obj)$Condition)
 ))

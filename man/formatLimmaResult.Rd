@@ -7,13 +7,14 @@
 formatLimmaResult(fit, conds, contrast, design.level)
 }
 \arguments{
-\item{fit}{xxxx}
+\item{fit}{An object of class \code{MArrayLM}.}
 
 \item{conds}{A \code{character()} vector which is the names of conditions.}
 
-\item{contrast}{xxxx}
+\item{contrast}{An \code{integer(1)} defining the type of contrast (1 for OnevsOne,
+or 2 for OnvsAll).}
 
-\item{design.level}{xxx}
+\item{design.level}{An \code{integer(1)} specifying the design level.}
 }
 \value{
 A list of two dataframes : logFC and P_Value. The first one contains
@@ -29,7 +30,7 @@ Format Limma results
 library(SummarizedExperiment)
 data(subR25prot)
 level <- 'protein'
-metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
+metacell.mask <- matchMetacell(qMetacell(subR25prot[[1]]), 
 c("Missing POV", "Missing MEC"), level)
 # Simulate imputation
 assay(subR25prot[[1]])[which(is.na(assay(subR25prot[[1]])))] <- 0

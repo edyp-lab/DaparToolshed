@@ -19,7 +19,8 @@ normalizeFunction(
 \item{obj}{An object of class \code{QFeatures} or \code{SummarizedExperiment}.
 If data is of class \code{QFeatures}, the last assay will be normalized.}
 
-\item{method}{Define the normalization method used : \verb{"GlobalQuantileAlignment"``,  }"QuantileCentering"\verb{, }"MeanCentering"\verb{, }"SumByColumns"\verb{, }"LOESS"\code{or}"vsn"`.}
+\item{method}{Define the normalization method used : \code{"GlobalQuantileAlignment"},
+\code{"QuantileCentering"}, \code{"MeanCentering"}, \code{"SumByColumns"}, \code{"LOESS"} or \code{"vsn"}.}
 
 \item{conditions}{A vector of conditions in the dataset.
 If not provided, the vector \code{"Condition"} from the column metadata will be used.}

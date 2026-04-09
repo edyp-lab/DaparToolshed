@@ -31,7 +31,7 @@ OWAnova <- function(current_protein, conditions){
 #'
 #' @examples
 #' data(subR25prot)
-#' applyAnovasOnProteins(subR25prot[1:5,], 1)
+#' applyAnovasOnProteins(subR25prot[seq_len(5),], 1)
 #'
 #' @export
 #' 
@@ -39,7 +39,7 @@ OWAnova <- function(current_protein, conditions){
 #' 
 applyAnovasOnProteins <- function(obj, i){
   qData <- SummarizedExperiment::assay(obj[[i]])
-  sTab <- design.qf(obj)
+  sTab <- design_qf(obj)
   anova_models <- t(apply(qData, 1, OWAnova, conditions = as.factor(sTab$Condition)))
   names(anova_models) <- rownames(qData)
   return(anova_models)
@@ -62,7 +62,7 @@ applyAnovasOnProteins <- function(obj, i){
 #'
 #' @examples
 #' data(subR25prot)
-#' obj <- subR25prot[1:5,]
+#' obj <- subR25prot[seq_len(5),]
 #' testAnovaModels(applyAnovasOnProteins(obj, 1))
 #'
 #' @export
@@ -70,13 +70,14 @@ applyAnovasOnProteins <- function(obj, i){
 #' 
 testAnovaModels <- function(aov_fits, test = "Omnibus"){  
   
-  pkgs.require('multcomp')
+  pkgsRequire('multcomp')
   
   switch(test,
     Omnibus={
-      omnibus_tests_summaries <- t(sapply(aov_fits,
-        function(x) unlist(summary(x))
-      ))
+      funvalue <- unlist(summary(aov_fits[[1]]))
+      omnibus_tests_summaries <- t(vapply(aov_fits,
+        function(x) unlist(summary(x)), funvalue)
+        )
       res <- list("logFC" = data.frame("anova_1way_logFC" = matrix(NA, nrow = length(aov_fits)), row.names = names(aov_fits)),
         "P_Value" = data.frame("anova_1way_pval" = omnibus_tests_summaries[,9], row.names = names(aov_fits)))
     }, TukeyHSD={
@@ -138,7 +139,7 @@ testAnovaModels <- function(aov_fits, test = "Omnibus"){
 #' NULL
 #' 
 formatHSDResults <- function(post_hoc_models_summaries){
-  pkgs.require(c('purrr', 'stringr'))
+  pkgsRequire(c('purrr', 'stringr'))
   
   # get the fold-changes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x[,1])
@@ -173,7 +174,7 @@ formatHSDResults <- function(post_hoc_models_summaries){
 #' 
 #' 
 formatPHTResults <- function(post_hoc_models_summaries){
-  pkgs.require(c('purrr', 'stringr'))
+  pkgsRequire(c('purrr', 'stringr'))
   
   # get the fold-changes
   res_coeffs <- lapply(post_hoc_models_summaries, function(x) x$test$coefficients)
@@ -210,7 +211,7 @@ formatPHTResults <- function(post_hoc_models_summaries){
 #' 
 #' 
 thresholdpval4fdr <- function(x, pval.T, M){
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   index <- which(x< pval.T)
   R <- length(index)/length(x)
   res <- rep(1, length(x))
@@ -233,7 +234,7 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #'
 #' @examples
 #' data(subR25prot)
-#' obj <- subR25prot[1:5,]
+#' obj <- subR25prot[seq_len(5),]
 #' separateAdjPval(
 #' testAnovaModels(
 #' applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
@@ -245,7 +246,7 @@ separateAdjPval <- function(x,
   pval.threshold = 1.05, 
   method = 1){
   
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   if(pval.threshold > 1){
     res <- apply(x, 2, function(x) cp4p::adjust.p(x, pi0.method = method)$adjp$adjusted.p)
   } else{
@@ -270,7 +271,7 @@ separateAdjPval <- function(x,
 #'
 #' @examples
 #' data(subR25prot)
-#' obj <- subR25prot[1:5,]
+#' obj <- subR25prot[seq_len(5),]
 #' globalAdjPval(testAnovaModels(
 #' applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)
 #'
@@ -282,7 +283,7 @@ globalAdjPval <- function(
   pval.threshold=  1.05, 
   method = 1, 
   display = TRUE){
-  pkgs.require('cp4p')
+  pkgsRequire('cp4p')
   res <- x
   vec <- utils::stack(x)$values
   index <- which(vec< pval.threshold)
@@ -319,14 +320,14 @@ globalAdjPval <- function(
 #'   cmd = 'delete',
 #'   mode = 'AtLeastOneCond',
 #'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
+#'   conds = design_qf(obj)$Condition,
 #'   percent = TRUE,
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
 #' 
 #' qdata <- SummarizedExperiment::assay(obj[[2]])
-#' conds <- design.qf(obj)$Condition
+#' conds <- design_qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)
 #' 
@@ -336,8 +337,7 @@ globalAdjPval <- function(
 #' @importFrom stats aov
 #'
 classic1wayAnova <- function(current_line, conditions) {
-  #.Deprecated("OWAnova")
-  pkgs.require('stats')
+  pkgsRequire('stats')
   
   # vector containing the protein/peptide intensities
   intensities <- unname(unlist(current_line))
@@ -381,7 +381,7 @@ classic1wayAnova <- function(current_line, conditions) {
 #'   cmd = 'delete',
 #'   mode = 'AtLeastOneCond',
 #'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
+#'   conds = design_qf(obj)$Condition,
 #'   percent = TRUE,
 #'   th = 0.8,
 #'   operator = '>')
@@ -400,11 +400,8 @@ wrapperClassic1wayAnova <- function(obj,
   with_post_hoc = "No", 
   post_hoc_test = "No") {
   
-  #.Deprecated("testAnovaModels")
-  
-  
   qData <- SummarizedExperiment::assay(obj[[i]])
-  sTab <- design.qf(obj)
+  sTab <- design_qf(obj)
   if (with_post_hoc == "No") {
     anova_tests <- as.data.frame(
       t(
@@ -426,7 +423,6 @@ wrapperClassic1wayAnova <- function(obj,
     results <- as.data.frame(anova_tests[, 'Pr(>F)1'])
     colnames(results) <- 'Pr(>F)1'
     
-    #results <- dplyr::select(anova_tests, `Pr(>F)1`)
     to_return <- list(
       "logFC" = data.frame(
         "anova_1way_logFC" = matrix(NA, nrow = nrow(results)), 
@@ -489,13 +485,13 @@ wrapperClassic1wayAnova <- function(obj,
 #'   cmd = 'delete',
 #'   mode = 'AtLeastOneCond',
 #'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
+#'   conds = design_qf(obj)$Condition,
 #'   percent = TRUE,
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
 #' qdata <- SummarizedExperiment::assay(obj[[2]])
-#' conds <- design.qf(obj)$Condition
+#' conds <- design_qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)
 #' 
@@ -516,11 +512,9 @@ wrapperClassic1wayAnova <- function(obj,
 #' @export
 #'
 formatPHResults <- function(post_hoc_models_summaries) {
-  #.Deprecated("formatPHTResults")
-  pkgs.require(c('purrr', 'stringr'))
+  pkgsRequire(c('purrr', 'stringr'))
   
-  
-  # récupérer les différences entre les moyennes
+  # get mean differences
   res_coeffs <- lapply(post_hoc_models_summaries, 
     function(x) x$test$coefficients)
   logFC <- data.frame(purrr::map_dfr(res_coeffs, cbind),
@@ -598,13 +592,13 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #'   cmd = 'delete',
 #'   mode = 'AtLeastOneCond',
 #'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
+#'   conds = design_qf(obj)$Condition,
 #'   percent = TRUE,
 #'   th = 0.8,
 #'   operator = '>')
 #' obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
 #' qdata <- SummarizedExperiment::assay(obj[[2]])
-#' conds <- design.qf(obj)$Condition
+#' conds <- design_qf(obj)$Condition
 #' anova_tests <- apply(qdata, 1, classic1wayAnova, conditions = as.factor(conds))
 #' anova_tests <- t(anova_tests)
 #' 
@@ -617,8 +611,7 @@ formatPHResults <- function(post_hoc_models_summaries) {
 #'
 #'
 postHocTest <- function(aov_fits, post_hoc_test = "TukeyHSD") {
-  #.Deprecated("The other functions present in the file anova_analysis.R")
-  pkgs.require('multcomp')
+  pkgsRequire('multcomp')
   
   
   if (post_hoc_test == "TukeyHSD") {

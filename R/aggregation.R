@@ -65,7 +65,8 @@ setMethod(
       return(object)
     }
     if (name %in% names(object)) {
-      stop("There's already an assay named '", name, "'.")
+      msg <- paste0("There's already an assay named '", name, "'.")
+      stop(msg)
     }
     if (missing(i)) {
       i <- length(object)
@@ -76,20 +77,20 @@ setMethod(
       object = object[[i]],
       fcol = fcol,
       fun = fun,
-      conds = design.qf(object)$Condition,
+      conds = design_qf(object)$Condition,
       shared = shared,
       n = n,
       ...
     )
     SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
-    ## Add the assay to the QFeatures object
+    # Add the assay to the QFeatures object
     object <- QFeatures::addAssay(object,
                        aggAssay,
                        name = name
     )
     
-    ## Link the input assay to the aggregated assay
+    # Link the input assay to the aggregated assay
     QFeatures::addAssayLink(object,
                  from = i,
                  to = name,
@@ -106,12 +107,12 @@ setMethod(
 setMethod(
   "aggregateFeatures4Prostar", "SummarizedExperiment",
   function(object, fcol, fun = MsCoreUtils::robustSummary, conds, shared = TRUE, n = NULL, ...) {
-    .aggregateFeatures4Prostar(object, fcol, fun, conds, shared, n, ...)
+    aggregateFeatures4ProstarSE(object, fcol, fun, conds, shared, n, ...)
   }
 )
 
 
-.aggregateFeatures4Prostar <- function(object, 
+aggregateFeatures4ProstarSE <- function(object, 
   fcol, 
   fun, 
   conds, 
@@ -120,8 +121,10 @@ setMethod(
   ...) {
   
 
-  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a matrix. 
-      You can create one from a vector using the function PSMatch::makeAdjacencyMatrix.")}
+  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){
+    stop("'fcol' must refer to a matrix. You can create one from a vector using 
+         the function PSMatch::makeAdjacencyMatrix.")
+  }
   funname <- fun
   if (funname != "robustSummary"){
     SummarizedExperiment::assay(object) <-  2^(SummarizedExperiment::assay(object))
@@ -137,13 +140,15 @@ setMethod(
   }
   
   if (!is.null(n)){
-    if (!is.numeric(n)){stop("'n' must be numeric.")}
+    if (!is.numeric(n)){
+      stop("'n' must be numeric.")
+    }
     matadj <- select_topn(peptdata, matadj, n, funpept = "Mean") 
   }
   
   repeat_counts <- Matrix::rowSums(matadj)
   
-  assay_SE <- peptdata[rep(1:nrow(peptdata), repeat_counts), ]
+  assay_SE <- peptdata[rep(seq_len(nrow(peptdata)), repeat_counts), ]
   rownames(assay_SE) <- NULL
   
   vect_prot <- apply(matadj, 1, function(row) paste(colnames(matadj)[row == 1], collapse = ";"))
@@ -161,7 +166,7 @@ setMethod(
   
   
   
-  ###QUANTITATIVE DATA
+  ### QUANTITATIVE DATA
   # Create the aggregated assay
   aggAssay <- QFeatures::aggregateFeatures(copy_object, 
     fcol, 
@@ -197,7 +202,7 @@ setMethod(
                                      rowData = rowdata_missprot)
   }
   
-  ###METACELL DATA
+  ### METACELL DATA
   # Removing aggregated rowdata
   SummarizedExperiment::rowData(aggAssay) <- NULL
   # Add rowdata
@@ -219,7 +224,7 @@ setMethod(
 #' applying a summarization function (`fun`) to sets of features.
 #' The `fcol` variable name points to a rowData column that defines
 #' how to group the features during aggregate. This variable has to 
-#' be an adjacency matrix. This function uses `DaparToolshed::inner.aggregate.iter()`
+#' be an adjacency matrix. This function uses `DaparToolshed::innerAggregateIter()`
 #' to aggregate quantitative data.
 #'
 #' The list of agregation methods can be obtained with the function
@@ -235,10 +240,10 @@ setMethod(
 #'             Note that the function will fail if there's already an assay with `name`.
 #' @param init.method A function used for initializing the aggregation. 
 #'                    Available functions are `Sum`, `Mean`, `Median`, `medianPolish` or `robustSummary`. 
-#'                    See `DaparToolshed::inner.aggregate.iter()` for details.
+#'                    See `DaparToolshed::innerAggregateIter()` for details.
 #' @param method A function used for the aggregation. 
 #'               Available functions are `Sum`, `Mean`, `Median` or `medianPolish`. 
-#'               See `DaparToolshed::inner.aggregate.iter()` for details.
+#'               See `DaparToolshed::innerAggregateIter()` for details.
 #' @param ponderation A `character(1)` defining what to consider to create the coefficient for redistribution of shared peptides. 
 #'                    Available values are `Global` (default), `Condition` or `Sample`. 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
@@ -250,7 +255,7 @@ setMethod(
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).
 #'
 #' @details 
-#' This function uses `DaparToolshed::inner.aggregate.iter()` to aggregate quantitative data.
+#' This function uses `DaparToolshed::innerAggregateIter()` to aggregate quantitative data.
 #'
 #' @section Iterative aggregation function
 #'
@@ -286,7 +291,8 @@ setMethod(
       return(object)
     }
     if (name %in% names(object)) {
-      stop("There's already an assay named '", name, "'.")
+      msg <- paste0("There's already an assay named '", name, "'.")
+      stop(msg)
     }
     if (missing(i)) {
       i <- length(object)
@@ -301,18 +307,18 @@ setMethod(
       ponderation = ponderation,
       n = n,
       uniqueiter = uniqueiter,
-      conds = design.qf(object)$Condition, 
+      conds = design_qf(object)$Condition, 
       max_iter = max_iter
     )
     SummarizedExperiment::colData(aggAssay) <- SummarizedExperiment::colData(object)
     
-    ## Add the assay to the QFeatures object
+    # Add the assay to the QFeatures object
     object <- QFeatures::addAssay(object,
                        aggAssay,
                        name = name
     )
     
-    ## Link the input assay to the aggregated assay
+    # Link the input assay to the aggregated assay
     QFeatures::addAssayLink(object,
                  from = i,
                  to = name,
@@ -329,12 +335,12 @@ setMethod(
 setMethod(
   "aggregateRedistribution", "SummarizedExperiment",
   function(object, fcol, init.method = "Mean", method = "Mean", ponderation = "Global", n = NULL, uniqueiter = FALSE, conds, max_iter = 500) {
-    .aggregateRedistribution(object, fcol, init.method, method, ponderation, n, uniqueiter, conds, max_iter)
+    aggregateRedistributionSE(object, fcol, init.method, method, ponderation, n, uniqueiter, conds, max_iter)
   }
 )
 
 
-.aggregateRedistribution <- function(object,
+aggregateRedistributionSE <- function(object,
                                      fcol,
                                      init.method = "Mean",
                                      method = "Mean",
@@ -343,7 +349,9 @@ setMethod(
                                      uniqueiter = FALSE,
                                      conds,
                                      max_iter = 500) {
-  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){stop("'fcol' must refer to a sparse matrix.")}
+  if (!is(SummarizedExperiment::rowData(object)[[fcol]], "Matrix")){
+    stop("'fcol' must refer to a sparse matrix.")
+  }
   if (!(init.method %in% c("Sum", "Mean", "Median", "medianPolish", "robustSummary"))) {
     stop("Wrong parameter init.method")
   }
@@ -357,16 +365,16 @@ setMethod(
     stop("'n' must be NULL or numeric.")
   }
   
-  ###QUANTITATIVE DATA
-  ## Create the aggregated assay
+  ### QUANTITATIVE DATA
+  # Create the aggregated assay
   quanti_data <- 2^assay(object)
   switch(ponderation,
-         Global = {aggAssay <- inner.aggregate.iter(quanti_data, SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)},
+         Global = {aggAssay <- innerAggregateIter(quanti_data, SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)},
          Condition = {
            aggAssay <- NULL
            for (condition in unique(conds)){
              pepDataCond <- quanti_data[, which(conds==condition), drop = FALSE]
-             aggregCond <- inner.aggregate.iter(as.matrix(pepDataCond), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggregCond <- innerAggregateIter(as.matrix(pepDataCond), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
              aggAssay <- cbind(aggAssay, aggregCond)
            }
            colnames(aggAssay) <- colnames(quanti_data)},
@@ -374,7 +382,7 @@ setMethod(
            aggAssay <- NULL
            for (sample in colnames(quanti_data)){
              pepDatasample <- quanti_data[, sample, drop = FALSE]
-             aggregsample <- inner.aggregate.iter(as.matrix(pepDatasample), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
+             aggregsample <- innerAggregateIter(as.matrix(pepDatasample), SummarizedExperiment::rowData(object)[[fcol]], init.method, method, n, uniqueiter, max_iter = max_iter)
              aggAssay <- cbind(aggAssay, aggregsample)
            }
            colnames(aggAssay) <- colnames(quanti_data)}
@@ -389,7 +397,7 @@ setMethod(
     colData = SummarizedExperiment::colData(object)
     )
   
-  ###METACELL DATA
+  ### METACELL DATA
   # Add rowdata
   protname_order <- rownames(aggAssay)
   aggSE <- metacell_agg(aggSE, object, SummarizedExperiment::rowData(object)[[fcol]], conds, protname_order)
@@ -513,8 +521,8 @@ aggregateMethods <- function() {
 #' @return A QFeatures with an aggregated assay added.
 #' 
 #' @details
-#' Aggregation of quantitative data is performed using aggregateFeatures, or inner.
-#' aggregate.iter if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` 
+#' Aggregation of quantitative data is performed using aggregateFeatures, or 
+#' innerAggregateIter if `Yes_Iterative_Redistribution` or `Yes_Simple_Redistribution` 
 #' is selected.
 #' 
 #' The handling of shared peptide is as follow : 
@@ -523,10 +531,10 @@ aggregateMethods <- function() {
 #'   which they are present, and thus are considered as if they are specific 
 #'   to each protein. 
 #' - `Yes_Simple_Redistribution` : Intensity of shared peptides are 
-#' redistributed proportionally to each protein. See `inner.aggregate.iter` 
+#' redistributed proportionally to each protein. See `innerAggregateIter` 
 #' for more information.
 #' - `Yes_Iterative_Redistribution` : Intensity of shared peptides are 
-#' redistributed proportionally to each protein. See `inner.aggregate.iter` 
+#' redistributed proportionally to each protein. See `innerAggregateIter` 
 #' for more information.
 #' - `No` : No shared peptides are used. If a peptide contained only shared 
 #' peptides, its intensity is set as 0 for every sample. 
@@ -593,13 +601,16 @@ RunAggregation <- function(qf,
   
   stopifnot(inherits(qf, "QFeatures"))
   if (!(includeSharedPeptides %in% c("Yes_As_Specific", "Yes_Iterative_Redistribution", "Yes_Simple_Redistribution", "No"))) {
-    stop(includeSharedPeptides, " is not an option for 'includeSharedPeptides'.")
+    msg <- paste0(includeSharedPeptides, " is not an option for 'includeSharedPeptides'.")
+    stop(msg)
   }
   if (!(operator %in% c("Sum", "Mean", "Median","medianPolish", "robustSummary"))) {
-    stop(operator, " is not an option for 'operator'.")
+    msg <- paste0(operator, " is not an option for 'operator'.")
+    stop(msg)
   }
   if (!(considerPeptides %in% c("allPeptides", "topN"))) {
-    stop(considerPeptides, " is not an option for 'considerPeptides'.")
+    msg <- paste0(considerPeptides, " is not an option for 'considerPeptides'.")
+    stop(msg)
   }
   if (!is.null(n) & !is.numeric(n)) {
     stop("n is not numeric or NULL.")
@@ -1094,7 +1105,6 @@ getProteinsStats <- function(X) {
 #' @rdname DaparToolshed-aggregate
 #'
 CountPep <- function(X) {
-  #z <- M
   X[X != 0] <- 1
   return(X)
 }
@@ -1323,7 +1333,7 @@ ExtractUniquePeptides <- function(X){
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[1]]), X)
+#' qdata.agg <- innerAggregateIter(SummarizedExperiment::assay(subR25pept[[1]]), X)
 #' 
 #' @export
 #' 
@@ -1332,7 +1342,7 @@ ExtractUniquePeptides <- function(X){
 #' @importFrom BiocGenerics t
 #' @importFrom methods is
 #'
-inner.aggregate.iter <- function(
+innerAggregateIter <- function(
     pepData,
     X,
     init.method = "Mean",
@@ -1342,7 +1352,9 @@ inner.aggregate.iter <- function(
     topn_fun = "Mean",
     max_iter = 500
 ) {
-  if (!is(X, "Matrix") & !is(X, "matrix")){stop("'X' must refer to a matrix.")}
+  if (!is(X, "Matrix") & !is(X, "matrix")){
+    stop("'X' must refer to a matrix.")
+  }
   if (!(init.method %in% c("Sum", "Mean", "Median", "medianPolish", "robustSummary"))) {
     stop("Wrong parameter init.method")
   }
@@ -1365,13 +1377,13 @@ inner.aggregate.iter <- function(
   yprot <- NULL
   # Initialisation
   switch(init.method,
-         Sum = yprot <- inner.sum(pepData, X.split$Xspec),
-         Mean = yprot <- inner.mean(pepData, X.split$Xspec), 
-         Median = yprot <- inner.median(pepData, X.split$Xspec),
-         medianPolish = yprot <- inner.medianpolish(pepData, X.split$Xspec),
+         Sum = yprot <- innerSum(pepData, X.split$Xspec),
+         Mean = yprot <- innerMean(pepData, X.split$Xspec), 
+         Median = yprot <- innerMedian(pepData, X.split$Xspec),
+         medianPolish = yprot <- innerMedianpolish(pepData, X.split$Xspec),
          robustSummary = {pepDatalog <- log2(pepData)
                           pepDatalog[which(pepDatalog == "-Inf")] <- NA
-                          yprot <- inner.robustsummary(pepDatalog, X.split$Xspec)
+                          yprot <- innerRobustsummary(pepDatalog, X.split$Xspec)
                           yprot <- 2^yprot
                           yprot[which(yprot == 1)] <- NA
                           }
@@ -1396,9 +1408,6 @@ inner.aggregate.iter <- function(
   conv <- 1
   n_iter <- 1
   while (conv > 10**(-10)) {
-    # print("____________iter___________")
-    # print(n_iter)
-    
     # Get the value of each protein
     val.prot <- Matrix::rowMeans(yprot, na.rm = TRUE)
     val.prot[is.na(val.prot)] <- 0
@@ -1425,7 +1434,7 @@ inner.aggregate.iter <- function(
           vals <- X.pept@x[col_start:col_end]
           rows <- X.pept@i[col_start:col_end] + 1
           if (length(vals) > n) {
-            keep_idx <- order(vals, decreasing = TRUE)[1:n]
+            keep_idx <- order(vals, decreasing = TRUE)[seq_len(n)]
             drop_rows <- rows[-keep_idx]
             X.new[drop_rows, j] <- 0
           }
@@ -1435,18 +1444,18 @@ inner.aggregate.iter <- function(
     
     # Get aggregated value with peptide redistribution
     switch(method,
-           Mean = yprot <- inner.mean(pepData, X.new),
-           Sum = yprot <- inner.sum(pepData, X.new),
+           Mean = yprot <- innerMean(pepData, X.new),
+           Sum = yprot <- innerSum(pepData, X.new),
            Median = {X.new <- X.new[, ProtSharedPept]
-                     protval <- inner.median(pepData, X.new)
+                     protval <- innerMedian(pepData, X.new)
                      yprot[rownames(protval),] <- protval},
            medianPolish = {X.new <- X.new[, ProtSharedPept]
-                           protval <- inner.medianpolish(pepData, X.new)
+                           protval <- innerMedianpolish(pepData, X.new)
                            yprot[rownames(protval),] <- protval},
            robustSummary = {X.new <- X.new[, ProtSharedPept]
                             pepDatalog <- log2(pepData)
                             pepDatalog[which(pepDatalog == "-Inf")] <- NA
-                            protval <- inner.robustsummary(pepDatalog, X.new)
+                            protval <- innerRobustsummary(pepDatalog, X.new)
                             protval <- 2^protval
                             protval[which(protval == 1)] <- NA
                             yprot[rownames(protval),] <- protval}
@@ -1489,15 +1498,14 @@ inner.aggregate.iter <- function(
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[1]]), X)
+#' i.sum <- innerSum(SummarizedExperiment::assay(subR25pept[[1]]), X)
 #' 
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
-inner.sum <- function(pepData, X) {
+innerSum <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
-  #stopifnot(inherits(X, 'matrix'))
   
   pepData[is.na(pepData)] <- 0
   
@@ -1523,19 +1531,18 @@ inner.sum <- function(pepData, X) {
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' i.mean <- inner.mean(SummarizedExperiment::assay(subR25pept), X)
+#' i.mean <- innerMean(SummarizedExperiment::assay(subR25pept), X)
 #' }
 #' 
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
-inner.mean <- function(pepData, X) {
+innerMean <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
-  #stopifnot(inherits(X, 'matrix'))
   
   pepData[is.na(pepData)] <- 0
-  Mp <- inner.sum(pepData, X)
+  Mp <- innerSum(pepData, X)
   Mp <- Mp / GetNbPeptidesUsed(pepData, X)
   
   return(Mp)
@@ -1558,7 +1565,7 @@ inner.mean <- function(pepData, X) {
 #' library(QFeatures)
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[1]]), X)
+#' i.mean <- innerMedian(SummarizedExperiment::assay(subR25pept[[1]]), X)
 #' }
 #' 
 #' @export
@@ -1567,9 +1574,8 @@ inner.mean <- function(pepData, X) {
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
-inner.median <- function(pepData, X) {
+innerMedian <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
-  #stopifnot(inherits(X, 'matrix'))
   
   protval <- NULL
   for (prot in colnames(X)){
@@ -1602,7 +1608,7 @@ inner.median <- function(pepData, X) {
 #' \donttest{
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[1]]), X)
+#' i.mean <- innerMedianpolish(SummarizedExperiment::assay(subR25pept[[1]]), X)
 #' }
 #' 
 #' @export
@@ -1611,9 +1617,8 @@ inner.median <- function(pepData, X) {
 #' 
 #' @importFrom matrixStats colMedians
 #' 
-inner.medianpolish <- function(pepData, X) {
+innerMedianpolish <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
-  #stopifnot(inherits(X, 'matrix'))
   
   protval <- NULL
   for (prot in colnames(X)){
@@ -1638,23 +1643,6 @@ inner.medianpolish <- function(pepData, X) {
   }
   rownames(protval) <- colnames(X)
   
-  # Ncpus <- parallel::detectCores() - 1
-  # cl <- parallel::makeCluster(Ncpus)
-  # doParallel::registerDoParallel(cl)
-  # 
-  # protval <- NULL
-  # X <- as.matrix(X)
-  # protval <- foreach::foreach(prot = colnames(X), .combine = rbind, .packages = "matrixStats") %dopar% {
-  #   coef <- X[, prot]
-  #   peptval <- pepData * coef
-  #   peptval[peptval == 0] <- NA
-  #   peptvalnoNA <- peptval[which(rowSums(peptval, na.rm = TRUE) != 0),]
-  #   medprot <- MsCoreUtils::medianPolish(peptvalnoNA, na.rm = TRUE)
-  #   medprot
-  # }
-  # parallel::stopCluster(cl)
-  # rownames(protval) <- colnames(X)
-  
   return(protval)
 }
 
@@ -1676,14 +1664,14 @@ inner.medianpolish <- function(pepData, X) {
 #' \donttest{
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
-#' i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[1]]), X)
+#' i.mean <- innerRobustsummary(SummarizedExperiment::assay(subR25pept[[1]]), X)
 #' }
 #' 
 #' @export
 #' 
 #' @rdname DaparToolshed-aggregate
 #' 
-inner.robustsummary <- function(pepData, X) {
+innerRobustsummary <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
 
   protval <- NULL

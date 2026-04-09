@@ -20,8 +20,8 @@ Builds a complete color palette for the conditions given in argument
 }
 \examples{
 data(subR25pept)
-GetColorsForConditions(design.qf(subR25pept)$Condition)
-GetColorsForConditions(design.qf(subR25pept)$Condition, ExtendPalette(2))
+GetColorsForConditions(design_qf(subR25pept)$Condition)
+GetColorsForConditions(design_qf(subR25pept)$Condition, ExtendPalette(2))
 
 }
 \author{

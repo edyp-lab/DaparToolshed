@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' data(subR25pept)
-#' test.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
+#' testDesign(SummarizedExperiment::colData(subR25pept)[, -1])
 #'
 #' @export
 #'
-test.design <- function(tab) {
+testDesign <- function(tab) {
   valid <- TRUE
   txt <- NULL
   level <- NULL
@@ -28,9 +28,9 @@ test.design <- function(tab) {
     name.level.c <- colnames(tab)[3]
   }
   
-  # verification intersection sur B
-  # verification de la non redondance'intersection
-  # vide entre les groupes
+  # Checking the intersection on B
+  # Checking for non-redundancy (intersection)
+  # gap between groups
   uniqueA <- unique(level.a)
   ll <- lapply(
     uniqueA,
@@ -57,9 +57,9 @@ test.design <- function(tab) {
   }
   
   
-  # verification si niveau hierarchique inf
+  # Check if hierarchical level is lower
   if (length(levels(level.a)) == length(levels(level.b))) {
-    ## c'est un design de niveau n-1 en fait
+    ## if design n-1 level
     valid <- FALSE
     txt <- c(
       txt,
@@ -72,7 +72,7 @@ test.design <- function(tab) {
     )
   } else if (!is.null(level.c)) {
     if (length(levels(level.b)) == length(levels(level.c))) {
-      ## c'est un design de niveau n-1 en fait
+      ## if design n-1 level
       valid <- FALSE
       txt <- c(
         txt,
@@ -86,7 +86,7 @@ test.design <- function(tab) {
     }
   }
   
-  # verification si niveau non informatif
+  # Check if level is non-informative
   return(list(
     valid = valid,
     warn = txt
@@ -108,11 +108,11 @@ test.design <- function(tab) {
 #'
 #' @examples
 #' data(subR25pept)
-#' check.conditions(design.qf(subR25pept)$Condition)
+#' checkConditions(design_qf(subR25pept)$Condition)
 #'
 #' @export
 #'
-check.conditions <- function(conds) {
+checkConditions <- function(conds) {
   res <- list(valid = TRUE, warn = NULL)
   
   if (("" %in% conds) || (NA %in% conds)) {
@@ -155,18 +155,18 @@ check.conditions <- function(conds) {
 #'
 #' @examples
 #' data(subR25pept)
-#' check.design(SummarizedExperiment::colData(subR25pept)[, seq(3)])
+#' checkDesign(SummarizedExperiment::colData(subR25pept)[, -1])
 #'
 #' @export
 #'
-check.design <- function(sTab) {
+checkDesign <- function(sTab) {
   res <- list(valid = FALSE, warn = NULL)
   
   names <- colnames(sTab)
   level.design <- ncol(sTab) - 2
   
   
-  res <- check.conditions(sTab$Condition)
+  res <- checkConditions(sTab$Condition)
   if (!res$valid) {
     return(res)
   }
@@ -206,13 +206,13 @@ check.design <- function(sTab) {
   
   # Check if the hierarchy of the design is correct
   if (level.design == 1) {
-    res <- test.design(sTab[, c("Condition", "Bio.Rep")])
+    res <- testDesign(sTab[, c("Condition", "Bio.Rep")])
   } else if (level.design == 2) {
-    res <- test.design(sTab[, c("Condition", "Bio.Rep", "Tech.Rep")])
+    res <- testDesign(sTab[, c("Condition", "Bio.Rep", "Tech.Rep")])
   } else if (level.design == 3) {
-    res <- test.design(sTab[, c("Condition", "Bio.Rep", "Tech.Rep")])
+    res <- testDesign(sTab[, c("Condition", "Bio.Rep", "Tech.Rep")])
     if (res$valid) {
-      res <- test.design(sTab[, c("Bio.Rep", "Tech.Rep", "Analyt.Rep")])
+      res <- testDesign(sTab[, c("Bio.Rep", "Tech.Rep", "Analyt.Rep")])
     }
   }
   
@@ -234,14 +234,14 @@ check.design <- function(sTab) {
 #'
 #' @examples
 #' data(subR25pept)
-#' make.design(SummarizedExperiment::colData(subR25pept))
+#' makeDesign(SummarizedExperiment::colData(subR25pept))
 #'
 #' @export
 #' 
-make.design <- function(sTab) {
-  if (!check.design(sTab)$valid) {
-    warning("The design matrix is not correct.")
-    warning(check.design(sTab)$warn)
+makeDesign <- function(sTab) {
+  if (!checkDesign(sTab)$valid) {
+    warning.txt <- paste0("The design matrix is not correct. ", checkDesign(sTab)$warn)
+    warning(warning.txt)
     return(NULL)
   }
   
@@ -252,7 +252,7 @@ make.design <- function(sTab) {
     stop(stop.txt)
   }
   
-  res <- do.call(paste0("make.design.", (n - 2)), list(sTab))
+  res <- do.call(paste0("makeDesign", (n - 2)), list(sTab))
   
   return(res)
 }
@@ -270,15 +270,15 @@ make.design <- function(sTab) {
 #'
 #' @examples
 #' data(subR25pept)
-#' make.design.1(SummarizedExperiment::colData(subR25pept))
+#' makeDesign1(SummarizedExperiment::colData(subR25pept))
 #'
 #' @export
-make.design.1 <- function(sTab) {
+makeDesign1 <- function(sTab) {
   Conditions <- factor(sTab$Condition, ordered = TRUE)
   nb_cond <- length(unique(Conditions))
   nb_samples <- nrow(sTab)
   
-  # CGet the number of replicates per condition
+  # Get the number of replicates per condition
   nb_Rep <- rep(0, nb_cond)
   for (i in seq_len(nb_cond)) {
     nb_Rep[i] <- sum((Conditions == unique(Conditions)[i]))
@@ -321,13 +321,13 @@ make.design.1 <- function(sTab) {
 #'
 #' @examples
 #' data(subR25pept)
-#' make.design.2(SummarizedExperiment::colData(subR25pept))
+#' makeDesign2(SummarizedExperiment::colData(subR25pept))
 #'
 #'
 #' @export
 #' @importFrom stats model.matrix rnorm
 #'
-make.design.2 <- function(sTab) {
+makeDesign2 <- function(sTab) {
 
   Condition <- factor(sTab$Condition, levels = unique(sTab$Condition))
   RepBio <- factor(sTab$Bio.Rep, levels = unique(sTab$Bio.Rep))
@@ -377,14 +377,14 @@ make.design.2 <- function(sTab) {
 #'
 #' @examples
 #' data(subR25pept)
-#' sTab <- cbind(SummarizedExperiment::colData(subR25pept), Tech.Rep = 1:6)
-#' make.design.3(sTab)
+#' sTab <- cbind(SummarizedExperiment::colData(subR25pept), Tech.Rep = seq_len(6))
+#' makeDesign3(sTab)
 #'
 #'
 #' @export
 #' @importFrom stats rnorm model.matrix
 #'
-make.design.3 <- function(sTab) {
+makeDesign3 <- function(sTab) {
 
   Condition <- factor(sTab$Condition, levels = unique(sTab$Condition))
   RepBio <- factor(sTab$Bio.Rep, levels = unique(sTab$Bio.Rep))
@@ -467,19 +467,19 @@ getDesignLevel <- function(sTab){
 #'
 #' @examples
 #' data(subR25pept)
-#' design <- make.design(SummarizedExperiment::colData(subR25pept))
-#' conds <- design.qf(subR25pept)$Condition
-#' make.contrast(design, conds)
+#' design <- makeDesign(SummarizedExperiment::colData(subR25pept))
+#' conds <- design_qf(subR25pept)$Condition
+#' makeContrast(design, conds)
 #'
 #' @export
 #'
-make.contrast <- function(design, 
+makeContrast <- function(design, 
                           condition, 
                           contrast = 1,
                           design.level = 1) {
   
   
-  aggreg.column.design <- function(design, 
+  aggregColumnDesign <- function(design, 
                                    Condition,
                                    design.level) {
     nb.cond <- length(unique(Condition))
@@ -513,7 +513,7 @@ make.contrast <- function(design,
   
   
   nb.cond <- length(unique(condition))
-  r <- aggreg.column.design(design, condition, design.level)
+  r <- aggregColumnDesign(design, condition, design.level)
   label.agg <- r[[1]]
   nb.agg <- r[[2]]
   k <- 1
@@ -552,7 +552,7 @@ make.contrast <- function(design,
 #'
 #' @param qData A matrix of quantitative data, without any missing values.
 #'
-#' @param sTab A dataframe of experimental design (design.qf()).
+#' @param sTab A dataframe of experimental design (design_qf()).
 #'
 #' @param comp.type A string that corresponds to the type of comparison.
 #' Values are: 'anova1way', 'OnevsOne' and 'OnevsAll'; default is 'OnevsOne'.
@@ -577,7 +577,7 @@ make.contrast <- function(design,
 #'
 limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
   
-  pkgs.require(c('dplyr', 'limma', 'tidyr'))
+  pkgsRequire(c('dplyr', 'limma', 'tidyr'))
   
   
   level <- getDesignLevel(sTab)
@@ -595,21 +595,16 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
          OnevsOne = contrast <- 1,
          OnevsAll = contrast <- 2
   )
-  #sTab.old <- sTab
+  
   conds <- factor(sTab$Condition, levels = unique(sTab$Condition))
-  #sTab <- sTab[unlist(lapply(split(sTab, conds), function(x) {x["quantCols"]})), ]
-  #qData <- qData[, unlist(lapply(split(sTab.old, conds), function(x) {x["quantCols"]}))]
-  #conds <- conds[order(conds)]
   
   res.l <- NULL
   
-  
-  #browser()
-  design.matrix <- make.design(sTab)
+  design.matrix <- makeDesign(sTab)
   
   if (!is.null(design.matrix)) {
     if (comp.type == "OnevsOne" || comp.type == "OnevsAll") {
-      contra <- make.contrast(design.matrix, 
+      contra <- makeContrast(design.matrix, 
                               condition = conds, 
                               contrast,
                               design.level = getDesignLevel(sTab))
@@ -625,13 +620,6 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
                                  design.level = getDesignLevel(sTab))
     } else if (comp.type == "anova1way") {
       # make the orthogonal contrasts
-
-      # contrasts <- tidyr::crossing(
-      #   A = colnames(design.matrix), 
-      #   B = colnames(design.matrix), 
-      #   .name_repair = "minimal") |> 
-      #   dplyr::filter(A != B)
-      
 
       contrasts <- tidyr::crossing(
         A = colnames(design.matrix), 
@@ -659,7 +647,6 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
         sort.by = "none", 
         number = nrow(qData)
       )
-      #fit_pvalue <- dplyr::select(fit_table, "anova_1way_pval" = P.Value)
       fit_pvalue <- as.data.frame(fit_table$P.Value)
       colnames(fit_pvalue) <- "anova_1way_pval"
       
@@ -681,12 +668,14 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 
 #' @title Format Limma results
 #'
-#' @param fit xxxx
+#' @param fit An object of class `MArrayLM`.
 #'
 #' @param conds A `character()` vector which is the names of conditions.
 #'
-#' @param contrast xxxx
-#' @param design.level xxx
+#' @param contrast An `integer(1)` defining the type of contrast (1 for OnevsOne, 
+#' or 2 for OnvsAll).
+#' 
+#' @param design.level An `integer(1)` specifying the design level. 
 #'
 #' @return A list of two dataframes : logFC and P_Value. The first one contains
 #' the logFC values of all the comparisons (one column for one comparison),
@@ -700,7 +689,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' library(SummarizedExperiment)
 #' data(subR25prot)
 #' level <- 'protein'
-#' metacell.mask <- match.metacell(qMetacell(subR25prot[[1]]), 
+#' metacell.mask <- matchMetacell(qMetacell(subR25prot[[1]]), 
 #' c("Missing POV", "Missing MEC"), level)
 #' # Simulate imputation
 #' assay(subR25prot[[1]])[which(is.na(assay(subR25prot[[1]])))] <- 0
@@ -710,7 +699,7 @@ limmaCompleteTest <- function(qData, sTab, comp.type = "OnevsOne") {
 #' 
 #'
 formatLimmaResult <- function(fit, conds, contrast, design.level) {
-  pkgs.require('stringr')
+  pkgsRequire('stringr')
   
   
   res <- cbind(fit$coefficients, fit$p.value)

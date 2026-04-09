@@ -26,7 +26,7 @@ obj <- subR25prot
 # Simulate imputation
 obj <- NAIsZero(obj, 1)
 allComp <- limmaCompleteTest(
-SummarizedExperiment::assay(obj[[length(obj)]]), design.qf(obj), 
+SummarizedExperiment::assay(obj[[length(obj)]]), design_qf(obj), 
 comp.type="OnevsOne")
 diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 

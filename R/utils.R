@@ -64,15 +64,15 @@ GetHistory <- function(obj.se, history){
 #' ReplaceSpecialChars(c("foo.1", "foo-2", "foo 3"))
 #'
 ReplaceSpecialChars <- function(x) {
-    if (is.null(x)) {
-        return(x)
-    }
-
-    for (char in c(".", " ")) {
-        x <- gsub(char, "_", x, fixed = TRUE)
-    }
-
-    x
+  if (is.null(x)) {
+    return(x)
+  }
+  
+  for (char in c(".", " ")) {
+    x <- gsub(char, "_", x, fixed = TRUE)
+  }
+  
+  x
 }
 
 
@@ -98,7 +98,7 @@ ReplaceSpecialChars <- function(x) {
 #' nEmptyLines(SummarizedExperiment::assay(subR25prot, 1))
 #'
 nEmptyLines <- function(df) {
-    sum(apply(is.na(as.matrix(df)), 1, all))
+  sum(apply(is.na(as.matrix(df)), 1, all))
 }
 
 
@@ -122,13 +122,13 @@ nEmptyLines <- function(df) {
 #' data(subR25prot)
 #' obj <- subR25prot[[1]]
 #' data <- qMetacell(obj)
-#' is.OfType(as.data.frame(data), "MEC")
+#' isOfType(as.data.frame(data), "MEC")
 #'
 #' @export
 #'
-is.OfType <- function(data, type) {
-    stopifnot(inherits(data, "data.frame"))
-    return(type == data)
+isOfType <- function(data, type) {
+  stopifnot(inherits(data, "data.frame"))
+  return(type == data)
 }
 
 
@@ -140,14 +140,14 @@ is.OfType <- function(data, type) {
 #' @return A `boolean`
 #' 
 #' @examples
-#' is.subset('a', letters)
-#' is.subset(c('a', 'c', 't'), letters)
-#' is.subset(c('a', 3, 't'), letters)
-#' is.subset(3, letters)
+#' isSubset('a', letters)
+#' isSubset(c('a', 'c', 't'), letters)
+#' isSubset(c('a', 3, 't'), letters)
+#' isSubset(3, letters)
 #' 
 #' @export
 #' 
-is.subset <- function(set1, set2)
+isSubset <- function(set1, set2)
   length(intersect(set1, set2)) > 0 && length(set1) == length(intersect(set1, set2))
 
 
@@ -177,27 +177,27 @@ is.subset <- function(set1, set2)
 #' @import QFeatures
 #'
 getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
-    if (is.null(object)) {
-        return(NULL)
-    }
-    stopifnot(inherits(object, "SummarizedExperiment"))
-    if (!(type %in% c("None", "WholeLine", "WholeMatrix", 
-        "AtLeastOneCond", "AllCond"))) {
-        stop("'type' is not one of: 'None', 
+  if (is.null(object)) {
+    return(NULL)
+  }
+  stopifnot(inherits(object, "SummarizedExperiment"))
+  if (!(type %in% c("None", "WholeLine", "WholeMatrix", 
+                    "AtLeastOneCond", "AllCond"))) {
+    stop("'type' is not one of: 'None', 
             'WholeMatrix', 'AtLeastOneCond', 'AllCond'")
-    }
-
-    data <- as.data.frame(SummarizedExperiment::assay(object))
-    ll <- switch(type,
-      WholeLine = NULL,
-      WholeMatrix = seq(0, ncol(data)),
-      AllCond = seq(0, min(unlist(lapply(unique(conds), 
-        function(x) length(which(conds == x)))))),
-      AtLeastOneCond = seq(0, min(unlist(lapply(unique(conds), 
-        function(x) length(which(conds == x))))))
-    )
-
-    return(sort(ll))
+  }
+  
+  data <- as.data.frame(SummarizedExperiment::assay(object))
+  ll <- switch(type,
+               WholeLine = NULL,
+               WholeMatrix = seq(0, ncol(data)),
+               AllCond = seq(0, min(unlist(lapply(unique(conds), 
+                                                  function(x) length(which(conds == x)))))),
+               AtLeastOneCond = seq(0, min(unlist(lapply(unique(conds), 
+                                                         function(x) length(which(conds == x))))))
+  )
+  
+  return(sort(ll))
 }
 
 
@@ -231,24 +231,24 @@ getListNbValuesInLines <- function(object, conds, type = "WholeMatrix") {
 #' @export
 #'
 nonzero <- function(x) {
-    ## function to get a two-column matrix containing the indices of the
-    ### non-zero elements in a "dgCMatrix" class matrix
-
-    if (!requireNamespace("Matrix", quietly = TRUE)) {
-        stop("Please install Matrix: BiocManager::install('Matrix')")
-    }
-
-    stopifnot(inherits(x, "dgCMatrix"))
-    if (all(x@p == 0)) {
-        return(matrix(0,
-            nrow = 0, ncol = 2,
-            dimnames = list(character(0), c("row", "col"))
-        ))
-    }
-    res <- cbind(x@i + 1, rep(seq(dim(x)[2]), diff(x@p)))
-    colnames(res) <- c("row", "col")
-    res <- res[x@x != 0, , drop = FALSE]
-    return(res)
+  ## function to get a two-column matrix containing the indices of the
+  ### non-zero elements in a "dgCMatrix" class matrix
+  
+  if (!requireNamespace("Matrix", quietly = TRUE)) {
+    stop("Please install Matrix: BiocManager::install('Matrix')")
+  }
+  
+  stopifnot(inherits(x, "dgCMatrix"))
+  if (all(x@p == 0)) {
+    return(matrix(0,
+                  nrow = 0, ncol = 2,
+                  dimnames = list(character(0), c("row", "col"))
+    ))
+  }
+  res <- cbind(x@i + 1, rep(seq(dim(x)[2]), diff(x@p)))
+  colnames(res) <- c("row", "col")
+  res <- res[x@x != 0, , drop = FALSE]
+  return(res)
 }
 
 
@@ -263,112 +263,33 @@ nonzero <- function(x) {
 #' @return HTML
 #' 
 ConvertListToHtml <- function(ll) {
-    if (length(ll) == 0) {
-        return("-")
-    }
-
+  if (length(ll) == 0) {
+    return("-")
+  }
+  
+  paste0(
+    "<ul>",
     paste0(
-        "<ul>",
-        paste0(
-            lapply(
-                ll,
-                function(x) {
-                    paste0(
-                        "<li>",
-                        paste0(x, collapse = " "),
-                        "</li>"
-                    )
-                }
-            ),
-            collapse = " "
-        ),
-        "</ul>"
-    )
-}
-
-
-
-
-#' @title Customised contextual menu of highcharts plots
-#'
-#' @param hc A highcharter object
-#'
-#' @param filename The filename under which the plot has to be saved
-#'
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' library("highcharter")
-#' hc <- highchart()
-#' hc_chart(hc, type = "line")
-#' hc_add_series(hc, data = c(29, 71, 40))
-#' my_hc_ExportMenu(hc, filename = "foo")
-#'
-#' @export
-#' @return A contextual menu for highcharts plots.
-#'
-my_hc_ExportMenu <- function(hc, filename) {
-  hc_exporting(hc,
-               enabled = TRUE,
-               filename = filename,
-               buttons = list(
-                 contextButton = list(
-                   menuItems = list("downloadPNG", "downloadSVG", "downloadPDF")
-                 )
-               )
+      lapply(
+        ll,
+        function(x) {
+          paste0(
+            "<li>",
+            paste0(x, collapse = " "),
+            "</li>"
+          )
+        }
+      ),
+      collapse = " "
+    ),
+    "</ul>"
   )
 }
 
 
 
 
-
-
-#' @title Customised resetZoomButton of highcharts plots
-#'
-#' @param hc A highcharter object
-#'
-#' @param chartType The type of the plot
-#'
-#' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
-#'
-#' @return A highchart plot
-#'
-#' @author Samuel Wieczorek
-#' 
-#' @import highcharter
-#'
-#' @examples
-#' library("highcharter")
-#' hc <- highchart()
-#' hc_chart(hc, type = "line")
-#' hc_add_series(hc, data = c(29, 71, 40))
-#' my_hc_ExportMenu(hc, filename = "foo")
-#'
-#' @export
-#'
-my_hc_chart <- function(hc, chartType, zoomType = "None") {
-  hc |>
-    hc_chart(
-      type = chartType,
-      zoomType = zoomType,
-      showAxes = TRUE,
-      resetZoomButton = list(
-        position = list(
-          align = "left",
-          verticalAlign = "top"
-        )
-      )
-    )
-}
-
-
-
-
-
-
-#' @title Customised resetZoomButton of highcharts plots
+#' @title Clean row data
 #'
 #' @author Samuel Wieczorek
 #' 
@@ -376,11 +297,7 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 #' @param i An integer which is the index of the assay in the QFeatures object
 #'
 #' @examples
-#' library("highcharter")
-#' hc <- highchart()
-#' hc_chart(hc, type = "line")
-#' hc_add_series(hc, data = c(29, 71, 40))
-#' my_hc_ExportMenu(hc, filename = "foo")
+#' NULL
 #'
 #' @export
 #' @import SummarizedExperiment
@@ -390,9 +307,9 @@ my_hc_chart <- function(hc, chartType, zoomType = "None") {
 CleanRowData <- function(obj, i){
   stopifnot(inherits(obj, 'QFeatures'))
   
-    ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj[[i]])))
-    ind <- ind[which(!is.na(ind))]
-    if (length(ind) > 0)
+  ind <- match(c('qMetacell','adjacencyMatrix'), names(rowData(obj[[i]])))
+  ind <- ind[which(!is.na(ind))]
+  if (length(ind) > 0)
     rowData(obj[[i]]) <- rowData(obj[[i]])[, -ind]
   
   return(obj[[i]])
@@ -438,75 +355,22 @@ getNumberOfEmptyLines <- function(qData) {
 #' NULL
 #' 
 #' @return NA
-#' @rdname pkgs.require
+#' @rdname pkgsRequire
 #' @export
 #' 
 #' @author Samuel Wieczorek
 #' 
-pkgs.require <- function(ll.deps){
+pkgsRequire <- function(ll.deps){
   
   if (!requireNamespace('BiocManager', quietly = TRUE)) {
-    stop(paste0("Please run install.packages('BiocManager')"))
+    stop("Please run install.packages('BiocManager')")
   }
   
   lapply(ll.deps, function(x) {
     if (!requireNamespace(x, quietly = TRUE)) {
-      stop(paste0("Please install ", x, ": BiocManager::install('", x, "')"))
+      msg <- paste0("Please install ", x, ": BiocManager::install('", x, "')")
+      stop(msg)
     }
   })
-}
-
-
-
-
-
-
-#' @title Customised resetZoom Button of highcharts plots
-#'
-#' @param hc A highcharter object
-#' @param chartType The type of the plot
-#' @param zoomType The type of the zoom (one of "x", "y", "xy", "None")
-#' @param width The width of the plot
-#' @param height The height of the plot
-#'
-#' @return A highchart plot
-#'
-#' @author Samuel Wieczorek
-#'
-#' @examples
-#' if (interactive()) {
-#'     library(highcharter)
-#'     hc <- highchart()
-#'     hc_chart(hc, type = "line")
-#'     hc_add_series(hc, data = c(29, 71, 40))
-#'     customChart(hc)
-#' }
-#'
-#' @export
-#' @examples
-#' NULL
-#'
-#' @import highcharter
-#'
-customChart <- function(
-    hc,
-  chartType = "scatter",
-  zoomType = "None",
-  width = 0,
-  height = 0) {
-  hc |>
-    hc_chart(
-      type = chartType,
-      zoomType = zoomType,
-      showAxes = TRUE,
-      width = width,
-      height = height,
-      resetZoomButton = list(
-        position = list(
-          align = "left",
-          verticalAlign = "top"
-        )
-      )
-    )
 }
 

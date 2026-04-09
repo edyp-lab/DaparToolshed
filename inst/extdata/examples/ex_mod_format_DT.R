@@ -13,7 +13,7 @@ server <- function(input, output, session) {
   obj <- subR25prot[[1]]
   
 
-  mc <- metacell.def(typeDataset(obj))
+  mc <- metacellDef(typeDataset(obj))
   colors <- as.list(setNames(mc$color, mc$node))
   dt_style = list(data = qMetacell(obj), colors = colors)
   

@@ -24,7 +24,7 @@ Computes the adjusted p-values separately on contrast using CP4P
 }
 \examples{
 data(subR25prot)
-obj <- subR25prot[1:5,]
+obj <- subR25prot[seq_len(5),]
 separateAdjPval(
 testAnovaModels(
 applyAnovasOnProteins(obj, 1), "TukeyHSD")$P_Value)

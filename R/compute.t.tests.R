@@ -28,7 +28,7 @@
 #'   cmd = 'delete',
 #'   mode = 'AtLeastOneCond',
 #'   pattern = c("Missing POV", "Missing MEC"),
-#'   conds = design.qf(obj)$Condition,
+#'   conds = design_qf(obj)$Condition,
 #'   percent = TRUE,
 #'   th = 0.8,
 #'   operator = '>')
@@ -69,7 +69,7 @@ compute_t_tests <- function(obj,
   logFC <- list()
   P_Value <- list()
   nbComp <- NULL
-  Conditions <- design.qf(obj)$Condition
+  Conditions <- design_qf(obj)$Condition
   
   Conditionsf <- factor(Conditions, levels = unique(Conditions))
   Cond.Nb <- length(levels(Conditionsf))
@@ -135,7 +135,7 @@ compute_t_tests <- function(obj,
       logFC[[paste(txt, "logFC", sep = "_")]] <- logFC.tmp
       P_Value[[paste(txt, "pval", sep = "_")]] <- p.tmp
     }
-  } # End Contrast=2
+  } ## end Contrast==2
   
   
   res.l <- list(

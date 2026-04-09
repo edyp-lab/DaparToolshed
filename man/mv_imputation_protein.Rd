@@ -4,29 +4,29 @@
 \alias{mv_imputation_protein}
 \alias{findMECBlock}
 \alias{reIntroduceMEC}
-\alias{wrapper.impute.KNN}
-\alias{wrapper.impute.fixedValue}
-\alias{wrapper.impute.pa}
-\alias{wrapper.impute.detQuant}
+\alias{wrapperImputeKNN}
+\alias{wrapperImputeFixedValue}
+\alias{wrapperImputePA}
+\alias{wrapperImputeDetQuant}
 \alias{getQuantile4Imp}
-\alias{wrapper.impute.slsa}
+\alias{wrapperImputeSLSA}
 \title{Finds the LAPALA}
 \usage{
 findMECBlock(obj, grp)
 
 reIntroduceMEC(obj, grp, MECIndex)
 
-wrapper.impute.KNN(obj = NULL, grp, K)
+wrapperImputeKNN(obj = NULL, grp, K)
 
-wrapper.impute.fixedValue(obj, grp, fixVal = 0, na.type)
+wrapperImputeFixedValue(obj, grp, fixVal = 0, na.type)
 
-wrapper.impute.pa(obj = NULL, grp, q.min = 0.025)
+wrapperImputePA(obj = NULL, grp, q.min = 0.025)
 
-wrapper.impute.detQuant(obj, qval = 0.025, factor = 1, na.type)
+wrapperImputeDetQuant(obj, qval = 0.025, factor = 1, na.type)
 
 getQuantile4Imp(qdata, qval = 0.025, factor = 1)
 
-wrapper.impute.slsa(obj = NULL, design = NULL)
+wrapperImputeSLSA(obj = NULL, design = NULL)
 }
 \arguments{
 \item{obj}{An object of class \code{QFeatures}.}
@@ -62,21 +62,21 @@ and the rescaled imputation values
 \description{
 Methods available are:
 \itemize{
-\item wrapper.impute.detQuant():
+\item wrapperImputeDetQuant():
 This method is a wrapper of the function \code{impute.detQuant()} for objects
 of class \code{MSnSet}
-\item wrapper.impute.KNN(): Can impute only POV missing values. This method is
+\item wrapperImputeKNN(): Can impute only POV missing values. This method is
 a wrapper for objects of class \code{QFeatures} and imputes missing values with
 a fixed value. This function imputes the missing values condition by
 condition.
-\item wrapper.impute.slsa():
+\item wrapperImputeSLSA():
 Imputation of peptides having no values in a biological condition. This
 method is a wrapper to the function \code{impute.slsa()} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
-\item wrapper.impute.fixedValue():
+\item wrapperImputeFixedValue():
 This method is a wrapper to objects of class \code{MSnSet} and imputes
 missing values with a fixed value.
-\item wrapper.impute.pa():
+\item wrapperImputePA():
 Imputation of peptides having no values in a biological condition.
 This method is a wrapper to the function \code{impute.pa} of the package
 \code{imp4p} adapted to an object of class \code{MSnSet}.
@@ -95,21 +95,21 @@ calling factor
 \examples{
 data(subR25prot)
 obj <- subR25prot[[1]]
-grp <- design.qf(subR25prot)$Condition
+grp <- design_qf(subR25prot)$Condition
 lapala <- findMECBlock(obj, grp)
 na.type = c("Missing POV", "Missing MEC")
-obj.imp.pov <- wrapper.impute.detQuant(obj, na.type = na.type)
+obj.imp.pov <- wrapperImputeDetQuant(obj, na.type = na.type)
 obj.imp.pov <- reIntroduceMEC(obj, grp, lapala)
 
-obj.imp.pov <- wrapper.impute.KNN(obj, grp, 3)
+obj.imp.pov <- wrapperImputeKNN(obj, grp, 3)
 
-obj.imp.pov <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing POV")
-obj.imp.mec <- wrapper.impute.fixedValue(obj, grp, 0.001, na.type = "Missing MEC")
-obj.imp.na <- wrapper.impute.fixedValue(
+obj.imp.pov <- wrapperImputeFixedValue(obj, grp, 0.001, na.type = "Missing POV")
+obj.imp.mec <- wrapperImputeFixedValue(obj, grp, 0.001, na.type = "Missing MEC")
+obj.imp.na <- wrapperImputeFixedValue(
 obj, grp, 0.001, 
 na.type = c("Missing MEC", "Missing POV"))
 
-obj.imp.pov <- wrapper.impute.pa(obj, grp)
+obj.imp.pov <- wrapperImputePA(obj, grp)
 
 qdata <- SummarizedExperiment::assay(obj)
 quant <- getQuantile4Imp(qdata)

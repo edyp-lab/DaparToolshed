@@ -19,12 +19,12 @@
 \alias{GetDetailedNbPeptides}
 \alias{GraphPepProt}
 \alias{ExtractUniquePeptides}
-\alias{inner.aggregate.iter}
-\alias{inner.sum}
-\alias{inner.mean}
-\alias{inner.median}
-\alias{inner.medianpolish}
-\alias{inner.robustsummary}
+\alias{innerAggregateIter}
+\alias{innerSum}
+\alias{innerMean}
+\alias{innerMedian}
+\alias{innerMedianpolish}
+\alias{innerRobustsummary}
 \title{Aggregate an assay's quantitative features}
 \usage{
 aggregateFeatures4Prostar(object, ...)
@@ -88,7 +88,7 @@ GraphPepProt(mat)
 
 ExtractUniquePeptides(X)
 
-inner.aggregate.iter(
+innerAggregateIter(
   pepData,
   X,
   init.method = "Mean",
@@ -99,15 +99,15 @@ inner.aggregate.iter(
   max_iter = 500
 )
 
-inner.sum(pepData, X)
+innerSum(pepData, X)
 
-inner.mean(pepData, X)
+innerMean(pepData, X)
 
-inner.median(pepData, X)
+innerMedian(pepData, X)
 
-inner.medianpolish(pepData, X)
+innerMedianpolish(pepData, X)
 
-inner.robustsummary(pepData, X)
+innerRobustsummary(pepData, X)
 }
 \arguments{
 \item{object}{An instance of class \code{QFeatures} or \code{SummarizedExperiment}}
@@ -306,8 +306,8 @@ Aggregation using robustSummary method.
 \details{
 This function uses \code{\link[QFeatures:QFeatures-aggregate]{QFeatures::aggregateFeatures()}} to aggregate quantitative data.
 
-Aggregation of quantitative data is performed using aggregateFeatures, or inner.
-aggregate.iter if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}
+Aggregation of quantitative data is performed using aggregateFeatures, or
+innerAggregateIter if \code{Yes_Iterative_Redistribution} or \code{Yes_Simple_Redistribution}
 is selected.
 
 The handling of shared peptide is as follow :
@@ -317,10 +317,10 @@ Each peptide is duplicated as many times as the number of proteins in
 which they are present, and thus are considered as if they are specific
 to each protein.
 \item \code{Yes_Simple_Redistribution} : Intensity of shared peptides are
-redistributed proportionally to each protein. See \code{inner.aggregate.iter}
+redistributed proportionally to each protein. See \code{innerAggregateIter}
 for more information.
 \item \code{Yes_Iterative_Redistribution} : Intensity of shared peptides are
-redistributed proportionally to each protein. See \code{inner.aggregate.iter}
+redistributed proportionally to each protein. See \code{innerAggregateIter}
 for more information.
 \item \code{No} : No shared peptides are used. If a peptide contained only shared
 peptides, its intensity is set as 0 for every sample.
@@ -443,37 +443,37 @@ ExtractUniquePeptides(X)
 
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-qdata.agg <- inner.aggregate.iter(SummarizedExperiment::assay(subR25pept[[1]]), X)
+qdata.agg <- innerAggregateIter(SummarizedExperiment::assay(subR25pept[[1]]), X)
 
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-i.sum <- inner.sum(SummarizedExperiment::assay(subR25pept[[1]]), X)
+i.sum <- innerSum(SummarizedExperiment::assay(subR25pept[[1]]), X)
 
 \donttest{
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-i.mean <- inner.mean(SummarizedExperiment::assay(subR25pept), X)
+i.mean <- innerMean(SummarizedExperiment::assay(subR25pept), X)
 }
 
 \donttest{
 library(QFeatures)
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-i.mean <- inner.median(SummarizedExperiment::assay(subR25pept[[1]]), X)
+i.mean <- innerMedian(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 \donttest{
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-i.mean <- inner.medianpolish(SummarizedExperiment::assay(subR25pept[[1]]), X)
+i.mean <- innerMedianpolish(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 \donttest{
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
-i.mean <- inner.robustsummary(SummarizedExperiment::assay(subR25pept[[1]]), X)
+i.mean <- innerRobustsummary(SummarizedExperiment::assay(subR25pept[[1]]), X)
 }
 
 }

@@ -32,7 +32,7 @@ Initial conversion rules for maxquant
 }
 \examples{
 data(subR25pept)
-conds <- design.qf(subR25pept)$Condition
+conds <- design_qf(subR25pept)$Condition
 qdata <- SummarizedExperiment::assay(subR25pept[[1]])
 df2 <- Metacell_maxquant(qdata, conds, level = "peptide")
 

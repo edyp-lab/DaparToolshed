@@ -6,7 +6,7 @@
 #' log10 of the p-value is drawn on the Y-axis. When the \code{th_pval}
 #' and the \code{th_logfc} are set, two lines are drawn respectively on
 #' the y-axis and the X-axis to visually distinguish between differential and
-#' non differential data. With the use of the package Highcharter, a
+#' non differential data. With the use of the package plotly, a
 #' customizable tooltip appears when the user put the mouse's pointer over
 #' a point of the scatter plot.
 #'
@@ -25,9 +25,6 @@
 #' Fold Change that separates differential and non-differential data.
 #' @param conditions A list of the names of condition 1 and 2 used for the
 #' differential analysis.
-#' @param clickFunction A string that contains a JavaScript function used to
-#' show info from slots in df. The variable this.index refers to the slot
-#' named index and allows to retrieve the right row to show in the tooltip.
 #' @param pal A `list` containing 2 color to use for the plot 
 #' 
 #' 
@@ -40,7 +37,7 @@
 #' obj <- NAIsZero(obj, 1)
 #' allComp <- limmaCompleteTest(
 #' SummarizedExperiment::assay(obj[[length(obj)]]), 
-#' design.qf(obj), 
+#' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' df <- data.frame(
 #' x = allComp$logFC[[1]],
@@ -64,60 +61,44 @@
 #'
 #' @export
 #' 
-#' @import highcharter
+#' @import plotly
 #'
 #'
 diffAnaVolcanoplot_rCharts <- function(
     df,
-  th_pval = 1e-60,
-  th_logfc = 0,
-  conditions = NULL,
-  clickFunction = NULL,
-  pal = NULL) {
+    th_pval = 1e-60,
+    th_logfc = 0,
+    conditions = NULL,
+    pal = NULL) {
   stopifnot(inherits(df, "data.frame"))
-  pkgs.require('magrittr')
+  pkgsRequire('magrittr')
   
   xtitle <- paste("log2 ( mean(", conditions[2], ") / mean(",
-    conditions[1], ") )",
-    sep = ""
+                  conditions[1], ") )",
+                  sep = ""
   )
-  
-  if (is.null(clickFunction)) {
-    clickFunction <-
-      JS("function(event) {
-                Shiny.onInputChange(
-                'eventPointClicked',
-                [this.index]+'_'+ [this.series.name]);
-                }")
-  }
   
   if (is.null(pal)) {
     pal <- list(In = "orange", Out = "gray")
-  } else {
-    if (length(pal) != 2) {
-      warning("The palette must be a list of two items: In and Out.
-                Set to default.")
-      pal <- list(In = "orange", Out = "gray")
-    }
+  } else if (length(pal) != 2) {
+    warning("The palette must be a list of two items: In and Out.
+              Set to default.")
+    pal <- list(In = "orange", Out = "gray")
   }
   
   g <- x <- y <- NULL
   df <- cbind(df,
-    g = ifelse(df$y >= th_pval & abs(df$x) >= th_logfc, "g1", "g2")
+              g = ifelse(df$y >= th_pval & abs(df$x) >= th_logfc, "g1", "g2")
   )
   
   
   i_tooltip <- which(startsWith(colnames(df), "tooltip"))
-  txt_tooltip <- NULL
-  for (i in i_tooltip) {
-    t <- txt_tooltip <- paste(txt_tooltip, "<b>", gsub("tooltip_", "",
-      colnames(df)[i],
-      fixed = TRUE
-    ),
-      " </b>: {point.", colnames(df)[i], "} <br> ",
-      sep = ""
+  txt_tooltip <- apply(df[, i_tooltip, drop = FALSE], 1, function(row) {
+    paste(
+      paste0("<b>", gsub("tooltip_", "", colnames(df)[i_tooltip]), "</b>: ", row),
+      collapse = "<br>"
     )
-  }
+  })
   
   leftBorder <- data.frame(
     x = c(min(df$x), -th_logfc, -th_logfc),
@@ -131,47 +112,63 @@ diffAnaVolcanoplot_rCharts <- function(
   title <- NULL
   title <- paste0(conditions[1], "_vs_", conditions[2])
   
-  h1 <- highchart() |>
-    hc_add_series(data = df, type = "scatter", hcaes(x, y, group = g)) |>
-    hc_colors(c(pal$In, pal$Out)) |>
-    my_hc_chart(zoomType = "xy", chartType = "scatter") |>
-    hc_legend(enabled = FALSE) |>
-    hc_title(
-      text = title,
-      margin = 20, align = "center",
-      style = list(size = 20, color = "black", useHTML = TRUE)
-    ) |>
-    hc_yAxis(title = list(text = "-log10(pValue)"),
-      min = -0.1,
-      startOnTick = FALSE) |>
-    hc_xAxis(
-      title = list(text = "logFC"),
-      plotLines = list(
-        list(
-          color = "grey",
-          width = 1,
-          value = 0,
-          zIndex = 5
-        )
-      )
-    ) |>
-    hc_tooltip(headerFormat = "", pointFormat = txt_tooltip) |>
-    hc_plotOptions(
-      line = list(
-        marker = list(enabled = FALSE),
-        dashStyle = "Dash"
-      ),
-      series = list(
-        animation = list(duration = 100),
-        cursor = "pointer",
-        point = list(events = list(
-          click = clickFunction
-        ))
-      )
-    ) |>
-    my_hc_ExportMenu(filename = "volcanoplot") |>
-    hc_add_series(data = leftBorder, type = "line", color = "grey") |>
-    hc_add_series(data = rightBorder, type = "line", color = "grey")
+  p <- plot_ly()
   
-  return(h1)
+  # Scatter principal
+  p <- p |> add_trace(
+    data = df,
+    x = ~x,
+    y = ~y,
+    type = "scatter",
+    mode = "markers",
+    color = ~g,
+    colors = c(pal$In, pal$Out),
+    text = ~txt_tooltip,  # pour le tooltip
+    hoverinfo = "text",
+    showlegend = FALSE
+  )
+  
+  # Lignes verticales
+  p <- p |> add_trace(
+    data = leftBorder,
+    x = ~x,
+    y = ~y,
+    type = "scatter",
+    mode = "lines",
+    line = list(color = "grey", dash = "dash"),
+    showlegend = FALSE
+  )
+  
+  p <- p |> add_trace(
+    data = rightBorder,
+    x = ~x,
+    y = ~y,
+    type = "scatter",
+    mode = "lines",
+    line = list(color = "grey", dash = "dash"),
+    showlegend = FALSE
+  )
+  
+  p <- p |> plotly::layout(
+    margin = list(t = 60, b = 60),
+    title = list(
+      text = title,
+      x = 0.5,
+      xanchor = "center",
+      font = list(size = 20, color = "black")
+    ),
+    xaxis = list(
+      title = "logFC",
+      zeroline = TRUE,
+      zerolinecolor = "grey",
+      zerolinewidth = 1
+    ),
+    yaxis = list(
+      title = "-log10(pValue)",
+      rangemode = "tozero"
+    ),
+    hovermode = "closest"
+  )
+  
+  return(p)
 }

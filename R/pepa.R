@@ -41,14 +41,14 @@
 #' @param include.zero logical value indicating if 0 should be included in
 #' the list of candidates. Default to TRUE.
 #' @return (same as the fudge2 function of siggene):
-#' s.zero: the value of the fudge factor s0.
-#' alpha.hat: the optimal quantile of the 's' values. If s0=0, 'alpha.hat'
+#' - s.zero: the value of the fudge factor s0.
+#' - alpha.hat: the optimal quantile of the 's' values. If s0=0, 'alpha.hat'
 #' will not be returned.
-#' vec.cv: the vector of the coefficients of variations.  Following
+#' - vec.cv: the vector of the coefficients of variations.  Following
 #'           Tusher et al. (2001), the optimal 'alpha' quantile is given
 #'           by the quantile that leads to the smallest CV of the modified
 #'           test statistics.
-#' msg: a character string summarizing the most important information
+#' - msg: a character string summarizing the most important information
 #'           about the fudge factor.
 #' @author Thomas Burger, Laurent Jacob
 #'
@@ -98,21 +98,15 @@ fudge2LRT <- function(lmm.res.h0,
   }
   
   n.alpha <- length(fudge.quan)
-  ## n.pep <- rep(NA, p)
-  ## for(ee in cc){
-  ##     ee <- as.numeric(ee)
-  ##     pp <- ee[ee <= p]
-  ##     n.pep[pp] <- sum(ee > p)
-  ## }
   
-  d.mat <- sapply(fudge.quan, FUN = function(s1) {
+  tmpv_s1 <- fudge.quan[[1]]
+  tmpv_sam.res <- samLRT(lmm.res.h0, lmm.res.h1, cc, n, p, tmpv_s1)
+  tmpv <- exp(tmpv_sam.res$llr.sam)^(-(2 / (tmpv_sam.res$sample.sizes)))
+
+  d.mat <- vapply(fudge.quan, FUN = function(s1) {
     sam.res <- samLRT(lmm.res.h0, lmm.res.h1, cc, n, p, s1)
-    ## (n*n.pep) * exp(llr)^(-(2/(n*n.pep))) # Hotelling T2
     exp(sam.res$llr.sam)^(-(2 / (sam.res$sample.sizes))) # Hotelling T2
-  })
-  
-  # r/outer(s, fudge.quan, "+")
-  ## print(str(d.mat))
+  }, numeric(length(tmpv)))
   
   n.uni.s <- length(unique(s))
   
@@ -129,7 +123,6 @@ fudge2LRT <- function(lmm.res.h0,
   quan <- unique(round(quan, 8))
   n.int <- length(quan)
   int.s <- as.numeric(cut(s, quan, include.lowest = TRUE, right = FALSE))
-  ## print(cbind(int.s, s))
   
   mad.mat <- matrix(0, n.int - 1, ncol(d.mat))
   for (i in seq_len(n.int - 1)) {
@@ -142,10 +135,8 @@ fudge2LRT <- function(lmm.res.h0,
   }
   
   vec.cv <- apply(mad.mat, 2, cv)
-  ## print(fudge.quan)
-  ## x11()
-  ## plot(fudge.quan, vec.cv)
   which.min <- which(vec.cv == min(vec.cv))
+  
   if (include.zero & which.min == 1) {
     msg <- "s0 = 0 \n \n"
     s.zero <- 0
@@ -153,7 +144,7 @@ fudge2LRT <- function(lmm.res.h0,
   }
   
   s.zero <- fudge.quan[which.min]
-  #print(s.zero)
+  
   if (include.zero) {
     which.min <- which.min - 1
   }
@@ -247,7 +238,7 @@ LH1 <- function(X, y1, y2, j) {
 #' @examples 
 #' NULL
 #'
-LH0.lm <- function(X, y1, y2) {
+LH0_lm <- function(X, y1, y2) {
   
   Ytilde <- matrix(c(as.vector(y1), as.vector(y2)), ncol = 1)
   p <- ncol(X)
@@ -314,8 +305,8 @@ LH0.lm <- function(X, y1, y2) {
 #' @examples 
 #' NULL
 #'
-LH1.lm <- function(X, y1, y2, j) {
-  pkgs.require("stats") 
+LH1_lm <- function(X, y1, y2, j) {
+  pkgsRequire("stats") 
   
   n1 <- ncol(y1)
   n2 <- ncol(y2)
@@ -415,7 +406,7 @@ LH1.lm <- function(X, y1, y2, j) {
 #'
 samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
   
-  pkgs.require(c("lme4")) 
+  pkgsRequire(c("lme4")) 
   
   s <- lh1.sam <- llr.sam <- rep(NA, p)
   lh0.sam <- rep(NA, length(cc))
@@ -520,7 +511,7 @@ samLRT <- function(lmm.res.h0, lmm.res.h1, cc, n, p, s1) {
 #' @examples 
 #' NA
 #'
-pepa.test <- function(X, 
+pepaTest <- function(X, 
   y, 
   n1, 
   n2, 
@@ -534,7 +525,7 @@ pepa.test <- function(X,
   p <- ncol(X) # Number of proteins
   
   if (nrow(y) != q) {
-    stop("[pepa.test] y must have the same number of rows as X 
+    stop("[pepaTest] y must have the same number of rows as X 
             (one per peptide)")
   }
   
@@ -546,8 +537,6 @@ pepa.test <- function(X,
     mse.h0 <- lik0$ss / (q * n)
     llr <- mse.h1 <- rep(NA, p)
     for (jj in seq_len(p)) {
-      #print(paste0("[pepa.test] Computing H1 likelihood for protein ", 
-      #    jj))
       lik1 <- LH1(X, y1, y2, jj)
       mse.h1[jj] <- lik1$ss / (q * n)
       llr[jj] <- (q * n) * (log(lik0$ss) - log(lik1$ss))
@@ -557,8 +546,6 @@ pepa.test <- function(X,
     llr.map <- llr.map.pv <- s <- wchi2 <- NULL
   } else {
     ## Connected components: which peptides are connected to which proteins?
-    #print("[pepa.test] Identifying connected components in the 
-    #    peptide-protein graph")
     A <- matrix(0, nrow = p + q, ncol = p + q)
     A[seq_len(p), seq.int(from = (p + 1), to = (p + q))] <- as.matrix(t(X))
     A[seq.int(from = (p + 1), to = (p + q)), seq_len(p)] <- as.matrix(X)
@@ -568,9 +555,9 @@ pepa.test <- function(X,
     cc <- graph::connComp(as(g, "graphNEL"))
     
     ## Test proteins in each connected component
-    protein.cc <- sapply(cc, FUN = function(ee) {
+    protein.cc <- vapply(cc, FUN = function(ee) {
       min(as.numeric(ee)) <= p
-    })
+    }, logical(1))
     cc <- cc[protein.cc]
     
     ## Compute 'local' likelihoods, using only peptides belonging to
@@ -580,8 +567,6 @@ pepa.test <- function(X,
     ii <- 0
     for (ee in cc) {
       ii <- ii + 1
-      #print(paste0("[pepa.test] Computing H0 likelihood for 
-      #    connected component ", ii, "/", length(cc)))
       ee <- as.numeric(ee)
       local.prot <- ee[ee <= p]
       if (length(local.prot) == 0) {
@@ -595,7 +580,7 @@ pepa.test <- function(X,
       equiv.X <- local.X[, !bc.dup, drop = FALSE]
       
       if (use.lm) {
-        lik0 <- LH0.lm(
+        lik0 <- LH0_lm(
           equiv.X, 
           y1[local.pep, , drop = FALSE], 
           y2[local.pep, , drop = FALSE]
@@ -611,8 +596,6 @@ pepa.test <- function(X,
       }
       
       for (jj in local.prot) {
-        #print(paste0("[pepa.test] Computing H1 likelihood for 
-        #    protein ", jj))
         .ind <- prot.barcode[!bc.dup] == prot.barcode[colnames(X)[jj]]
         prot.equiv.idx <- match(
           names(prot.barcode[!bc.dup])[.ind], 
@@ -620,7 +603,7 @@ pepa.test <- function(X,
         )
         
         if (use.lm) {
-          lik1 <- LH1.lm(equiv.X, 
+          lik1 <- LH1_lm(equiv.X, 
             y1[local.pep, , drop = FALSE], 
             y2[local.pep, , drop = FALSE], 
             prot.equiv.idx)
