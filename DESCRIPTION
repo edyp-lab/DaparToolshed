@@ -22,7 +22,7 @@ Description: The package DaparToolshed is a Bioconductor distributed R package w
     uses MultAssayExperiment and SummarizedExperiment data structures.
     Contrarily to most other similar R packages, it is endowed with rich and 
     user-friendly graphical interfaces, so that no programming skill is 
-    required (see `Prostar` package).
+    required (see `Prostar` package). 
 URL: https://github.com/edyp-lab/DaparToolshed, https://edyp-lab.github.io/DaparToolshed/
 BugReports: https://github.com/edyp-lab/DaparToolshed/issues
 License: Artistic-2.0
