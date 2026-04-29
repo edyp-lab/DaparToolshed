@@ -1,3 +1,0 @@
-## Agregation module
-
-blablabla
