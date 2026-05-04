@@ -5,8 +5,6 @@
 \title{Removes assay from a \code{QFeatures} object}
 \usage{
 Keep_Items_from_Dataset(dataset, range)
-
-Keep_Items_from_Dataset(dataset, range)
 }
 \arguments{
 \item{dataset}{An instance of the \code{QFeatures} class}
@@ -15,13 +13,8 @@ Keep_Items_from_Dataset(dataset, range)
 }
 \value{
 The dataset minus some items
-
-The dataset minus some items
 }
 \description{
-Removes one or more items from the dataset. This function is specific of the
-type of dataset.
-
 Removes one or more items from the dataset. This function is specific of the
 type of dataset.
 }

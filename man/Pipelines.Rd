@@ -5,16 +5,10 @@
 \title{List of available pipelines in the package}
 \usage{
 Pipelines()
-
-Pipelines()
 }
 \value{
 NA
-
-NA
 }
 \description{
-Get the list of pipelines available in the package
-
 Get the list of pipelines available in the package
 }

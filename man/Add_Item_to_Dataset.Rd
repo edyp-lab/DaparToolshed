@@ -5,8 +5,6 @@
 \title{Adds an instance of \code{SummarizedExperiment} to a \code{QFeatures} object}
 \usage{
 Add_Item_to_Dataset(dataset, name)
-
-Add_Item_to_Dataset(dataset, name)
 }
 \arguments{
 \item{dataset}{An instance of \code{SummarizedExperiment} class}
@@ -15,13 +13,8 @@ Add_Item_to_Dataset(dataset, name)
 }
 \value{
 The dataset minus some items
-
-The dataset minus some items
 }
 \description{
-Adds one or more items to the dataset. This function is specific of the
-type of dataset.
-
 Adds one or more items to the dataset. This function is specific of the
 type of dataset.
 }
