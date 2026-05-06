@@ -156,7 +156,7 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
     myColors <- pal
   }
   
-  ncolMatrix <- max(sapply(u_conds, function(x) sum(group == x)))
+  ncolMatrix <- max(vapply(u_conds, function(x) sum(group == x), numeric(1)))
   
   mask <- matchMetacell(qMetacell(obj), pattern = pattern, level = typeDataset(obj))
   if (length(mask) == 0) return(NULL)
