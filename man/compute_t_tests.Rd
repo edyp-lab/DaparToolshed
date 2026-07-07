@@ -45,7 +45,7 @@ filter <- FunctionFilter('qMetacellOnConditions',
   pattern = c("Missing POV", "Missing MEC"),
   conds = design_qf(obj)$Condition,
   percent = TRUE,
-  th = 0.8,
+  th = 0.65,
   operator = '>')
 obj <- filterFeaturesOneSE(obj, name = "Filtered", filters = list(filter))
 ttest <- compute_t_tests(obj, 2)

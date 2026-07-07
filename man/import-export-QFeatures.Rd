@@ -2,6 +2,7 @@
 % Please edit documentation in R/import_2_qfeatures.R
 \name{createQFeatures}
 \alias{createQFeatures}
+\alias{createSampleinfo}
 \title{Creates an object of class \code{QFeatures} from text file.}
 \usage{
 createQFeatures(
@@ -23,6 +24,8 @@ createQFeatures(
   software = NULL,
   name = "original"
 )
+
+createSampleinfo(samplename, conds, order = TRUE)
 }
 \arguments{
 \item{data}{The name of a tab-separated file that contains the data.}
@@ -69,19 +72,34 @@ with the function \code{pipelines()}. Default value is NULL}
 
 \item{name}{A \code{character()} which is the name of the assay in the
 QFeatures object. Default is 'original'}
+
+\item{samplename}{A vector of string containing the names of the samples.}
+
+\item{conds}{A vector of string containing the names of the conditions
+associated to each sample. Must be the same length as samplename.}
+
+\item{order}{Whether or not to order samples according to conditions.}
 }
 \value{
 An instance of class \code{QFeatures}.
+
+A \code{data.frame}.
 }
 \description{
 Creates an object of class \code{QFeatures} from a
 single tabulated-like file for quantitative and meta-data and a dataframe
 for the samples description.
+
+Creates a data.frame for sample information.
 }
 \examples{
+NULL
+
 NULL
 
 }
 \author{
 Samuel Wieczorek, Manon Gaudin
+
+Manon Gaudin
 }

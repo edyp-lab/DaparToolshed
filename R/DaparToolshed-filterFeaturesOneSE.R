@@ -100,7 +100,7 @@
 #' pattern = 'Missing POV',
 #' conds = SummarizedExperiment::colData(subR25prot)$Condition,
 #' percent = TRUE,
-#' th = 0.8,
+#' th = 0.65,
 #' operator = '<')
 #' 
 #'  filterFeaturesOneSE(subR25prot, filters = list(filter))

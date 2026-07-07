@@ -23,6 +23,7 @@
 #'            See details for examples.
 #' @param shared A `boolean` indication if shared peptides should be considered. If `TRUE`, shared peptides 
 #' @param n A `numeric(1)` specifying the number of peptides to use for each protein. If `NULL`, all peptides are considered. 
+#' @param conds A `character()` vector which is the names of conditions.
 #' @param ... Additional parameters passed the `fun`.
 #'
 #' @return A `QFeatures` object with an additional assay or a `SummarizedExperiment` object (or subclass thereof).

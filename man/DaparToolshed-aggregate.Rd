@@ -50,6 +50,8 @@ See details for examples.}
 \item{shared}{A \code{boolean} indication if shared peptides should be considered. If \code{TRUE}, shared peptides}
 
 \item{n}{A \code{numeric(1)} specifying the number of peptides to use for each protein. If \code{NULL}, all peptides are considered.}
+
+\item{conds}{A \code{character()} vector which is the names of conditions.}
 }
 \value{
 A \code{QFeatures} object with an additional assay or a \code{SummarizedExperiment} object (or subclass thereof).
