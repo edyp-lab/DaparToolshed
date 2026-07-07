@@ -50,8 +50,7 @@
 #'
 #' @rdname QFeatures-filtering-oneSE
 #'
-#' @aliases filterFeaturesOneSE filterFeaturesOneSE, DaparToolsehd, 
-#' FunctionFilter, VariableFilter
+#' @aliases filterFeaturesOneSE filterFeaturesOneSE, DaparToolsehd, FunctionFilter, VariableFilter
 #'
 #' @examples
 #' data("subR25prot")

@@ -14,14 +14,7 @@ SymFilteringOperators()
 
 qMetacellFilteringScope()
 
-qMetacellWholeMatrix(
-  object,
-  cmd,
-  pattern,
-  percent = "Percentage",
-  th,
-  operator
-)
+qMetacellWholeMatrix(object, cmd, pattern, percent = TRUE, th, operator)
 
 qMetacellWholeLine(object, cmd, pattern)
 
@@ -31,7 +24,7 @@ qMetacellOnConditions(
   mode,
   pattern,
   conds,
-  percent = "Percentage",
+  percent = TRUE,
   operator,
   th
 )
@@ -45,7 +38,7 @@ Either "keep" or "delete".}
 \item{pattern}{A \code{character()} indicating the tag pattern of interest.}
 
 \item{percent}{A \code{character()} indicating whether the threshold represent an
-absolute value ("Count") or a percentage ("Percentage").}
+absolute value (FALSE) or a percentage (TRUE).}
 
 \item{th}{The threshold to apply}
 
@@ -98,7 +91,7 @@ ind <- qMetacellWholeLine(obj, cmd, pattern)
 conds <- design_qf(subR25prot)$Condition
 op <- ">="
 th <- 0.5
-percent <- "Percentage"
+percent <- TRUE
 mode <- "AllCond"
 ind <- qMetacellOnConditions(obj, cmd, mode, pattern, conds, percent, op, th)
 

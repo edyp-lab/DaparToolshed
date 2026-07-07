@@ -431,7 +431,7 @@ aggregateRedistributionSE <- function(object,
 #' conds <- SummarizedExperiment::colData(subR25pept)$Condition
 #' aggQmeta <- aggQmetacell(qMeta, X, level, conds)
 #'
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 #' @importFrom stats setNames
 #' 
@@ -479,7 +479,7 @@ aggQmetacell <- function(qMeta, X, level, conds) {
 
 
 #' @export
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' @importFrom stats setNames
 aggregateMethods <- function() {
   stats::setNames(
@@ -587,7 +587,7 @@ aggregateMethods <- function() {
 #' @export
 #' @import QFeatures
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname RunAggregation
 #'
 RunAggregation <- function(qf,
                            includeSharedPeptides = 'Yes_As_Specific',
@@ -797,7 +797,7 @@ RunAggregation <- function(qf,
 #'
 #' @author Samuel Wieczorek
 #'
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 #' @example inst/extdata/examples/ex_BuildColumnToProteinDataset.R
 #' @export
@@ -846,7 +846,7 @@ BuildColumnToProteinDataset <- function(
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #'
 Add_Aggregated_rowData <- function(obj, col, i.agg){
   stopifnot(inherits(obj, "QFeatures"))
@@ -894,7 +894,7 @@ Add_Aggregated_rowData <- function(obj, col, i.agg){
 #' @import SummarizedExperiment
 #' @export 
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #'
 metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_order){
   # Get metacell from original data
@@ -968,7 +968,7 @@ metacell_agg <- function(aggregatedSE, originalSE, adj_mat, conds, protname_orde
 #' @importFrom matrixStats rowMedians
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #'
 select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
   
@@ -1016,7 +1016,7 @@ select_topn <- function(pepData, X, n = 10, funpept = "Mean") {
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname getProteinsStats
 #'
 getProteinsStats <- function(X) {
   if (missing(X)) {
@@ -1102,7 +1102,7 @@ getProteinsStats <- function(X) {
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname CountPep
 #'
 CountPep <- function(X) {
   X[X != 0] <- 1
@@ -1125,7 +1125,7 @@ CountPep <- function(X) {
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname GetNbPeptidesUsed
 #' 
 #' @examples 
 #' \donttest{
@@ -1174,7 +1174,7 @@ GetNbPeptidesUsed <- function(pepData, X) {
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ll.n <- GetDetailedNbPeptidesUsed(SummarizedExperiment::assay(subR25pept), X)
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname GetDetailedNbPeptidesUsed
 #'
 GetDetailedNbPeptidesUsed <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1211,7 +1211,7 @@ GetDetailedNbPeptidesUsed <- function(pepData, X) {
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname GetDetailedNbPeptides
 #'
 GetDetailedNbPeptides <- function(X) {
   mat <- splitAdjacencyMat(as.matrix(X))
@@ -1247,7 +1247,7 @@ GetDetailedNbPeptides <- function(X) {
 #'
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname GraphPepProt
 #' 
 #' @importFrom graphics barplot
 #'
@@ -1284,7 +1284,7 @@ GraphPepProt <- function(mat) {
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ExtractUniquePeptides(X)
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname ExtractUniquePeptides
 #' 
 ExtractUniquePeptides <- function(X){
   ll <- which(Matrix::rowSums(X) > 1)
@@ -1337,7 +1337,7 @@ ExtractUniquePeptides <- function(X){
 #' 
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 #' @importFrom BiocGenerics t
 #' @importFrom methods is
@@ -1502,7 +1502,7 @@ innerAggregateIter <- function(
 #' 
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 innerSum <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1536,7 +1536,7 @@ innerSum <- function(pepData, X) {
 #' 
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 innerMean <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1572,7 +1572,7 @@ innerMean <- function(pepData, X) {
 #' 
 #' @importFrom matrixStats colMedians
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 innerMedian <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))
@@ -1613,7 +1613,7 @@ innerMedian <- function(pepData, X) {
 #' 
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 #' @importFrom matrixStats colMedians
 #' 
@@ -1669,7 +1669,7 @@ innerMedianpolish <- function(pepData, X) {
 #' 
 #' @export
 #' 
-#' @rdname DaparToolshed-aggregate
+#' @rdname DaparToolshed-aggregate-func
 #' 
 innerRobustsummary <- function(pepData, X) {
   stopifnot(inherits(pepData, 'matrix'))

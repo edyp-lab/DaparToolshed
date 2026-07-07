@@ -102,7 +102,7 @@ metacellPerLinesHisto_HC <- function(obj,
   myColors <- rep("lightgrey", nrow(df))
   
   p <- plot_ly(
-    x = row.names(df),
+    x = as.numeric(rownames(df)),
     y = df[[1]],
     type = 'bar',
     marker = list(color = myColors),

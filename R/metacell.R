@@ -537,8 +537,15 @@ BuildMetacell <- function(from = NULL,
   if (missing(from)) {
     stop("'from' is required.")
   }
-  if (!(from %in% GetSoftAvailables()))
-    stop("'from' must be one of the following")
+  if (is.null(from)){
+    message("'from' is not one of the available software. 
+            Using generic metacell.")
+    df <- NULL
+  } else if (!(from %in% GetSoftAvailables())){
+    message("'from' is not one of the available software. 
+            Using generic metacell.")
+    df <- NULL
+  }
   if (missing(level)) {
     stop("'level' is required.")
   }

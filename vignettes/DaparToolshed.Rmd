@@ -94,8 +94,6 @@ obj <- createQFeatures(data = data,
 obj
 ```
 
-The data obtained includes two assays: `original` and `logAssay`. The original, non-logged data is contained in `original`, while the logged data is in `logAssay`. This shows how the `QFeatures` format allows for recording the state of the dataset after each step. 
-
 
 # Filtering
 

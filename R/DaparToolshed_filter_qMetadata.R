@@ -31,7 +31,7 @@
 #' conds <- design_qf(subR25prot)$Condition
 #' op <- ">="
 #' th <- 0.5
-#' percent <- "Percentage"
+#' percent <- TRUE
 #' mode <- "AllCond"
 #' ind <- qMetacellOnConditions(obj, cmd, mode, pattern, conds, percent, op, th)
 #'
@@ -76,7 +76,7 @@ qMetacellFilteringScope <- function() {
 qMetacellWholeMatrix <- function(object, 
   cmd, 
   pattern, 
-  percent = "Percentage", 
+  percent = TRUE, 
   th, 
   operator) {
     if (missing(object)) {
@@ -106,7 +106,7 @@ qMetacellWholeMatrix <- function(object,
         pattern = pattern,
         level = level
     )
-    if (percent == "Percentage") {
+    if (percent) {
         if (th < 0 || th > 1) {
             stop("With percent=TRUE, the threshold 'th' must be in the 
                 interval [0, 1].")
@@ -128,7 +128,7 @@ qMetacellWholeMatrix <- function(object,
 
 
     indices <- NULL
-    if (percent == "Percentage") {
+    if (percent) {
         inter <- rowSums(mask) / ncol(mask)
     } else {
         inter <- apply(mask, 1, sum)
@@ -213,7 +213,7 @@ qMetacellWholeLine <- function(object, cmd, pattern) {
 #' @param conds A vector of conditions in the dataset. 
 #'
 #' @param percent A `character()` indicating whether the threshold represent an 
-#' absolute value ("Count") or a percentage ("Percentage").
+#' absolute value (FALSE) or a percentage (TRUE).
 #'
 #' @param operator  String for operator to use. List of operators is available 
 #' with 'SymFilteringOperators()'.
@@ -230,7 +230,7 @@ qMetacellOnConditions <- function(object,
     mode,
     pattern,
     conds,
-    percent = "Percentage",
+    percent = TRUE,
     operator,
     th) {
 
@@ -251,7 +251,7 @@ qMetacellOnConditions <- function(object,
     }
     if (missing(th)) {
         stop("'th' is missing.")
-    } else if (percent == "Percentage"){
+    } else if (percent){
         stopifnot(th >= 0 && th <= 1)
     }
 
@@ -289,11 +289,11 @@ qMetacellOnConditions <- function(object,
         nrow = nrow(mask),
         ncol = nbCond
     )
-
+    
     for (c in seq_len(nbCond)) {
         ind.cond <- which(conds == u_conds[c])
         inter <- rowSums(mask[, ind.cond])
-        if (percent == "Percentage") {
+        if (percent) {
             inter <- inter / length(ind.cond)
         }
         temp[, c] <- eval(parse(text = paste0("inter", operator, th)))
