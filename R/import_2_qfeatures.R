@@ -247,3 +247,43 @@ createQFeatures <- function(
 
     return(obj)
 }
+
+#' @title Creates a data.frame for sample information
+#'
+#' @description Creates a data.frame for sample information.
+#'
+#' @param samplename A vector of string containing the names of the samples.
+#' @param conds A vector of string containing the names of the conditions 
+#' associated to each sample. Must be the same length as samplename.
+#' @param order Whether or not to order samples according to conditions.
+#'
+#' @return A `data.frame`.
+#'
+#' @author Manon Gaudin
+#'
+#' @examples
+#' NULL
+#'
+#' @export
+#'
+#' @rdname import-export-QFeatures
+#'
+createSampleinfo <- function(samplename, conds, order = TRUE){
+  if (missing(samplename)) {
+    stop("'samplename' is required.")
+  }
+  if (missing(conds)) {
+    stop("'conds' is required.")
+  }
+  if (length(samplename) != length(conds)) {
+    stop("'samplename' and 'conds' are not of equal length)")
+  }
+  
+  df <- data.frame(Sample.name = samplename, 
+                   Condition = conds, 
+                   Bio.Rep = seq_along(samplename))
+  if (order){
+    df <- df[order(df$Condition), ]
+  }
+  return(df)
+}
