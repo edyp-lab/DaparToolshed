@@ -195,7 +195,7 @@ wrapperImputeFixedValue <- function(obj,
         stop("'obj' is required.")
   stopifnot(inherits(obj, 'SummarizedExperiment'))
     if (fixVal == 0)
-        warning("Be aware that fixVal = 0. No imputation will be realize.")
+        warning("Be aware that fixVal = 0. No imputation will be performed.")
 
     level <- typeDataset(obj)
 

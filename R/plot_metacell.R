@@ -113,7 +113,8 @@ metacellPerLinesHisto_HC <- function(obj,
   ) %>%
     plotly::layout(
       margin = list(t = 60, b = 60),
-      title = paste0("Nb of lines with (", paste0(pattern, collapse=', '), ") tags"),
+      title = list(text = paste0("Nb of lines with (", paste0(pattern, collapse=', '), ") tags"),
+                   font = list(size = 14)),
       xaxis = list(title = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags in a line")),
       yaxis = list(title = "Count"),
       showlegend = FALSE
@@ -193,7 +194,8 @@ metacellPerLinesHistoPerCondition_HC <- function(obj,
                hoverinfo = 'text') |>
     plotly::layout(
       barmode = 'group', 
-      title = paste0("Nb of lines containing (", paste0(pattern, collapse=', '), ") tags (condition-wise)"),
+      title = list(text = paste0("Nb of lines containing (", paste0(pattern, collapse=', '), ") tags<br>(condition-wise)"), 
+                   font = list(size = 14)),
       xaxis = list(title = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags in each line")),
       yaxis = list(title = ""),
       margin = list(t = 60, b = 60),
@@ -278,7 +280,8 @@ metacellHisto_HC <- function(obj,
     hoverinfo = 'text'
   ) %>%
     layout(
-      title = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags by replicate"),
+      title = list(text = paste0("Nb of (", paste0(pattern, collapse=', '), ") tags by replicate"),
+                   font = list(size = 14)),
       xaxis = list(
         title = "Replicates",
         tickmode = "array",

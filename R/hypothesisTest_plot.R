@@ -99,13 +99,13 @@ hc_logFC_DensityPlot <- function(
   
   p <- p |> plotly::layout(
     title = "log(FC) repartition",
-    margin = list(t = 60, b = 60),
+    margin = list(t = 60, b = 120),
     xaxis = list(title = "log(FC)"),
     yaxis = list(title = "Density"),
     legend = list(
       orientation = "h", 
       x = 0, 
-      y = -0.15, 
+      y = -0.25, 
       xanchor = "left",
       yanchor = "top"
     ),
@@ -126,9 +126,10 @@ hc_logFC_DensityPlot <- function(
   )
   
   if (th_logFC > 0) {
+    xpos <- th_logFC + 1.6
     p <- p |> add_annotations(
-      x = 10,
-      y = maxY.inside-0.1,
+      x = xpos,
+      y = maxY.sup+0.5,
       text = sprintf("n Filtered out = %d<br>(%.2f%%)", nInside, 100*nInside/nValues),
       showarrow = FALSE,
       arrowhead = 2,
