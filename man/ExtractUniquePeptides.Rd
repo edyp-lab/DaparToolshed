@@ -9,6 +9,9 @@ ExtractUniquePeptides(X)
 \arguments{
 \item{X}{A \code{matrix} acting as an adjacency matrix.}
 }
+\value{
+A \code{matrix} acting as an adjacency matrix with only the unique peptides.
+}
 \description{
 Get unique peptide
 }

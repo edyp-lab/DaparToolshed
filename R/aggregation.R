@@ -1278,15 +1278,18 @@ GraphPepProt <- function(mat) {
 
 
 #' @title Get unique peptide
+#' 
 #' @param X A `matrix` acting as an adjacency matrix. 
-#' @export
+#' 
+#' @return A `matrix` acting as an adjacency matrix with only the unique peptides. 
+#' 
 #' @examples
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ExtractUniquePeptides(X)
 #' 
 #' @rdname ExtractUniquePeptides
-#' 
+#' @export
 ExtractUniquePeptides <- function(X){
   ll <- which(Matrix::rowSums(X) > 1)
   if (length(ll) > 0) {
