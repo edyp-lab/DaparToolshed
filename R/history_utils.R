@@ -3,8 +3,8 @@
 #' @description This function adds a row to the history.
 #'
 #' @param history A `data.frame` corresponding to the current history.
-#' @param process A `character(1)` corresponding to the process name.
-#' @param step.name A `character(1)` corresponding to the step name.
+#' @param step A `character(1)` corresponding to the step name.
+#' @param substep A `character(1)` corresponding to the substep name.
 #' @param param.name A `character(1)` corresponding to the parameter name.
 #' @param value The value of the corresponding parameter.
 #' 

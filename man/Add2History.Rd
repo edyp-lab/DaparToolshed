@@ -9,13 +9,13 @@ Add2History(history, step, substep, param.name, value)
 \arguments{
 \item{history}{A \code{data.frame} corresponding to the current history.}
 
+\item{step}{A \code{character(1)} corresponding to the step name.}
+
+\item{substep}{A \code{character(1)} corresponding to the substep name.}
+
 \item{param.name}{A \code{character(1)} corresponding to the parameter name.}
 
 \item{value}{The value of the corresponding parameter.}
-
-\item{process}{A \code{character(1)} corresponding to the process name.}
-
-\item{step.name}{A \code{character(1)} corresponding to the step name.}
 }
 \value{
 A \code{data.frame} with one added row

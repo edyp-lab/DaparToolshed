@@ -45,9 +45,10 @@ Imports:
     Matrix,
     stringr,
     graph,
-    igraph,
+    igraph (>= 2.0),
     preprocessCore,
-    dplyr
+    dplyr,
+    imp4p (>= 0.9)
 biocViews: 
     Proteomics,
     Normalization,
@@ -73,7 +74,6 @@ Suggests:
     vsn, 
     cp4p,
     limma,
-    imp4p (>= 0.9),
     impute,
     apcluster,
     diptest,

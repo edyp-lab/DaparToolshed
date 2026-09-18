@@ -7,7 +7,7 @@
 InitializeHistory()
 }
 \value{
-An empty \code{data.frame} with 4 columns ('Process', 'Step', 'Parameter' and 'Value')
+An empty \code{data.frame} with 4 columns ('Step', 'Substep', 'Parameter' and 'Value')
 }
 \description{
 This function initializes the history.

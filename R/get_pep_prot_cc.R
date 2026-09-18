@@ -13,7 +13,7 @@
 #'
 #' @export
 #' @importFrom Matrix crossprod Matrix
-#' @importFrom igraph components graph.adjacency
+#' @importFrom igraph components graph_from_adjacency_matrix
 #' @importFrom graph graphAM connComp 
 #'
 getPepProtCC <- function(X) {
@@ -61,7 +61,7 @@ getPepProtCC <- function(X) {
     B <- A[-SingleProt.CC.id, -SingleProt.CC.id]
     
     multprot.cc <- NULL
-    g2 <- igraph::graph.adjacency(B, mode = "undirected")
+    g2 <- igraph::graph_from_adjacency_matrix(B, mode = "undirected")
     cc.igraph <- igraph::components(g2)
     cc.id <- unique(cc.igraph$membership)
     multprot.cc <- lapply(
