@@ -1,5 +1,3 @@
-
-
 #' @title Add row to history
 #'
 #' @description This function adds a row to the history.
@@ -12,23 +10,25 @@
 #' 
 #' @return A `data.frame` with one added row
 #'
-#' @export
 #' @examples
 #' history <- InitializeHistory()
-#' Add2History(history, "Process1", "Step1", "Parameter1", "Value1")
+#' Add2History(history, "Example step", "First sub-step", "my param", "THE value")
 #' 
-Add2History <- function(history, process, step.name, param.name, value){
-  if (inherits(value, 'list'))
-    value <- unlist(value)
+#' @export
+#' 
+Add2History <- function(history, step, substep, param.name, value){
+  if (inherits(value, "list")) {
+    value <- paste(names(value), unlist(value), collapse = ", ", sep = "=")
+  }
   
-  if (is.null(value))
+  if (is.null(value)) {
     value <- NA
+  }
   
-  history[nrow(history)+1, ] <- c(process, step.name, param.name, value)
+  history[nrow(history) + 1, ] <- c(step, substep, param.name, value)
   
   return(history)
 }
-
 
 
 
@@ -36,16 +36,19 @@ Add2History <- function(history, process, step.name, param.name, value){
 #'
 #' @description This function initializes the history.
 #'
-#' @return An empty `data.frame` with 4 columns ('Process', 'Step', 'Parameter' and 'Value')
+#' @return An empty `data.frame` with 4 columns ('Step', 'Substep', 'Parameter' and 'Value')
 #'
-#' @export
 #' @examples
 #' InitializeHistory()
 #' 
-InitializeHistory <- function(){
-  
-  history <- setNames(data.frame(matrix(ncol = 4, nrow = 0)), 
-    c('Process', 'Step', 'Parameter', 'Value'))
+#' @export
+#' 
+InitializeHistory <- function() {
+  history <- NULL
+  history <- setNames(
+    data.frame(matrix(ncol = 4, nrow = 0)),
+    c("Step", "Substep", "Parameter", "Value")
+  )
   
   return(history)
 }

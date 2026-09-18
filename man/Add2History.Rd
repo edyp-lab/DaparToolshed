@@ -4,18 +4,18 @@
 \alias{Add2History}
 \title{Add row to history}
 \usage{
-Add2History(history, process, step.name, param.name, value)
+Add2History(history, step, substep, param.name, value)
 }
 \arguments{
 \item{history}{A \code{data.frame} corresponding to the current history.}
 
-\item{process}{A \code{character(1)} corresponding to the process name.}
-
-\item{step.name}{A \code{character(1)} corresponding to the step name.}
-
 \item{param.name}{A \code{character(1)} corresponding to the parameter name.}
 
 \item{value}{The value of the corresponding parameter.}
+
+\item{process}{A \code{character(1)} corresponding to the process name.}
+
+\item{step.name}{A \code{character(1)} corresponding to the step name.}
 }
 \value{
 A \code{data.frame} with one added row
@@ -25,6 +25,6 @@ This function adds a row to the history.
 }
 \examples{
 history <- InitializeHistory()
-Add2History(history, "Process1", "Step1", "Parameter1", "Value1")
+Add2History(history, "Example step", "First sub-step", "my param", "THE value")
 
 }
