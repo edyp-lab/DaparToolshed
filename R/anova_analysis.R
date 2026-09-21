@@ -209,6 +209,7 @@ formatPHTResults <- function(post_hoc_models_summaries){
 #' @examples
 #' NULL
 #' 
+#' @importFrom cp4p adjust.p
 #' 
 thresholdpval4fdr <- function(x, pval.T, M){
   pkgsRequire('cp4p')
@@ -241,6 +242,7 @@ thresholdpval4fdr <- function(x, pval.T, M){
 #'
 #' @export
 #' 
+#' @importFrom cp4p adjust.p
 #' 
 separateAdjPval <- function(x, 
   pval.threshold = 1.05, 
@@ -277,6 +279,7 @@ separateAdjPval <- function(x,
 #'
 #' @export
 #' @importFrom utils stack
+#' @importFrom cp4p adjust.p calibration.plot
 #' 
 globalAdjPval <- function(
     x, 

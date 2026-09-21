@@ -22,7 +22,6 @@ Applies p-value adjustment using cp4p on p-values below a given threshold
 \examples{
 NULL
 
-
 }
 \author{
 Thomas Burger

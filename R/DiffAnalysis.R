@@ -50,6 +50,8 @@ diffAnaComputeFDR <- function(adj.pvals) {
 #' comp.type="OnevsOne")
 #' diffAnaComputeAdjustedPValues(pval = allComp$P_Value[, 1])
 #'
+#' @importFrom cp4p adjust.p
+#'
 #' @export
 #'
 diffAnaComputeAdjustedPValues <- function(pval, 
@@ -86,6 +88,8 @@ diffAnaComputeAdjustedPValues <- function(pval,
 #' design_qf(obj), 
 #' comp.type="OnevsOne")
 #' wrapperCalibrationPlot(allComp$P_Value[, 1])
+#'
+#' @importFrom cp4p calibration.plot
 #'
 #' @export
 #'

@@ -121,7 +121,7 @@ createQFeatures <- function(
     if (missing(typeDataset)) {
         stop("'typeDataset' is required")
     }
-
+  
     qdata <- data[,indQData]
     tmp.qMetacell <- NULL
     ind2delete <- NULL
