@@ -19,7 +19,7 @@ Display a CC
 data(subR25pept)
 X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 ll <- getPepProtCC(X)
-g <- buildGraph(ll[[1]], X)
+g <- buildGraph(ll[[1]])
 displayCCvisNet(g)
 
 }

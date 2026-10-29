@@ -4,12 +4,10 @@
 \alias{buildGraph}
 \title{Display a CC}
 \usage{
-buildGraph(The.CC, X)
+buildGraph(The.CC)
 }
 \arguments{
 \item{The.CC}{A cc (a list)}
-
-\item{X}{An instance of the class \code{Matrix}}
 }
 \value{
 A plot
@@ -21,7 +19,7 @@ Display a CC
 data(subR25pept)
 X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 ll <- getPepProtCC(X)
-g <- buildGraph(ll[[1]], X)
+g <- buildGraph(ll[[1]])
 
 }
 \author{

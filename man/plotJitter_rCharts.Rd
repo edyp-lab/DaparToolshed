@@ -19,8 +19,8 @@ Display a a jitter plot for CC
 data(subR25pept)
 X <- BuildAdjacencyMatrix(subR25pept[[1]])
 ll <- getPepProtCC(X)[seq_len(4)]
-n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
-n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
+n.prot <- vapply(ll, ncol, integer(1))
+n.pept <- vapply(ll, nrow, integer(1))
 df <- tibble::tibble(
 x = jitter(n.pept),
 y = jitter(n.prot),

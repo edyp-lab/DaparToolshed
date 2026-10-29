@@ -71,24 +71,24 @@ plotJitter <- function(list.of.cc = NULL) {
   if (is.null(list.of.cc)) {
     return()
   }
-  
-  cc.summary <- vapply(list.of.cc, function(x) {
-    c(length(x[[1]]), length(x[[2]]))
-  }, integer(2))
-  
+
+  # One column per CC: number of proteins (columns) and peptides (rows)
+  cc.summary <- vapply(
+    list.of.cc,
+    function(x) c(ncol(x), nrow(x)),
+    integer(2)
+  )
+
   rownames(cc.summary) <- c("Nb_proteins", "Nb_peptides")
-  colSums(cc.summary) # total amount of pep and prot in each CC
-  colnames(cc.summary) <- seq_len(length(list.of.cc))
-  cc.summary
-  rowSums(cc.summary) 
-  
-  
-  cc.summary <- as.data.frame(t(jitter(cc.summary)))
+  colnames(cc.summary) <- seq_along(list.of.cc)
+
+  cc.summary <- as.data.frame(t(cc.summary))
+
   plot(
-    jitter(cc.summary[, 2]), 
-    jitter(cc.summary[, 1]), 
-    type = "p", 
-    xlab = "#peptides in CC", 
+    jitter(cc.summary[, "Nb_peptides"]),
+    jitter(cc.summary[, "Nb_proteins"]),
+    type = "p",
+    xlab = "#peptides in CC",
     ylab = "#proteins in CC"
   )
 }
@@ -99,8 +99,6 @@ plotJitter <- function(list.of.cc = NULL) {
 #'
 #' @param The.CC A cc (a list)
 #'
-#' @param X An instance of the class `Matrix`
-#'
 #' @return A plot
 #'
 #' @author Thomas Burger, Samuel Wieczorek
@@ -109,30 +107,28 @@ plotJitter <- function(list.of.cc = NULL) {
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 #' ll <- getPepProtCC(X)
-#' g <- buildGraph(ll[[1]], X)
+#' g <- buildGraph(ll[[1]])
 #'
 #' @export
 #' @importFrom Matrix Matrix
 #'
-buildGraph <- function(The.CC, X) {
-  nb.prot <- length(The.CC$proteins)
-  nb.pep <- length(The.CC$peptides)
-  subX <- Matrix::Matrix(
-    X[The.CC$peptides, The.CC$proteins],
-    nrow = nb.pep,
-    ncol = nb.prot,
-    dimnames = list(The.CC$peptides, The.CC$proteins)
-  )
-  colnames(subX) <- The.CC$proteins
-  subX <- as.matrix(subX)
-  nb.pep.shared <- length(which(rowSums(subX) > 1))
-  nb.pep.spec <- length(which(rowSums(subX) == 1))
+buildGraph <- function(The.CC) {
+  # The.CC is the sparse sub-matrix of one connected component
+  subX <- as.matrix(The.CC)
+  
+  nb.pep  <- nrow(subX)
+  nb.prot <- ncol(subX)
   nb.total <- nb.prot + nb.pep
-  edge.list <- as.data.frame(which(subX == 1, arr.ind = TRUE))
   
-  def.grp <- c(rep("shared.peptide", nb.pep), rep("protein", nb.prot))
-  def.grp[which(rowSums(subX) == 1)] <- "spec.peptide"
+  pep.deg <- rowSums(subX != 0)   # number of proteins per peptide
   
+  edge.list <- as.data.frame(which(subX != 0, arr.ind = TRUE))
+  
+  # Peptide groups: shared if linked to >1 protein, specific if exactly 1
+  def.grp <- c(
+    ifelse(pep.deg == 1, "spec.peptide", "shared.peptide"),
+    rep("protein", nb.prot)
+  )
   
   nodes <- data.frame(
     id = seq_len(nb.total),
@@ -142,18 +138,14 @@ buildGraph <- function(The.CC, X) {
     size = c(rep(10, nb.pep), rep(20, nb.prot)),
     stringsAsFactors = FALSE
   )
+  
   edges <- data.frame(
-    from = c(edge.list$row),
-    to = c(edge.list$col + nb.pep),
+    from = edge.list$row,
+    to = edge.list$col + nb.pep,
     stringsAsFactors = FALSE
   )
   
-  return(
-    list(
-      nodes = nodes, 
-      edges = edges
-    )
-  )
+  list(nodes = nodes, edges = edges)
 }
 
 
@@ -169,7 +161,7 @@ buildGraph <- function(The.CC, X) {
 #' data(subR25pept)
 #' X <- QFeatures::adjacencyMatrix(subR25pept[[1]])
 #' ll <- getPepProtCC(X)
-#' g <- buildGraph(ll[[1]], X)
+#' g <- buildGraph(ll[[1]])
 #' displayCCvisNet(g)
 #'
 #' @export
@@ -213,8 +205,8 @@ displayCCvisNet <- function(g) {
 #' data(subR25pept)
 #' X <- BuildAdjacencyMatrix(subR25pept[[1]])
 #' ll <- getPepProtCC(X)[seq_len(4)]
-#' n.prot <- unlist(lapply(ll, function(x) {length(x$proteins)}))
-#' n.pept <- unlist(lapply(ll, function(x) {length(x$peptides)}))
+#' n.prot <- vapply(ll, ncol, integer(1))
+#' n.pept <- vapply(ll, nrow, integer(1))
 #' df <- tibble::tibble(
 #' x = jitter(n.pept),
 #' y = jitter(n.prot),
