@@ -48,6 +48,7 @@ Imports:
     igraph (>= 2.0),
     preprocessCore,
     dplyr,
+    cp4p,
     imp4p (>= 0.9)
 biocViews: 
     Proteomics,
@@ -72,8 +73,6 @@ Suggests:
     DT,
     shinyWidgets,
     vsn, 
-    cp4p,
-    multicomp,
     limma,
     impute,
     apcluster,
