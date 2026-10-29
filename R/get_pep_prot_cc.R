@@ -23,87 +23,28 @@ getPepProtCC <- function(X) {
     return()
   }
   
-  p <- dim(X)[2] # Nb proteins
-  q <- dim(X)[1] # Nb peptides
-  
-  
-  multprot.cc <- singprot.cc <- multprot.cc.pep <- singprot.cc.pep <- NULL
-  A <- B <- g <- NULL
-  ### Adjacency matrix construction
-  # boolean matrix product
+  # Protein-protein adjacency (shared peptides), sparse, no self-loops
   A <- Matrix::crossprod(X, boolArith = TRUE)
-  # remove self-connecting edges
-  diag(A) <- rep(0, p)
-  # goes back to classical matrix format
-  A <- matrix(as.numeric(A[, ]), ncol = p) 
-  # reset pep and prot names
-  colnames(A) <- rownames(A) <- colnames(X) 
+  Matrix::diag(A) <- FALSE
   
-  # proteins with no shared peptides
-  # ie CC with only one protein
-  SingleProt.CC.id <- which(rowSums(A) == 0)
+  # Connected components via igraph (works for single-protein CCs too)
+  g <- igraph::graph_from_adjacency_matrix(A, mode = "undirected")
+  membership <- igraph::components(g)$membership   # named by protein
   
-  if (length(SingleProt.CC.id) > 0) {
-    ### Peptides from single prot CCs
-    singprot.cc <- as.list(names(SingleProt.CC.id))
-    singprot.cc.pep <- list()
-    for (i in seq_len(length(singprot.cc))) {
-      peplist <- which(X[, singprot.cc[[i]]] != 0)
-      singprot.cc.pep[[i]] <- names(peplist)
-    }
-  }
+  prot.cc <- split(names(membership), membership)
   
+  # Sub-matrix of X for each CC: keep the CC's proteins, then only the
+  # peptides that have at least one non-zero entry in those columns
+  res <- lapply(prot.cc, function(prots) {
+    sub <- X[, prots, drop = FALSE]
+    sub[Matrix::rowSums(sub) != 0, , drop = FALSE]
+  })
   
-  # Test if there exist other CC than the single-prot ones
-  otherCC.exists <- length(SingleProt.CC.id) < nrow(A)
-  if (otherCC.exists) {
-    # Remove all single-prot CC
-    B <- A[-SingleProt.CC.id, -SingleProt.CC.id]
-    
-    multprot.cc <- NULL
-    g2 <- igraph::graph_from_adjacency_matrix(B, mode = "undirected")
-    cc.igraph <- igraph::components(g2)
-    cc.id <- unique(cc.igraph$membership)
-    multprot.cc <- lapply(
-      cc.id,
-      function(x) names(which(cc.igraph$membership == x))
-    )
-    
-    multprot.cc.pep <- list()
-    
-    for (i in seq_len(length(multprot.cc))) {
-      protlist <- multprot.cc[[i]]
-      subX <- as.matrix(X[, protlist])
-      peplist <- which(rowSums(subX) != 0)
-      multprot.cc.pep[[i]] <- names(peplist)
-    }
-  }
+  # Order CCs by their (character-sorted) first protein name, as in your target
+  first.prot <- vapply(prot.cc, function(p) sort(p)[1], character(1))
+  res <- res[order(first.prot)]
   
-  ### Merge results into a single list
-  prot.cc <- c(multprot.cc, singprot.cc)
-  pep.cc <- c(multprot.cc.pep, singprot.cc.pep)
-  global.cc <- list()
-  for (i in seq_len(length(prot.cc))) {
-    prot <- prot.cc[[i]]
-    pep <- pep.cc[[i]]
-    tmp <- list(prot, pep)
-    names(tmp) <- c("proteins", "peptides")
-    global.cc[[i]] <- tmp
-  }
-  
-  ### Clean memory and return result
-  rm(
-    A,
-    B,
-    g,
-    multprot.cc,
-    singprot.cc,
-    multprot.cc.pep,
-    singprot.cc.pep,
-    prot.cc, pep.cc
-  )
-  gc()
-  return(global.cc)
+  return(unname(res))
 }
 
 

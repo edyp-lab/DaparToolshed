@@ -184,7 +184,7 @@ createQFeatures <- function(
     # Get the metacell info
     qMetacell <- NULL
 
-      qMetacell <- BuildMetacell(
+      qMetacell <- DaparToolshed::BuildMetacell(
         from = software,
         level = typeDataset,
         qdata = SummarizedExperiment::assay(obj),
@@ -240,6 +240,8 @@ createQFeatures <- function(
       QFeatures::adjacencyMatrix(obj[[1]]) <- X
       
       # Create the connected components
+      cc <- getPepProtCC(X)
+      S4Vectors::metadata(obj[["Convert"]])$cc <- cc
     }
 
     
